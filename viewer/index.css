@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+}
+#top-bar {
+  height: 15vh;
+}
+#top-control-bar,
+#bottom-control-bar {
+  height: 8vh;
+  display: flex;
+  align-items: center;
+  padding: 1vh 1vw;
+  box-sizing: border-box;
+}
+.jqui-title {
+  color: #2779aa;
+  font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+  font-size:4vh;
+  padding:1vh 1vw;
+  height:7vh;
+  box-sizing:border-box;
+}
+.jqui-label {
+  padding: .4em 1em;
+  display: inline-block;
+  position: relative;
+  line-height: normal;
+  margin-right: .1em;
+  vertical-align: middle;
+  text-align: center;
+  color: #2779aa;
+  font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+  font-size: 1.1em;
+}
+#sld-diff {
+  width: 15vw;
+}
+.spacer {
+  flex: 1;
+}
+#viewer-container {
+  margin: 0 1vw;
+}
+#diff-overlay {
+  position: absolute;
+  top: 15vh;
+  left: 1vw;
+  display: none;
+  pointer-events: none;
+}
+#viewer-container img,
+#diff-overlay img {
+  max-height: 72vh;
+}
+#dlg-info ul {
+  list-style-type: none;
+  padding: 0;
+}
+#dlg-info ul li span {
+  font-weight: bold;
+  margin-right: 12px;
+  max-width: 128px;
+  min-width: 128px;
+  display: inline-block
+}
+#btn-prev {
+  margin-right: 1vw;
+}
