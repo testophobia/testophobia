@@ -1,4 +1,0 @@
-#!/usr/bin/env node
-/* global require */
-'use strict';
-require('../lib/cli').run();
