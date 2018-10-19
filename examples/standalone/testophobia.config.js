@@ -1,5 +1,5 @@
-import AboutTest from "./about/about-test.js";
-import HomeTest from "./home/home-test.js";
+import AboutTest from "./tests/about/about-test.js";
+import HomeTest from "./tests/home/home-test.js";
 
 export default {
   fileType: "jpeg",
@@ -20,6 +20,7 @@ export default {
       height: 667
     }
   ],
+  baseUrl: 'https://testophobia.github.io/testophobia/examples/standalone',
   testDirectory: "./testophobia/test-screens",
   goldenDirectory: "./testophobia/golden-screens",
   diffDirectory: "./testophobia/diffs",
