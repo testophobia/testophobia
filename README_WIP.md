@@ -96,14 +96,41 @@ then take another snapshot.
 
 Since we don't have any golden images yet, the first thing we'll want to do is generate them:
 
-```bash
+```
 $ testophobia --golden
+✔ Finished generating golden screens! (9.5s)
 ```
 
 Now, with golden images in place, we can re-run the tests and validate that the pages still match the golden images:
 
-```bash
+```
 $ testophobia
+✔ Finished generating test screens! (9.6s)
+💪 Testophobia screenshot compare complete!
+
+Testophobia Results: [ 9/9 Pass ]
+```
+
+and after making a change to the source HTML file (that results in a failure):
+
+```
+$ testophobia
+✔ Finished generating test screens! (9.3s)
+home desktop Pixel Difference: 1634
+
+ - Diff file location: ./testophobia/diffs/home-desktop-10-22-2018_15-3-50-diff.png
+
+home tablet Pixel Difference: 1634
+
+ - Diff file location: ./testophobia/diffs/home-tablet-10-22-2018_15-3-50-diff.png
+
+home mobile Pixel Difference: 1634
+
+ - Diff file location: ./testophobia/diffs/home-mobile-10-22-2018_15-3-50-diff.png
+
+💪 Testophobia screenshot compare complete!
+
+Testophobia Results: [ 6 Pass | 3 Fail ]
 ```
 
 ## Testophobia Viewer
@@ -111,14 +138,14 @@ $ testophobia
 Testophobia also includes a web-based viewer tool, for comparing and resolving test failures.  When a test run has
 failures, the viewer will automatically be displayed in your default browser.
 
+![Testophobia Viewer](docs/images/testophobia-viewer.gif "Testophobia Viewer")
+
 The viewer provides a handy slider to quickly compare the test image and its corresponding golden image.  You also have
 the ability to display the __image diff__ (and adjust its opacity), as it is sometimes difficult to locate subtle
 differences in test failures.
 
 Finally, in the event that the test image is in fact valid, and should replace the current golden snapshot as the new
 golden, you can use this feature of the viewer to apply the new image, without the need to perform a _--golden_ run.
-
-## TODO: talk about compression in the dimensions object?
 
 ## Config Options
 
@@ -190,11 +217,50 @@ experimentation and YMMV.
 
 ## JavaScript API
 
-TODO
+Testophobia provides a JavaScript API for running tests within a Node.js environment.
 
-## Command Line Interface
+```javascript
+//import the Testophobia library
+const {Testophobia} = require('testophobia');
 
-TODO
+//create a Testophobia instance, and configure
+const tp = new Testophobia({
+  projectDir: '/path/to/project/dir',
+  baseUrl: 'http://localhost:6789',
+  golden: false,
+  tests: [
+    {
+      name: 'home',
+      actions: [
+        {
+          type: 'click',
+          target: '#btn'
+        }
+      ]
+    }
+  ]
+});
+
+//run the tests
+const result = await tp.run();
+```
+
+## Command Line Options
+
+The testophobia command optionally takes a few additional arguments:
+
+`[<file|directory|glob> ...]`: Tests can be run ad-hoc by passing the path/glob as a parameter.  This overrides the
+__tests__ configuration value. Example:
+
+```
+$ testophobia path/to/my/tests/**/*-test.js
+```
+
+`--skip-viewer`: prevents the Testophobia viewer from displaying automatically on test failure
+
+`--clear`: deletes all of the generated golden/test/diff images and directories
+
+`--verbose`: provides additional output during Testophobia invocations
 
 ## LICENSE
 
