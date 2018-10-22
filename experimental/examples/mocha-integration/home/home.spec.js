@@ -13,7 +13,7 @@ let tpConfig = {
   routes: [
     {
       name: "home",
-      behaviors: [
+      actions: [
         {
           type: "click",
           target: "#btn"

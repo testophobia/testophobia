@@ -120,7 +120,7 @@ export default {
 ```javascript
 export default {
   name: "home",
-  behaviors: [
+  actions: [
     {
       type: "click",
       target: "#btn",
@@ -162,7 +162,7 @@ export default {
 
 `threshold`: (number) sets the strictness of the comparison (from 0 to 1) | default: 0.2
 
-`routes`: (arrray) a more detailed location to set which areas to snap, including behaviors and other data (required)
+`routes`: (arrray) a more detailed location to set which areas to snap, including actions and other data (required)
 
 - `name`: (string) the name of the folder directory for the project, as well as the route (if path is not defined)
 
@@ -170,19 +170,19 @@ export default {
 
 - `delay`: (number) the amount of time (in ms) to delay before taking a screenshot for a given route
 
-- `behaviors`: (array) list of behaviors to run on the route. Each behavior is an object consisting of:
+- `actions`: (array) list of actions to run on the route. Each action is an object consisting of:
 
-  - `type`: (string) the type of behavior to run
+  - `type`: (string) the type of action to run
   
-  - `target`: (string) the target HTML element to perform the behavior on. Can be an id, class, or element
+  - `target`: (string) the target HTML element to perform the action on. Can be an id, class, or element
 
-  - `delay`: (number) the amount of time (in ms) to delay before taking a screenshot for a given behavior
+  - `delay`: (number) the amount of time (in ms) to delay before taking a screenshot for a given action
 
-    - so far, supported behaviors include: click, scroll, input, and hover
+    - so far, supported actions include: click, scroll, input, and hover
 
-## Behavior-Specific Configs
+## Action-Specific Configs
 
-  _When the following are set as a behavior `type`, additional properties are required:_
+  _When the following are set as a action `type`, additional properties are required:_
 
 - `input`: 
 
