@@ -10,7 +10,7 @@ let tpConfig = {
   projectDir: process.cwd(),
   baseUrl: devServer,
   tests: [{name: "about"}],
-  // golden: true,
+  golden: true,
   fileType: "png",
   dimensions: [
     {
@@ -57,7 +57,7 @@ describe("About Page Renders Properly", function () {
       tpConfig.golden ? "Generate golden images" : "Screenshots match"
       }`, async () => {
         let t = new Testophobia(tpConfig, true);
-        let c = await t.run();
+        let c = await t.run("../../../../examples/standalone/tests/**/*-test.js");
         expect(c, "Testophobia ran without issues").equal(0);
       });
   });
