@@ -15,20 +15,20 @@ function loadTestRunProperties() {
 function configureInfoButton() {
   $("#btn-info")
     .button()
-    .click(function() {
+    .click(function () {
       const dlg = $("#dlg-info");
       dlg.get(0).innerHTML = `<ul>
   <li><span>Date:</span>${new Date(
-    Testophobia.testRunInfo.date
-  ).toLocaleString()}</li>
-  <li><span>Route:</span>${Testophobia.currentTestFailure.route}</li>
+          Testophobia.testRunInfo.date
+        ).toLocaleString()}</li>
+  <li><span>Route:</span>${Testophobia.currentTestFailure.test}</li>
   <li><span>Pixel Diff:</span>${
-    Testophobia.currentTestFailure.pixelDifference
-  }</li>
+        Testophobia.currentTestFailure.pixelDifference
+        }</li>
   <li><span>Screen Type:</span>${Testophobia.currentTestFailure.screenType}</li>
   <li><span>Dimensions:</span>${
-    Testophobia.currentTestFailure.dimensions.width
-  }x${Testophobia.currentTestFailure.dimensions.height}</li>
+        Testophobia.currentTestFailure.dimensions.width
+        }x${Testophobia.currentTestFailure.dimensions.height}</li>
   <li><span>Quality:</span>${Testophobia.testRunInfo.quality}</li>
   <li><span>Threshold:</span>${Testophobia.testRunInfo.threshold}</li>
 </ul>`;
@@ -84,7 +84,7 @@ function configureApplyButton() {
 function configureDiffButton() {
   $("#cb-diff")
     .checkboxradio()
-    .change(function() {
+    .change(function () {
       if (this.checked) {
         $("#diff-overlay").show();
         $("#sld-diff").slider("enable");
@@ -101,14 +101,14 @@ function configureDiffSlider() {
     max: 100,
     value: 100,
     disabled: true,
-    change: function(e, u) {
+    change: function (e, u) {
       $("#diff-overlay").fadeTo("fast", u.value / 100);
     }
   });
 }
 
 function configureTestRunDialog() {
-  $("#dlg-info").dialog({ autoOpen: false, width: 480 });
+  $("#dlg-info").dialog({autoOpen: false, width: 480});
 }
 
 function configureTwentyTwenty() {
@@ -144,12 +144,12 @@ function loadTest() {
     $("#img-diff").attr("src", `/images/${Testophobia.currentTestIdx}/diff`);
     $("#lbl-pager").text(
       `Failure: ${Testophobia.currentTestIdx + 1} of ${
-        Testophobia.testRunInfo.failures.length
+      Testophobia.testRunInfo.failures.length
       }`
     );
     $("#lbl-testname").text(
-      `${Testophobia.currentTestFailure.route} - ${
-        Testophobia.currentTestFailure.screenType
+      `${Testophobia.currentTestFailure.test} - ${
+      Testophobia.currentTestFailure.screenType
       }`
     );
   }

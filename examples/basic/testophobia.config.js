@@ -25,5 +25,5 @@ export default {
   goldenDirectory: "./testophobia/golden-screens",
   diffDirectory: "./testophobia/diffs",
   threshold: 0.2,
-  routes: [HomeTest, AboutTest]
+  tests: [HomeTest, AboutTest]
 };

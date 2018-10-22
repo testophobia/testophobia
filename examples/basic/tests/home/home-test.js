@@ -1,6 +1,6 @@
 export default {
   name: "home",
-  behaviors: [
+  actions: [
     {
       type: "click",
       target: "#btn"

@@ -4,16 +4,16 @@ const puppeteer = require("puppeteer");
 const {startMochaProjectServer, devServer} = require("../server.js");
 const path = require("path");
 const {expect} = require("chai");
-const Testophobia = require("../../../lib/cli");
+const {Testophobia} = require("../../../../lib/testophobia");
 
 let tpConfig = {
   projectDir: process.cwd(),
   baseUrl: devServer,
   golden: true,
-  routes: [
+  tests: [
     {
       name: "home",
-      behaviors: [
+      actions: [
         {
           type: "click",
           target: "#btn"
@@ -60,7 +60,8 @@ describe("Home Page Renders Properly", function () {
     it(`${
       tpConfig.golden ? "Generate golden images" : "Screenshots match"
       }`, async () => {
-        let c = await Testophobia.run(tpConfig);
+        let t = new Testophobia(tpConfig);
+        let c = await t.run();
         expect(c, "Testophobia ran without issues").equal(0);
       });
   });
@@ -87,7 +88,7 @@ const addSelectorScript = p => {
   return p.addScriptTag({
     path: path.join(
       __dirname,
-      "../../../node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js"
+      "../../../../node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js"
     )
   });
 };

@@ -1,9 +1,9 @@
 /* global require, exports */
-const { startServer } = require("../shared/start-server");
+const {startServer} = require("../shared/start-server");
 const routes = {
-  index: "../../examples/mocha-integration/home/index.html",
-  home: "../../examples/mocha-integration/home/index.html",
-  about: "../../examples/mocha-integration/about/about.html"
+  index: "../mocha-integration/home/index.html",
+  home: "../mocha-integration/home/index.html",
+  about: "../mocha-integration/about/about.html"
 };
 const devServer = "http://localhost:6799";
 
