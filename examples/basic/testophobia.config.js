@@ -20,7 +20,7 @@ export default {
       height: 667
     }
   ],
-  baseUrl: 'https://testophobia.github.io/testophobia/examples/standalone',
+  baseUrl: 'https://testophobia.github.io/testophobia/examples/basic',
   testDirectory: "./testophobia/test-screens",
   goldenDirectory: "./testophobia/golden-screens",
   diffDirectory: "./testophobia/diffs",

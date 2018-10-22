@@ -4,12 +4,16 @@ Taking the fear out of web application snapshot testing
 
 ## Overview
 
-Testophobia allows you to create snapshots for your web app routes through the CLI or from a more robust config file. It offers a web viewer to quickly detect and respond to UI changes in your app. 
+Testophobia runs a web browser<sup>\*</sup> headless and performs the UI actions that you specify,
+taking screenshots of the page along the way.  It will compare these snapshots to previously taken versions (that are
+known to be correct), and validate that the page still looks and behaves as it should.
+
+<sup>\* Only Google Chrome currently</sup>
 
 ## Install
 
 ```bash
-$ yarn add testophobia
+$ yarn add -D testophobia
 ```
 
 or
@@ -18,83 +22,34 @@ or
 $ npm i -D testophobia
 ```
 
-## Example Usage
+## Running Testophobia
 
-Testophobia can be run via the CLI with or without configuration options, as well as programmatically within a testing framework such as Mocha. There are two provided examples included in the library repo:
+Once installed, you should have the __testophobia__ command available in your PATH.
 
-1. Use in normal project through configuration objects (path: examples/standalone)
+However, first you'll want to configure your project.
 
-2. Use within existing mocha tests (path: examples/mocha-integration)
+### Basic Example
 
-### Usage through the command line
+Probably the easiest way to learn Testophobia is by example.  Examples have been provided in the __examples__ subfolder.
 
-By default, testophobia only needs 1) the names of the routes you'd like tested, and 2) the base URL you'd like for the screenshot(http://localhost:6789 without configuration). 
+Let's look at the __basic__ example.  In the _pages_ directory, you'll find some simple HTML pages for testing.  For
+simplicity, these pages are being hosted on
+[Github Pages](https://testophobia.github.io/testophobia/examples), so that you can run example tests
+against them without the need to host the pages yourself.
 
-ex: 
-
-```bash
-$ testophobia home about --golden --baseUrl="http://localhost:3001"
-```
-
-### Usage with configuration objects
-
-To run this demo, make sure you start the provided dev server (path: ./examples/standalone/server.js)
-
-```bash
-$ node server.js
-```
-
-then in a separate terminal run
-
-```bash
-$ ../../bin/testophobia --golden
-```
-
-This will generate the golden screens. To compare test screens, run the same command without the `--golden` flag.
-
-```bash
-$ ../../bin/testophobia
-```
-
-### Existing Mocha Project
-
-To run this demo, ensure you have mocha installed and run the respective test file
-
-ex:
-
-```bash
-$ mocha ./examples/mocha-integration/about/about.spec.js
-```
-
-or install mocha locally and use npx:
-
-```bash
-$ npx mocha ./examples/mocha-integration/home/home.spec.js
-```
-
-## Example Advanced Configuration
-
-Testophobia comes with sensible defaults (listed below), but a config file can be created for advanced usage.
-
-- testophobia.config.js example:
+First, let's look at the Testophobia configuration file, located in the root of the basic example:
 
 ```javascript
-import AboutTest from "./examples/standalone/about/about-test.js";
-import HomeTest from "./examples/standalone/home/home-test.js";
+import AboutTest from "./tests/about/about-test.js";
+import HomeTest from "./tests/home/home-test.js";
 
 export default {
-  baseUrl: "http://localhost:6789",
-  fileType: "jpeg",
-  quality: 30,
+  tests: [HomeTest, AboutTest]
   dimensions: [
     {
       type: "desktop",
       width: 1024,
-      height: 768,
-      compressed: {
-        width: 600,
-        height: 450
-      }
+      height: 768
     },
     {
       type: "tablet",
@@ -103,19 +58,27 @@ export default {
     },
     {
       type: "mobile",
-      width: 375,
-      height: 812
+      width: 350,
+      height: 667
     }
   ],
-  testDirectory: "./test-results/test-screens",
-  goldenDirectory: "./test-results/golden-screens",
-  diffDirectory: "./test-results/diffs",
+  fileType: "jpeg",
   threshold: 0.2,
-  tests: [AboutTest, HomeTest]
+  baseUrl: 'https://testophobia.github.io/testophobia/examples/basic',
+  testDirectory: "./testophobia/test-screens",
+  goldenDirectory: "./testophobia/golden-screens",
+  diffDirectory: "./testophobia/diffs",
 };
 ```
 
-- then, in ./examples/standalone/home/home-test.js:
+The configuration file exports a single default object with all of the configurations for the project.
+
+In the basic example, we've specified the path to our test files (using file globs), and then configured each of the
+window dimensions we want to test for.  We also set the output file type as JPEG images and set a threshold of 0.2 (see
+the [PixelMatch](https://github.com/mapbox/pixelmatch#pixelmatchimg1-img2-output-width-height-options) threshold setting
+for more info).  Then, we set the baseUrl of our site, and the directories to store our resulting images.
+
+Now, for each page we're testing, we create a test file, e.g. _tests/home/home-test.js_
 
 ```javascript
 export default {
@@ -123,46 +86,97 @@ export default {
   actions: [
     {
       type: "click",
-      target: "#btn",
-      delay: 400
+      target: "#btn"
     }
   ]
 };
 ```
+For this test, we've told Testophobia to navigate to the _/home_ route, take a snapshot, click the __#btn__ element,
+then take another snapshot.
 
-* Note that all commands available through the `testophobia.config.js` file can be passed through the command line.
+Since we don't have any golden images yet, the first thing we'll want to do is generate them:
+
+```
+$ testophobia --golden
+✔ Finished generating golden screens! (9.5s)
+```
+
+Now, with golden images in place, we can re-run the tests and validate that the pages still match the golden images:
+
+```
+$ testophobia
+✔ Finished generating test screens! (9.6s)
+💪 Testophobia screenshot compare complete!
+
+Testophobia Results: [ 9/9 Pass ]
+```
+
+and after making a change to the source HTML file (that results in a failure):
+
+```
+$ testophobia
+✔ Finished generating test screens! (9.3s)
+home desktop Pixel Difference: 1634
+
+ - Diff file location: ./testophobia/diffs/home-desktop-10-22-2018_15-3-50-diff.png
+
+home tablet Pixel Difference: 1634
+
+ - Diff file location: ./testophobia/diffs/home-tablet-10-22-2018_15-3-50-diff.png
+
+home mobile Pixel Difference: 1634
+
+ - Diff file location: ./testophobia/diffs/home-mobile-10-22-2018_15-3-50-diff.png
+
+💪 Testophobia screenshot compare complete!
+
+Testophobia Results: [ 6 Pass | 3 Fail ]
+```
+
+## Testophobia Viewer
+
+Testophobia also includes a web-based viewer tool, for comparing and resolving test failures.  When a test run has
+failures, the viewer will automatically be displayed in your default browser.
+
+![Testophobia Viewer](docs/images/testophobia-viewer.gif "Testophobia Viewer")
+
+The viewer provides a handy slider to quickly compare the test image and its corresponding golden image.  You also have
+the ability to display the __image diff__ (and adjust its opacity), as it is sometimes difficult to locate subtle
+differences in test failures.
+
+Finally, in the event that the test image is in fact valid, and should replace the current golden snapshot as the new
+golden, you can use this feature of the viewer to apply the new image, without the need to perform a _--golden_ run.
 
 ## Config Options
 
-`baseUrl`: (string) the url you'd like to run tests on | default: http://localhost:6789
+The following options are available in the Testophobia config file, or via the configuration object passed to the
+Testophobia instance:
 
-`fileType`: (string) the type of screenshot you'd like (options: jpeg, png) | default: png
+`baseUrl`: (string) the base url you'd like to run tests on | default: http://localhost:6789
+
+`fileType`: (string) the type of screenshots to output (options: jpeg, png) | default: png
 
 `quality`: (number) if jpeg fileType, the quality setting from 1-100 for the image | default: 80
 
-`dimensions`: (array) the type and 2D dimensions to set for the screenshot | defaults: desktop (1024 x 768) and mobile (375 x 812)
+`dimensions`: (array) the type / dimensions to set for the screenshot | default: desktop (1024x768) and mobile (375x812)
 
-- `type`: (string) the desired name of the defined device/resolution/dimension 
+- `type`: (string) the desired name of the defined device/resolution/dimension
 
 - `width`: (number, in px) the desired width of the screenshot
 
 - `height`: (number, in px) the desired height of the screenshot
 
-- `compressed`: (object) the desired dimensions for the compressed image (Note: compressed dimensions must maintain aspect ratio)
-
-  - `width`: (number, in px) the desired width of the compressed screenshot
-
-  - `height`: (number, in px) the desired height of the compressed screenshot
+- `scale`: (number) the scale of the screenshot by percentage (0-100) (see [__Image Scaling__](#image-scaling) below) | default: 100
 
 `testDirectory`: (string) desired file location for the test screenshots | default: (cwd)/testophobia/test-screens
 
-`goldenDirectory`: (string) desired file location for the golden (reference) screenshots | default: (cwd)/testophobia/golden-screens
+`goldenDirectory`: (string) desired file location for the golden screenshots | default: (cwd)/testophobia/golden-screens
 
-`diffDirectory`: (string) desired file location for the diff screenshots that highlight the disceprencies upon failure | default: (cwd)/testophobia/diffs
+`diffDirectory`: (string) desired file location for the diff screenshots (failures) | default: (cwd)/testophobia/diffs
 
 `threshold`: (number) sets the strictness of the comparison (from 0 to 1) | default: 0.2
 
-`tests`: (arrray) a more detailed location to set which areas to snap, including actions and other data (required)
+`tests`: (array) a more detailed location to set which areas to snap, including actions and other data (required)
 
 - `name`: (string) the name of the folder directory for the project, as well as the route (if path is not defined)
 
@@ -173,27 +187,81 @@ export default {
 - `actions`: (array) list of actions to run on the route. Each action is an object consisting of:
 
   - `type`: (string) the type of action to run
-  
+
   - `target`: (string) the target HTML element to perform the action on. Can be an id, class, or element
 
   - `delay`: (number) the amount of time (in ms) to delay before taking a screenshot for a given action
 
     - so far, supported actions include: click, scroll, input, and hover
 
-## Action-Specific Configs
+### Action-Specific Configs
 
   _When the following are set as a action `type`, additional properties are required:_
 
-- `input`: 
+- `input`:
 
   - `property`: (string) the desired property for setting text on input. examples: value, textContent
 
-  - `text`: (string) the text to input 
+  - `text`: (string) the text to input
 
 - `scroll`:
 
   - `scrollTop`: (number) the desired offset (in px) the element should be scrolled
 
-## Contributing
+### Image Scaling
 
-coming soon
+Since golden images need to be stored for later validation, Testophobia has an optional config value to _scale_ the
+images upon generation.  By scaling the images, you can greatly reduce the file size of the images.  However, the more
+the images are scaled, the greater the chance that differences may be too small to detect. This will require
+experimentation and YMMV.
+
+## JavaScript API
+
+Testophobia provides a JavaScript API for running tests within a Node.js environment.
+
+```javascript
+//import the Testophobia library
+const {Testophobia} = require('testophobia');
+
+//create a Testophobia instance, and configure
+const tp = new Testophobia({
+  projectDir: '/path/to/project/dir',
+  baseUrl: 'http://localhost:6789',
+  golden: false,
+  tests: [
+    {
+      name: 'home',
+      actions: [
+        {
+          type: 'click',
+          target: '#btn'
+        }
+      ]
+    }
+  ]
+});
+
+//run the tests
+const result = await tp.run();
+```
+
+## Command Line Options
+
+The testophobia command optionally takes a few additional arguments:
+
+`[<file|directory|glob> ...]`: Tests can be run ad-hoc by passing the path/glob as a parameter.  This overrides the
+__tests__ configuration value. Example:
+
+```
+$ testophobia path/to/my/tests/**/*-test.js
+```
+
+`--skip-viewer`: prevents the Testophobia viewer from displaying automatically on test failure
+
+`--clear`: deletes all of the generated golden/test/diff images and directories
+
+`--verbose`: provides additional output during Testophobia invocations
+
+## LICENSE
+
+MIT
