@@ -111,7 +111,7 @@ export default {
   goldenDirectory: "./test-results/golden-screens",
   diffDirectory: "./test-results/diffs",
   threshold: 0.2,
-  routes: [AboutTest, HomeTest]
+  tests: [AboutTest, HomeTest]
 };
 ```
 
@@ -162,7 +162,7 @@ export default {
 
 `threshold`: (number) sets the strictness of the comparison (from 0 to 1) | default: 0.2
 
-`routes`: (arrray) a more detailed location to set which areas to snap, including actions and other data (required)
+`tests`: (arrray) a more detailed location to set which areas to snap, including actions and other data (required)
 
 - `name`: (string) the name of the folder directory for the project, as well as the route (if path is not defined)
 

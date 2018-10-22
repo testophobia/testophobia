@@ -10,7 +10,7 @@ let tpConfig = {
   projectDir: process.cwd(),
   baseUrl: devServer,
   golden: true,
-  routes: [
+  tests: [
     {
       name: "home",
       actions: [

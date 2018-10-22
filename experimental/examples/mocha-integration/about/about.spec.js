@@ -9,7 +9,7 @@ const {Testophobia} = require("../../../../lib/testophobia");
 let tpConfig = {
   projectDir: process.cwd(),
   baseUrl: devServer,
-  routes: [{name: "about"}],
+  tests: [{name: "about"}],
   golden: true,
   fileType: "png",
   dimensions: [
