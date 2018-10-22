@@ -10,7 +10,7 @@ let tpConfig = {
   projectDir: process.cwd(),
   baseUrl: devServer,
   tests: [{name: "about"}],
-  golden: true,
+  // golden: true,
   fileType: "png",
   dimensions: [
     {
@@ -49,14 +49,14 @@ describe("About Page Renders Properly", function () {
 
   describe("paragraph text renders", () => {
     beforeEach(() => page.setViewport({width: 375, height: 667}));
-    it("Desktop paragraph is correct.", () => verifyElement(page, "p", "This is an example ABOUT page."));
+    it("Desktop paragraph is correct.", () => verifyElement(page, "p", "This is an ABOUT page."));
   });
 
   describe("check screenshots", () => {
     it(`${
       tpConfig.golden ? "Generate golden images" : "Screenshots match"
       }`, async () => {
-        let t = new Testophobia(tpConfig);
+        let t = new Testophobia(tpConfig, true);
         let c = await t.run();
         expect(c, "Testophobia ran without issues").equal(0);
       });
