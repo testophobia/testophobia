@@ -42,6 +42,7 @@ body {
   margin: 0 1vw;
 }
 #diff-overlay {
+  opacity: 0.3;
   position: absolute;
   top: 15vh;
   left: 1vw;
