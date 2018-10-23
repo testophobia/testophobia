@@ -205,7 +205,7 @@ Test definition properties:
 
     - `value`: (string) the value to set on the property
 
-  - `setAttribute` - set a property on the target HTML element
+  - `setAttribute` - set an attribute on the target HTML element
 
     - `attribute`: (string) the desired attribute to set. examples: disabled, src
 
