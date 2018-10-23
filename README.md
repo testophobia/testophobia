@@ -197,6 +197,8 @@ Test definition properties:
 
     - `scrollTop`: (number) the desired Y offset (in px) the element should be scrolled to
 
+    - `scrollLeft`: (number) the desired X offset (in px) the element should be scrolled to
+
   - `input` - enter a string of text into an input control
 
     - `property`: (string) the desired property for setting text on input. examples: value, textContent
