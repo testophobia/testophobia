@@ -147,7 +147,11 @@ another _--golden_ run.
 The following options are available in the Testophobia config file, or via the configuration object passed to the
 Testophobia instance:
 
+`projectDir`: (string) the desired root project directory for the project | default: cwd
+
 `baseUrl`: (string) the base url of your website or application | default: http://localhost:6789
+
+`golden`: (boolean) whether the screenshots should be considered golden
 
 `fileType`: (string) the image type to output (options: jpeg, png) | default: png
 
@@ -205,6 +209,8 @@ Test definition properties:
 
 - `delay`: (number) the amount of time (in ms) to delay before taking a screenshot, after performing the action
 
+- `skipScreen`: (boolean) whether to skip taking a screenshot after performing action
+
 
 ### Image Scaling
 
@@ -243,6 +249,12 @@ const tp = new Testophobia({
 const result = await tp.run();
 ```
 
+You can also pass a path/glob for tests as a parameter to the Testophobia run() method to perform tests programmatically:
+
+```javascript
+const result = await tp.run("tests/about/*-test.js");
+```
+
 ## Command Line Options
 
 The __testophobia__ command optionally takes a few additional arguments:
@@ -259,6 +271,8 @@ $ testophobia path/to/my/tests/**/*-test.js
 `--clear`: deletes all of the generated golden/test/diff images and directories
 
 `--verbose`: provides additional output during Testophobia invocations
+
+`--golden`: whether the screenshots should be considered golden
 
 ## LICENSE
 
