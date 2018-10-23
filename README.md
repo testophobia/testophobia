@@ -153,6 +153,8 @@ Testophobia instance:
 
 `golden`: (boolean) generate the golden screenshots
 
+`bail`: (boolean) exit immediately upon first test failure
+
 `fileType`: (string) the image type to output (options: jpeg, png) | default: png
 
 `quality`: (number) if jpeg fileType, the quality setting (1-100) for the image | default: 80
@@ -280,7 +282,7 @@ __tests__ configuration value. Example:
 $ testophobia path/to/my/tests/**/*-test.js
 ```
 
-`--bail | -b`: generate the golden screenshots
+`--bail | -b`: exit immediately upon first test failure
 
 `--golden | -g`: generate the golden screenshots
 
