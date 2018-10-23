@@ -161,7 +161,7 @@ Testophobia instance:
 
 - `height`: (number, in px) the desired height of the screenshot
 
-- `scale`: (number) the scale of the screenshot by percentage (0-100) (see [__Image Scaling__](#image-scaling) below) | default: 100
+- `scale`: (decimal) the scale of the screenshot by percentage (from 0 to 1) (see [__Image Scaling__](#image-scaling) below) | default: 1
 
 `testDirectory`: (string) desired file location for the test screenshots | default: ./testophobia/test-screens
 
@@ -169,7 +169,7 @@ Testophobia instance:
 
 `diffDirectory`: (string) desired file location for the diff screenshots (failures) | default: ./testophobia/diffs
 
-`threshold`: (number) sets the strictness of the comparison (from 0 to 1) | default: 0.2
+`threshold`: (decimal) sets the strictness of the comparison (from 0 to 1) | default: 0.2
 
 `tests`: (string|array) test definitions or glob path to test files
 
