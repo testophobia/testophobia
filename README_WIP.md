@@ -13,18 +13,18 @@ known to be correct), and validate that the page still looks and behaves as it s
 ## Install
 
 ```bash
-$ yarn add -D testophobia
+$ yarn global add testophobia
 ```
 
 or
 
 ```bash
-$ npm i -D testophobia
+$ npm i -g testophobia
 ```
 
 ## Running Testophobia
 
-Once installed, you should have the __testophobia__ command available in your PATH.
+Once installed, you should have the __testophobia__ command available in your PATH.  If you did not install Testophobia globally, you'll probably want to prepend the __npx__ command when invoking __testophobia__.
 
 However, first you'll want to configure your project.
 
@@ -151,7 +151,7 @@ Testophobia instance:
 
 `baseUrl`: (string) the base url of your website or application | default: http://localhost:6789
 
-`golden`: (boolean) whether the screenshots should be considered golden
+`golden`: (boolean) generate the golden screenshots
 
 `fileType`: (string) the image type to output (options: jpeg, png) | default: png
 
@@ -209,7 +209,7 @@ Test definition properties:
 
 - `delay`: (number) the amount of time (in ms) to delay before taking a screenshot, after performing the action
 
-- `skipScreen`: (boolean) whether to skip taking a screenshot after performing action
+- `skipScreen`: (boolean) whether to skip taking a screenshot after performing the action
 
 
 ### Image Scaling
@@ -272,7 +272,7 @@ $ testophobia path/to/my/tests/**/*-test.js
 
 `--verbose`: provides additional output during Testophobia invocations
 
-`--golden`: whether the screenshots should be considered golden
+`--golden`: generate the golden screenshots
 
 ## LICENSE
 
