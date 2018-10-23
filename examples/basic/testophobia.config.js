@@ -21,9 +21,6 @@ export default {
     }
   ],
   baseUrl: 'https://testophobia.github.io/testophobia/examples/basic',
-  testDirectory: "./testophobia/test-screens",
-  goldenDirectory: "./testophobia/golden-screens",
-  diffDirectory: "./testophobia/diffs",
   threshold: 0.2,
   tests: [HomeTest, AboutTest]
 };

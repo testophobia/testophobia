@@ -32,8 +32,8 @@ However, first you'll want to configure your project.
 
 Probably the easiest way to learn Testophobia is by example.  Examples have been provided in the __examples__ subfolder.
 
-Let's look at the __basic__ example.  In the _pages_ directory, you'll find some simple HTML pages for testing.  For
-simplicity, these pages are being hosted on
+Let's look at the __basic__ example.  In the _pages_ directory, you'll find some rudimentary HTML pages for testing.
+For simplicity, these pages are being hosted on
 [Github Pages](https://testophobia.github.io/testophobia/examples), so that you can run example tests
 against them without the need to host the pages yourself.
 
@@ -61,20 +61,16 @@ export default {
   ],
   fileType: "jpeg",
   threshold: 0.2,
-  baseUrl: 'https://testophobia.github.io/testophobia/examples/basic',
-  testDirectory: "./testophobia/test-screens",
-  goldenDirectory: "./testophobia/golden-screens",
-  diffDirectory: "./testophobia/diffs",
+  baseUrl: 'https://testophobia.github.io/testophobia/examples/basic'
 };
 ```
 
 The configuration file exports a single default object with all of the configurations for the project.
 
 In the basic example, we've specified the path to our test files (using [file globs](https://github.com/isaacs/node-glob#glob-primer)),
-and then configured each of the window dimensions we want to test for.  We also set the output file type as JPEG images
-and set a threshold of 0.2 (see the
-[PixelMatch](https://github.com/mapbox/pixelmatch#pixelmatchimg1-img2-output-width-height-options) threshold setting
-for more info).  Then, we set the baseUrl of our site, and the directories to store our resulting images.
+and then configured each of the window dimensions we want to test for.  We also set the output file type as JPEG images,
+a threshold of 0.2 (see the [PixelMatch](https://github.com/mapbox/pixelmatch#pixelmatchimg1-img2-output-width-height-options)
+threshold setting for more info).  Finally, we set the baseUrl of our site.
 
 Now, for each page we're testing, we create a test file, e.g. _tests/home/home-test.js_
 
@@ -143,18 +139,19 @@ the ability to display the __image diff__ (and adjust its opacity), as it is som
 differences in test failures.
 
 Finally, in the event that the test image is in fact valid, and should replace the current golden snapshot as the new
-golden, you can use this feature of the viewer to apply the new image, without the need to perform a _--golden_ run.
+golden, you can use the __Apply Golden__ feature of the viewer to apply the new image, without the need to perform
+another _--golden_ run.
 
 ## Config Options
 
 The following options are available in the Testophobia config file, or via the configuration object passed to the
 Testophobia instance:
 
-`baseUrl`: (string) your base website url | default: http://localhost:6789
+`baseUrl`: (string) the base url of your website or application | default: http://localhost:6789
 
 `fileType`: (string) the image type to output (options: jpeg, png) | default: png
 
-`quality`: (number) if jpeg fileType, the quality setting from 1-100 for the image | default: 80
+`quality`: (number) if jpeg fileType, the quality setting (1-100) for the image | default: 80
 
 `dimensions`: (array) the type / dimensions for the screenshot | default: desktop (1024x768) and mobile (375x812)
 
@@ -248,7 +245,7 @@ const result = await tp.run();
 
 ## Command Line Options
 
-The testophobia command optionally takes a few additional arguments:
+The __testophobia__ command optionally takes a few additional arguments:
 
 `[<file|directory|glob> ...]`: Tests can be run ad-hoc by passing the path/glob as a parameter.  This overrides the
 __tests__ configuration value. Example:
