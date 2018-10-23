@@ -19,5 +19,5 @@ export default {
   ],
   baseUrl: 'https://testophobia.github.io/testophobia/examples/basic',
   threshold: 0.2,
-  tests: 'tests/**/*-test.js',
+  tests: 'tests/**/*-test.js'
 };
