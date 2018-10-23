@@ -1,6 +1,3 @@
-import AboutTest from "./tests/about/about-test.js";
-import HomeTest from "./tests/home/home-test.js";
-
 export default {
   fileType: "jpeg",
   dimensions: [
@@ -22,5 +19,5 @@ export default {
   ],
   baseUrl: 'https://testophobia.github.io/testophobia/examples/basic',
   threshold: 0.2,
-  tests: [HomeTest, AboutTest]
+  tests: 'tests/**/*-test.js',
 };
