@@ -40,11 +40,8 @@ against them without the need to host the pages yourself.
 First, let's look at the Testophobia configuration file, located in the root of the basic example:
 
 ```javascript
-import AboutTest from "./tests/about/about-test.js";
-import HomeTest from "./tests/home/home-test.js";
-
 export default {
-  tests: [HomeTest, AboutTest]
+  tests: 'tests/**/*-test.js',
   dimensions: [
     {
       type: "desktop",
@@ -73,9 +70,10 @@ export default {
 
 The configuration file exports a single default object with all of the configurations for the project.
 
-In the basic example, we've specified the path to our test files (using file globs), and then configured each of the
-window dimensions we want to test for.  We also set the output file type as JPEG images and set a threshold of 0.2 (see
-the [PixelMatch](https://github.com/mapbox/pixelmatch#pixelmatchimg1-img2-output-width-height-options) threshold setting
+In the basic example, we've specified the path to our test files (using [file globs](https://github.com/isaacs/node-glob#glob-primer)),
+and then configured each of the window dimensions we want to test for.  We also set the output file type as JPEG images
+and set a threshold of 0.2 (see the
+[PixelMatch](https://github.com/mapbox/pixelmatch#pixelmatchimg1-img2-output-width-height-options) threshold setting
 for more info).  Then, we set the baseUrl of our site, and the directories to store our resulting images.
 
 Now, for each page we're testing, we create a test file, e.g. _tests/home/home-test.js_
@@ -91,7 +89,7 @@ export default {
   ]
 };
 ```
-For this test, we've told Testophobia to navigate to the _/home_ route, take a snapshot, click the __#btn__ element,
+For this test, we've told Testophobia to navigate to the _/home_ page, take a snapshot, click the __#btn__ element,
 then take another snapshot.
 
 Since we don't have any golden images yet, the first thing we'll want to do is generate them:
@@ -111,7 +109,7 @@ $ testophobia
 Testophobia Results: [ 9/9 Pass ]
 ```
 
-and after making a change to the source HTML file (that results in a failure):
+and after making a change to the source HTML file (resulting in a failure):
 
 ```
 $ testophobia
@@ -152,13 +150,13 @@ golden, you can use this feature of the viewer to apply the new image, without t
 The following options are available in the Testophobia config file, or via the configuration object passed to the
 Testophobia instance:
 
-`baseUrl`: (string) the base url you'd like to run tests on | default: http://localhost:6789
+`baseUrl`: (string) your base website url | default: http://localhost:6789
 
-`fileType`: (string) the type of screenshots to output (options: jpeg, png) | default: png
+`fileType`: (string) the image type to output (options: jpeg, png) | default: png
 
 `quality`: (number) if jpeg fileType, the quality setting from 1-100 for the image | default: 80
 
-`dimensions`: (array) the type / dimensions to set for the screenshot | default: desktop (1024x768) and mobile (375x812)
+`dimensions`: (array) the type / dimensions for the screenshot | default: desktop (1024x768) and mobile (375x812)
 
 - `type`: (string) the desired name of the defined device/resolution/dimension
 
@@ -168,45 +166,48 @@ Testophobia instance:
 
 - `scale`: (number) the scale of the screenshot by percentage (0-100) (see [__Image Scaling__](#image-scaling) below) | default: 100
 
-`testDirectory`: (string) desired file location for the test screenshots | default: (cwd)/testophobia/test-screens
+`testDirectory`: (string) desired file location for the test screenshots | default: ./testophobia/test-screens
 
-`goldenDirectory`: (string) desired file location for the golden screenshots | default: (cwd)/testophobia/golden-screens
+`goldenDirectory`: (string) desired file location for the golden screenshots | default: ./testophobia/golden-screens
 
-`diffDirectory`: (string) desired file location for the diff screenshots (failures) | default: (cwd)/testophobia/diffs
+`diffDirectory`: (string) desired file location for the diff screenshots (failures) | default: ./testophobia/diffs
 
 `threshold`: (number) sets the strictness of the comparison (from 0 to 1) | default: 0.2
 
-`tests`: (array) a more detailed location to set which areas to snap, including actions and other data (required)
+`tests`: (string|array) test definitions or glob path to test files
 
-- `name`: (string) the name of the folder directory for the project, as well as the route (if path is not defined)
+### Test Definition
 
-- `path`: (string) the actual path/route to use *without leading slash* (ex: page/article/why-testophobia-is-awesome)
+Test definition properties:
 
-- `delay`: (number) the amount of time (in ms) to delay before taking a screenshot for a given route
+`name`: (string) the name of the test (also used as the path, if path is not defined)
 
-- `actions`: (array) list of actions to run on the route. Each action is an object consisting of:
+`path`: (string) the path to the page to be tested, relative to the baseUrl
 
-  - `type`: (string) the type of action to run
+`delay`: (number) the amount of time (in ms) on page load to delay before taking the first screenshot
 
-  - `target`: (string) the target HTML element to perform the action on. Can be an id, class, or element
+`actions`: (array) list of interactions to perform sequentially. Each action is an object consisting of:
 
-  - `delay`: (number) the amount of time (in ms) to delay before taking a screenshot for a given action
+- `type`: (string) the type of action to run.  supported actions include:
 
-    - so far, supported actions include: click, scroll, input, and hover
+  - `click` - performs a mouse click against the specified target
 
-### Action-Specific Configs
+  - `scroll` - scrolls the element to the desired position
 
-  _When the following are set as a action `type`, additional properties are required:_
+    - `scrollTop`: (number) the desired Y offset (in px) the element should be scrolled to
 
-- `input`:
+  - `input` - enter a string of text into an input control
 
-  - `property`: (string) the desired property for setting text on input. examples: value, textContent
+    - `property`: (string) the desired property for setting text on input. examples: value, textContent
 
-  - `text`: (string) the text to input
+    - `text`: (string) the text to input
 
-- `scroll`:
+  - `hover` - hover the mouse over the specified target
 
-  - `scrollTop`: (number) the desired offset (in px) the element should be scrolled
+- `target`: (\*) the target HTML element to perform the action on. Takes a selector or element reference
+
+- `delay`: (number) the amount of time (in ms) to delay before taking a screenshot, after performing the action
+
 
 ### Image Scaling
 
