@@ -233,7 +233,7 @@ Testophobia provides a JavaScript API for running tests within a Node.js environ
 
 ```javascript
 //import the Testophobia library
-const {Testophobia} = require('testophobia');
+const {Testophobia} = require('./node_modules/testophobia/lib/testophobia');
 
 //create a Testophobia instance, and configure
 const tp = new Testophobia({
@@ -262,6 +262,8 @@ You can also pass a path/glob for tests as a parameter to the Testophobia run() 
 ```javascript
 const result = await tp.run('tests/about/*-test.js');
 ```
+
+Examples using the JavaScript API can be found in the _examples/javascript-api_ directory.
 
 ## Command Line Options
 
