@@ -57,7 +57,7 @@ describe("About Page Renders Properly", function () {
       tpConfig.golden ? "Generate golden images" : "Screenshots match"
       }`, async () => {
         let t = new Testophobia(tpConfig, true);
-        let c = await t.run("../../../../examples/standalone/tests/**/*-test.js");
+        let c = await t.run("../../../../examples/basic/tests/**/*-test.js");
         expect(c, "Testophobia ran without issues").equal(0);
       });
   });
