@@ -199,11 +199,17 @@ Test definition properties:
 
     - `scrollLeft`: (number) the desired X offset (in px) the element should be scrolled to
 
-  - `input` - enter a string of text into an input control
+  - `setProperty` - set a property on the target HTML element
 
-    - `property`: (string) the desired property for setting text on input. examples: value, textContent
+    - `property`: (string) the desired property to set. examples: value, textContent
 
-    - `text`: (string) the text to input
+    - `value`: (string) the value to set on the property
+
+  - `setAttribute` - set a property on the target HTML element
+
+    - `attribute`: (string) the desired attribute to set. examples: disabled, src
+
+    - `value`: (string) the value to set on the attribute
 
   - `hover` - hover the mouse over the specified target
 
