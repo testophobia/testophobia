@@ -280,13 +280,15 @@ __tests__ configuration value. Example:
 $ testophobia path/to/my/tests/**/*-test.js
 ```
 
-`--skip-viewer`: prevents the Testophobia viewer from displaying automatically on test failure
+`--bail | -b`: generate the golden screenshots
+
+`--golden | -g`: generate the golden screenshots
+
+`--skip-viewer | -s`: prevents the Testophobia viewer from displaying automatically on test failure
+
+`--verbose | -v`: provides additional output during Testophobia invocations
 
 `--clear`: deletes all of the generated golden/test/diff images and directories
-
-`--verbose`: provides additional output during Testophobia invocations
-
-`--golden`: generate the golden screenshots
 
 ## LICENSE
 
