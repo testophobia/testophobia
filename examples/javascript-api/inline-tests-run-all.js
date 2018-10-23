@@ -1,3 +1,4 @@
+/* global require, */
 const {Testophobia} = require('../../lib/testophobia');
 
 /* This test sets up multiple tests inline, and then runs them all */
@@ -14,8 +15,9 @@ const tp = new Testophobia({
           target: '#btn'
         }
       ]
-    },{
-      name: 'about'
+    }, {
+      name: 'about',
+      path: 'about/about.html'
     }
   ]
 });
