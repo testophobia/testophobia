@@ -211,9 +211,9 @@ Test definition properties:
 
     - `value`: (string) the value to set on the attribute
 
-  - `removeAttribute` - set an attribute on the target HTML element
+  - `removeAttribute` - remove an attribute on the target HTML element
 
-    - `attribute`: (string) the desired attribute to set. examples: disabled, src
+    - `attribute`: (string) the desired attribute to remove. examples: disabled, src
 
   - `hover` - hover the mouse over the specified target
 
