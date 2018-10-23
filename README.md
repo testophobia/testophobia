@@ -70,7 +70,7 @@ The configuration file exports a single default object with all of the configura
 In the basic example, we've specified the path to our test files (using [file globs](https://github.com/isaacs/node-glob#glob-primer)),
 and then configured each of the window dimensions we want to test for.  We also set the output file type as JPEG images,
 a threshold of 0.2 (see the [PixelMatch](https://github.com/mapbox/pixelmatch#pixelmatchimg1-img2-output-width-height-options)
-threshold setting for more info).  Finally, we set the baseUrl of our site.
+threshold setting for more info), and the baseUrl of our site.
 
 Now, for each page we're testing, we create a test file, e.g. _tests/home/home-test.js_
 
@@ -252,7 +252,7 @@ const result = await tp.run();
 You can also pass a path/glob for tests as a parameter to the Testophobia run() method to perform tests programmatically:
 
 ```javascript
-const result = await tp.run("tests/about/*-test.js");
+const result = await tp.run('tests/about/*-test.js');
 ```
 
 ## Command Line Options
