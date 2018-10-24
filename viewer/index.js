@@ -99,7 +99,7 @@ function configureDiffSlider() {
   $("#sld-diff").slider({
     min: 0,
     max: 100,
-    value: 100,
+    value: 30,
     disabled: true,
     change: function (e, u) {
       $("#diff-overlay").fadeTo("fast", u.value / 100);

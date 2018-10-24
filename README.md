@@ -289,7 +289,7 @@ $ testophobia path/to/my/tests/**/*-test.js
 
 `--verbose | -v`: provides additional output during Testophobia invocations
 
-`--clear`: deletes all of the generated golden/test/diff images and directories
+`--clear | -c`: deletes all of the generated golden/test/diff images and directories
 
 ## LICENSE
 

@@ -1,4 +1,4 @@
 export default {
   name: "about",
-  path: "about/about.html"
+  path: "about/index.html"
 };
