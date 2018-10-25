@@ -291,6 +291,8 @@ $ testophobia path/to/my/tests/**/*-test.js
 
 `--golden | -g`: generate the golden screenshots
 
+`--init | -i`: generate a Testophobia config file in the current directory
+
 `--skip-viewer | -s`: prevents the Testophobia viewer from displaying automatically on test failure
 
 `--verbose | -v`: provides additional output during Testophobia invocations
