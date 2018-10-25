@@ -3,7 +3,7 @@ window.Testophobia = {};
 
 function loadTestRunProperties() {
   return new Promise(resolve => {
-    $.getJSON("results.json", d => {
+    $.getJSON('results.json', d => {
       Testophobia.testRunInfo = d;
       Testophobia.currentTestIdx = d.failures.length > 0 ? 0 : -1;
       Testophobia.currentTestFailure = d.failures[Testophobia.currentTestIdx];
@@ -13,10 +13,10 @@ function loadTestRunProperties() {
 }
 
 function configureInfoButton() {
-  $("#btn-info")
+  $('#btn-info')
     .button()
     .click(function () {
-      const dlg = $("#dlg-info");
+      const dlg = $('#dlg-info');
       dlg.get(0).innerHTML = `<ul>
   <li><span>Date:</span>${new Date(
           Testophobia.testRunInfo.date
@@ -34,7 +34,7 @@ function configureInfoButton() {
   <li><span>Quality:</span>${Testophobia.testRunInfo.quality}</li>
   <li><span>Threshold:</span>${Testophobia.testRunInfo.threshold}</li>
 </ul>`;
-      dlg.dialog("open");
+      dlg.dialog('open');
     });
 }
 
@@ -58,24 +58,24 @@ function pageFailures(inc) {
 }
 
 function configurePrevNextButtons() {
-  $("#btn-prev")
+  $('#btn-prev')
     .button()
     .click(() => pageFailures(false));
-  $("#btn-next")
+  $('#btn-next')
     .button()
     .click(() => pageFailures(true));
 }
 
 function configureApplyButton() {
-  $("#btn-apply")
+  $('#btn-apply')
     .button()
     .click(async () => {
       $.post(
-        "/apply-golden/" + Testophobia.currentTestIdx,
+        '/apply-golden/' + Testophobia.currentTestIdx,
         (data, statusText, xhr) => {
           if (xhr.status === 200)
-            alert("Test image applied as the new golden image.");
-          else alert("Unable to apply the new golden image: " + statusText);
+            alert('Test image applied as the new golden image.');
+          else alert('Unable to apply the new golden image: ' + statusText);
         }
       );
       await loadTestRunProperties();
@@ -84,72 +84,72 @@ function configureApplyButton() {
 }
 
 function configureDiffButton() {
-  $("#cb-diff")
+  $('#cb-diff')
     .checkboxradio()
     .change(function () {
       if (this.checked) {
-        $("#diff-overlay").show();
-        $("#sld-diff").slider("enable");
+        $('#diff-overlay').show();
+        $('#sld-diff').slider('enable');
       } else {
-        $("#diff-overlay").hide();
-        $("#sld-diff").slider("disable");
+        $('#diff-overlay').hide();
+        $('#sld-diff').slider('disable');
       }
     });
 }
 
 function configureDiffSlider() {
-  $("#sld-diff").slider({
+  $('#sld-diff').slider({
     min: 0,
     max: 100,
     value: 30,
     disabled: true,
     change: function (e, u) {
-      $("#diff-overlay").fadeTo("fast", u.value / 100);
+      $('#diff-overlay').fadeTo('fast', u.value / 100);
     }
   });
 }
 
 function configureTestRunDialog() {
-  $("#dlg-info").dialog({autoOpen: false, width: 480});
+  $('#dlg-info').dialog({autoOpen: false, width: 480});
 }
 
 function configureTwentyTwenty() {
-  $("#viewer-container").imagesLoaded(() => {
-    const imgW = $("#viewer-container img").width();
-    $("#viewer-container").twentytwenty({
-      before_label: "Golden",
-      after_label: "New"
+  $('#viewer-container').imagesLoaded(() => {
+    const imgW = $('#viewer-container img').width();
+    $('#viewer-container').twentytwenty({
+      before_label: 'Golden',
+      after_label: 'New'
     });
-    $(".twentytwenty-overlay").width(imgW);
+    $('.twentytwenty-overlay').width(imgW);
   });
 }
 
 function loadTest() {
   if (Testophobia.testRunInfo.failures.length === 0) {
-    $("#btn-info").button("disable");
-    $("#btn-prev").button("disable");
-    $("#btn-next").button("disable");
-    $("#btn-apply").button("disable");
-    $("#cb-diff").checkboxradio("disable");
-    $("#sld-diff").slider("disable");
-    $("#lbl-pager").text(`Failure: 0 of 0`);
-    $("#lbl-testname").text("");
-    $("#img-before").attr("src", "");
-    $("#img-after").attr("src", "");
-    $("#img-diff").attr("src", "");
+    $('#btn-info').button('disable');
+    $('#btn-prev').button('disable');
+    $('#btn-next').button('disable');
+    $('#btn-apply').button('disable');
+    $('#cb-diff').checkboxradio('disable');
+    $('#sld-diff').slider('disable');
+    $('#lbl-pager').text(`Failure: 0 of 0`);
+    $('#lbl-testname').text('');
+    $('#img-before').attr('src', '');
+    $('#img-after').attr('src', '');
+    $('#img-diff').attr('src', '');
   } else {
-    $("#img-before").attr(
-      "src",
+    $('#img-before').attr(
+      'src',
       `/images/${Testophobia.currentTestIdx}/golden`
     );
-    $("#img-after").attr("src", `/images/${Testophobia.currentTestIdx}/test`);
-    $("#img-diff").attr("src", `/images/${Testophobia.currentTestIdx}/diff`);
-    $("#lbl-pager").text(
+    $('#img-after').attr('src', `/images/${Testophobia.currentTestIdx}/test`);
+    $('#img-diff').attr('src', `/images/${Testophobia.currentTestIdx}/diff`);
+    $('#lbl-pager').text(
       `Failure: ${Testophobia.currentTestIdx + 1} of ${
       Testophobia.testRunInfo.failures.length
       }`
     );
-    $("#lbl-testname").text(
+    $('#lbl-testname').text(
       `${Testophobia.currentTestFailure.test} - ${
       Testophobia.currentTestFailure.screenType
       }`
@@ -169,6 +169,8 @@ async function init() {
   configureTwentyTwenty();
 }
 
-$(window).on("load", () => {
+$(window).on('load', () => {
   init();
 });
+
+window.setInterval(() => $.post('/heartbeat'), 1000);
