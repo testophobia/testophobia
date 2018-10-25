@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  background: #f3f3f3;
 }
 #top-bar {
   height: 15vh;
@@ -40,6 +41,7 @@ body {
 }
 #viewer-container {
   margin: 0 1vw;
+  background: #ccc;
 }
 #diff-overlay {
   opacity: 0.3;

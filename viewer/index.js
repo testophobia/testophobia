@@ -22,13 +22,15 @@ function configureInfoButton() {
           Testophobia.testRunInfo.date
         ).toLocaleString()}</li>
   <li><span>Route:</span>${Testophobia.currentTestFailure.test}</li>
+  <li><span>Screen Type:</span>${Testophobia.currentTestFailure.screenType}</li>
+  <li><span>Action:</span>${Testophobia.currentTestFailure.action}</li>
   <li><span>Pixel Diff:</span>${
         Testophobia.currentTestFailure.pixelDifference
         }</li>
-  <li><span>Screen Type:</span>${Testophobia.currentTestFailure.screenType}</li>
   <li><span>Dimensions:</span>${
         Testophobia.currentTestFailure.dimensions.width
         }x${Testophobia.currentTestFailure.dimensions.height}</li>
+  <li><span>File Type:</span>${Testophobia.testRunInfo.fileType}</li>
   <li><span>Quality:</span>${Testophobia.testRunInfo.quality}</li>
   <li><span>Threshold:</span>${Testophobia.testRunInfo.threshold}</li>
 </ul>`;
