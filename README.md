@@ -76,7 +76,7 @@ Now, for each page we're testing, we create a test file, e.g. _tests/home/home-t
 ```javascript
 export default {
   name: "home",
-  path: home",
+  path: "home",
   actions: [
     {
       type: "click",
