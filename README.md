@@ -216,6 +216,10 @@ Test definition properties:
 
     - `attribute`: (string) the desired attribute to remove. examples: disabled, src
 
+  - `keypress` - send a keypress event from the target element
+    
+    - `keyCode`: (number) the keyCode for the key event being dispatched
+
   - `hover` - hover the mouse over the specified target
 
 - `target`: (\*) the target HTML element to perform the action on. Takes a selector or element reference
