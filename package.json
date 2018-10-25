@@ -3,7 +3,30 @@
   "version": "0.0.1",
   "description": "Web application snapshot tester",
   "license": "MIT",
-  "repository": "jasongardnerlv/testophobia",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/testophobia/testophobia.git"
+  },
+  "bugs": {
+    "url": "https://github.com/testophobia/testophobia/issues"
+  },
+  "homepage": "https://github.com/testophobia/testophobia",
+  "main": "lib/testophobia.js",
+  "keywords": [
+    "test",
+    "testing",
+    "testophobia",
+    "cli",
+    "snapshot",
+    "javascript",
+    "ui",
+    "automated",
+    "browser",
+    "chrome",
+    "web",
+    "website",
+    "application"
+  ],
   "bin": {
     "testophobia": "bin/testophobia",
     "testophobia-viewer": "bin/testophobia-viewer"
@@ -33,14 +56,5 @@
     "rimraf": "^2.6.2",
     "sharp": "^0.21.0",
     "zurb-twentytwenty": "https://github.com/zurb/twentytwenty"
-  },
-  "keywords": [
-    "test",
-    "testing",
-    "testophobia",
-    "cli",
-    "unit",
-    "snapshot",
-    "javascript"
-  ]
+  }
 }
