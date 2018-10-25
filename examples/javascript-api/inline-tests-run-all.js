@@ -9,6 +9,7 @@ const tp = new Testophobia({
   tests: [
     {
       name: 'home',
+      path: 'home/index.html',
       actions: [
         {
           type: 'click',

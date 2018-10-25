@@ -4,5 +4,5 @@
 const {Testophobia} = require('../lib/testophobia');
 
 let t = new Testophobia();
-
+t.configure();
 t.launchViewer();

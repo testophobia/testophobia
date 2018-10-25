@@ -4,7 +4,7 @@ Taking the fear out of web application snapshot testing
 
 ## Overview
 
-Testophobia runs your web site/application in a headless web browser<sup>\*</sup> and performs the UI actions that you specify, taking screenshots of the page along the way.  It will compare these snapshots to previously taken versions 
+Testophobia runs your web site/application in a headless web browser<sup>\*</sup> and performs the UI actions that you specify, taking screenshots of the page along the way.  It will compare these snapshots to previously taken versions
 (that are known to be correct), and validate that the page still looks and behaves as it should.
 
 <sup>\* Only Google Chrome currently</sup>
@@ -76,6 +76,7 @@ Now, for each page we're testing, we create a test file, e.g. _tests/home/home-t
 ```javascript
 export default {
   name: "home",
+  path: home",
   actions: [
     {
       type: "click",
@@ -248,6 +249,7 @@ const tp = new Testophobia({
   tests: [
     {
       name: 'home',
+      path: 'home',
       actions: [
         {
           type: 'click',
