@@ -4,7 +4,8 @@ Taking the fear out of web application snapshot testing
 
 ## Overview
 
-Testophobia runs your web site/application in a headless web browser<sup>\*</sup> and performs the UI actions that you specify, taking screenshots of the page along the way.  It will compare these snapshots to previously taken versions
+Testophobia runs your web site/application in a headless web browser<sup>\*</sup> and performs the UI actions that you
+specify, taking screenshots of the page along the way.  It will compare these snapshots to previously taken versions
 (that are known to be correct), and validate that the page still looks and behaves as it should.
 
 <sup>\* Only Google Chrome currently</sup>
@@ -23,7 +24,9 @@ $ npm i -g testophobia
 
 ## Running Testophobia
 
-Once installed, you should have the __testophobia__ command available in your PATH.  If you did not install Testophobia globally, you'll probably want to prepend the __npx__ command when invoking __testophobia__.
+Once installed, you'll be able to run the __testophobia__ command.  If the command is not working, the npm/yarn __bin__
+directory is probably missing from your PATH. If you did not install Testophobia globally, you'll want to prepend the
+__npx__ command when invoking __testophobia__.
 
 However, first you'll want to configure your project.
 
@@ -218,7 +221,7 @@ Test definition properties:
     - `attribute`: (string) the desired attribute to remove. examples: disabled, src
 
   - `keypress` - send a keypress event from the target element
-    
+
     - `keyCode`: (number) the keyCode for the key event being dispatched
 
   - `hover` - hover the mouse over the specified target
