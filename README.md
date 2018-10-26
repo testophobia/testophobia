@@ -192,6 +192,8 @@ Test definition properties:
 
 `delay`: (number) the amount of time (in ms) on page load to delay before taking the first screenshot
 
+`threshold`: (decimal) sets the strictness of the comparison (from 0 to 1) at the test level
+
 `actions`: (array) list of interactions to perform sequentially. Each action is an object consisting of:
 
 - `type`: (string) the type of action to run.  supported actions include:
