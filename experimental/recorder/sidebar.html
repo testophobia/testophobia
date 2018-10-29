@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+  <h2>&#x1F631 Testophobia Recorder</h2>
+  <button id="btnEnable" class="green button" title="Enable the Testophobia Recorder">Enable</button>
+  <div id="divControls" hidden>
+    <label>Selected Element:</label>
+    <div id="divSelected"></div>
+    <div id="divActionCtls">
+      <div class="dropdown button blue" title="Select an Action Type">
+        <select id="ddActionType" required>
+          <option value="click">Click</option>
+          <option value="hover">Hover</option>
+          <option value="keypress">Key Press</option>
+          <option value="setProperty">Set Property</option>
+          <option value="setAttribute">Set Attribute</option>
+          <option value="removeAttribute">Remove Attribute</option>
+        </select>
+      </div>
+      <button id="btnAddAction" class="green button" style="padding:6px 10px" title="Add Action">+</button>
+    </div>
+    <br/>
+    <label>Recorded Actions:</label>
+    <div id="actionsList"></div>
+    <button id="btnExport" class="blue button" title="Export to Clipboard">Export to Clipboard</button>
+  </div>
+  <!-- <button>Export</button> -->
+  <script src="sidebar.js"></script>
+</body>
+</html>
