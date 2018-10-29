@@ -234,6 +234,8 @@ Test definition properties:
 
 - `skipScreen`: (boolean) whether to skip taking a screenshot after performing the action
 
+- `excludeDimensions`: (array) list of dimensions for which the screen capture of the action should be ignored
+
 
 ### Image Scaling
 
