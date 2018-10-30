@@ -12,6 +12,10 @@
   },
   "homepage": "https://github.com/testophobia/testophobia",
   "main": "lib/testophobia.js",
+  "contributors": [
+    {"name": "Jason Gardner", "email": "jason.gardner.lv@gmail.com"},
+    {"name": "Stephen Ward", "email": "srmward@gmail.com"}
+  ],
   "keywords": [
     "test",
     "testing",
