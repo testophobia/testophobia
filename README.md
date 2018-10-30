@@ -156,6 +156,8 @@ Testophobia instance:
 
 `golden`: (boolean) generate the golden screenshots
 
+`debug`: (boolean) provides additional output during tests, runs a full version of chromium, pipes browser console output to local CLI
+
 `bail`: (boolean) exit immediately upon first test failure
 
 `fileType`: (string) the image type to output (options: jpeg, png) | default: png
@@ -191,6 +193,8 @@ Test definition properties:
 `path`: (string) the path to the page to be tested, relative to the baseUrl
 
 `delay`: (number) the amount of time (in ms) on page load to delay before taking the first screenshot
+
+`threshold`: (decimal) sets the strictness of the comparison (from 0 to 1) at the test level
 
 `actions`: (array) list of interactions to perform sequentially. Each action is an object consisting of:
 
@@ -231,6 +235,8 @@ Test definition properties:
 - `delay`: (number) the amount of time (in ms) to delay before taking a screenshot, after performing the action
 
 - `skipScreen`: (boolean) whether to skip taking a screenshot after performing the action
+
+- `excludeDimensions`: (array) list of dimensions for which the screen capture of the action should be ignored
 
 
 ### Image Scaling
@@ -291,6 +297,8 @@ $ testophobia path/to/my/tests/**/*-test.js
 ```
 
 `--bail | -b`: exit immediately upon first test failure
+
+`--debug | -d`: provides additional output during tests, runs a full version of chromium, pipes browser console output to local CLI
 
 `--golden | -g`: generate the golden screenshots
 
