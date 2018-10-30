@@ -29,6 +29,64 @@ body {
   margin-bottom: 10px;
 }
 
+#divExport {
+  opacity: 0;
+}
+
+#divBackdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  opacity: 0.6;
+}
+
+#divDetails {
+  position: absolute;
+  top: calc(50% - 150px);
+  left: 10%;
+  width: 80%;
+  height: 300px;
+  background: #333;
+  color: #fff;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 16px 24px 2px, rgba(0, 0, 0, 0.12) 0px 6px 30px 5px, rgba(0, 0, 0, 0.4) 0px 8px 10px -5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#divDetails h5 {
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+#divDetails #divFields {
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex: 1;
+}
+
+#divDetails label {
+  font-size: 10px;
+}
+
+#divDetails input {
+  display: block;
+  margin-bottom: 10px;
+  width: calc(100% - 10px);
+}
+
+#divDetails button {
+  margin-top: 10px;
+}
+
 table {
   width: 100%;
   table-layout: fixed;

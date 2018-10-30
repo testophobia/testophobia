@@ -6,7 +6,7 @@
   let lastPortId = 0;
   chrome.runtime.onConnect.addListener(port => {
     let portId;
-    port.onMessage.addListener((request, sender, sendResponse) => {
+    port.onMessage.addListener(request => {
       switch (request.name) {
         case 'testophobia-init':
           portId = ++lastPortId;
@@ -27,7 +27,7 @@
       delete tabIdToPortMap[tabId];
     });
 
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    chrome.runtime.onMessage.addListener((request, sender) => {
       let port = tabIdToPortMap[sender.tab.id];
       if (!port) return;
       // switch (request.name) {

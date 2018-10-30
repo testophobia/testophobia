@@ -6,11 +6,15 @@ const ddActionType = document.getElementById('ddActionType');
 const btnAddAction = document.getElementById('btnAddAction');
 const actionsList = document.getElementById('actionsList');
 const btnExport = document.getElementById('btnExport');
+const divExport = document.getElementById('divExport');
+const divBackdrop = document.getElementById('divBackdrop');
+const divDetails = document.getElementById('divDetails');
+const btnSaveEdits = document.getElementById('btnSaveEdits');
 const actions = [];
 
 const bgConnection = chrome.runtime.connect({name: 'sidebar'});
 
-bgConnection.onMessage.addListener((request, sender, sendResponse) => {
+bgConnection.onMessage.addListener(request => {
   switch (request.name) {
     case 'testophobia-content-ready':
       setSelectedElement();
@@ -47,20 +51,25 @@ actionsList.onclick = e => {
   if (svg) {
     switch (svg.getAttribute('data-type')) {
       case 'play':
+        //TODO - invoke the action (might not make sense for some, particularly hover)
         break;
       case 'edit':
+        showDialog();
         break;
       case 'del':
         actions.splice(Number(svg.getAttribute('data-row')), 1);
         renderActions();
+        //TODO - if action has properties, pop the dialog
         break;
     }
   }
 };
 
-btnExport.onclick = () => {
-  //TODO: need an element to hold the generated JSON actions
-  //copyActionsToClipboard();
+btnExport.onclick = copyActionsToClipboard;
+
+btnSaveEdits.onclick = () => {
+  //TODO: apply the edits
+  hideDialog();
 };
 
 function setSelectedElement() {
@@ -86,10 +95,21 @@ function renderActions() {
   actionsList.innerHTML = `<table>${rendered}</table>`;
 }
 
-function copyActionsToClipboard(el) {
+function showDialog() {
+  divBackdrop.removeAttribute('hidden');
+  divDetails.removeAttribute('hidden');
+}
+
+function hideDialog() {
+  divBackdrop.setAttribute('hidden', '');
+  divDetails.setAttribute('hidden', '');
+}
+
+function copyActionsToClipboard() {
+  divExport.innerHTML = JSON.stringify(actions);
   const sel = window.getSelection();
   const snipRange = document.createRange();
-  snipRange.selectNodeContents(el);
+  snipRange.selectNodeContents(divExport);
   sel.removeAllRanges();
   sel.addRange(snipRange);
   try {
@@ -102,6 +122,3 @@ function copyActionsToClipboard(el) {
 }
 
 chrome.devtools.panels.elements.onSelectionChanged.addListener(setSelectedElement);
-
-
-//   chrome.storage.sync.get(["testophobia-foo"], result => { });
