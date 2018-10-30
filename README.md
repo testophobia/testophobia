@@ -156,6 +156,8 @@ Testophobia instance:
 
 `golden`: (boolean) generate the golden screenshots
 
+`debug`: (boolean) provides additional output during tests, runs a full version of chromium, pipes browser console output to local CLI
+
 `bail`: (boolean) exit immediately upon first test failure
 
 `fileType`: (string) the image type to output (options: jpeg, png) | default: png
@@ -295,6 +297,8 @@ $ testophobia path/to/my/tests/**/*-test.js
 ```
 
 `--bail | -b`: exit immediately upon first test failure
+
+`--debug | -d`: provides additional output during tests, runs a full version of chromium, pipes browser console output to local CLI
 
 `--golden | -g`: generate the golden screenshots
 
