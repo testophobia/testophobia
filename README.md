@@ -95,39 +95,26 @@ Since we don't have any golden images yet, the first thing we'll want to do is g
 
 ```
 $ testophobia --golden
-✔ Finished generating golden screens! (9.5s)
+😱 Starting Testophobia...
+✔  Generation Complete [6 done]
 ```
 
 Now, with golden images in place, we can re-run the tests and validate that the pages still match the golden images:
 
 ```
 $ testophobia
-✔ Finished generating test screens! (9.6s)
-💪 Testophobia screenshot compare complete!
-
-Testophobia Results: [ 9/9 Pass ]
+😱 Starting Testophobia...
+✔  Testing Complete [6 passed | 0 failed]
 ```
 
 and after making a change to the source HTML file (resulting in a failure):
 
 ```
 $ testophobia
-✔ Finished generating test screens! (9.3s)
-home desktop Pixel Difference: 1634
-
- - Diff file location: ./testophobia/diffs/home-desktop-10-22-2018_15-3-50-diff.png
-
-home tablet Pixel Difference: 1634
-
- - Diff file location: ./testophobia/diffs/home-tablet-10-22-2018_15-3-50-diff.png
-
-home mobile Pixel Difference: 1634
-
- - Diff file location: ./testophobia/diffs/home-mobile-10-22-2018_15-3-50-diff.png
-
-💪 Testophobia screenshot compare complete!
-
-Testophobia Results: [ 6 Pass | 3 Fail ]
+😱 Starting Testophobia...
+✔  Testing Complete [4 passed | 2 failed]
+   Test Failure: home-view (desktop)
+   Test Failure: home-view (tablet)
 ```
 
 ## Testophobia Viewer
@@ -135,7 +122,8 @@ Testophobia Results: [ 6 Pass | 3 Fail ]
 Testophobia also includes a web-based viewer tool, for comparing and resolving test failures.  When a test run has
 failures, the viewer will automatically be displayed in your default browser.
 
-![Testophobia Viewer](docs/images/testophobia-viewer.gif "Testophobia Viewer")
+<img align="right" width="320" height="289" src="docs/images/testophobia-viewer2.gif">
+<img align="right" width="320" height="289" src="docs/images/testophobia-viewer.gif">
 
 The viewer provides a handy slider to quickly compare the test image and its corresponding golden image.  You also have
 the ability to display the __image diff__ (and adjust its opacity), as it is sometimes difficult to locate subtle
