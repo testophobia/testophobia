@@ -122,9 +122,6 @@ $ testophobia
 Testophobia also includes a web-based viewer tool, for comparing and resolving test failures.  When a test run has
 failures, the viewer will automatically be displayed in your default browser.
 
-<img align="right" width="320" height="289" src="docs/images/testophobia-viewer2.gif">
-<img align="right" width="320" height="289" src="docs/images/testophobia-viewer.gif">
-
 The viewer provides a handy slider to quickly compare the test image and its corresponding golden image.  You also have
 the ability to display the __image diff__ (and adjust its opacity), as it is sometimes difficult to locate subtle
 differences in test failures.
@@ -132,6 +129,9 @@ differences in test failures.
 Finally, in the event that the test image is in fact valid, and should replace the current golden snapshot as the new
 golden, you can use the __Apply Golden__ feature of the viewer to apply the new image, without the need to perform
 another _--golden_ run.
+
+<img align="left" width="320" height="289" src="docs/images/testophobia-viewer.gif">
+<img align="right" width="320" height="289" src="docs/images/testophobia-viewer2.gif">
 
 ## Config Options
 
