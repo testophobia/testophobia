@@ -108,6 +108,16 @@ small {
   margin-top: 10px;
 }
 
+#btnExport {
+  margin: 0 5px 5px 0;
+}
+
+#divExportConfirm {
+  display: inline;
+  white-space: nowrap;
+  color: #aaa;
+}
+
 table {
   width: 100%;
   table-layout: fixed;

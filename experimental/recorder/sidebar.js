@@ -166,7 +166,8 @@ function copyActionsToClipboard() {
     console.error(err);
   }
   sel.removeAllRanges();
-  //TODO: let user know it was successful
+  $('#divExportConfirm').removeAttr('hidden');
+  setTimeout(() => $('#divExportConfirm').attr('hidden', ''), 3000);
 }
 
 function buildActionString(action) {
