@@ -7,7 +7,7 @@
     "scripts": ["background.js"]
   },
   "devtools_page": "devtools.html",
-  "permissions": ["<all_urls>", "webNavigation"],
+  "permissions": ["<all_urls>", "webNavigation", "storage"],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "icons": {
     "16": "images/testophobia16.png",

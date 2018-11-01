@@ -41,4 +41,16 @@
       // }
     });
   });
+
+  chrome.webNavigation.onCompleted.addListener(function(details) {
+    if (details.frameId !== 0) {
+      // If it is not the top-frame, we just ignore it.
+      return;
+    }
+    var tabId = details.tabId;
+    if (tabId in tabIdToPortMap && tabId) {
+      var port = tabIdToPortMap[tabId];
+      port.postMessage({name: 'testophobia-page-refresh'});
+    }
+  });
 })();

@@ -109,13 +109,8 @@ small {
 }
 
 #btnExport {
-  margin: 0 5px 5px 0;
-}
-
-#divExportConfirm {
-  display: inline;
-  white-space: nowrap;
-  color: #aaa;
+  padding: 6px 12px;
+  float: right;
 }
 
 table {
@@ -217,6 +212,10 @@ table td svg[data-type="del"] {
   user-select: none;
 }
 
+.button svg {
+  fill: #555;
+}
+
 .button:hover{
   background-color: #eee;
   color: #555;
@@ -274,6 +273,10 @@ table td svg[data-type="del"] {
   background-image: -ms-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
   background-image: -o-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
   background-image: linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+}
+
+.button.green svg, .button.red svg, .button.blue svg {
+  fill: white;
 }
 
 /* */

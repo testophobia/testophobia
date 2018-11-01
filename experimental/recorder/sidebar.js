@@ -1,7 +1,7 @@
 /* global $, chrome */
-const actions = [];
 const bgConnection = chrome.runtime.connect({name: 'sidebar'});
-let selectedEl, dialogIdx;
+let actions = [];
+let selectedEl, dialogIdx, enabled = false;
 
 //TODO: if the page reloads mid-session, the content script must be re-inserted
 
@@ -9,24 +9,26 @@ bgConnection.onMessage.addListener(request => {
   switch (request.name) {
     case 'testophobia-content-ready':
       setSelectedElement();
-      renderActions();
+      retrieveActions();
+      break;
+    case 'testophobia-page-refresh':
+      if (enabled) bgConnection.postMessage({name: 'testophobia-init', tabId: chrome.devtools.inspectedWindow.tabId});
       break;
   }
 });
 
 $('#btnEnable').click(() => {
+  enabled = true;
   $('#btnEnable').attr('hidden', '');
   $('#divControls').removeAttr('hidden');
-  bgConnection.postMessage({
-    name: 'testophobia-init',
-    tabId: chrome.devtools.inspectedWindow.tabId
-  });
+  setCopyImage();
+  bgConnection.postMessage({name: 'testophobia-init', tabId: chrome.devtools.inspectedWindow.tabId});
 });
 
 $('#btnAddAction').click(() => {
   const actionType = $('#ddActionType').val();
   actions.push({type:actionType,target:$('#divSelected').html()});
-  renderActions();
+  actionsChanged();
   const list = $('#actionsList').get(0);
   list.scrollTop = list.scrollHeight;
   if (['setProperty','setAttribute','removeAttribute','scroll','keypress'].indexOf(actionType) >= 0)
@@ -54,10 +56,15 @@ $('#actionsList').click(e => {
         break;
       case 'del':
         actions.splice(actionIdx, 1);
-        renderActions();
+        actionsChanged();
         break;
     }
   }
+});
+
+$('#btnClearAll').click(() => {
+  actions = [];
+  actionsChanged();
 });
 
 $('#btnExport').click(copyActionsToClipboard);
@@ -89,14 +96,17 @@ function setSelectedElement() {
   );
 }
 
-function renderActions() {
+function actionsChanged() {
+  storeActions();
   let rendered = '';
   if (actions.length) {
     $('#actionsLbl').removeAttr('hidden');
     $('#btnExport').removeAttr('hidden');
+    $('#btnClearAll').removeAttr('hidden');
   } else {
     $('#actionsLbl').attr('hidden', '');
     $('#btnExport').attr('hidden', '');
+    $('#btnClearAll').attr('hidden', '');
   }
   const cantPlay = ['hover', 'setProperty'];
   actions.forEach((a,idx) => {
@@ -145,7 +155,7 @@ function showDialog(actionIdx) {
 function hideDialog() {
   $('#divBackdrop').attr('hidden', '');
   $('#divDetails').attr('hidden', '');
-  renderActions();
+  actionsChanged();
 }
 
 function playAction(actionIdx) {
@@ -166,8 +176,15 @@ function copyActionsToClipboard() {
     console.error(err);
   }
   sel.removeAllRanges();
-  $('#divExportConfirm').removeAttr('hidden');
-  setTimeout(() => $('#divExportConfirm').attr('hidden', ''), 3000);
+  setCopyImage(true);
+  setTimeout(() => setCopyImage(), 2000);
+}
+
+function setCopyImage(confirm) {
+  if (confirm)
+    $('#btnExport').html('<svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"></path></g></svg>');
+  else
+    $('#btnExport').html('<svg width="15" height="15" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M19 2h-4.18C14.4.84 13.3 0 12 0c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm7 18H5V4h2v3h10V4h2v16z"></path></g></svg>');
 }
 
 function buildActionString(action) {
@@ -176,6 +193,17 @@ function buildActionString(action) {
     if (prop !== 'target') actionString += `\n${prop}: ${action[prop]}`;
   }
   return actionString.slice(1);
+}
+
+function storeActions() {
+  chrome.storage.sync.set({testophobiaActions: JSON.stringify(actions)});
+}
+
+function retrieveActions() {
+  chrome.storage.sync.get('testophobiaActions', data => {
+    actions = (data && data.testophobiaActions) ? JSON.parse(data.testophobiaActions) : [];
+    actionsChanged();
+  });
 }
 
 chrome.devtools.panels.elements.onSelectionChanged.addListener(setSelectedElement);
