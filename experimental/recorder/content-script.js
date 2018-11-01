@@ -130,7 +130,7 @@ function getUniqueSelector(elSrc) { //eslint-disable-line no-unused-vars
 
 function performAction(actionJSON) { //eslint-disable-line no-unused-vars
   const action = JSON.parse(actionJSON);
-  const target = querySelectorDeep(action.target.replace('&gt;', '>'), true)[0];
+  const target = querySelectorDeep(action.target.replace(/&gt;/g, '>'), true)[0];
   if (!target) console.error('Target not found! ' + action.target);
   switch (action.type) {
     case 'click':
