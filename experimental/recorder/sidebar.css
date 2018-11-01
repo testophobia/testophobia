@@ -7,6 +7,10 @@ body {
   display: none !important;
 }
 
+small {
+  font-size: 8px;
+}
+
 #divActionCtls {
   display: flex;
   flex-direction: row;
@@ -14,6 +18,7 @@ body {
 }
 #btnAddAction {
   margin-left: 5px;
+  padding: 6px 10px;
 }
 
 #divSelected, #actionsList {
@@ -48,7 +53,7 @@ body {
   top: calc(50% - 150px);
   left: 10%;
   width: 80%;
-  height: 300px;
+  height: 340px;
   background: #333;
   color: #fff;
   padding: 10px 20px;
@@ -57,6 +62,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+#divDetailsClose {
+  font-size: 20px;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
 }
 
 #divDetails h5 {
@@ -75,12 +88,18 @@ body {
 
 #divDetails label {
   font-size: 10px;
+  margin-left: 1px;
 }
 
-#divDetails input {
+#divDetails input:not([type="checkbox"]) {
   display: block;
   margin-bottom: 10px;
   width: calc(100% - 10px);
+  background: #222;
+  color: white;
+  border: none;
+  padding: 5px;
+  outline: none;
 }
 
 #divDetails button {
@@ -94,7 +113,7 @@ table {
 }
 
 table td {
-  padding: 2px; 0 0
+  padding: 2px 0 0;
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
