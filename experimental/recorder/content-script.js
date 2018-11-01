@@ -81,11 +81,11 @@ function getUniqueSelector(elSrc) { //eslint-disable-line no-unused-vars
           return attr.name.indexOf('data-')===0;
         });
         for (var j=0; j<aDataAttr.length; ++j) {
-          aSel[0] = sSel += '[' + aDataAttr[j].name + '="' + aDataAttr[j].value + '"]';
+          aSel[0] = sSel += '[' + aDataAttr[j].name + '=\'' + aDataAttr[j].value + '\']';
           if (uniqueQuery()) return true;
         }
       } else if (el[aAttr[i]]) {
-        aSel[0] = sSel += '[' + aAttr[i] + '="' + el[aAttr[i]] + '"]';
+        aSel[0] = sSel += '[' + aAttr[i] + '=\'' + el[aAttr[i]] + '\']';
         if (uniqueQuery()) return true;
       }
     }
@@ -128,3 +128,32 @@ function getUniqueSelector(elSrc) { //eslint-disable-line no-unused-vars
   return returnVal;
 }
 
+function performAction(actionJSON) { //eslint-disable-line no-unused-vars
+  const action = JSON.parse(actionJSON);
+  const target = querySelectorDeep(action.target.replace('&gt;', '>'), true)[0];
+  if (!target) console.error('Target not found! ' + action.target);
+  switch (action.type) {
+    case 'click':
+      target.dispatchEvent(new MouseEvent('click', {view: window, bubbles: true, cancelable: true}));
+      break;
+    case 'setProperty':
+      //TODO - hmm, this doesn't work.  it looks like custom element properties are not supported in content scripts :(
+      target[action.property] = action.value;
+      break;
+    case 'setAttribute':
+      target.setAttribute(action.attribute, action.value);
+      break;
+    case 'removeAttribute':
+      target.removeAttribute(action.attribute);
+      break;
+    case 'scroll':
+      if (action.scrollLeft)
+        target.scrollLeft = action.scrollLeft;
+      else if (action.scrollTop)
+        target.scrollTop = action.scrollTop;
+      break;
+    case 'keypress':
+      target.dispatchEvent(new KeyboardEvent('keypress', {keyCode: action.keyCode, view: window, bubbles: true, cancelable: true}));
+      break;
+  }
+}

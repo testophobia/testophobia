@@ -46,9 +46,11 @@ small {
   right: 0;
   background: #000;
   opacity: 0.6;
+  z-index: 100;
 }
 
 #divDetails {
+  z-index: 101;
   position: absolute;
   top: calc(50% - 150px);
   left: 10%;
