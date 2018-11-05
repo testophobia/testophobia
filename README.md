@@ -148,6 +148,8 @@ Testophobia instance:
 
 `bail`: (boolean) exit immediately upon first test failure
 
+`defaultTime`: (number) sets the JavaScript date instance (in ms) for use in testing components | default: 2068786800000 (July 23, 2035)
+
 `fileType`: (string) the image type to output (options: jpeg, png) | default: png
 
 `quality`: (number) if jpeg fileType, the quality setting (1-100) for the image | default: 80
