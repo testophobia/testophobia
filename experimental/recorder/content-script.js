@@ -73,8 +73,9 @@ function getUniqueSelector(elSrc) { //eslint-disable-line no-unused-vars
 
 function performAction(actionJSON) { //eslint-disable-line no-unused-vars
   const action = JSON.parse(actionJSON);
-  const target = _querySelectorDeep(action.target.replace(/&gt;/g, '>'), true)[0];
-  if (!target) console.error('Target not found! ' + action.target);
+  const targetStr = action.target.replace(/&gt;/g, '');
+  const target = _querySelectorDeep(targetStr, true)[0];
+  if (!target) console.error('Target not found! ' + targetStr);
   switch (action.type) {
     case 'click':
       target.dispatchEvent(new MouseEvent('click', {view: window, bubbles: true, cancelable: true}));

@@ -30,8 +30,12 @@ small {
 #actionsList {
   padding: 0 0 0 4px;
   max-height: 200px;
-  overflow-y: auto;
+  overflow-y: hidden;
   margin-bottom: 10px;
+}
+
+#actionsList[can-scroll] {
+  overflow-y: auto;
 }
 
 #divExport {
