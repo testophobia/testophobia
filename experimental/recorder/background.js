@@ -13,8 +13,10 @@
           tabIdToPortMap[request.tabId] = port;
           portIdToTabIdMap[portId] = request.tabId;
           portIdToPortMap[portId] = port;
-          chrome.tabs.executeScript(request.tabId, {file: 'content-script.js'}, () => {
-            port.postMessage({name: 'testophobia-content-ready'});
+          chrome.tabs.executeScript(request.tabId, {file: 'lib/query-selector-shadow-dom-0.2.3.js'}, () => {
+            chrome.tabs.executeScript(request.tabId, {file: 'content-script.js'}, () => {
+              port.postMessage({name: 'testophobia-content-ready'});
+            });
           });
           break;
       }
