@@ -216,7 +216,7 @@ Test definition properties:
 
   - `keypress` - send a keypress event from the target element
 
-    - `keyCode`: (number) the keyCode for the key event being dispatched
+    - `key`: (string) the KeyboardEvent key for the key event being dispatched.
 
   - `hover` - hover the mouse over the specified target
 

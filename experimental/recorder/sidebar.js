@@ -27,11 +27,11 @@ $('#btnEnable').click(() => {
 
 $('#btnAddAction').click(() => {
   const actionType = $('#ddActionType').val();
-  actions.push({type:actionType,target:$('#divSelected').html()});
+  actions.push({type: actionType, target: $('#divSelected').html()});
   actionsChanged();
   const list = $('#actionsList').get(0);
   list.scrollTop = list.scrollHeight;
-  if (['setProperty','setAttribute','removeAttribute','scroll','keypress'].indexOf(actionType) >= 0)
+  if (['setProperty', 'setAttribute', 'removeAttribute', 'scroll', 'keypress'].indexOf(actionType) >= 0)
     showDialog(actions.length - 1);
 });
 
@@ -78,7 +78,7 @@ $('#btnSaveEdits').click(() => {
     actions[dialogIdx].skipScreen = true;
   else
     delete actions[dialogIdx].skipScreen;
-  $('#divAddlFields input').each(function() {
+  $('#divAddlFields input').each(function () {
     actions[dialogIdx][this.id.substr(3)] = $(this).val();
   });
   hideDialog();
@@ -109,7 +109,7 @@ function actionsChanged() {
     $('#btnClearAll').attr('hidden', '');
   }
   const cantPlay = ['hover', 'setProperty'];
-  actions.forEach((a,idx) => {
+  actions.forEach((a, idx) => {
     const playTpl = (cantPlay.indexOf(a.type) >= 0) ? '&nbsp;' : `<svg data-row="${idx}" data-type="play" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></g><svg>`;
     rendered += `<tr>
   <td title="${buildActionString(a)}">${a.type}</td>
@@ -142,7 +142,7 @@ function showDialog(actionIdx) {
       fieldsHtml = `${addField('Scroll Top', 'scrollTop')}${addField('Scroll Left', 'scrollLeft')}`;
       break;
     case 'keypress':
-      fieldsHtml = `${addField('Key Code', 'keyCode')}`;
+      fieldsHtml = `${addField('Key', 'key')}`;
       break;
   }
   $('#divAddlFields').html(fieldsHtml + '\n    ');
