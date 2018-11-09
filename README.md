@@ -300,6 +300,25 @@ $ testophobia path/to/my/tests/**/*-test.js
 
 `--clear | -c`: deletes all of the generated golden/test/diff images and directories
 
+## Recorder - Chrome DevTools Extension
+
+We are currently developing a Chrome DevTools extension that you can use to easily record and export a set of
+Testophobia _actions_.
+
+<img width="546" height="302" src="docs/images/testophobia-recorder.png">
+
+This allows you to use the power of Chrome DevTools to easily __find__ DOM elements that you need to target for actions,
+and then __configure__ the action with the necessary parameters.  You can __playback__ the actions, to make sure they
+work as desired, and when you're satisfied, you can __export__ the actions' JavaScript, and place into a Testophobia
+test file for future test runs.
+
+While this is currently a _work-in-progress_, feel free to give it a test drive.  This can be done by navigating Chrome
+to __chrome://extensions__, turning on _Developer Mode_, then clicking _Load Unpacked_ and selecting the
+__experimental/recorder__ directory from this repository.  Once enabled, you'll find the __Testophobia__ tab as a sidebar
+to the _Elements_ panel.
+
+Eventually, this extension will be published to the Chrome Web Store to streamline the process of installation.
+
 ## LICENSE
 
 MIT
