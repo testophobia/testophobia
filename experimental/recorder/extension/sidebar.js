@@ -31,7 +31,7 @@ $('#btnAddAction').click(() => {
   actionsChanged();
   const list = $('#actionsList').get(0);
   list.scrollTop = list.scrollHeight;
-  if (['setProperty', 'setAttribute', 'removeAttribute', 'scroll', 'keypress'].indexOf(actionType) >= 0)
+  if (['setProperty', 'setAttribute', 'removeAttribute', 'scroll', 'keypress', 'input'].indexOf(actionType) >= 0)
     showDialog(actions.length - 1);
 });
 
@@ -108,9 +108,8 @@ function actionsChanged() {
     $('#btnExport').attr('hidden', '');
     $('#btnClearAll').attr('hidden', '');
   }
-  const cantPlay = ['hover', 'setProperty', 'keypress'];
   actions.forEach((a, idx) => {
-    const playTpl = (cantPlay.indexOf(a.type) >= 0) ? '&nbsp;' : `<svg data-row="${idx}" data-type="play" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></g><svg>`;
+    const playTpl = `<svg data-row="${idx}" data-type="play" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></g><svg>`;
     rendered += `<tr>
   <td title="${buildActionString(a)}">${a.type}</td>
   <td title="${a.target}">${a.target}</td>
@@ -148,6 +147,9 @@ function showDialog(actionIdx) {
     case 'keypress':
       fieldsHtml = `${addField('Key', 'key')}`;
       break;
+    case 'input':
+      fieldsHtml = `${addField('Value', 'value')}`;
+      break;
   }
   $('#divAddlFields').html(fieldsHtml + '\n    ');
   $('#divFields #txtDelay').val(action.delay || '');
@@ -164,7 +166,7 @@ function hideDialog() {
 
 function playAction(actionIdx) {
   let action = actions[actionIdx];
-  chrome.devtools.inspectedWindow.eval(`(function(){performAction('${JSON.stringify(action).replace(/'/g, '\\\'')}');}())`, {useContentScriptContext: true});
+  fetch(`http://localhost:8091/performAction/${encodeURIComponent(JSON.stringify(action))}`, {method: 'post'});
 }
 
 function copyActionsToClipboard() {
