@@ -70,34 +70,3 @@ function getUniqueSelector(elSrc) { //eslint-disable-line no-unused-vars
   }
   return returnVal;
 }
-
-function performAction(actionJSON) { //eslint-disable-line no-unused-vars
-  const action = JSON.parse(actionJSON);
-  const targetStr = action.target.replace(/&gt;/g, '');
-  const target = _querySelectorDeep(targetStr, true)[0];
-  if (!target) console.error('Target not found! ' + targetStr);
-  switch (action.type) {
-    case 'click':
-      target.dispatchEvent(new MouseEvent('click', {view: window, bubbles: true, cancelable: true}));
-      break;
-    case 'setProperty':
-      //TODO - hmm, this doesn't work.  it looks like custom element properties are not supported in content scripts :(
-      target[action.property] = action.value;
-      break;
-    case 'setAttribute':
-      target.setAttribute(action.attribute, action.value);
-      break;
-    case 'removeAttribute':
-      target.removeAttribute(action.attribute);
-      break;
-    case 'scroll':
-      if (action.scrollLeft)
-        target.scrollLeft = action.scrollLeft;
-      else if (action.scrollTop)
-        target.scrollTop = action.scrollTop;
-      break;
-    case 'keypress':
-      target.dispatchEvent(new KeyboardEvent('keypress', {key: action.key, view: window, bubbles: true, cancelable: true}));
-      break;
-  }
-}
