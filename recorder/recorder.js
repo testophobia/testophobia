@@ -9,6 +9,7 @@ const express = require('express');
 const app = express();
 const {performAction} = require('../lib/perform-action');
 const {loadConfig} = require('../lib/load-config');
+const {resolveNodeModuleFile} = require('../lib/utils');
 
 exports.TestophobiaRecorder = class TestophobiaRecorder {
   async launch() {
@@ -92,7 +93,7 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
             scripts[i].parentNode.removeChild(scripts[i]);
         }
       });
-      await page.addScriptTag({path:path.join(__dirname, '../node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js')});
+      await page.addScriptTag({path:resolveNodeModuleFile('/node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js')});
       let action = JSON.parse(decodeURIComponent(req.params.actionString));
       action.target = action.target.replace(/\s&gt;/g, '');
       try {
