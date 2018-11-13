@@ -2,7 +2,9 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const puppeteerUserDataDir = require('puppeteer-extra-plugin-user-data-dir');
+const puppeteerUserPrefs = require('puppeteer-extra-plugin-user-preferences');
 const express = require('express');
 const app = express();
 const {performAction} = require('../../lib/perform-action');
@@ -13,6 +15,8 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
     let baseUrl = 'about:blank';
     let defWidth = 1024;
     let defHeight = 768;
+
+    //if we can find a testophobia config, use the baseUrl and dimensions
     if (fs.existsSync(`${process.cwd()}/testophobia.config.js`)) {
       let config = loadConfig();
       baseUrl = config.baseUrl;
@@ -22,6 +26,23 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       }
     }
 
+    //use puppeteer-extras to inject custom user prefs
+    const userDataDirPlugin = puppeteerUserDataDir({});
+    puppeteer.use(userDataDirPlugin);
+    await userDataDirPlugin.makeTemporaryDirectory();
+    const userDataDir = userDataDirPlugin._userDataDir;
+    const userPrefsPlugin = puppeteerUserPrefs({
+      userPrefs: {
+        devtools: {
+          preferences: {
+            currentDockState: '"undocked"'
+          }
+        }
+      }
+    });
+
+    //override default args to enable extensions
+    puppeteer.use(userPrefsPlugin);
     const args = puppeteer.defaultArgs().filter(arg => {
       switch (String(arg).toLowerCase()) {
         case '--disable-extensions':
@@ -32,29 +53,34 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       }
     });
 
+    //instead of always starting with an empty tab, optionally start at the baseUrl from the testophobia configs
     args.pop();
     args.push(baseUrl);
 
+    //launch puppeteer
     const browser = await puppeteer.launch({
       ignoreDefaultArgs: true,
       args: args.concat([
         '--auto-open-devtools-for-tabs',
         `--load-extension=${__dirname}/extension`,
-        `--window-size=${defWidth},${defHeight}`
-      ])
+        `--window-size=${defWidth},${defHeight}`,
+        `--user-data-dir=${userDataDir}`
+      ]),
+      userDataDir: userDataDir
     });
-
     let pagelist = await browser.pages();
     let page = pagelist[0];
+
+    //inject the shadow dom query library
     await page.addScriptTag({path:path.join(__dirname, '../../node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js')});
 
+    //add handler to perform recorder actions thru puppeteer
     app.post('/performAction/:actionString', (req, res) => {
       let action = JSON.parse(decodeURIComponent(req.params.actionString));
       action.target = action.target.replace(/\s&gt;/g, '');
       performAction(action, page, {});
       res.sendStatus(200);
     });
-
     app.listen(8091);
   }
 };
