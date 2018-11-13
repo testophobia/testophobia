@@ -17,14 +17,6 @@ bgConnection.onMessage.addListener(request => {
   }
 });
 
-$('#btnEnable').click(() => {
-  enabled = true;
-  $('#btnEnable').attr('hidden', '');
-  $('#divControls').removeAttr('hidden');
-  setCopyImage();
-  bgConnection.postMessage({name: 'testophobia-init', tabId: chrome.devtools.inspectedWindow.tabId});
-});
-
 $('#btnAddAction').click(() => {
   const actionType = $('#ddActionType').val();
   actions.push({type: actionType, target: $('#divSelected').html()});
@@ -214,3 +206,7 @@ function retrieveActions() {
 }
 
 chrome.devtools.panels.elements.onSelectionChanged.addListener(setSelectedElement);
+
+setCopyImage();
+enabled = true;
+bgConnection.postMessage({name: 'testophobia-init', tabId: chrome.devtools.inspectedWindow.tabId});

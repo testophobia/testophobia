@@ -39,7 +39,8 @@
   ],
   "bin": {
     "testophobia": "bin/testophobia",
-    "testophobia-viewer": "bin/testophobia-viewer"
+    "testophobia-viewer": "bin/testophobia-viewer",
+    "testophobia-recorder": "bin/testophobia-recorder"
   },
   "dependencies": {
     "chalk": "^2.4.1",

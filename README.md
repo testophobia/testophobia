@@ -312,12 +312,15 @@ and then __configure__ the action with the necessary parameters.  You can __play
 work as desired, and when you're satisfied, you can __export__ the actions' JavaScript, and place into a Testophobia
 test file for future test runs.
 
-While this is currently a _work-in-progress_, feel free to give it a test drive.  This can be done by navigating Chrome
-to __chrome://extensions__, turning on _Developer Mode_, then clicking _Load Unpacked_ and selecting the
-__experimental/recorder__ directory from this repository.  Once enabled, you'll find the __Testophobia__ tab as a sidebar
-to the _Elements_ panel.
+To use, run this command:
 
-Eventually, this extension will be published to the Chrome Web Store to streamline the process of installation.
+```bash
+$ testophobia-recorder
+```
+
+This will launch an instance of Chromium, with the extension loaded.  If run from a directory that contains a
+Testophobia config file, the baseUrl and window dimensions will be used as defaults.  Just select _Testophobia_ in the
+sidebar tabs of the devtools _elements_ panel to use.
 
 ## LICENSE
 
