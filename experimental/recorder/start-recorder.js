@@ -1,10 +1,15 @@
-/* global __dirname, require */
+/* global __dirname, require, process */
+const fs = require('fs');
 const puppeteer = require('puppeteer');
 const express = require('express');
 const app = express();
 const {performAction} = require('../../lib/perform-action');
+const {loadConfig} = require('../../lib/load-config');
 
 (async () => {
+  let baseUrl = 'about:blank';
+  if (fs.existsSync(`${process.cwd()}/testophobia.config.js`)) baseUrl = loadConfig().baseUrl;
+
   const args = puppeteer.defaultArgs().filter(arg => {
     switch (String(arg).toLowerCase()) {
       case '--disable-extensions':
@@ -14,8 +19,9 @@ const {performAction} = require('../../lib/perform-action');
         return true;
     }
   });
+
   args.pop();
-  args.push('http://localhost:3000/index.html');
+  args.push(baseUrl);
   const browser = await puppeteer.launch({
     ignoreDefaultArgs: true,
     args: args.concat([
