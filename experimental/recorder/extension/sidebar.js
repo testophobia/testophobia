@@ -156,6 +156,7 @@ function showDialog(actionIdx) {
   $('#divFields #chkSkipScreen').prop('checked', action.skipScreen || false);
   $('#divBackdrop').removeAttr('hidden');
   $('#divDetails').removeAttr('hidden');
+  $('#divFields input').get(0).focus();
 }
 
 function hideDialog() {
