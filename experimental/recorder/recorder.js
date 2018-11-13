@@ -35,7 +35,17 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       userPrefs: {
         devtools: {
           preferences: {
-            currentDockState: '"undocked"'
+            Inspector: {
+              drawerSplitViewState: "{\"horizontal\":{\"size\":477.2000060081482,\"showMode\":\"OnlyMain\"}}"
+            },
+            InspectorView: {
+              splitViewState: "{\"vertical\":{\"size\":0},\"horizontal\":{\"size\":0}}",
+            },
+            cacheDisabled: "true",
+            currentDockState: "\"undocked\"",
+            elementsPanelSplitViewState: "{\"vertical\":{\"size\":419.6000020503998}}",
+            "panel-selectedTab": "\"elements\"",
+            uiTheme: "\"dark\""
           }
         }
       }
@@ -66,7 +76,8 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
         `--window-size=${defWidth},${defHeight}`,
         `--user-data-dir=${userDataDir}`
       ]),
-      userDataDir: userDataDir
+      userDataDir: userDataDir,
+      defaultViewport: null
     });
     let pagelist = await browser.pages();
     let page = pagelist[0];
