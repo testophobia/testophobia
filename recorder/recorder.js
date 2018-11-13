@@ -7,12 +7,12 @@ const puppeteerUserDataDir = require('puppeteer-extra-plugin-user-data-dir');
 const puppeteerUserPrefs = require('puppeteer-extra-plugin-user-preferences');
 const express = require('express');
 const app = express();
-const {performAction} = require('../../lib/perform-action');
-const {loadConfig} = require('../../lib/load-config');
+const {performAction} = require('../lib/perform-action');
+const {loadConfig} = require('../lib/load-config');
 
 exports.TestophobiaRecorder = class TestophobiaRecorder {
   async launch() {
-    let baseUrl = 'about:blank';
+    let baseUrl = 'https://www.google.com';
     let defWidth = 1024;
     let defHeight = 768;
 
@@ -63,10 +63,6 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       }
     });
 
-    //instead of always starting with an empty tab, optionally start at the baseUrl from the testophobia configs
-    args.pop();
-    args.push(baseUrl);
-
     //launch puppeteer
     const browser = await puppeteer.launch({
       ignoreDefaultArgs: true,
@@ -79,17 +75,33 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       userDataDir: userDataDir,
       defaultViewport: null
     });
-    let pagelist = await browser.pages();
-    let page = pagelist[0];
 
-    //inject the shadow dom query library
-    await page.addScriptTag({path:path.join(__dirname, '../../node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js')});
+    //close the initial blank tab and open a fresh tab
+    let pagelist = await browser.pages();
+    pagelist[0].close();
+    const page = await browser.newPage();
+    await page.goto(baseUrl, {waitUntil: 'networkidle0'});
 
     //add handler to perform recorder actions thru puppeteer
-    app.post('/performAction/:actionString', (req, res) => {
+    app.post('/performAction/:actionString', async (req, res) => {
+      //to make sure our shadow dom lib is always loaded, even when navigating, we'll remove it if it exists and re-add
+      await page.evaluate(() =>{
+        let scripts = document.querySelectorAll('script');
+        for (let i = 0; i < scripts.length; i++) {
+          if (scripts[i].innerHTML.indexOf('querySelectorShadowDom') >= 0)
+            scripts[i].parentNode.removeChild(scripts[i]);
+        }
+      });
+      await page.addScriptTag({path:path.join(__dirname, '../node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js')});
       let action = JSON.parse(decodeURIComponent(req.params.actionString));
       action.target = action.target.replace(/\s&gt;/g, '');
-      performAction(action, page, {});
+      try {
+        performAction(action, page, {});
+      } catch(e) {
+        if (!e.message.contains('Unable to move mouse')) {
+          console.log(e);
+        }
+      }
       res.sendStatus(200);
     });
     app.listen(8091);
