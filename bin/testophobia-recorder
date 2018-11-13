@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+/* global require */
+'use strict';
+const {TestophobiaRecorder} = require('../experimental/recorder/recorder');
+new TestophobiaRecorder().launch();
