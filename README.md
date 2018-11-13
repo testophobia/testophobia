@@ -122,8 +122,8 @@ $ testophobia
 Testophobia also includes a web-based viewer tool, for comparing and resolving test failures.  When a test run has
 failures, the viewer will automatically be displayed in your default browser.
 
-<img align="right" width="320" height="289" src="docs/images/testophobia-viewer2.gif">
-<img align="right" width="320" height="289" src="docs/images/testophobia-viewer.gif">
+<img align="right" width="320" height="289" src="https://raw.githubusercontent.com/testophobia/testophobia/HEAD/docs/images/testophobia-viewer2.gif">
+<img align="right" width="320" height="289" src="https://raw.githubusercontent.com/testophobia/testophobia/HEAD/docs/images/testophobia-viewer.gif">
 
 The viewer provides a handy slider to quickly compare the test image and its corresponding golden image.  You also have
 the ability to display the __image diff__ (and adjust its opacity), as it is sometimes difficult to locate subtle
@@ -305,7 +305,7 @@ $ testophobia path/to/my/tests/**/*-test.js
 We are currently developing a Chrome DevTools extension that you can use to easily record and export a set of
 Testophobia _actions_.
 
-<img width="546" height="302" src="docs/images/testophobia-recorder.png">
+<img width="546" height="302" src="https://raw.githubusercontent.com/testophobia/testophobia/HEAD/docs/images/testophobia-recorder.png">
 
 This allows you to use the power of Chrome DevTools to easily __find__ DOM elements that you need to target for actions,
 and then __configure__ the action with the necessary parameters.  You can __playback__ the actions, to make sure they
