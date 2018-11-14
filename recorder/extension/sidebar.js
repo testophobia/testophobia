@@ -1,6 +1,4 @@
 /* global $, Testophobia, chrome */
-window.Testophobia = window.Testophobia || {};
-
 let enabled = false;
 
 //TODO: if the page reloads mid-session, the content script must be re-inserted
@@ -19,7 +17,5 @@ bgConnection.onMessage.addListener(request => {
   }
 });
 
-Testophobia.fetchTests().then(() => {
-  enabled = true;
-  bgConnection.postMessage({name: 'testophobia-init', tabId: chrome.devtools.inspectedWindow.tabId});
-});
+enabled = true;
+bgConnection.postMessage({name: 'testophobia-init', tabId: chrome.devtools.inspectedWindow.tabId});

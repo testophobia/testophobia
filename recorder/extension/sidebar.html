@@ -1,19 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <link rel="stylesheet" href="sidebar.css">
+  <link rel="stylesheet" href="sidebar.css">
+  <script src="sidebar-init.js"></script>
 </head>
 <body>
   <h2>&#x1F631 Testophobia Recorder</h2>
+  <span id="lnkStartOver" hidden>Start Over</span>
 
   <!-- Tests List -->
-  <div id="divTestList">
+  <div id="divTestList" hidden>
     <h3>Existing Tests</h3>
     <ul></ul>
+    <button id="btnNewTest" class="green button">New Test</button>
   </div>
 
   <!-- Actions Panel -->
-  <div id="divControls">
+  <div id="divControls" hidden>
+
+    <!-- Current Test Label -->
+    <div id="divCurrentTest">(new test)</div>
 
     <!-- Selected Element -->
     <label>Selected Element:</label>
@@ -43,8 +49,7 @@
 
     <!-- Footer Controls -->
     <button id="btnClearAll" class="red button" title="Clear All Actions" hidden>Clear All</button>
-    <button id="btnExport" class="blue button" title="Export to Clipboard" hidden></button>
-    <div id="divExport"></div>
+    <button id="btnSaveTest" class="green button" title="Save the Test" hidden></button>
   </div>
 
   <!-- Details Dialog -->

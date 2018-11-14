@@ -1,5 +1,4 @@
 /* global $, Testophobia, chrome */
-window.Testophobia = window.Testophobia || {};
 Testophobia.actions = [];
 
 Testophobia.storeActions = () => {
@@ -18,11 +17,11 @@ Testophobia.actionsChanged = () => {
   let rendered = '';
   if (Testophobia.actions.length) {
     $('#actionsLbl').removeAttr('hidden');
-    $('#btnExport').removeAttr('hidden');
+    $('#btnSaveTest').removeAttr('hidden');
     $('#btnClearAll').removeAttr('hidden');
   } else {
     $('#actionsLbl').attr('hidden', '');
-    $('#btnExport').attr('hidden', '');
+    $('#btnSaveTest').attr('hidden', '');
     $('#btnClearAll').attr('hidden', '');
   }
   Testophobia.actions.forEach((a, idx) => {
@@ -79,5 +78,5 @@ function buildActionString(action) {
 
 function playAction(actionIdx) {
   let action = Testophobia.actions[actionIdx];
-  fetch(`http://localhost:8091/performAction/${encodeURIComponent(JSON.stringify(action))}`, {method: 'post'});
+  fetch(`${Testophobia.serverUrl}/performAction/${encodeURIComponent(JSON.stringify(action))}`, {method: 'post'});
 }

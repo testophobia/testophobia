@@ -1,6 +1,4 @@
 /* global $, Testophobia, chrome */
-window.Testophobia = window.Testophobia || {};
-
 Testophobia.selectedElement = '';
 
 Testophobia.setSelectedElement = () => {

@@ -1,6 +1,4 @@
 /* global $, Testophobia */
-window.Testophobia = window.Testophobia || {};
-
 Testophobia.dialogActionIndex = -1;
 
 Testophobia.showDialog = (actionIdx) => {

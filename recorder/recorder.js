@@ -1,7 +1,8 @@
-/* global __dirname, require, process, exports */
+/* global __dirname, require, process, exports, module */
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const esm = require('esm');
 const puppeteer = require('puppeteer-extra');
 const puppeteerUserDataDir = require('puppeteer-extra-plugin-user-data-dir');
 const puppeteerUserPrefs = require('puppeteer-extra-plugin-user-preferences');
@@ -13,7 +14,7 @@ const {resolveNodeModuleFile} = require('../lib/utils');
 
 exports.TestophobiaRecorder = class TestophobiaRecorder {
   async launch() {
-    let baseUrl = 'https://www.google.com';
+    let baseUrl = 'about:blank';
     let defWidth = 1024;
     let defHeight = 768;
 
@@ -118,6 +119,11 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       }
       res.header('Content-Type', 'application/json');
       res.send(JSON.stringify(results));
+    });
+    app.get('/test/:testPath', (req, res) => {
+      let file = esm(module, {cjs: false, force: true, mode: 'all'})(path.join(`${process.cwd()}/testophobia/tests`, decodeURIComponent(req.params.testPath)));
+      res.header('Content-Type', 'application/json');
+      res.send(JSON.stringify(file.default || {}));
     });
     app.listen(8091);
   }

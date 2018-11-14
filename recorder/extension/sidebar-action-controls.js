@@ -1,6 +1,4 @@
 /* global $, Testophobia */
-window.Testophobia = window.Testophobia || {};
-
 $('#btnAddAction').click(() => {
   const actionType = $('#ddActionType').val();
   Testophobia.actions.push({type: actionType, target: $('#divSelected').html()});

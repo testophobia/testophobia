@@ -11,8 +11,24 @@ small {
   font-size: 8px;
 }
 
+h2 {
+  display: inline-block;
+}
+
+#lnkStartOver {
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: smaller;
+  float: right;
+  margin-top: 2.5em;
+  color: #ccc;
+}
+#lnkStartOver:hover {
+  color: #eee;
+}
+
 #divTestList ul {
-  margin: 0;
+  margin: 0 0 20px;
   padding: 0;
   list-style-type: none;
   background: #222;
@@ -23,10 +39,17 @@ small {
 #divTestList ul li {
   padding: 10px;
   cursor: pointer;
+  border-bottom: 1px solid #454545;
 }
 
 #divTestList ul li:hover {
   background: #666;
+}
+
+#divCurrentTest {
+  margin-bottom: 20px;
+  font-size: large;
+  color: #ccc;
 }
 
 #divActionCtls {
@@ -54,10 +77,6 @@ small {
 
 #actionsList[can-scroll] {
   overflow-y: auto;
-}
-
-#divExport {
-  opacity: 0;
 }
 
 #divBackdrop {
@@ -130,7 +149,7 @@ small {
   margin-top: 10px;
 }
 
-#btnExport {
+#btnSaveTest {
   padding: 6px 12px;
   float: right;
 }
