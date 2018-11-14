@@ -105,6 +105,20 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       }
       res.sendStatus(200);
     });
+    app.get('/tests', (req, res) => {
+      let results = '';
+      const tDir = `${process.cwd()}/testophobia/tests`;
+      if (fs.existsSync(tDir)) {
+        const getAllFiles = dir => fs.readdirSync(dir).reduce((files, file) => {
+          const name = path.join(dir, file);
+          const isDirectory = fs.statSync(name).isDirectory();
+          return isDirectory ? [...files, ...getAllFiles(name)] : [...files, path.relative(tDir, name)];
+        }, []);
+        results = getAllFiles(tDir);
+      }
+      res.header('Content-Type', 'application/json');
+      res.send(JSON.stringify(results));
+    });
     app.listen(8091);
   }
 };

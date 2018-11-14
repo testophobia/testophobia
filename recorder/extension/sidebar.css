@@ -11,6 +11,24 @@ small {
   font-size: 8px;
 }
 
+#divTestList ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  background: #222;
+  max-height: 480px;
+  overflow: auto;
+}
+
+#divTestList ul li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+#divTestList ul li:hover {
+  background: #666;
+}
+
 #divActionCtls {
   display: flex;
   flex-direction: row;
