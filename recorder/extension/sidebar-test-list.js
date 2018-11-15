@@ -24,8 +24,8 @@ function loadTest(e) {
       return response.json();
     })
     .then(function(data) {
-      console.dir(data);
       Testophobia.activeTest = data;
+      Testophobia.activeTestPath = testPath;
       setTestophobiaActions(data.actions);
     });
 }

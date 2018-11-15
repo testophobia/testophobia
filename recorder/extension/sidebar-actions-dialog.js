@@ -4,7 +4,7 @@ Testophobia.dialogActionIndex = -1;
 Testophobia.showDialog = (actionIdx) => {
   Testophobia.dialogActionIndex = actionIdx;
   let action = Testophobia.actions[Testophobia.dialogActionIndex];
-  $('#divDetailsTitle').text(`${action.type} - ${Testophobia.selectedElement}`);
+  $('#divDetailsTitle').text(`${action.type} - ${action.target}`);
   let fieldsHtml = '';
   const addField = (label, prop) => `\n      <label>${label}</label>\n      <input id="txt${prop}" value="${action[prop] || ''}"/>`;
   switch (action.type) {

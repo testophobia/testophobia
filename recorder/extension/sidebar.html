@@ -68,6 +68,24 @@
     <button id="btnSaveEdits" class="green button">Apply</button>
   </div>
 
+  <!-- Test SaveDialog -->
+  <div id="divSaveDialog" hidden>
+    <h3>Save Test</h3>
+    <div id="divSaveDialogClose">&times;</div>
+    <h5 id="divSaveDialogTitle"></h5>
+    <div id="divTestProps">
+      <label>Name</label>
+      <input id="txtName"/>
+      <label>Path</label>
+      <input id="txtPath"/>
+      <label>Delay before snapshot</label>
+      <input id="txtDelay"/>
+      <label>Threshold</label>
+      <input id="txtThreshold"/>
+    </div>
+    <button id="btnPostTest" class="green button">Save</button>
+  </div>
+
   <!-- Imports -->
   <script src="lib/jquery-3.3.1.slim.min.js"></script>
   <script src="sidebar-test-list.js"></script>

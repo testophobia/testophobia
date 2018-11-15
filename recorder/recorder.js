@@ -7,10 +7,13 @@ const puppeteer = require('puppeteer-extra');
 const puppeteerUserDataDir = require('puppeteer-extra-plugin-user-data-dir');
 const puppeteerUserPrefs = require('puppeteer-extra-plugin-user-preferences');
 const express = require('express');
-const app = express();
+const bodyParser = require('body-parser');
 const {performAction} = require('../lib/perform-action');
 const {loadConfig} = require('../lib/load-config');
 const {resolveNodeModuleFile} = require('../lib/utils');
+
+const app = express();
+app.use(bodyParser.text({}));
 
 exports.TestophobiaRecorder = class TestophobiaRecorder {
   async launch() {
@@ -106,6 +109,7 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       }
       res.sendStatus(200);
     });
+    //add handler to retrieve the list of available test
     app.get('/tests', (req, res) => {
       let results = '';
       const tDir = `${process.cwd()}/testophobia/tests`;
@@ -120,11 +124,20 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       res.header('Content-Type', 'application/json');
       res.send(JSON.stringify(results));
     });
+    //add handler to retrieve a single test definition
     app.get('/test/:testPath', (req, res) => {
       let file = esm(module, {cjs: false, force: true, mode: 'all'})(path.join(`${process.cwd()}/testophobia/tests`, decodeURIComponent(req.params.testPath)));
       res.header('Content-Type', 'application/json');
       res.send(JSON.stringify(file.default || {}));
     });
+    //add handler to save a single test definition
+    app.post('/test/:testPath', (req, res) => {
+      let json = JSON.parse(req.body);
+      json = JSON.stringify(json, null, 2);
+      fs.writeFileSync(path.join(`${process.cwd()}/testophobia/tests`, decodeURIComponent(req.params.testPath)), `export default ${json};`);
+      res.sendStatus(200);
+    });
+    //start the server
     app.listen(8091);
   }
 };

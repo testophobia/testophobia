@@ -90,7 +90,7 @@ h2 {
   z-index: 100;
 }
 
-#divDetails {
+#divDetails, #divSaveDialog {
   z-index: 101;
   position: absolute;
   top: calc(50% - 150px);
@@ -107,7 +107,7 @@ h2 {
   align-items: flex-start;
 }
 
-#divDetailsClose {
+#divDetailsClose, #divSaveDialogClose {
   font-size: 20px;
   position: absolute;
   top: 10px;
@@ -115,26 +115,28 @@ h2 {
   cursor: pointer;
 }
 
-#divDetails h5 {
+#divDetails h5, #divSaveDialog h5 {
   text-overflow: ellipsis;
   overflow-x: hidden;
   white-space: nowrap;
   max-width: 100%;
 }
 
-#divDetails #divFields {
+#divDetails #divFields,
+#divSaveDialog #divTestProps {
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   flex: 1;
 }
 
-#divDetails label {
+#divDetails label, #divSaveDialog label {
   font-size: 10px;
   margin-left: 1px;
 }
 
-#divDetails input:not([type="checkbox"]) {
+#divDetails input:not([type="checkbox"]),
+#divSaveDialog input:not([type="checkbox"]) {
   display: block;
   margin-bottom: 10px;
   width: calc(100% - 10px);
@@ -145,7 +147,12 @@ h2 {
   outline: none;
 }
 
-#divDetails button {
+#divDetails input[invalid],
+#divSaveDialog input[invalid] {
+  border: 1px solid red;
+}
+
+#divDetails button, #divSaveDialog button {
   margin-top: 10px;
 }
 

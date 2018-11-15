@@ -6,13 +6,56 @@ $('#btnClearAll').click(() => {
   }
 });
 
-$('#btnSaveTest').click(saveTest);
+$('#btnSaveTest').click(showSaveDialog);
+$('#btnPostTest').click(saveTest);
+$('#divSaveDialogClose').click(hideSaveDialog);
+
+function showSaveDialog() {
+  $('#divTestProps #txtName').removeAttr('invalid');
+  $('#divSaveDialogTitle').text(`${Testophobia.activeTestPath}`);
+  $('#divTestProps #txtName').val(Testophobia.activeTest.name || '');
+  $('#divTestProps #txtPath').val(Testophobia.activeTest.path || '');
+  $('#divTestProps #txtDelay').val(Testophobia.activeTest.delay || '');
+  $('#divTestProps #txtThreshold').val(Testophobia.activeTest.threshold || '');
+  $('#divBackdrop').removeAttr('hidden');
+  $('#divSaveDialog').removeAttr('hidden');
+  $('#divTestProps input').get(0).focus();
+}
+
+function hideSaveDialog() {
+  $('#divBackdrop').attr('hidden', '');
+  $('#divSaveDialog').attr('hidden', '');
+}
 
 function saveTest() {
-  //Testophobia.actions
-  //TODO
-  setCopyImage(true);
-  setTimeout(() => setCopyImage(), 2000);
+  if (/(.|\s)*\S(.|\s)*/.test($('#divTestProps #txtName').val())) {
+    Testophobia.activeTest.name = $('#divTestProps #txtName').val();
+  } else {
+    $('#divTestProps #txtName').attr('invalid', '');
+    return;
+  }
+  if (/(.|\s)*\S(.|\s)*/.test($('#divTestProps #txtPath').val()))
+    Testophobia.activeTest.path = $('#divTestProps #txtPath').val();
+  else
+    delete Testophobia.activeTest.path;
+  if (/^[1-9]\d*$/.test($('#divTestProps #txtDelay').val()))
+    Testophobia.activeTest.delay = Number($('#divTestProps #txtDelay').val());
+  else
+    delete Testophobia.activeTest.delay;
+  if (/^0\.[1-9]$/.test($('#divTestProps #txtThreshold').val()))
+    Testophobia.activeTest.threshold = Number($('#divTestProps #txtThreshold').val());
+  else
+    delete Testophobia.activeTest.threshold;
+  Testophobia.activeTest.actions = Testophobia.actions;
+  fetch(`${Testophobia.serverUrl}/test/${encodeURIComponent(Testophobia.activeTestPath)}`,
+    {
+      method: 'post',
+      body: JSON.stringify(Testophobia.activeTest)
+    }).then(() => {
+      hideSaveDialog();
+      setCopyImage(true);
+      setTimeout(() => setCopyImage(), 2000);
+    });
 }
 
 function setCopyImage(confirm) {
