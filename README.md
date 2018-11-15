@@ -138,7 +138,7 @@ another _--golden_ run.
 Testophobia also includes a Chrome DevTools extension that you can use to edit tests and easily record a set of
 Testophobia _actions_.
 
-<img width="546" height="302" src="https://raw.githubusercontent.com/testophobia/testophobia/HEAD/docs/images/testophobia-recorder.png">
+<img width="511" height="231" src="https://raw.githubusercontent.com/testophobia/testophobia/HEAD/docs/images/testophobia-recorder.png">
 
 This allows you to use the power of Chrome DevTools to easily __find__ DOM elements that you need to target for actions,
 and then __configure__ the action with the necessary parameters.  You can __playback__ the actions, to make sure they
@@ -166,11 +166,11 @@ Testophobia instance:
 
 `baseUrl`: (string) the base url of your website or application | default: http://localhost:6789
 
-`golden`: (boolean) generate the golden screenshots
+`golden`: (boolean) generate the golden screenshots | default: false
 
-`debug`: (boolean) provides additional output during tests, runs a full version of chromium, pipes browser console output to local CLI
+`debug`: (boolean) provides additional output during tests, runs a full version of chromium, pipes browser console output to local CLI  | default: false
 
-`bail`: (boolean) exit immediately upon first test failure
+`bail`: (boolean) exit immediately upon first test failure  | default: false
 
 `defaultTime`: (number) sets the JavaScript date instance (in ms) for use in testing components | default: 2068786800000 (July 23, 2035)
 
