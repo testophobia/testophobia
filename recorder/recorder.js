@@ -1,19 +1,15 @@
 /* global __dirname, require, process, exports */
 'use strict';
 const fs = require('fs');
-const path = require('path');
 const puppeteer = require('puppeteer-extra');
 const puppeteerUserDataDir = require('puppeteer-extra-plugin-user-data-dir');
 const puppeteerUserPrefs = require('puppeteer-extra-plugin-user-preferences');
-const express = require('express');
-const app = express();
-const {performAction} = require('../lib/perform-action');
 const {loadConfig} = require('../lib/load-config');
-const {resolveNodeModuleFile} = require('../lib/utils');
+const {RecorderServer} = require('./recorder-server');
 
 exports.TestophobiaRecorder = class TestophobiaRecorder {
   async launch() {
-    let baseUrl = 'https://www.google.com';
+    let baseUrl = 'about:blank';
     let defWidth = 1024;
     let defHeight = 768;
 
@@ -83,28 +79,7 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
     const page = await browser.newPage();
     await page.goto(baseUrl, {waitUntil: 'networkidle0'});
 
-    //add handler to perform recorder actions thru puppeteer
-    app.post('/performAction/:actionString', async (req, res) => {
-      //to make sure our shadow dom lib is always loaded, even when navigating, we'll remove it if it exists and re-add
-      await page.evaluate(() =>{
-        let scripts = document.querySelectorAll('script');
-        for (let i = 0; i < scripts.length; i++) {
-          if (scripts[i].innerHTML.indexOf('querySelectorShadowDom') >= 0)
-            scripts[i].parentNode.removeChild(scripts[i]);
-        }
-      });
-      await page.addScriptTag({path:resolveNodeModuleFile('/node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js')});
-      let action = JSON.parse(decodeURIComponent(req.params.actionString));
-      action.target = action.target.replace(/\s&gt;/g, '');
-      try {
-        performAction(action, page, {});
-      } catch(e) {
-        if (!e.message.contains('Unable to move mouse')) {
-          console.log(e);
-        }
-      }
-      res.sendStatus(200);
-    });
-    app.listen(8091);
+    //start the server
+    RecorderServer.start(baseUrl, page);
   }
 };

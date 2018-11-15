@@ -119,8 +119,8 @@ $ testophobia
 
 ## Testophobia Viewer
 
-Testophobia also includes a web-based viewer tool, for comparing and resolving test failures.  When a test run has
-failures, the viewer will automatically be displayed in your default browser.
+Testophobia includes a web-based viewer tool, for comparing and resolving test failures.  When a test run has failures,
+the viewer will automatically be displayed in your default browser.
 
 <img align="right" width="320" height="289" src="https://raw.githubusercontent.com/testophobia/testophobia/HEAD/docs/images/testophobia-viewer2.gif">
 <img align="right" width="320" height="289" src="https://raw.githubusercontent.com/testophobia/testophobia/HEAD/docs/images/testophobia-viewer.gif">
@@ -132,6 +132,30 @@ differences in test failures.
 Finally, in the event that the test image is in fact valid, and should replace the current golden snapshot as the new
 golden, you can use the __Apply Golden__ feature of the viewer to apply the new image, without the need to perform
 another _--golden_ run.
+
+## Recorder - Chrome DevTools Extension
+
+Testophobia also includes a Chrome DevTools extension that you can use to edit tests and easily record a set of
+Testophobia _actions_.
+
+<img width="546" height="302" src="https://raw.githubusercontent.com/testophobia/testophobia/HEAD/docs/images/testophobia-recorder.png">
+
+This allows you to use the power of Chrome DevTools to easily __find__ DOM elements that you need to target for actions,
+and then __configure__ the action with the necessary parameters.  You can __playback__ the actions, to make sure they
+work as desired, and when you're satisfied, you can __save__ the Testophobia test file.
+
+To use, run this command:
+
+```bash
+$ testophobia-recorder
+```
+
+This will launch an instance of Chromium, with the extension loaded.  If run from a directory that contains a
+Testophobia config file, it will recognize your existing tests and configurations and use them.  If run anywhere else,
+you'll still be able to record actions and save new test files.
+
+Once Chromium is launched, just select _Testophobia_ in the sidebar tabs of the devtools _elements_ panel to use the
+extension.
 
 ## Config Options
 
@@ -299,28 +323,6 @@ $ testophobia path/to/my/tests/**/*-test.js
 `--verbose | -v`: provides additional output during Testophobia invocations
 
 `--clear | -c`: deletes all of the generated golden/test/diff images and directories
-
-## Recorder - Chrome DevTools Extension
-
-We are currently developing a Chrome DevTools extension that you can use to easily record and export a set of
-Testophobia _actions_.
-
-<img width="546" height="302" src="https://raw.githubusercontent.com/testophobia/testophobia/HEAD/docs/images/testophobia-recorder.png">
-
-This allows you to use the power of Chrome DevTools to easily __find__ DOM elements that you need to target for actions,
-and then __configure__ the action with the necessary parameters.  You can __playback__ the actions, to make sure they
-work as desired, and when you're satisfied, you can __export__ the actions' JavaScript, and place into a Testophobia
-test file for future test runs.
-
-To use, run this command:
-
-```bash
-$ testophobia-recorder
-```
-
-This will launch an instance of Chromium, with the extension loaded.  If run from a directory that contains a
-Testophobia config file, the baseUrl and window dimensions will be used as defaults.  Just select _Testophobia_ in the
-sidebar tabs of the devtools _elements_ panel to use.
 
 ## LICENSE
 

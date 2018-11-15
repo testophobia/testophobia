@@ -43,6 +43,7 @@
     "testophobia-recorder": "bin/testophobia-recorder"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "esm": "^3.0.84",
     "express": "^4.16.3",

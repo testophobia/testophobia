@@ -11,6 +11,47 @@ small {
   font-size: 8px;
 }
 
+h2 {
+  display: inline-block;
+}
+
+#lnkStartOver {
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: smaller;
+  float: right;
+  margin-top: 2.5em;
+  color: #ccc;
+}
+#lnkStartOver:hover {
+  color: #eee;
+}
+
+#divTestList ul {
+  margin: 0 0 20px;
+  padding: 0;
+  list-style-type: none;
+  background: #222;
+  max-height: 400px;
+  overflow: auto;
+}
+
+#divTestList ul li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #454545;
+}
+
+#divTestList ul li:hover {
+  background: #666;
+}
+
+#divCurrentTest {
+  margin-bottom: 20px;
+  font-size: large;
+  color: #ccc;
+}
+
 #divActionCtls {
   display: flex;
   flex-direction: row;
@@ -38,10 +79,6 @@ small {
   overflow-y: auto;
 }
 
-#divExport {
-  opacity: 0;
-}
-
 #divBackdrop {
   position: absolute;
   top: 0;
@@ -53,7 +90,7 @@ small {
   z-index: 100;
 }
 
-#divDetails {
+#divDetails, #divSaveDialog {
   z-index: 101;
   position: absolute;
   top: calc(50% - 150px);
@@ -70,7 +107,7 @@ small {
   align-items: flex-start;
 }
 
-#divDetailsClose {
+#divDetailsClose, #divSaveDialogClose {
   font-size: 20px;
   position: absolute;
   top: 10px;
@@ -78,26 +115,28 @@ small {
   cursor: pointer;
 }
 
-#divDetails h5 {
+#divDetails h5, #divSaveDialog h5 {
   text-overflow: ellipsis;
   overflow-x: hidden;
   white-space: nowrap;
   max-width: 100%;
 }
 
-#divDetails #divFields {
+#divDetails #divFields,
+#divSaveDialog #divTestProps {
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   flex: 1;
 }
 
-#divDetails label {
+#divDetails label, #divSaveDialog label {
   font-size: 10px;
   margin-left: 1px;
 }
 
-#divDetails input:not([type="checkbox"]) {
+#divDetails input:not([type="checkbox"]),
+#divSaveDialog input:not([type="checkbox"]) {
   display: block;
   margin-bottom: 10px;
   width: calc(100% - 10px);
@@ -108,11 +147,16 @@ small {
   outline: none;
 }
 
-#divDetails button {
+#divDetails input[invalid],
+#divSaveDialog input[invalid] {
+  border: 1px solid red;
+}
+
+#divDetails button, #divSaveDialog button {
   margin-top: 10px;
 }
 
-#btnExport {
+#btnSaveTest {
   padding: 6px 12px;
   float: right;
 }
