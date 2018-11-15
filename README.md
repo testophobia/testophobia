@@ -152,7 +152,7 @@ $ testophobia-recorder
 
 This will launch an instance of Chromium, with the extension loaded.  If run from a directory that contains a
 Testophobia config file, it will recognize your existing tests and configurations and use them.  If run anywhere else,
-you'll still be able to record actions and export them to the clipboard, for manual test creation.
+you'll still be able to record actions and save new test files.
 
 Once Chromium is launched, just select _Testophobia_ in the sidebar tabs of the devtools _elements_ panel to use the
 extension.
