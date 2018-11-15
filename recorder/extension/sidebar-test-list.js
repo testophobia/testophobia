@@ -44,6 +44,7 @@ function loadTest(e) {
       Testophobia.activeTest = data;
       Testophobia.activeTestPath = testPath;
       setTestophobiaActions(data.actions);
+      fetch(`${Testophobia.serverUrl}/navigate/${encodeURIComponent(data.path)}`, {method:'post'});
     });
 }
 

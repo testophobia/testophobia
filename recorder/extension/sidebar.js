@@ -1,7 +1,5 @@
-/* global $, Testophobia, chrome */
+/* global Testophobia, chrome */
 let enabled = false;
-
-//TODO: if the page reloads mid-session, the content script must be re-inserted
 
 const bgConnection = chrome.runtime.connect({name: 'sidebar'});
 
@@ -9,7 +7,6 @@ bgConnection.onMessage.addListener(request => {
   switch (request.name) {
     case 'testophobia-content-ready':
       Testophobia.setSelectedElement();
-      //Testophobia.retrieveActions();
       Testophobia.chooseTest();
       break;
     case 'testophobia-page-refresh':

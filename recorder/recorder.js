@@ -125,6 +125,11 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       res.header('Content-Type', 'application/json');
       res.send(JSON.stringify(results));
     });
+    //add handler to navigate the browser to a test's route
+    app.post('/navigate/:testRoute', (req, res) => {
+      page.goto(`${baseUrl}${decodeURIComponent(req.params.testRoute)}`);
+      res.sendStatus(200);
+    });
     //add handler to retrieve a single test definition
     app.get('/test/:testPath', (req, res) => {
       let file = esm(module, {cjs: false, force: true, mode: 'all'})(path.join(`${process.cwd()}/testophobia/tests`, decodeURIComponent(req.params.testPath)));
