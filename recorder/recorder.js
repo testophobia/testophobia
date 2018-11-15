@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const esm = require('esm');
+const mkdirp = require('mkdirp');
 const puppeteer = require('puppeteer-extra');
 const puppeteerUserDataDir = require('puppeteer-extra-plugin-user-data-dir');
 const puppeteerUserPrefs = require('puppeteer-extra-plugin-user-preferences');
@@ -134,7 +135,9 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
     app.post('/test/:testPath', (req, res) => {
       let json = JSON.parse(req.body);
       json = JSON.stringify(json, null, 2);
-      fs.writeFileSync(path.join(`${process.cwd()}/testophobia/tests`, decodeURIComponent(req.params.testPath)), `export default ${json};`);
+      const testFile = path.join(`${process.cwd()}/testophobia/tests`, decodeURIComponent(req.params.testPath));
+      if (!fs.existsSync(path.dirname(testFile))) mkdirp.sync(path.dirname(testFile));
+      fs.writeFileSync(testFile, `export default ${json};`);
       res.sendStatus(200);
     });
     //start the server

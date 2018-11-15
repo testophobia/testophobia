@@ -49,7 +49,7 @@
 
     <!-- Footer Controls -->
     <button id="btnClearAll" class="red button" title="Clear All Actions" hidden>Clear All</button>
-    <button id="btnSaveTest" class="green button" title="Save the Test" hidden></button>
+    <button id="btnSaveTest" class="green button" title="Save the Test" hidden>Save</button>
   </div>
 
   <!-- Details Dialog -->
@@ -74,9 +74,11 @@
     <div id="divSaveDialogClose">&times;</div>
     <h5 id="divSaveDialogTitle"></h5>
     <div id="divTestProps">
+      <label>Relative File Path</label>
+      <input id="txtFile"/>
       <label>Name</label>
       <input id="txtName"/>
-      <label>Path</label>
+      <label>Path (route)</label>
       <input id="txtPath"/>
       <label>Delay before snapshot</label>
       <input id="txtDelay"/>

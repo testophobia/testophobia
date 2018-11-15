@@ -31,6 +31,9 @@ function loadTest(e) {
 }
 
 function showTestList() {
+  Testophobia.activeTest = null;
+  Testophobia.activeTestPath = null;
+  Testophobia.actions = [];
   fetchTests().then(() => {
     if (Testophobia.tests && Testophobia.tests.length) {
       $('#divTestList').removeAttr('hidden');
