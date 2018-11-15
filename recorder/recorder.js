@@ -32,15 +32,9 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       userPrefs: {
         devtools: {
           preferences: {
-            Inspector: {
-              drawerSplitViewState: "{\"horizontal\":{\"size\":477.2000060081482,\"showMode\":\"OnlyMain\"}}"
-            },
-            InspectorView: {
-              splitViewState: "{\"vertical\":{\"size\":0},\"horizontal\":{\"size\":0}}",
-            },
             cacheDisabled: "true",
             currentDockState: "\"undocked\"",
-            elementsPanelSplitViewState: "{\"vertical\":{\"size\":419.6000020503998}}",
+            elementsPanelSplitViewState: "{\"vertical\":{\"size\":600}}",
             "panel-selectedTab": "\"elements\"",
             uiTheme: "\"dark\""
           }

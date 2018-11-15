@@ -7,6 +7,7 @@ bgConnection.onMessage.addListener(request => {
   switch (request.name) {
     case 'testophobia-content-ready':
       Testophobia.setSelectedElement();
+      Testophobia.retrieveActions();
       Testophobia.chooseTest();
       break;
     case 'testophobia-page-refresh':

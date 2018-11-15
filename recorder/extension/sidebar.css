@@ -183,9 +183,7 @@ table td:nth-child(1) {
 table td:nth-child(2) {
   width: 75%;
 }
-table td:nth-child(3),
-table td:nth-child(4),
-table td:nth-child(5) {
+table td:nth-child(n+3) {
   width: 24px;
 }
 table td svg {
@@ -197,7 +195,9 @@ table td svg:hover {
 table td svg[data-type="play"] {
   fill: #57a957;
 }
-table td svg[data-type="edit"] {
+table td svg[data-type="edit"],
+table td svg[data-type="up"],
+table td svg[data-type="down"] {
   fill: #269CE9;
 }
 table td svg[data-type="del"] {
