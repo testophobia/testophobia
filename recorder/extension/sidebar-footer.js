@@ -74,7 +74,7 @@ function saveTest() {
       body: JSON.stringify(Testophobia.activeTest)
     }).then(() => {
       hideSaveDialog();
-      alert('Test saved.');
+      setTimeout(() => alert('Test saved.'), 100);
     });
 }
 

@@ -1,6 +1,23 @@
 /* global $, Testophobia */
 Testophobia.tests = null;
 
+Testophobia.chooseTest = () => {
+  Testophobia.activeTest = null;
+  Testophobia.activeTestPath = null;
+  Testophobia.actions = [];
+  Testophobia.actionsChanged();
+  fetchTests().then(() => {
+    if (Testophobia.tests && Testophobia.tests.length) {
+      $('#divTestList').removeAttr('hidden');
+      $('#divControls').attr('hidden', '');
+      $('#lnkStartOver').attr('hidden', '');
+      testsChanged();
+    } else {
+      hideTestList();
+    }
+  });
+};
+
 function fetchTests() {
   return new Promise((resolve, reject) => {
     fetch(`${Testophobia.serverUrl}/tests`)
@@ -28,22 +45,6 @@ function loadTest(e) {
       Testophobia.activeTestPath = testPath;
       setTestophobiaActions(data.actions);
     });
-}
-
-function showTestList() {
-  Testophobia.activeTest = null;
-  Testophobia.activeTestPath = null;
-  Testophobia.actions = [];
-  fetchTests().then(() => {
-    if (Testophobia.tests && Testophobia.tests.length) {
-      $('#divTestList').removeAttr('hidden');
-      $('#divControls').attr('hidden', '');
-      $('#lnkStartOver').attr('hidden', '');
-      testsChanged();
-    } else {
-      hideTestList();
-    }
-  });
 }
 
 function hideTestList() {
@@ -76,7 +77,5 @@ $('#btnNewTest').click(() => {
 });
 
 $('#lnkStartOver').click(() => {
-  if (confirm('Are you sure you want to start over?')) showTestList();
+  if (confirm('Are you sure you want to start over?')) Testophobia.chooseTest();
 });
-
-showTestList();

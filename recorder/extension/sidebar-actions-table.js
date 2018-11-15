@@ -1,19 +1,18 @@
 /* global $, Testophobia, chrome */
 Testophobia.actions = [];
 
-Testophobia.storeActions = () => {
-  chrome.storage.sync.set({testophobiaActions: JSON.stringify(Testophobia.actions)});
-};
+// Testophobia.storeActions = () => {
+//   chrome.storage.sync.set({testophobiaActions: JSON.stringify(Testophobia.actions)});
+// };
 
-Testophobia.retrieveActions = () => {
-  chrome.storage.sync.get('testophobiaActions', data => {
-    Testophobia.actions = (data && data.testophobiaActions) ? JSON.parse(data.testophobiaActions) : [];
-    Testophobia.actionsChanged();
-  });
-};
+// Testophobia.retrieveActions = () => {
+//   chrome.storage.sync.get('testophobiaActions', data => {
+//     Testophobia.actions = (data && data.testophobiaActions) ? JSON.parse(data.testophobiaActions) : [];
+//     Testophobia.actionsChanged();
+//   });
+// };
 
 Testophobia.actionsChanged = () => {
-  Testophobia.storeActions();
   let rendered = '';
   if (Testophobia.actions.length) {
     $('#actionsLbl').removeAttr('hidden');

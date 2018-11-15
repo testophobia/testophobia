@@ -9,7 +9,8 @@ bgConnection.onMessage.addListener(request => {
   switch (request.name) {
     case 'testophobia-content-ready':
       Testophobia.setSelectedElement();
-      Testophobia.retrieveActions();
+      //Testophobia.retrieveActions();
+      Testophobia.chooseTest();
       break;
     case 'testophobia-page-refresh':
       if (enabled) bgConnection.postMessage({name: 'testophobia-init', tabId: chrome.devtools.inspectedWindow.tabId});
