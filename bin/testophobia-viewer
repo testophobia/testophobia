@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* global require */
 'use strict';
-const {Testophobia} = require('../lib/testophobia');
+const {Testophobia} = require('../lib/Testophobia');
 
 let t = new Testophobia();
 t.configure();
