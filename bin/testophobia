@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /* global require */
 'use strict';
-const {Testophobia} = require('../lib/Testophobia');
+const {TestRunner} = require('../lib/TestRunner');
 
-let t = new Testophobia();
+let t = new TestRunner();
 
-t.init();
+t.run("testophobia/tests/home-view/*");

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* global require */
 'use strict';
-const {Testophobia} = require('../lib/Testophobia');
+const {Viewer} = require('../lib/Viewer');
 
-let t = new Testophobia();
-t.runViewer();
+let v = new Viewer();
+v.launchViewer();
