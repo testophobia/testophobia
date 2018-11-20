@@ -5,4 +5,4 @@ const {TestRunner} = require('../lib/TestRunner');
 
 let t = new TestRunner();
 
-t.run("testophobia/tests/home-view/*");
+t.run();
