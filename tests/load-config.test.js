@@ -15,13 +15,13 @@ const passedDefaults = {
   }
 };
 
-test('loadConfig - null, without default', async t => {
+test.serial('loadConfig - null, without default', async t => {
   let i = await loadConfig();
   t.is(typeof(i), 'object');
   t.is(i.hasOwnProperty('baseUrl'), true);
 });
 
-test('loadConfig', async t => {
+test.serial('loadConfig', async t => {
   let i = await loadConfig(passedDefaults);
   t.is(typeof(i), 'object');
   t.is(i.hasOwnProperty('baseUrl'), true);
