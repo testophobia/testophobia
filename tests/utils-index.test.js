@@ -7,5 +7,5 @@ test('cleanTargetName - null', t => {
 });
 
 test('cleanTargetName - string', t => {
-  t.is(cleanTargetName('#some-element.sibling#id'), '-some-element-sibling-id');
+  t.is(cleanTargetName('#some-element.sibling #id'), '-some-element-sibling--id');
 });
