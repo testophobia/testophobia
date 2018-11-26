@@ -3,16 +3,18 @@ const test = require('ava');
 const {Testophobia} = require('../lib/Testophobia');
 const fs = require('fs');
 const path = require('path');
+const {createDirectory} = require('../lib/utils');
 
 const testPath = "examples/basic/tests/about/about-test.js";
+const testClearPath = `${process.cwd()}/manual-test-screens`;
 
 let tp;
 
 const config = {
   golden: true,
-  diffDirectory: `${process.cwd()}/docs/images`,
-  goldenDirectory: `${process.cwd()}/docs/images`,
-  testDirectory: `${process.cwd()}/docs/images`,
+  diffDirectory: `${process.cwd()}/diff-screens`,
+  goldenDirectory: `${process.cwd()}/golden-screens`,
+  testDirectory: `${process.cwd()}/test-screens`,
   fileType: 'png',
   threshold: 0.2,
   baseUrl: 'https://google.com',
@@ -40,6 +42,10 @@ let initConfig = {
 
 test.before(() => {
   tp = new Testophobia(config);
+  createDirectory(config.goldenDirectory);
+  createDirectory(config.testDirectory);
+  createDirectory(config.diffDirectory);
+  createDirectory(testClearPath);
 });
 
 test('ScreenGenerator init - no args', t => {
@@ -62,6 +68,16 @@ test('Testophobia - golden check', t => {
 test('Testophobia - init check', async t => {
   let tpInit = await new Testophobia(initConfig);
   let res = await tpInit.checkFlagsAndFiles();
+  t.is(res, 0);
+});
+
+test('Testophobia - clear check (no path)', async t => {
+  let res = await tp._clearTestophobiaDirectories();
+  t.is(res, 0);
+});
+
+test('Testophobia - clear check (with path)', async t => {
+  let res = await tp._clearTestophobiaDirectories(testClearPath);
   t.is(res, 0);
 });
 
