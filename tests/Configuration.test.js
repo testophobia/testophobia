@@ -9,12 +9,20 @@ const config = {
   quality: 'jpeg',
   threshold: 0.2,
   baseUrl: 'http://test.com',
-  dimensions: {
-    desktop: {
-      height: 300,
-      width: 200
+  dimensions: [
+    {
+      type: "desktop",
+      width: 1450,
+      height: 1088,
+      scale: 0.42
+    },
+    {
+      type: "tablet",
+      width: 900,
+      height: 1200,
+      scale: 0.42
     }
-  },
+  ],
   tests: path
 };
 
