@@ -10,5 +10,5 @@ test('generateConfig', async t => {
 });
 
 test.after('cleanup', () => {
-  fs.unlink(path.join(process.cwd(), 'testophobia.config.js'), () => console.log('Test file deleted'));
+  fs.unlink(path.join(process.cwd(), 'testophobia.config.js'), () => 0);
 });

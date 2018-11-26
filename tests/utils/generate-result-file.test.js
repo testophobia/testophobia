@@ -32,5 +32,5 @@ test('generateResultFile', async t => {
 });
 
 test.after('cleanup', () => {
-  fs.unlink(path.join(process.cwd(), 'results.json'), () => console.log('Test file deleted'));
+  fs.unlink(path.join(process.cwd(), 'results.json'), () => 0);
 });

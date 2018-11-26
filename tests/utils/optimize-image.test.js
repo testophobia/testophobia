@@ -21,5 +21,5 @@ test('optimizeImage - path', async t => {
 });
 
 test.after('cleanup', () => {
-  fs.unlink(newPath, () => console.log('Test file deleted'));
+  fs.unlink(newPath, () => 0);
 });
