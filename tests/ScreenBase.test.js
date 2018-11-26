@@ -31,3 +31,13 @@ test('ScreenBase init - args', async t => {
   t.is(c.hasOwnProperty('diffDirectory') && c.diffDirectory === process.cwd(), true);
   t.is(c.hasOwnProperty('testDirectory') && c.testDirectory === process.cwd(), true);
 });
+
+test('ScreenBase cleanTargetName - null', async t => {
+  let c = await new ScreenBase(config);
+  t.is(c.cleanTargetName(null), 0);
+});
+
+test('ScreenBase cleanTargetName - string', async t => {
+  let c = await new ScreenBase(config);
+  t.is(c.cleanTargetName('#some-element.sibling #id'), '-some-element-sibling--id');
+});
