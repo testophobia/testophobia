@@ -13,7 +13,6 @@ const config = {
   diffDirectory: `${process.cwd()}/docs/images`,
   goldenDirectory: `${process.cwd()}/docs/images`,
   testDirectory: `${process.cwd()}/docs/images`,
-  quality: 'png',
   fileType: 'png',
   threshold: 0.2,
   baseUrl: 'http://test.com',

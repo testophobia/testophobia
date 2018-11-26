@@ -8,7 +8,6 @@ const config = {
   diffDirectory: `${process.cwd()}`,
   goldenDirectory: `${process.cwd()}`,
   testDirectory: `${process.cwd()}`,
-  quality: 'jpeg',
   threshold: 0.2,
   baseUrl: 'http://test.com',
   dimensions: [

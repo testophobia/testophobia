@@ -6,7 +6,6 @@ const path = "examples/basic/tests/about/about-test.js";
 
 const config = {
   diffDirectory: `${process.cwd()}`,
-  quality: 'jpeg',
   threshold: 0.2,
   baseUrl: 'http://test.com',
   dimensions: [
@@ -42,7 +41,5 @@ test('Configuration init - args', async t => {
   t.is(c.config.hasOwnProperty('goldenDirectory'), true);
   t.is(c.config.hasOwnProperty('diffDirectory'), true);
   t.is(c.config.hasOwnProperty('testDirectory'), true);
-  t.is(c.config.hasOwnProperty('quality'), true);
-  t.is(c.config.quality === 'jpeg', true);
   t.is(c.cli.hasOwnProperty('flags') && c.cli.flags.bail === false, true);
 });
