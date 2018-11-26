@@ -1,6 +1,6 @@
 /* global require */
 const test = require('ava');
-const {formatTests} = require('../lib/utils/format-tests');
+const {formatTests} = require('../../lib/utils/format-tests');
 
 const path = "examples/basic/tests/about/about-test.js";
 

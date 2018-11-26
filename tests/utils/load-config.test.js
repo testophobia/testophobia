@@ -1,6 +1,6 @@
 /* global require, process */
 const test = require('ava');
-const {loadConfig} = require('../lib/utils/load-config');
+const {loadConfig} = require('../../lib/utils/load-config');
 
 const passedDefaults = {
   diffDirectory: `${process.cwd()}`,

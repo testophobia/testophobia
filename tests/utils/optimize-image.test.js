@@ -1,7 +1,7 @@
 /* global require */
 const test = require('ava');
 const fs = require('fs');
-const {optimizeImage} = require('../lib/utils/optimize-image');
+const {optimizeImage} = require('../../lib/utils/optimize-image');
 
 const oldPath = 'recorder/extension/images/testophobia16.png';
 const newPath = 'recorder/extension/images/testophobia16-scaled.png';

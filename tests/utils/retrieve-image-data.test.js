@@ -1,7 +1,7 @@
 /* global require, process */
 const test = require('ava');
 const path = require('path');
-const {retrieveImageData} = require('../lib/utils/retrieve-image-data');
+const {retrieveImageData} = require('../../lib/utils/retrieve-image-data');
 
 test('retrieveImageData - null', t => {
   t.is(retrieveImageData(null), 0);

@@ -2,7 +2,7 @@
 const test = require('ava');
 const path = require('path');
 const fs = require('fs');
-const {generateConfigFile} = require('../lib/utils/generate-config');
+const {generateConfigFile} = require('../../lib/utils/generate-config');
 
 test('generateConfig', async t => {
   await generateConfigFile();

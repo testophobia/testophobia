@@ -2,7 +2,7 @@
 const test = require('ava');
 const path = require('path');
 const fs = require('fs');
-const {generateResultFile} = require('../lib/utils/generate-result-file');
+const {generateResultFile} = require('../../lib/utils/generate-result-file');
 
 const config = {
   diffDirectory: `${process.cwd()}`,
