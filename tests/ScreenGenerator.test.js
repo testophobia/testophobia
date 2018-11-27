@@ -1,17 +1,18 @@
-/* global require, process */
+/* global require */
 const test = require('ava');
 const {ScreenGenerator} = require('../lib/ScreenGenerator');
 const {createDirectory, deleteDirectory} = require('../lib/utils');
 const fs = require('fs');
+const {tempPath} = require('./common/temp-path');
 
-const path = "examples/basic/tests/about/about-test.js";
+const testPath = "examples/basic/tests/about/about-test.js";
 
 const exampleTest = {
   name: "about",
   path: "about/about.html"
 };
 
-const testPath = `${process.cwd()}/tests/temp/desktop/home`;
+const path = `${tempPath}/desktop/home`;
 
 const config = {
   golden: true,
@@ -32,17 +33,17 @@ const config = {
       scale: 0.42
     }
   ],
-  tests: path
+  tests: testPath
 };
 
-test.before(() => createDirectory(testPath));
+test.before(() => createDirectory(path));
 
 test('ScreenGenerator init - no args', t => {
   t.throws(() => new ScreenGenerator());
 });
 
 test('ScreenGenerator init - args', async t => {
-  let c = await new ScreenGenerator(config, exampleTest, 'desktop', `${process.cwd()}/tests/temp`, null, []);
+  let c = await new ScreenGenerator(config, exampleTest, 'desktop', tempPath, null, []);
   t.is(c.isGolden === false, false);
   t.is(c.hasOwnProperty('goldenDirectory'), true);
   t.is(c.hasOwnProperty('diffDirectory'), true);
@@ -51,9 +52,9 @@ test('ScreenGenerator init - args', async t => {
 });
 
 test('ScreenGenerator - generate screen', async t => {
-  let c = await new ScreenGenerator(config, exampleTest, 'desktop', `${process.cwd()}/tests/temp`, null, []);
+  let c = await new ScreenGenerator(config, exampleTest, 'desktop', tempPath, null, []);
   await c.run();
-  t.is(fs.existsSync(`${testPath}/screen-scaled.png`), true);
+  t.is(fs.existsSync(`${path}/screen-scaled.png`), true);
 });
 
-test.after(() => deleteDirectory(testPath.substr(0, testPath.length - 4)));
+test.after(() => deleteDirectory(path.substr(0, path.length - 4)));

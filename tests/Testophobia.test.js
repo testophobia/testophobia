@@ -4,15 +4,16 @@ const {Testophobia} = require('../lib/Testophobia');
 const fs = require('fs');
 const path = require('path');
 const {createDirectory} = require('../lib/utils');
+const {tempPath} = require('./common/temp-path');
 
 const testPath = "examples/basic/tests/about/about-test.js";
 const testClearPath = `${process.cwd()}/manual-test-screens`;
 
 const config = {
   golden: true,
-  diffDirectory: `${process.cwd()}/tests/temp/diff-screens`,
-  goldenDirectory: `${process.cwd()}/tests/temp/golden-screens`,
-  testDirectory: `${process.cwd()}/tests/temp/test-screens`,
+  diffDirectory: `${tempPath}/diff-screens`,
+  goldenDirectory: `${tempPath}/golden-screens`,
+  testDirectory: `${tempPath}/test-screens`,
   fileType: 'png',
   threshold: 0.2,
   baseUrl: 'https://google.com',
@@ -47,7 +48,7 @@ test.before(() => {
   createDirectory(testClearPath);
 });
 
-test('ScreenGenerator init - no args', t => {
+test('Testophobia init - no args', t => {
   let tpBlank = new Testophobia();
   t.is(tpBlank.isGolden === false, false);
 });

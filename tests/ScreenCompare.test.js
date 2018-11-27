@@ -3,10 +3,10 @@ const test = require('ava');
 const {ScreenCompare} = require('../lib/ScreenCompare');
 const fs = require('fs');
 const path = require('path');
+const {tempPath} = require('./common/temp-path');
 
 const testPath = "examples/basic/tests/about/about-test.js";
-const imgPath = path.join(process.cwd(), 'tests/temp');
-const fullPath = `${imgPath}/testophobia-recorder.png`;
+const fullPath = `${tempPath}/testophobia-recorder.png`;
 
 const exampleTest = {
   name: "about",
@@ -14,9 +14,9 @@ const exampleTest = {
 };
 
 const config = {
-  diffDirectory: imgPath,
-  goldenDirectory: imgPath,
-  testDirectory: imgPath,
+  diffDirectory: tempPath,
+  goldenDirectory: tempPath,
+  testDirectory: tempPath,
   fileType: 'png',
   threshold: 0.2,
   baseUrl: 'http://test.com',

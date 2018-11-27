@@ -3,15 +3,14 @@ const test = require('ava');
 const fs = require('fs');
 const {optimizeImage} = require('../../lib/utils/optimize-image');
 const path = require('path');
-
-const imgPath = path.join(process.cwd(), 'tests/temp');
+const {tempPath} = require('../common/temp-path');
 
 test.before(() => {
-  fs.copyFile(path.join(process.cwd(), 'recorder/extension/images/testophobia16.png'), `${imgPath}/testophobia16.png`, () => 1);
+  fs.copyFile(path.join(process.cwd(), 'recorder/extension/images/testophobia16.png'), `${tempPath}/testophobia16.png`, () => 1);
 });
 
-const oldPath = `${imgPath}/testophobia16.png`;
-const newPath = `${imgPath}/testophobia16-scaled.png`;
+const oldPath = `${tempPath}/testophobia16.png`;
+const newPath = `${tempPath}/testophobia16-scaled.png`;
 
 const dimensions = {
   width: 12,

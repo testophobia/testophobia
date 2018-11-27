@@ -3,9 +3,9 @@ const test = require('ava');
 const path = require('path');
 const {retrieveImageData} = require('../../lib/utils/retrieve-image-data');
 const fs = require('fs');
+const {tempPath} = require('../common/temp-path');
 
-const imgPath = path.join(process.cwd(), 'tests/temp');
-const fullPath = `${imgPath}/testophobia16.png`;
+const fullPath = `${tempPath}/testophobia16.png`;
 
 test.before(() => {
   fs.copyFile(path.join(process.cwd(), 'recorder/extension/images/testophobia16.png'), fullPath, () => 1);

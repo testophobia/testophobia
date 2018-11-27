@@ -1,11 +1,12 @@
-/* global require, process */
+/* global require */
 const test = require('ava');
 const path = require('path');
 const fs = require('fs');
 const {generateResultFile} = require('../../lib/utils/generate-result-file');
+const {tempPath} = require('../common/temp-path');
 
 const config = {
-  diffDirectory: `${process.cwd()}/tests/temp`,
+  diffDirectory: tempPath,
   quality: 'png',
   threshold: 0.2,
   baseUrl: 'http://test.com',
