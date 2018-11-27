@@ -1,13 +1,10 @@
-/* global require, process */
+/* global require */
 const test = require('ava');
 const {Browser} = require('../lib/Browser');
 
 let b = new Browser();
 
 const config = {
-  diffDirectory: `${process.cwd()}`,
-  quality: 'png',
-  threshold: 0.2,
   baseUrl: 'http://google.com',
   dimensions: {
     height: 300,

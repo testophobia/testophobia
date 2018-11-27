@@ -3,7 +3,7 @@ const test = require('ava');
 const fs = require('fs');
 const {optimizeImage} = require('../../lib/utils/optimize-image');
 const path = require('path');
-const {tempPath} = require('../common/temp-path');
+const {tempPath} = require('../common/config');
 
 test.before(() => {
   fs.copyFile(path.join(process.cwd(), 'recorder/extension/images/testophobia16.png'), `${tempPath}/testophobia16.png`, () => 1);

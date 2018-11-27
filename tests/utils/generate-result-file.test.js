@@ -3,19 +3,11 @@ const test = require('ava');
 const path = require('path');
 const fs = require('fs');
 const {generateResultFile} = require('../../lib/utils/generate-result-file');
-const {tempPath} = require('../common/temp-path');
+const {tempPath, config} = require('../common/config');
 
-const config = {
-  diffDirectory: tempPath,
-  quality: 'png',
-  threshold: 0.2,
-  baseUrl: 'http://test.com',
-  dimensions: {
-    desktop: {
-      height: 300,
-      width: 200
-    }
-  }
+const resultConfig = {
+  ...config,
+  diffDirectory: tempPath
 };
 
 const results = {
@@ -28,10 +20,10 @@ test('generateResultFile - null', t => {
 });
 
 test('generateResultFile', async t => {
-  await generateResultFile(config, results);
-  t.is(fs.existsSync(path.join(config.diffDirectory, 'results.json')), true);
+  await generateResultFile(resultConfig, results);
+  t.is(fs.existsSync(path.join(resultConfig.diffDirectory, 'results.json')), true);
 });
 
 test.after('cleanup', async () => {
-  await fs.unlink(path.join(config.diffDirectory, 'results.json'), () => 0);
+  await fs.unlink(path.join(resultConfig.diffDirectory, 'results.json'), () => 0);
 });

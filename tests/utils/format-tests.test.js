@@ -1,11 +1,10 @@
 /* global require */
 const test = require('ava');
 const {formatTests} = require('../../lib/utils/format-tests');
-
-const path = "examples/basic/tests/about/about-test.js";
+const {testPath} = require('../common/config');
 
 const arrTarget = [
-  path
+  testPath
 ];
 
 test('formatTest - empty array', async t => {
@@ -20,7 +19,7 @@ test('formatTest - array', async t => {
 });
 
 test('formatTest - string', async t => {
-  let r = await formatTests({}, path);
+  let r = await formatTests({}, testPath);
   t.is(r.length && r[0].hasOwnProperty('name'), true);
   t.is(Array.isArray(r), true);
 });

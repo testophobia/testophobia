@@ -3,7 +3,7 @@ const test = require('ava');
 const path = require('path');
 const fs = require('fs');
 const {cleanTargetName, resolveNodeModuleFile, deleteFile, createDirectory, deleteDirectory, getDate, asyncForEach} = require('../../lib/utils');
-const {tempPath} = require('../common/temp-path');
+const {tempPath} = require('../common/config');
 
 const file = `${tempPath}/testfile.txt`;
 const dir = `${tempPath}/test-temp-dir`;

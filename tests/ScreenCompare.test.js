@@ -3,9 +3,8 @@ const test = require('ava');
 const {ScreenCompare} = require('../lib/ScreenCompare');
 const fs = require('fs');
 const path = require('path');
-const {tempPath} = require('./common/temp-path');
+const {tempPath, config} = require('./common/config');
 
-const testPath = "examples/basic/tests/about/about-test.js";
 const fullPath = `${tempPath}/testophobia-recorder.png`;
 
 const exampleTest = {
@@ -13,28 +12,12 @@ const exampleTest = {
   path: "about/about.html"
 };
 
-const config = {
+const scConfig = {
+  ...config,
+  golden: false,
   diffDirectory: tempPath,
   goldenDirectory: tempPath,
-  testDirectory: tempPath,
-  fileType: 'png',
-  threshold: 0.2,
-  baseUrl: 'http://test.com',
-  dimensions: [
-    {
-      type: "desktop",
-      width: 1450,
-      height: 1088,
-      scale: 0.42
-    },
-    {
-      type: "tablet",
-      width: 900,
-      height: 1200,
-      scale: 0.42
-    }
-  ],
-  tests: testPath
+  testDirectory: tempPath
 };
 
 test.before(() => {
@@ -46,7 +29,7 @@ test('ScreenCompare init - no args', t => {
 });
 
 test('ScreenCompare init - args', async t => {
-  let c = await new ScreenCompare(config, exampleTest, 'desktop');
+  let c = await new ScreenCompare(scConfig, exampleTest, 'desktop');
   t.is(c.isGolden === false, true);
   t.is(c.hasOwnProperty('goldenDirectory'), true);
   t.is(c.hasOwnProperty('diffDirectory'), true);
@@ -55,7 +38,7 @@ test('ScreenCompare init - args', async t => {
 });
 
 test('ScreenCompare - perform comparison', async t => {
-  let c = await new ScreenCompare(config, exampleTest, config.dimensions[0]);
+  let c = await new ScreenCompare(scConfig, exampleTest, scConfig.dimensions[0]);
   let d = await c._performComparison(`testophobia-recorder.png`);
   t.is(d, 0);
 });

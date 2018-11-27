@@ -3,48 +3,29 @@ const test = require('ava');
 const {Testophobia} = require('../lib/Testophobia');
 const fs = require('fs');
 const path = require('path');
-const {createDirectory} = require('../lib/utils');
-const {tempPath} = require('./common/temp-path');
+const {createDirectory, deleteDirectory} = require('../lib/utils');
+const {tempPath, config} = require('./common/config');
 
-const testPath = "examples/basic/tests/about/about-test.js";
 const testClearPath = `${process.cwd()}/manual-test-screens`;
 
-const config = {
-  golden: true,
+const tConfig = {
+  ...config,
   diffDirectory: `${tempPath}/diff-screens`,
   goldenDirectory: `${tempPath}/golden-screens`,
   testDirectory: `${tempPath}/test-screens`,
-  fileType: 'png',
-  threshold: 0.2,
-  baseUrl: 'https://google.com',
-  dimensions: [
-    {
-      type: "desktop",
-      width: 1450,
-      height: 1088,
-      scale: 0.42
-    },
-    {
-      type: "tablet",
-      width: 900,
-      height: 1200,
-      scale: 0.42
-    }
-  ],
-  tests: testPath
 };
 
 let initConfig = {
-  ...config,
+  ...tConfig,
   init: true
 };
 
-let tp = new Testophobia(config);
+let tp = new Testophobia(tConfig);
 
 test.before(() => {
-  createDirectory(config.goldenDirectory);
-  createDirectory(config.testDirectory);
-  createDirectory(config.diffDirectory);
+  createDirectory(tConfig.goldenDirectory);
+  createDirectory(tConfig.testDirectory);
+  createDirectory(tConfig.diffDirectory);
   createDirectory(testClearPath);
 });
 
@@ -83,4 +64,7 @@ test('Testophobia - clear check (with path)', async t => {
 
 test.after('cleanup', () => {
   fs.unlink(path.join(process.cwd(), 'testophobia.config.js'), () => 0);
+  deleteDirectory(tConfig.diffDirectory);
+  deleteDirectory(tConfig.goldenDirectory);
+  deleteDirectory(tConfig.testDirectory);
 });

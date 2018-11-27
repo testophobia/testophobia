@@ -3,7 +3,7 @@ const test = require('ava');
 const path = require('path');
 const {retrieveImageData} = require('../../lib/utils/retrieve-image-data');
 const fs = require('fs');
-const {tempPath} = require('../common/temp-path');
+const {tempPath} = require('../common/config');
 
 const fullPath = `${tempPath}/testophobia16.png`;
 

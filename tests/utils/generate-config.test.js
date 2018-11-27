@@ -3,7 +3,7 @@ const test = require('ava');
 const path = require('path');
 const fs = require('fs');
 const {generateConfigFile} = require('../../lib/utils/generate-config');
-const {tempPath} = require('../common/temp-path');
+const {tempPath} = require('../common/config');
 
 test.serial('generateConfig', async t => {
   await generateConfigFile(null, tempPath);

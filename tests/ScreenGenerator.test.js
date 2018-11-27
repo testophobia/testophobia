@@ -3,9 +3,7 @@ const test = require('ava');
 const {ScreenGenerator} = require('../lib/ScreenGenerator');
 const {createDirectory, deleteDirectory} = require('../lib/utils');
 const fs = require('fs');
-const {tempPath} = require('./common/temp-path');
-
-const testPath = "examples/basic/tests/about/about-test.js";
+const {tempPath, config} = require('./common/config');
 
 const exampleTest = {
   name: "about",
@@ -13,28 +11,6 @@ const exampleTest = {
 };
 
 const path = `${tempPath}/desktop/home`;
-
-const config = {
-  golden: true,
-  fileType: 'png',
-  threshold: 0.2,
-  baseUrl: 'https://google.com',
-  dimensions: [
-    {
-      type: "desktop",
-      width: 1450,
-      height: 1088,
-      scale: 0.42
-    },
-    {
-      type: "tablet",
-      width: 900,
-      height: 1200,
-      scale: 0.42
-    }
-  ],
-  tests: testPath
-};
 
 test.before(() => createDirectory(path));
 

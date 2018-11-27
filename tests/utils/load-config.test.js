@@ -1,18 +1,11 @@
 /* global require, process */
 const test = require('ava');
 const {loadConfig} = require('../../lib/utils/load-config');
+const {config} = require('../common/config');
 
 const passedDefaults = {
-  diffDirectory: `${process.cwd()}`,
-  quality: 'png',
-  threshold: 0.2,
-  baseUrl: 'http://test.com',
-  dimensions: {
-    desktop: {
-      height: 300,
-      width: 200
-    }
-  }
+  ...config,
+  diffDirectory: `${process.cwd()}`
 };
 
 test.serial('loadConfig - null, without default', async t => {
