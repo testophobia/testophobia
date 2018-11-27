@@ -8,13 +8,11 @@ const {createDirectory} = require('../lib/utils');
 const testPath = "examples/basic/tests/about/about-test.js";
 const testClearPath = `${process.cwd()}/manual-test-screens`;
 
-let tp;
-
 const config = {
   golden: true,
-  diffDirectory: `${process.cwd()}/diff-screens`,
-  goldenDirectory: `${process.cwd()}/golden-screens`,
-  testDirectory: `${process.cwd()}/test-screens`,
+  diffDirectory: `${process.cwd()}/tests/temp/diff-screens`,
+  goldenDirectory: `${process.cwd()}/tests/temp/golden-screens`,
+  testDirectory: `${process.cwd()}/tests/temp/test-screens`,
   fileType: 'png',
   threshold: 0.2,
   baseUrl: 'https://google.com',
@@ -40,8 +38,9 @@ let initConfig = {
   init: true
 };
 
+let tp = new Testophobia(config);
+
 test.before(() => {
-  tp = new Testophobia(config);
   createDirectory(config.goldenDirectory);
   createDirectory(config.testDirectory);
   createDirectory(config.diffDirectory);

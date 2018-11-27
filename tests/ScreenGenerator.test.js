@@ -11,13 +11,10 @@ const exampleTest = {
   path: "about/about.html"
 };
 
-const testPath = `${process.cwd()}/tests/desktop/home`;
+const testPath = `${process.cwd()}/tests/temp/desktop/home`;
 
 const config = {
   golden: true,
-  diffDirectory: `${process.cwd()}/docs/images`,
-  goldenDirectory: `${process.cwd()}/docs/images`,
-  testDirectory: `${process.cwd()}/docs/images`,
   fileType: 'png',
   threshold: 0.2,
   baseUrl: 'https://google.com',
@@ -45,7 +42,7 @@ test('ScreenGenerator init - no args', t => {
 });
 
 test('ScreenGenerator init - args', async t => {
-  let c = await new ScreenGenerator(config, exampleTest, 'desktop', `${process.cwd()}/tests`, null, []);
+  let c = await new ScreenGenerator(config, exampleTest, 'desktop', `${process.cwd()}/tests/temp`, null, []);
   t.is(c.isGolden === false, false);
   t.is(c.hasOwnProperty('goldenDirectory'), true);
   t.is(c.hasOwnProperty('diffDirectory'), true);
@@ -54,7 +51,7 @@ test('ScreenGenerator init - args', async t => {
 });
 
 test('ScreenGenerator - generate screen', async t => {
-  let c = await new ScreenGenerator(config, exampleTest, 'desktop', `${process.cwd()}/tests`, null, []);
+  let c = await new ScreenGenerator(config, exampleTest, 'desktop', `${process.cwd()}/tests/temp`, null, []);
   await c.run();
   t.is(fs.existsSync(`${testPath}/screen-scaled.png`), true);
 });

@@ -1,8 +1,12 @@
 /* global require, process */
 const test = require('ava');
 const {ScreenCompare} = require('../lib/ScreenCompare');
+const fs = require('fs');
+const path = require('path');
 
-const path = "examples/basic/tests/about/about-test.js";
+const testPath = "examples/basic/tests/about/about-test.js";
+const imgPath = path.join(process.cwd(), 'tests/temp');
+const fullPath = `${imgPath}/testophobia-recorder.png`;
 
 const exampleTest = {
   name: "about",
@@ -10,9 +14,9 @@ const exampleTest = {
 };
 
 const config = {
-  diffDirectory: `${process.cwd()}/docs/images`,
-  goldenDirectory: `${process.cwd()}/docs/images`,
-  testDirectory: `${process.cwd()}/docs/images`,
+  diffDirectory: imgPath,
+  goldenDirectory: imgPath,
+  testDirectory: imgPath,
   fileType: 'png',
   threshold: 0.2,
   baseUrl: 'http://test.com',
@@ -30,8 +34,12 @@ const config = {
       scale: 0.42
     }
   ],
-  tests: path
+  tests: testPath
 };
+
+test.before(() => {
+  fs.copyFile(path.join(process.cwd(), 'docs/images/testophobia-recorder.png'), fullPath, () => 1);
+});
 
 test('ScreenCompare init - no args', t => {
   t.throws(() => new ScreenCompare());
@@ -50,4 +58,8 @@ test('ScreenCompare - perform comparison', async t => {
   let c = await new ScreenCompare(config, exampleTest, config.dimensions[0]);
   let d = await c._performComparison(`testophobia-recorder.png`);
   t.is(d, 0);
+});
+
+test.after(() => {
+  fs.unlink(fullPath, () => 1);
 });

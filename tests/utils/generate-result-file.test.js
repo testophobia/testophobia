@@ -5,7 +5,7 @@ const fs = require('fs');
 const {generateResultFile} = require('../../lib/utils/generate-result-file');
 
 const config = {
-  diffDirectory: `${process.cwd()}`,
+  diffDirectory: `${process.cwd()}/tests/temp`,
   quality: 'png',
   threshold: 0.2,
   baseUrl: 'http://test.com',
@@ -28,9 +28,9 @@ test('generateResultFile - null', t => {
 
 test('generateResultFile', async t => {
   await generateResultFile(config, results);
-  t.is(fs.existsSync(path.join(process.cwd(), 'results.json')), true);
+  t.is(fs.existsSync(path.join(config.diffDirectory, 'results.json')), true);
 });
 
-test.after('cleanup', () => {
-  fs.unlink(path.join(process.cwd(), 'results.json'), () => 0);
+test.after('cleanup', async () => {
+  await fs.unlink(path.join(config.diffDirectory, 'results.json'), () => 0);
 });

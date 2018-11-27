@@ -4,8 +4,8 @@ const path = require('path');
 const fs = require('fs');
 const {cleanTargetName, resolveNodeModuleFile, deleteFile, createDirectory, deleteDirectory, getDate, asyncForEach} = require('../../lib/utils');
 
-const file = 'testfile.txt';
-const dir = 'test-temp-dir';
+const file = 'tests/temp/testfile.txt';
+const dir = 'tests/temp/test-temp-dir';
 const currentdate = new Date();
 const date = `${currentdate.getMonth() +
   1}-${currentdate.getDate()}-${currentdate.getFullYear()}_${currentdate.getHours()}-${currentdate.getMinutes()}-${currentdate.getSeconds()}`;

@@ -4,11 +4,13 @@ const path = require('path');
 const fs = require('fs');
 const {generateConfigFile} = require('../../lib/utils/generate-config');
 
-test('generateConfig', async t => {
-  await generateConfigFile();
-  t.is(fs.existsSync(path.join(process.cwd(), 'testophobia.config.js')), true);
+const tempDir = `${process.cwd()}/tests/temp`;
+
+test.serial('generateConfig', async t => {
+  await generateConfigFile(null, tempDir);
+  t.is(fs.existsSync(path.join(tempDir, 'testophobia.config.js')), true);
 });
 
 test.after('cleanup', () => {
-  fs.unlink(path.join(process.cwd(), 'testophobia.config.js'), () => 0);
+  fs.unlink(path.join(tempDir, 'testophobia.config.js'), () => 0);
 });
