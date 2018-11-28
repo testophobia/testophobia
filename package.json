@@ -71,6 +71,7 @@
     "zurb-twentytwenty": "https://github.com/zurb/twentytwenty"
   },
   "scripts": {
+    "pretest": "node tests/common/generate-temp.js",
     "test": "ava"
   },
   "devDependencies": {
