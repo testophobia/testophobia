@@ -33,3 +33,20 @@ test('Output - increment test count - arg', t => {
   c.incrementTestCount(4);
   t.is(c.currentTest, 5);
 });
+
+test('Output - resolve dimension counts - no dimension overrides', async t => {
+  let count = await c._resolveDimensionCounts(exampleTest[0]);
+  t.is(count, 2);
+});
+
+test('Output - resolve dimension counts - dimension overrides', async t => {
+  exampleTest[0].dimensions = [
+    {
+      type: 'desktop - ultra-wide',
+      height: 100,
+      width: 1800
+    }
+  ];
+  let count = await c._resolveDimensionCounts(exampleTest[0]);
+  t.is(count, 3);
+});
