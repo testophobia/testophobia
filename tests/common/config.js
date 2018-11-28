@@ -26,3 +26,15 @@ exports.config = {
   ],
   tests: exports.testPath
 };
+
+exports.exampleTest = [{
+  name: "home",
+  path: "home/index.html",
+  actions: [
+    {
+      excludeDimensions: ['tablet'],
+      type: "click",
+      target: "#btn"
+    }
+  ]
+}];
