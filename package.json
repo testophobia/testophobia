@@ -65,7 +65,7 @@
     "puppeteer-extra": "^2.1.1",
     "puppeteer-extra-plugin-user-data-dir": "^2.1.1",
     "puppeteer-extra-plugin-user-preferences": "^2.1.1",
-    "query-selector-shadow-dom": "^0.2.3",
+    "query-selector-shadow-dom": "^0.3.0",
     "rimraf": "^2.6.2",
     "sharp": "^0.21.0",
     "zurb-twentytwenty": "https://github.com/zurb/twentytwenty"
