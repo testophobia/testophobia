@@ -27,8 +27,8 @@ test('ScreenGenerator init - args', async t => {
   t.is(c.hasOwnProperty('test') && c.test.name === 'about', true);
 });
 
-test('ScreenGenerator - generate screen', async t => {
-  let c = await new ScreenGenerator(config, exampleTest, 'desktop', tempPath, null, []);
+test.serial('ScreenGenerator - generate screen', async t => {
+  let c = new ScreenGenerator(config, exampleTest, 'desktop', tempPath, null, []);
   await c.run();
   t.is(fs.existsSync(`${path}/screen-scaled.png`), true);
 });
