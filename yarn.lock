@@ -3071,10 +3071,10 @@ qs@6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-query-selector-shadow-dom@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/query-selector-shadow-dom/-/query-selector-shadow-dom-0.2.3.tgz#912924afd2bd759e14a2c5d332d968e580b838ee"
-  integrity sha512-qwm1svZ2SD1qtq3Mt35yinCZL84cxb4sRUZAtHnhezGA35693xD8a4bOFA7XMIDuO/UECHD6N7IYp1c6YQGZbw==
+query-selector-shadow-dom@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/query-selector-shadow-dom/-/query-selector-shadow-dom-0.3.0.tgz#f7c48dbfd967d2677a1effb6f6a503a847d8b4ea"
+  integrity sha512-0Urk5LN4+IRZiVx0T3oIOly76hkOrOKQWyEgxtMh6gDZ5jIsWA1fz3hE9yLK/INbXDQxK4jfDeW/sAUbr7s/aw==
 
 quick-lru@^1.0.0:
   version "1.1.0"
