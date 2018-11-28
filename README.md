@@ -208,6 +208,8 @@ Test definition properties:
 
 `delay`: (number) the amount of time (in ms) on page load to delay before taking the first screenshot
 
+`dimensions`: (array) declare additional dimensions for a test or override existing dimensions of the same `type`
+
 `threshold`: (decimal) sets the strictness of the comparison (from 0 to 1) at the test level
 
 `actions`: (array) list of interactions to perform sequentially. Each action is an object consisting of:
