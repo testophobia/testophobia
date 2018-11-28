@@ -42,13 +42,13 @@ test('Testophobia init - args', t => {
 });
 
 test('Testophobia - golden check', t => {
-  let res = tp.checkFlagsAndFiles();
+  let res = tp._checkFlagsAndFiles();
   t.is(res, 0);
 });
 
 test('Testophobia - init check', async t => {
   let tpInit = await new Testophobia(initConfig);
-  let res = await tpInit.checkFlagsAndFiles();
+  let res = await tpInit._checkFlagsAndFiles();
   t.is(res, 0);
 });
 
