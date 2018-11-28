@@ -88,7 +88,7 @@ function getUniqueSelector(elSrc) { //eslint-disable-line no-unused-vars
   var root = window.document, frameSel = '';
   if (elSrc.ownerDocument !== document) {
     var frameRef = elSrc.ownerDocument.defaultView.frameElement;
-    frameSel = findSelectorForElement(frameRef, window.document) + ' || ';
+    frameSel = findSelectorForElement(frameRef, window.document) + ' >> ';
     root = frameRef.contentDocument;
     aSel = [];
   }
