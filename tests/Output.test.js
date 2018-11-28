@@ -39,7 +39,20 @@ test('Output - resolve dimension counts - no dimension overrides', async t => {
   t.is(count, 2);
 });
 
-test('Output - resolve dimension counts - dimension overrides', async t => {
+test('Output - resolve dimension counts - dimension overrides - override existing dimension', async t => {
+  exampleTest[0].dimensions = [
+    {
+      type: 'desktop',
+      height: 100,
+      width: 1800
+    }
+  ];
+  let count = await c._resolveDimensionCounts(exampleTest[0]);
+  t.is(count, 2);
+  t.is(exampleTest[0].dimensions[0].width, 1800);
+});
+
+test('Output - resolve dimension counts - dimension overrides - new dimension', async t => {
   exampleTest[0].dimensions = [
     {
       type: 'desktop - ultra-wide',
