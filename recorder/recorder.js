@@ -4,7 +4,7 @@ const fs = require('fs');
 const puppeteer = require('puppeteer-extra');
 const puppeteerUserDataDir = require('puppeteer-extra-plugin-user-data-dir');
 const puppeteerUserPrefs = require('puppeteer-extra-plugin-user-preferences');
-const {loadConfig} = require('../lib/load-config');
+const {loadConfig} = require('../lib/utils/load-config');
 const {RecorderServer} = require('./recorder-server');
 
 exports.TestophobiaRecorder = class TestophobiaRecorder {

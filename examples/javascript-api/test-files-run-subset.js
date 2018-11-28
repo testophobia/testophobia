@@ -1,5 +1,5 @@
 /* global require, */
-const {Testophobia} = require('../../lib/testophobia');
+const {Testophobia} = require('../../lib/Testophobia');
 
 /* This test sets up multiple tests from a file glob, and then runs a single test */
 const tp = new Testophobia({

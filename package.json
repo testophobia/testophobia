@@ -69,5 +69,11 @@
     "rimraf": "^2.6.2",
     "sharp": "^0.21.0",
     "zurb-twentytwenty": "https://github.com/zurb/twentytwenty"
+  },
+  "scripts": {
+    "test": "ava"
+  },
+  "devDependencies": {
+    "ava": "1.0.0-rc.2"
   }
 }

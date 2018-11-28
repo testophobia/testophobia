@@ -5,7 +5,7 @@ const esm = require('esm');
 const mkdirp = require('mkdirp');
 const express = require('express');
 const bodyParser = require('body-parser');
-const {performAction} = require('../lib/perform-action');
+const {performAction} = require('../lib/utils/perform-action');
 const {resolveNodeModuleFile} = require('../lib/utils');
 
 const app = express();
@@ -16,19 +16,19 @@ exports.RecorderServer = {
     //add handler to perform recorder actions thru puppeteer
     app.post('/performAction/:actionString', async (req, res) => {
       //to make sure our shadow dom lib is always loaded, even when navigating, we'll remove it if it exists and re-add
-      await page.evaluate(() =>{
+      await page.evaluate(() => {
         let scripts = document.querySelectorAll('script');
         for (let i = 0; i < scripts.length; i++) {
           if (scripts[i].innerHTML.indexOf('querySelectorShadowDom') >= 0)
             scripts[i].parentNode.removeChild(scripts[i]);
         }
       });
-      await page.addScriptTag({path:resolveNodeModuleFile('/node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js')});
+      await page.addScriptTag({path: resolveNodeModuleFile('/node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js')});
       let action = JSON.parse(decodeURIComponent(req.params.actionString));
       action.target = action.target.replace(/\s&gt;/g, '');
       try {
         performAction(action, page, {});
-      } catch(e) {
+      } catch (e) {
         if (!e.message.contains('Unable to move mouse')) {
           console.log(e);
         }
