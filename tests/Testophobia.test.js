@@ -49,12 +49,12 @@ test('Testophobia - golden check', t => {
 test('Testophobia - init check', async t => {
   let tpInit = await new Testophobia(initConfig);
   let res = await tpInit._checkFlagsAndFiles();
-  t.is(res, 0);
+  t.is(res, 1);
 });
 
 test('Testophobia - clear check (no path)', async t => {
   let res = await tp._clearTestophobiaDirectories();
-  t.is(res, 0);
+  t.is(res, 1);
 });
 
 test('Testophobia - clear check (with path)', async t => {
