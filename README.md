@@ -168,6 +168,8 @@ Testophobia instance:
 
 `golden`: (boolean) generate the golden screenshots | default: false
 
+`delay`: (number) the amount of time (in ms) to delay before taking the screenshot for each test 
+
 `debug`: (boolean) provides additional output during tests, runs a full version of chromium, pipes browser console output to local CLI  | default: false
 
 `bail`: (boolean) exit immediately upon first test failure  | default: false
