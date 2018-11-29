@@ -174,7 +174,7 @@ Testophobia instance:
 
 `bail`: (boolean) exit immediately upon first test failure  | default: false
 
-`defaultTime`: (number) sets the JavaScript date instance (in ms) for use in testing components | default: 2068786800000 (July 23, 2035)
+`defaultTime`: (number) Posix time (in ms), to be used as the current date/time for any calls to new Date() or Date.now() | default: 2068786800000 (July 23, 2035)
 
 `fileType`: (string) the image type to output (options: jpeg, png) | default: png
 
