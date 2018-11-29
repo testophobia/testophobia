@@ -164,7 +164,7 @@ Testophobia instance:
 
 `projectDir`: (string) the desired root project directory for the project | default: cwd
 
-`baseUrl`: (string) the base url of your website or application | default: http://localhost:6789
+`baseUrl`: (string) the domain of the website or application. Note: no pathing should be handled with this option. Accessing an individual test's page should be done in test files | default: http://localhost:6789
 
 `golden`: (boolean) generate the golden screenshots | default: false
 
