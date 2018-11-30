@@ -17,12 +17,12 @@
   <div id="top-bar">
     <div class="jqui-title">😱 Testophobia Viewer</div>
     <div id="top-control-bar">
-      <button id="btn-info" title="Show info about this test failure">Test Info</button>
+      <button id="btn-info" class="blue button" title="Show info about this test failure">Test Info</button>
       <label id="lbl-testname" class="jqui-label"></label>
       <span class="spacer">&nbsp;</span>
       <label id="lbl-pager" class="jqui-label"></label>
-      <button id="btn-prev" title="View previous failure"><</button>
-      <button id="btn-next" title="View next failure">></button>
+      <button id="btn-prev" class="blue button" title="View previous failure"><</button>
+      <button id="btn-next" class="blue button" title="View next failure">></button>
     </div>
   </div>
   <div id="viewer-container">
@@ -33,10 +33,11 @@
     <img id="img-diff"/>
   </div>
   <div id="bottom-control-bar">
-    <label for="cb-diff">Show Diff</label><input id="cb-diff" type="checkbox">
-    <label for="sld-diff" class="jqui-label">Diff Opacity</label><div id="sld-diff"></div>
+    <!-- <label for="cb-diff" class="blue button">Show Diff</label><input id="cb-diff" type="checkbox"> -->
+    <button id="btn-diff" class="blue button" title="Overlay the diff image">Show Diff</button>
+    <label for="sld-diff" class="jqui-label" style="display:none">Opacity</label><div id="sld-diff" style="display:none"></div>
     <span class="spacer">&nbsp;</span>
-    <button id="btn-apply" title="Apply the After image as the new golden image">Apply Golden</button>
+    <button id="btn-apply" class="green button" title="Apply the After image as the new golden image">Apply Golden</button>
   </div>
   <div id="dlg-info" title="Test Run Info">I'm a dialog</div>
   <script src="index.js"></script>

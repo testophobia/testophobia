@@ -18,18 +18,12 @@ function configureInfoButton() {
     .click(function () {
       const dlg = $('#dlg-info');
       dlg.get(0).innerHTML = `<ul>
-  <li><span>Date:</span>${new Date(
-          Testophobia.testRunInfo.date
-        ).toLocaleString()}</li>
+  <li><span>Date:</span>${new Date(Testophobia.testRunInfo.date).toLocaleString()}</li>
   <li><span>Route:</span>${Testophobia.currentTestFailure.test}</li>
   <li><span>Screen Type:</span>${Testophobia.currentTestFailure.screenType}</li>
   <li><span>Action:</span>${Testophobia.currentTestFailure.action}</li>
-  <li><span>Pixel Diff:</span>${
-        Testophobia.currentTestFailure.pixelDifference
-        }</li>
-  <li><span>Dimensions:</span>${
-        Testophobia.currentTestFailure.dimensions.width
-        }x${Testophobia.currentTestFailure.dimensions.height}</li>
+  <li><span>Pixel Diff:</span>${Testophobia.currentTestFailure.pixelDifference}</li>
+  <li><span>Dimensions:</span>${Testophobia.currentTestFailure.dimensions.width}x${Testophobia.currentTestFailure.dimensions.height}</li>
   <li><span>File Type:</span>${Testophobia.testRunInfo.fileType}</li>
   <li><span>Quality:</span>${Testophobia.testRunInfo.quality}</li>
   <li><span>Threshold:</span>${Testophobia.testRunInfo.threshold}</li>
@@ -40,20 +34,17 @@ function configureInfoButton() {
 
 function pageFailures(inc) {
   if (inc) {
-    if (
-      Testophobia.currentTestIdx <
-      Testophobia.testRunInfo.failures.length - 1
-    )
+    if (Testophobia.currentTestIdx < Testophobia.testRunInfo.failures.length - 1)
       Testophobia.currentTestIdx = Testophobia.currentTestIdx + 1;
-    else Testophobia.currentTestIdx = 0;
+    else
+      Testophobia.currentTestIdx = 0;
   } else {
     if (Testophobia.currentTestIdx > 0)
       Testophobia.currentTestIdx = Testophobia.currentTestIdx - 1;
     else
       Testophobia.currentTestIdx = Testophobia.testRunInfo.failures.length - 1;
   }
-  Testophobia.currentTestFailure =
-    Testophobia.testRunInfo.failures[Testophobia.currentTestIdx];
+  Testophobia.currentTestFailure = Testophobia.testRunInfo.failures[Testophobia.currentTestIdx];
   loadTest();
 }
 
@@ -84,14 +75,22 @@ function configureApplyButton() {
 }
 
 function configureDiffButton() {
-  $('#cb-diff')
-    .checkboxradio()
-    .change(function () {
-      if (this.checked) {
+  $('#btn-diff')
+    .button()
+    .click(function () {
+      if ($(this).text() === 'Show Diff') {
+        $(this).text('Hide Diff');
+        $(this).toggleClass('blue red');
         $('#diff-overlay').show();
         $('#sld-diff').slider('enable');
+        $('#sld-diff').show();
+        $('label[for="sld-diff"]').show();
       } else {
+        $(this).text('Show Diff');
+        $(this).toggleClass('blue red');
         $('#diff-overlay').hide();
+        $('#sld-diff').hide();
+        $('label[for="sld-diff"]').hide();
         $('#sld-diff').slider('disable');
       }
     });
@@ -130,7 +129,7 @@ function loadTest() {
     $('#btn-prev').button('disable');
     $('#btn-next').button('disable');
     $('#btn-apply').button('disable');
-    $('#cb-diff').checkboxradio('disable');
+    $('#btn-diff').button('disable');
     $('#sld-diff').slider('disable');
     $('#lbl-pager').text(`Failure: 0 of 0`);
     $('#lbl-testname').text('');
@@ -138,28 +137,17 @@ function loadTest() {
     $('#img-after').attr('src', '');
     $('#img-diff').attr('src', '');
   } else {
-    $('#img-before').attr(
-      'src',
-      `/images/${Testophobia.currentTestIdx}/golden`
-    );
+    $('#img-before').attr('src',`/images/${Testophobia.currentTestIdx}/golden`);
     $('#img-after').attr('src', `/images/${Testophobia.currentTestIdx}/test`);
     $('#img-diff').attr('src', `/images/${Testophobia.currentTestIdx}/diff`);
-    $('#lbl-pager').text(
-      `Failure: ${Testophobia.currentTestIdx + 1} of ${
-      Testophobia.testRunInfo.failures.length
-      }`
-    );
-    $('#lbl-testname').text(
-      `${Testophobia.currentTestFailure.test} - ${
-      Testophobia.currentTestFailure.screenType
-      }`
-    );
+    $('#lbl-pager').text(`Failure: ${Testophobia.currentTestIdx + 1} of ${Testophobia.testRunInfo.failures.length}`);
+    $('#lbl-testname').text(`${Testophobia.currentTestFailure.test} - ${Testophobia.currentTestFailure.screenType}`);
+    setTimeout(() => $(window).trigger('resize.twentytwenty'), 100);
   }
 }
 
 async function init() {
   await loadTestRunProperties();
-  loadTest();
   configureInfoButton();
   configurePrevNextButtons();
   configureApplyButton();
@@ -167,10 +155,9 @@ async function init() {
   configureDiffSlider();
   configureTestRunDialog();
   configureTwentyTwenty();
+  loadTest();
 }
 
 $(window).on('load', () => {
   init();
 });
-
-window.setInterval(() => $.post('/heartbeat'), 1000);
