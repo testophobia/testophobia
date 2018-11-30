@@ -5,7 +5,7 @@ const {Testophobia} = require('../../lib/Testophobia');
 const tp = new Testophobia({
   fileType: "jpeg",
   golden: false,
-  baseUrl: 'https://testophobia.github.io/testophobia/examples/basic',
+  baseUrl: 'https://testophobia.github.io',
   tests: 'tests/**/*-test.js'
 });
 

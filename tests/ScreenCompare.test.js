@@ -25,15 +25,14 @@ test.before(() => {
 });
 
 test('ScreenCompare init - no args', t => {
-  t.throws(() => new ScreenCompare());
+  let c = new ScreenCompare();
+  t.is(typeof(c), 'object');
 });
 
 test('ScreenCompare init - args', async t => {
   let c = await new ScreenCompare(scConfig, exampleTest, 'desktop');
-  t.is(c.isGolden === false, true);
-  t.is(c.hasOwnProperty('goldenDirectory'), true);
-  t.is(c.hasOwnProperty('diffDirectory'), true);
-  t.is(c.hasOwnProperty('testDirectory'), true);
+  t.is(c.config.hasOwnProperty('goldenDirectory'), true);
+  t.is(c.config.hasOwnProperty('diffDirectory'), true);
   t.is(c.hasOwnProperty('test') && c.test.name === 'about', true);
 });
 

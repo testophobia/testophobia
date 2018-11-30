@@ -1,18 +1,9 @@
 /* global require */
 const test = require('ava');
 const {Browser} = require('../lib/Browser');
+const {browserConfig} = require('./common/config');
 
 let b = new Browser();
-
-const config = {
-  baseUrl: 'http://google.com',
-  dimensions: {
-    height: 300,
-    width: 200
-  },
-  debug: false,
-  defaultTime: false
-};
 
 test('Browser init - generate base config', async t => {
   let r = await b._generateConfig();
@@ -27,7 +18,7 @@ test('Browser init - generate debug config', async t => {
 });
 
 test('Browser init - create page', async t => {
-  await b.launch(config);
+  await b.launch(browserConfig);
   await b.createPage();
   t.is(typeof(b.page) === 'object', true);
 }); 
