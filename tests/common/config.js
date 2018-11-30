@@ -38,3 +38,13 @@ exports.exampleTest = [{
     }
   ]
 }];
+
+exports.browserConfig = {
+  baseUrl: 'http://google.com',
+  dimensions: {
+    height: 300,
+    width: 200
+  },
+  debug: false,
+  defaultTime: false
+};
