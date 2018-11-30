@@ -5,11 +5,11 @@ const {Testophobia} = require('../../lib/Testophobia');
 const tp = new Testophobia({
   fileType: "jpeg",
   golden: false,
-  baseUrl: 'https://testophobia.github.io/testophobia/examples/basic',
+  baseUrl: 'https://testophobia.github.io',
   tests: [
     {
       name: 'home',
-      path: 'home/index.html',
+      path: '/testophobia/examples/basic/home/index.html',
       actions: [
         {
           type: 'click',
@@ -18,7 +18,7 @@ const tp = new Testophobia({
       ]
     }, {
       name: 'about',
-      path: 'about/about.html'
+      path: '/testophobia/examples/basic/about/about.html'
     }
   ]
 });

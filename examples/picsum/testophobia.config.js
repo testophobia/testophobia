@@ -1,6 +1,6 @@
 export default {
   fileType: "png",
-  baseUrl: 'https://picsum.photos/640/480/?image=' + Math.floor(Math.random() * 1085),
+  baseUrl: 'https://picsum.photos',
   dimensions: [
     {
       type: "image",
@@ -9,6 +9,9 @@ export default {
     }
   ],
   tests: [
-    {name: 'home'}
+    {
+      name: 'home',
+      path: '/640/480/?image=' + Math.floor(Math.random() * 1085)
+    }
   ]
 };

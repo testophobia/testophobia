@@ -1,6 +1,6 @@
 export default {
   name: "home",
-  path: "home/index.html",
+  path: "/testophobia/examples/basic/home/index.html",
   actions: [
     {
       type: "click",
