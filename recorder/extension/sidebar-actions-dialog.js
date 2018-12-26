@@ -1,13 +1,33 @@
-/* global $, Testophobia */
+/* global $, Testophobia, chrome */
 Testophobia.dialogActionIndex = -1;
+Testophobia.dialogActionType;
 
 Testophobia.showDialog = (actionIdx) => {
   Testophobia.dialogActionIndex = actionIdx;
+  Testophobia.dialogActionType = Testophobia.actions[Testophobia.dialogActionIndex].type;
+  $('#dlgAction').on('change', dropdownChanged);
+  layoutDialog();
+};
+
+Testophobia.hideDialog = () => {
+  $('#divBackdrop').attr('hidden', '');
+  $('#divDetails').attr('hidden', '');
+  $('#dlgAction').off('change');
+  Testophobia.actionsChanged();
+};
+
+function dropdownChanged() {
+  Testophobia.dialogActionType = $('#dlgAction').val();
+  layoutDialog();
+}
+
+function layoutDialog() {
   let action = Testophobia.actions[Testophobia.dialogActionIndex];
-  $('#divDetailsTitle').text(`${action.type} - ${action.target}`);
+  $('#dlgAction').val(Testophobia.dialogActionType);
+  $('#txtTarget').val(action.target);
   let fieldsHtml = '';
   const addField = (label, prop) => `\n      <label>${label}</label>\n      <input id="txt${prop}" value="${action[prop] || ''}"/>`;
-  switch (action.type) {
+  switch (Testophobia.dialogActionType) {
     case 'setProperty':
       fieldsHtml = `${addField('Property Name', 'property')}${addField('Property Value', 'value')}`;
       break;
@@ -33,13 +53,7 @@ Testophobia.showDialog = (actionIdx) => {
   $('#divBackdrop').removeAttr('hidden');
   $('#divDetails').removeAttr('hidden');
   $('#divFields input').get(0).focus();
-};
-
-Testophobia.hideDialog = () => {
-  $('#divBackdrop').attr('hidden', '');
-  $('#divDetails').attr('hidden', '');
-  Testophobia.actionsChanged();
-};
+}
 
 $('#divDetailsClose').click(Testophobia.hideDialog);
 
@@ -52,9 +66,21 @@ $('#btnSaveEdits').click(() => {
     Testophobia.actions[Testophobia.dialogActionIndex].skipScreen = true;
   else
     delete Testophobia.actions[Testophobia.dialogActionIndex].skipScreen;
+  Testophobia.actions[Testophobia.dialogActionIndex].type = Testophobia.dialogActionType;
+  Testophobia.actions[Testophobia.dialogActionIndex].target = $('#txtTarget').val();
   $('#divAddlFields input').each(function () {
     Testophobia.actions[Testophobia.dialogActionIndex][this.id.substr(3)] = $(this).val();
   });
   Testophobia.hideDialog();
 });
 
+Testophobia.setSelectedElement = () => {
+  chrome.devtools.inspectedWindow.eval(`(function(){return getUniqueSelector($0);}())`,
+    {useContentScriptContext: true},
+    result => {
+      $('#txtTarget').val(result);
+    }
+  );
+};
+
+chrome.devtools.panels.elements.onSelectionChanged.addListener(Testophobia.setSelectedElement);

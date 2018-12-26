@@ -57,8 +57,22 @@
   <div id="divDetails" hidden>
     <h3>Action Details</h3>
     <div id="divDetailsClose">&times;</div>
-    <h5 id="divDetailsTitle"></h5>
     <div id="divFields">
+      <div class="dropdown button blue" title="Select an Action Type">
+        <select id="dlgAction" required>
+          <option value="click">Click</option>
+          <option value="hover">Hover</option>
+          <option value="scroll">Scroll</option>
+          <option value="input">Input Text</option>
+          <option value="keypress">Key Press</option>
+          <option value="setProperty">Set Property</option>
+          <option value="setAttribute">Set Attribute</option>
+          <option value="removeAttribute">Remove Attribute</option>
+        </select>
+      </div>
+      <br><br>
+      <label>Target</label>
+      <input id="txtTarget" readonly/>
       <div id="divAddlFields"></div>
       <label>Delay before snapshot</label>
       <input id="txtDelay"/>
