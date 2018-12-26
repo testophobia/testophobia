@@ -140,6 +140,7 @@ function loadTest() {
     $('#img-diff').attr('src', '');
   } else if (!Testophobia.testRunInfo.failures[Testophobia.currentTestIdx].diffFileLocation) {
     $('#no-golden').show();
+    $('#no-golden-img').attr('src', `/images/${Testophobia.currentTestIdx}/test`);
     $('#viewer-container').hide();
     $('#btn-diff').button('disable');
     $('#sld-diff').slider('disable');

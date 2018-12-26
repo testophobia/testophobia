@@ -41,6 +41,10 @@ body {
   margin-left: 2vw;
   display: none;
 }
+#no-golden > div {
+  margin-bottom: 1vh;
+  color: #FF9090;
+}
 #viewer-container {
   margin: 0 1vw;
   background: #ccc;
@@ -53,6 +57,7 @@ body {
   display: none;
   pointer-events: none;
 }
+#no-golden-img,
 #viewer-container img,
 #diff-overlay img {
   max-height: 72vh;

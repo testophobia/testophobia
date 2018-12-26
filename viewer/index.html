@@ -25,7 +25,10 @@
       <button id="btn-next" class="blue button" title="View next failure">></button>
     </div>
   </div>
-  <div id="no-golden">No golden image available (new test?)</div>
+  <div id="no-golden">
+    <div>No golden image available (new test?)</div>
+    <img id="no-golden-img" />
+  </div>
   <div id="viewer-container">
     <img id="img-before"/>
     <img id="img-after"/>
@@ -34,13 +37,12 @@
     <img id="img-diff"/>
   </div>
   <div id="bottom-control-bar">
-    <!-- <label for="cb-diff" class="blue button">Show Diff</label><input id="cb-diff" type="checkbox"> -->
     <button id="btn-diff" class="blue button" title="Overlay the diff image">Show Diff</button>
     <label for="sld-diff" class="jqui-label" style="display:none">Opacity</label><div id="sld-diff" style="display:none"></div>
     <span class="spacer">&nbsp;</span>
     <button id="btn-apply" class="green button" title="Apply the After image as the new golden image">Apply Golden</button>
   </div>
-  <div id="dlg-info" title="Test Run Info">I'm a dialog</div>
+  <div id="dlg-info" title="Test Run Info"></div>
   <script src="index.js"></script>
 </body>
 </html>
