@@ -124,6 +124,8 @@ function configureTwentyTwenty() {
 }
 
 function loadTest() {
+  $('#no-golden').hide();
+  $('#viewer-container').show();
   if (Testophobia.testRunInfo.failures.length === 0) {
     $('#btn-info').button('disable');
     $('#btn-prev').button('disable');
@@ -136,7 +138,17 @@ function loadTest() {
     $('#img-before').attr('src', '');
     $('#img-after').attr('src', '');
     $('#img-diff').attr('src', '');
+  } else if (!Testophobia.testRunInfo.failures[Testophobia.currentTestIdx].diffFileLocation) {
+    $('#no-golden').show();
+    $('#viewer-container').hide();
+    $('#btn-diff').button('disable');
+    $('#sld-diff').slider('disable');
+    $('#img-before').attr('src', '');
+    $('#img-after').attr('src', '');
+    $('#img-diff').attr('src', '');
   } else {
+    $('#btn-diff').button('enable');
+    $('#sld-diff').slider('enable');
     $('#img-before').attr('src',`/images/${Testophobia.currentTestIdx}/golden`);
     $('#img-after').attr('src', `/images/${Testophobia.currentTestIdx}/test`);
     $('#img-diff').attr('src', `/images/${Testophobia.currentTestIdx}/diff`);

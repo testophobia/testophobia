@@ -37,6 +37,10 @@ body {
 .spacer {
   flex: 1;
 }
+#no-golden {
+  margin-left: 2vw;
+  display: none;
+}
 #viewer-container {
   margin: 0 1vw;
   background: #ccc;

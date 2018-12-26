@@ -54,7 +54,8 @@ exports.RecorderServer = {
 
     //add handler to navigate the browser to a test's route
     app.post('/navigate/:testRoute', (req, res) => {
-      page.goto(`${baseUrl}${decodeURIComponent(req.params.testRoute)}`);
+      const url = `${baseUrl}${decodeURIComponent(req.params.testRoute)}`;
+      if (page.url() !== url) page.goto(url);
       res.sendStatus(200);
     });
 
