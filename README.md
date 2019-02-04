@@ -190,6 +190,8 @@ Testophobia instance:
 
 - `scale`: (decimal) the scale of the screenshot by percentage (from 0 to 1) (see [__Image Scaling__](#image-scaling) below) | default: 1
 
+`clipRegion`: (object) {left/right/top/bottom} Region of the window to capture (vs. the whole window) | default null
+
 `testDirectory`: (string) desired file location for the test screenshots | default: ./testophobia/test-screens
 
 `goldenDirectory`: (string) desired file location for the golden screenshots | default: ./testophobia/golden-screens
@@ -213,6 +215,10 @@ Test definition properties:
 `dimensions`: (array) declare additional dimensions for a test or override existing dimensions of the same `type`
 
 `threshold`: (decimal) sets the strictness of the comparison (from 0 to 1) at the test level
+
+`clipRegion`: (object) {left/right/top/bottom} Region of the window to capture (vs. the whole window) | default null
+
+`actionsClipRegion`: (object) if set, along with clipRegion, will affect all of the action screenshots, while clipRegion only affects the initial test screenshot | default null
 
 `actions`: (array) list of interactions to perform sequentially. Each action is an object consisting of:
 
@@ -251,6 +257,8 @@ Test definition properties:
 - `target`: (\*) the target HTML element to perform the action on. Takes a selector or element reference
 
 - `delay`: (number) the amount of time (in ms) to delay before taking a screenshot, after performing the action
+
+- `clipRegion`: (object) {left/right/top/bottom} Region of the window to capture (vs. the whole window) | default null
 
 - `skipScreen`: (boolean) whether to skip taking a screenshot after performing the action
 
