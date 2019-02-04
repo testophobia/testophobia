@@ -10,7 +10,7 @@ const pathPng = `${tempPath}/screen.png`;
 const newPathJpeg = `${tempPath}/screen-scaled.jpeg`;
 const newPathPng = `${tempPath}/screen-scaled.png`;
 const dimensions = {type: 'desktop', width: 1024, height: 768};
-const clipRegion = {top: 0, left: 0, right: 1024, bottom: 768};
+const clipRegions = [{type: 'desktop', top: 0, left: 0, right: 1024, bottom: 768}];
 const screenTypeJpeg = 'jpeg';
 const screenTypePng = 'png';
 const browser = new Browser();
@@ -23,20 +23,20 @@ test('generateScreenshot - no args', async t => {
 
 test('generateScreenshot - args - wrong screenType', async t => {
   await browser.launch(browserConfig);
-  let r = await generateScreenshot(pathPng, dimensions, clipRegion, screenTypeJpeg, browser);
+  let r = await generateScreenshot(pathPng, dimensions, clipRegions, screenTypeJpeg, browser);
   t.is(r, 1);
 });
 
 test('generateScreenshot - args - jpeg', async t => {
   await browser.launch(browserConfig);
-  let r = await generateScreenshot(pathJpeg, dimensions, clipRegion, screenTypeJpeg, browser, quality);
+  let r = await generateScreenshot(pathJpeg, dimensions, clipRegions, screenTypeJpeg, browser, quality);
   t.is(r, 0);
   t.is(fs.existsSync(newPathJpeg), true);
 });
 
 test('generateScreenshot - args - png', async t => {
   await browser.launch(browserConfig);
-  let r = await generateScreenshot(pathPng, dimensions, clipRegion, screenTypePng, browser);
+  let r = await generateScreenshot(pathPng, dimensions, clipRegions, screenTypePng, browser);
   t.is(r, 0);
   t.is(fs.existsSync(newPathPng), true);
 });

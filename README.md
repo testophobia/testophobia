@@ -168,7 +168,7 @@ Testophobia instance:
 
 `golden`: (boolean) generate the golden screenshots | default: false
 
-`delay`: (number) the amount of time (in ms) to delay before taking the screenshot for each test 
+`delay`: (number) the amount of time (in ms) to delay before taking the screenshot for each test
 
 `debug`: (boolean) provides additional output during tests, runs a full version of chromium, pipes browser console output to local CLI  | default: false
 
@@ -180,7 +180,7 @@ Testophobia instance:
 
 `quality`: (number) if jpeg fileType, the quality setting (1-100) for the image | default: 80
 
-`dimensions`: (array) the type / dimensions for the screenshot | default: desktop (1024x768) and mobile (375x812)
+`dimensions`: (array) the type / dimensions for the browser window | default: desktop (1024x768) and mobile (375x812)
 
 - `type`: (string) the desired name of the defined device/resolution/dimension
 
@@ -190,7 +190,17 @@ Testophobia instance:
 
 - `scale`: (decimal) the scale of the screenshot by percentage (from 0 to 1) (see [__Image Scaling__](#image-scaling) below) | default: 1
 
-`clipRegion`: (object) {left/right/top/bottom} Region of the window to capture (vs. the whole window) | default null
+`clipRegions`: (array) Region of the window to capture (vs. the whole window) | default null
+
+- `type`: (string) dimension name this maps to
+
+- `left`: (number, in px) the desired left of the screenshot
+
+- `top`: (number, in px) the desired top of the screenshot
+
+- `right`: (number, in px) the desired right of the screenshot
+
+- `bottom`: (number, in px) the desired bottom of the screenshot
 
 `testDirectory`: (string) desired file location for the test screenshots | default: ./testophobia/test-screens
 
@@ -216,9 +226,9 @@ Test definition properties:
 
 `threshold`: (decimal) sets the strictness of the comparison (from 0 to 1) at the test level
 
-`clipRegion`: (object) {left/right/top/bottom} Region of the window to capture (vs. the whole window) | default null
+`clipRegions`: (array) `clipsRegions` override per test, see main config `clipRegions` | default null
 
-`actionsClipRegion`: (object) if set, along with clipRegion, will affect all of the action screenshots, while clipRegion only affects the initial test screenshot | default null
+`actionsClipRegion`: (array) if set, along with clipRegions, will affect all of the action screenshots, while clipRegions only affects the initial test screenshot | default null
 
 `actions`: (array) list of interactions to perform sequentially. Each action is an object consisting of:
 
@@ -258,7 +268,7 @@ Test definition properties:
 
 - `delay`: (number) the amount of time (in ms) to delay before taking a screenshot, after performing the action
 
-- `clipRegion`: (object) {left/right/top/bottom} Region of the window to capture (vs. the whole window) | default null
+- `clipRegions`: (array) `clipsRegions` override per action, see main config `clipRegions` | default null
 
 - `skipScreen`: (boolean) whether to skip taking a screenshot after performing the action
 
