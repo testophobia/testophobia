@@ -262,6 +262,10 @@ Test definition properties:
 
     - `key`: (string) the KeyboardEvent key for the key event being dispatched.
 
+  - `input` - mimic the keyboard _typing_ the value into the element
+
+    - `value`: (string) the string of text to _type_ into the element
+
   - `hover` - hover the mouse over the specified target
 
 - `target`: (\*) the target HTML element to perform the action on. Takes a selector or element reference
