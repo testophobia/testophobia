@@ -266,6 +266,8 @@ Test definition properties:
 
     - `value`: (string) the string of text to _type_ into the element
 
+  - `clearInput` - simulate a _select-all_ and _backspace_ on an input element
+
   - `hover` - hover the mouse over the specified target
 
 - `target`: (\*) the target HTML element to perform the action on. Takes a selector or element reference
