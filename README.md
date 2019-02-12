@@ -230,6 +230,8 @@ Test definition properties:
 
 `actionsClipRegion`: (array) if set, along with clipRegions, will affect all of the action screenshots, while clipRegions only affects the initial test screenshot | default null
 
+`skipScreen`: (boolean) whether to skip taking the initial screenshot after loading
+
 `actions`: (array) list of interactions to perform sequentially. Each action is an object consisting of:
 
 - `type`: (string) the type of action to run.  supported actions include:
@@ -273,6 +275,8 @@ Test definition properties:
 - `target`: (\*) the target HTML element to perform the action on. Takes a selector or element reference
 
 - `delay`: (number) the amount of time (in ms) to delay before taking a screenshot, after performing the action
+
+- `threshold`: (decimal) sets the strictness of the comparison (from 0 to 1) at the test action level
 
 - `clipRegions`: (array) `clipsRegions` override per action, see main config `clipRegions` | default null
 
