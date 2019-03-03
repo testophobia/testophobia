@@ -10,6 +10,7 @@ const {RecorderServer} = require('./recorder-server');
 exports.TestophobiaRecorder = class TestophobiaRecorder {
   async launch() {
     let baseUrl = 'about:blank';
+    let testsGlob = 'testophobia/tests/**/*.test.js';
     let defWidth = 1024;
     let defHeight = 768;
 
@@ -17,6 +18,7 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
     if (fs.existsSync(`${process.cwd()}/testophobia.config.js`)) {
       let config = loadConfig();
       baseUrl = config.baseUrl;
+      testsGlob = config.tests || testsGlob;
       if (config.dimensions && config.dimensions.length) {
         defWidth = config.dimensions[0].width;
         defHeight = config.dimensions[0].height;
@@ -74,6 +76,6 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
     await page.goto(baseUrl, {waitUntil: 'networkidle0'});
 
     //start the server
-    RecorderServer.start(baseUrl, page);
+    RecorderServer.start(baseUrl, testsGlob, page);
   }
 };

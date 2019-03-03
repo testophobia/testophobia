@@ -1,5 +1,6 @@
 /* global require, process, exports, module */
 const fs = require('fs');
+const glob = require('glob');
 const path = require('path');
 const esm = require('esm');
 const mkdirp = require('mkdirp');
@@ -12,7 +13,7 @@ const app = express();
 app.use(bodyParser.text({}));
 
 exports.RecorderServer = {
-  start: (baseUrl, page) => {
+  start: (baseUrl, testsGlob, page) => {
     //add handler to perform recorder actions thru puppeteer
     app.post('/performAction/:actionString', async (req, res) => {
       //to make sure our shadow dom lib is always loaded, even when navigating, we'll remove it if it exists and re-add
@@ -37,17 +38,8 @@ exports.RecorderServer = {
     });
 
     //add handler to retrieve the list of available tests
-    app.get('/tests', (req, res) => {
-      let results = '';
-      const tDir = `${process.cwd()}/testophobia/tests`;
-      if (fs.existsSync(tDir)) {
-        const getAllFiles = dir => fs.readdirSync(dir).reduce((files, file) => {
-          const name = path.join(dir, file);
-          const isDirectory = fs.statSync(name).isDirectory();
-          return isDirectory ? [...files, ...getAllFiles(name)] : [...files, path.relative(tDir, name)];
-        }, []);
-        results = getAllFiles(tDir);
-      }
+    app.get('/tests', async (req, res) => {
+      let results = await glob.sync(testsGlob);
       res.header('Content-Type', 'application/json');
       res.send(JSON.stringify(results));
     });
@@ -61,7 +53,7 @@ exports.RecorderServer = {
 
     //add handler to retrieve a single test definition
     app.get('/test/:testPath', (req, res) => {
-      let file = esm(module, {cjs: false, force: true, mode: 'all'})(path.join(`${process.cwd()}/testophobia/tests`, decodeURIComponent(req.params.testPath)));
+      let file = esm(module, {cjs: false, force: true, mode: 'all'})(path.join(process.cwd(), decodeURIComponent(req.params.testPath)));
       res.header('Content-Type', 'application/json');
       res.send(JSON.stringify(file.default || {}));
     });
@@ -70,7 +62,7 @@ exports.RecorderServer = {
     app.post('/test/:testPath', (req, res) => {
       let json = JSON.parse(req.body);
       json = JSON.stringify(json, null, 2);
-      const testFile = path.join(`${process.cwd()}/testophobia/tests`, decodeURIComponent(req.params.testPath));
+      const testFile = path.join(process.cwd(), decodeURIComponent(req.params.testPath));
       if (!fs.existsSync(path.dirname(testFile))) mkdirp.sync(path.dirname(testFile));
       fs.writeFileSync(testFile, `export default ${json};`);
       res.sendStatus(200);
