@@ -39,7 +39,13 @@ exports.RecorderServer = {
 
     //add handler to retrieve the list of available tests
     app.get('/tests', async (req, res) => {
-      let results = await glob.sync(testsGlob);
+      let results;
+      if (Array.isArray(testsGlob)) {
+        results = Array.apply(null, Array(testsGlob.length));
+        results = results.map((x, i) => 'inline-test-' + i);
+      } else {
+        results = await glob.sync(testsGlob);
+      }
       res.header('Content-Type', 'application/json');
       res.send(JSON.stringify(results));
     });
@@ -53,9 +59,14 @@ exports.RecorderServer = {
 
     //add handler to retrieve a single test definition
     app.get('/test/:testPath', (req, res) => {
-      let file = esm(module, {cjs: false, force: true, mode: 'all'})(path.join(process.cwd(), decodeURIComponent(req.params.testPath)));
       res.header('Content-Type', 'application/json');
-      res.send(JSON.stringify(file.default || {}));
+      if (req.params.testPath.indexOf('inline-test-') === 0) {
+        const testIdx = req.params.testPath.substr(12);
+        res.send(testsGlob[parseInt(testIdx)]);
+      } else {
+        const file = esm(module, {cjs: false, force: true, mode: 'all'})(path.join(process.cwd(), decodeURIComponent(req.params.testPath)));
+        res.send(JSON.stringify(file.default || {}));
+      }
     });
 
     //add handler to save a single test definition
