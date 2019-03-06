@@ -8,7 +8,10 @@ bgConnection.onMessage.addListener(request => {
     case 'testophobia-content-ready':
       Testophobia.setSelectedElement();
       Testophobia.retrieveActions();
-      Testophobia.chooseTest();
+      if (localStorage.getItem('testophobia-test-loading'))
+        localStorage.removeItem('testophobia-test-loading');
+      else
+        Testophobia.chooseTest();
       break;
     case 'testophobia-page-refresh':
       if (enabled) bgConnection.postMessage({name: 'testophobia-init', tabId: chrome.devtools.inspectedWindow.tabId});

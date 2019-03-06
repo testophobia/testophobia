@@ -71,6 +71,7 @@ exports.RecorderServer = {
 
     //add handler to save a single test definition
     app.post('/test/:testPath', (req, res) => {
+      //TODO - saving inline tests?
       let json = JSON.parse(req.body);
       json = JSON.stringify(json, null, 2);
       const testFile = path.join(process.cwd(), decodeURIComponent(req.params.testPath));

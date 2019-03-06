@@ -1,4 +1,4 @@
 export default {
   name: "about",
-  path: "/testophobia/examples/basic/about/about.html"
+  path: "/basic/about/about.html"
 };
