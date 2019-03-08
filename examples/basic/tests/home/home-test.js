@@ -1,6 +1,6 @@
 export default {
   name: "home",
-  path: "/basic/home/index.html",
+  path: "/testophobia/examples/basic/home/index.html",
   actions: [
     {
       excludeDimensions: ['mobile', 'tablet'],
