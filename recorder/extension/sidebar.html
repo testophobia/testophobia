@@ -74,7 +74,7 @@
       </div>
       <br><br>
       <label>Target</label>
-      <input id="txtTarget" readonly/>
+      <input id="txtTarget"/>
       <div id="divAddlFields"></div>
       <label>Delay before snapshot</label>
       <input id="txtDelay"/>
@@ -102,6 +102,14 @@
       <input id="txtThreshold"/>
     </div>
     <button id="btnPostTest" class="green button">Save</button>
+  </div>
+
+  <!-- Alert Dialog -->
+  <div id="divAlert" hidden>
+    <h3 id="titleAlert"></h3>
+    <div id="divAlertClose">&times;</div>
+    <div id="divAlertMessage"></div>
+    <button id="btnAlertClose" class="blue button">OK</button>
   </div>
 
   <!-- Imports -->

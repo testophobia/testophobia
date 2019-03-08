@@ -1,4 +1,5 @@
 /* global $, Testophobia */
+
 $('#btnClearAll').click(() => {
   if (confirm('Are you sure you want to clear all actions?')) {
     Testophobia.actions = [];
@@ -40,6 +41,10 @@ function hideSaveDialog() {
 
 function saveTest() {
   clearValidation();
+  if (Testophobia.activeTestPath.indexOf('inline-test-') === 0) { //until we can support saving these tests
+    setTimeout(() => Testophobia.showAlert('Error', 'Inline tests cannot be modified with the Testophobia recorder at this time.'), 100);
+    return;
+  }
   if (!Testophobia.activeTest) {
     if (/(.|\s)*\S(.|\s)*/.test($('#divTestProps #txtFile').val())) {
       Testophobia.activeTestPath = $('#divTestProps #txtFile').val();
@@ -74,7 +79,7 @@ function saveTest() {
       body: JSON.stringify(Testophobia.activeTest)
     }).then(() => {
       hideSaveDialog();
-      setTimeout(() => alert('Test saved.'), 100);
+      setTimeout(() => Testophobia.showAlert('Success', 'Test saved.'), 100);
     });
 }
 

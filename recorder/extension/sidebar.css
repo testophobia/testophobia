@@ -90,7 +90,7 @@ h2 {
   z-index: 100;
 }
 
-#divDetails, #divSaveDialog {
+#divDetails, #divSaveDialog, #divAlert {
   z-index: 101;
   position: absolute;
   top: calc(50% - 150px);
@@ -107,7 +107,21 @@ h2 {
   align-items: flex-start;
 }
 
-#divDetailsClose, #divSaveDialogClose {
+#divAlert {
+  width: unset;
+  height: unset;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 80%;
+  min-width: 200px;
+}
+
+#divAlert #titleAlert {
+  margin-top: 4px;
+}
+
+#divDetailsClose, #divSaveDialogClose, #divAlertClose {
   font-size: 20px;
   position: absolute;
   top: 10px;
@@ -154,6 +168,10 @@ h2 {
 
 #divDetails button, #divSaveDialog button {
   margin-top: 10px;
+}
+
+#divAlert button {
+  margin: 25px auto 5px;
 }
 
 #btnSaveTest {
