@@ -22,11 +22,12 @@ bgConnection.onMessage.addListener(request => {
 enabled = true;
 bgConnection.postMessage({name: 'testophobia-init', tabId: chrome.devtools.inspectedWindow.tabId});
 
-Testophobia.showAlert = (title, message) => {
+Testophobia.showAlert = (title, message, cb) => {
   $('#titleAlert').text(title);
   $('#divAlertMessage').text(message);
   $('#divBackdrop').removeAttr('hidden');
   $('#divAlert').removeAttr('hidden');
+  if (cb) cb();
 };
 
 function hideAlert() {

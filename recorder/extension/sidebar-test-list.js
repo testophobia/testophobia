@@ -7,15 +7,32 @@ Testophobia.chooseTest = () => {
   Testophobia.actions = [];
   Testophobia.actionsChanged();
   fetchTests().then(() => {
+    $('#divTestList').removeAttr('hidden');
+    $('#divControls').attr('hidden', '');
+    $('#lnkStartOver').attr('hidden', '');
     if (Testophobia.tests && Testophobia.tests.length) {
-      $('#divTestList').removeAttr('hidden');
-      $('#divControls').attr('hidden', '');
-      $('#lnkStartOver').attr('hidden', '');
+      $('#divTestListLabel').text('Existing Tests');
       testsChanged();
     } else {
-      hideTestList();
+      $('#divTestListLabel').text('No Tests Found!');
     }
   });
+};
+
+Testophobia.loadTest = testPath => {
+  hideTestList();
+  setTestName(testPath);
+  fetch(`${Testophobia.serverUrl}/test/${encodeURIComponent(testPath)}`)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
+      Testophobia.activeTest = data;
+      Testophobia.activeTestPath = testPath;
+      setTestophobiaActions(data.actions);
+      localStorage.setItem('testophobia-test-loading', true);
+      fetch(`${Testophobia.serverUrl}/navigate/${encodeURIComponent(data.path)}`, {method:'post'});
+    });
 };
 
 function fetchTests() {
@@ -32,23 +49,6 @@ function fetchTests() {
     });
 }
 
-function loadTest(e) {
-  hideTestList();
-  const testPath = $(e.target).text();
-  setTestName(testPath);
-  fetch(`${Testophobia.serverUrl}/test/${encodeURIComponent(testPath)}`)
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(data) {
-      Testophobia.activeTest = data;
-      Testophobia.activeTestPath = testPath;
-      setTestophobiaActions(data.actions);
-      localStorage.setItem('testophobia-test-loading', true);
-      fetch(`${Testophobia.serverUrl}/navigate/${encodeURIComponent(data.path)}`, {method:'post'});
-    });
-}
-
 function hideTestList() {
   $('#divTestList').attr('hidden', '');
   $('#divControls').removeAttr('hidden');
@@ -61,7 +61,7 @@ function testsChanged() {
     rendered += `<li data-index="${idx}">${t}</li>`;
   });
   $('#divTestList ul').html(rendered);
-  $('#divTestList ul li').click(loadTest);
+  $('#divTestList ul li').click(e => Testophobia.loadTest($(e.target).text()));
 }
 
 function setTestName(name) {
@@ -76,6 +76,7 @@ function setTestophobiaActions(actions) {
 $('#btnNewTest').click(() => {
   hideTestList();
   setTestName('(new test)');
+  Testophobia.showSaveDialog();
 });
 
 $('#lnkStartOver').click(() => {
