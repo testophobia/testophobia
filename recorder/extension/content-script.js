@@ -73,13 +73,17 @@ function getUniqueSelector(elSrc) { //eslint-disable-line no-unused-vars
   // Walk up the DOM tree to compile a unique selector
   var findSelectorForElement = function(el, root) {
     var returnVal;
-    while (findParentOrHost(el, root)) {
-      var check = getSelector(el, root);
-      if (check) {
-        returnVal = aSel.join(' > ');
-        break;
+    if (el.nodeName === 'HTML') {
+      returnVal = 'html';
+    } else {
+      while (findParentOrHost(el, root)) {
+        var check = getSelector(el, root);
+        if (check) {
+          returnVal = aSel.join(' > ');
+          break;
+        }
+        el = findParentOrHost(el, root);
       }
-      el = findParentOrHost(el, root);
     }
     return returnVal;
   };

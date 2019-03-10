@@ -117,6 +117,19 @@ $ testophobia
    Test Failure: home-view (tablet)
 ```
 
+### Generating configs and test files
+
+The `testophobia` command provides the ability to generate some initial files to get you up and running quickly.
+
+The first step to adding Testophobia tests to your project is to create the config file.  This can be done by running:
+
+```bash
+$ testophobia -i
+```
+
+Follow the command prompts to generate the config file.  This command can also be used to generate initial test
+definition files, which is useful when building tests using the [__Recorder__](#recorder---chrome-devtools-extension).
+
 ## Testophobia Viewer
 
 Testophobia includes a web-based viewer tool, for comparing and resolving test failures.  When a test run has failures,
@@ -348,7 +361,7 @@ $ testophobia path/to/my/tests/**/*-test.js
 
 `--golden | -g`: generate the golden screenshots
 
-`--init | -i`: generate a Testophobia config file in the current directory
+`--init | -i`: generate a Testophobia config file or test file
 
 `--skip-viewer | -s`: prevents the Testophobia viewer from displaying automatically on test failure
 

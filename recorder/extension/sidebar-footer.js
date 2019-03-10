@@ -1,16 +1,5 @@
 /* global $, Testophobia */
 
-$('#btnClearAll').click(() => {
-  if (confirm('Are you sure you want to clear all actions?')) {
-    Testophobia.actions = [];
-    Testophobia.actionsChanged();
-  }
-});
-
-$('#btnSaveTest').click(Testophobia.showSaveDialog);
-$('#btnPostTest').click(saveTest);
-$('#divSaveDialogClose').click(hideSaveDialog);
-
 Testophobia.showSaveDialog = () => {
   clearValidation();
   if (Testophobia.activeTest) {
@@ -33,6 +22,17 @@ Testophobia.showSaveDialog = () => {
   $('#divSaveDialog').removeAttr('hidden');
   $('#divTestProps input').get(0).focus();
 };
+
+$('#btnClearAll').click(() => {
+  if (confirm('Are you sure you want to clear all actions?')) {
+    Testophobia.actions = [];
+    Testophobia.actionsChanged();
+  }
+});
+
+$('#btnSaveTest').click(Testophobia.showSaveDialog);
+$('#btnPostTest').click(saveTest);
+$('#divSaveDialogClose').click(hideSaveDialog);
 
 function hideSaveDialog() {
   $('#divBackdrop').attr('hidden', '');
