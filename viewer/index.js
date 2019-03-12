@@ -147,6 +147,8 @@ function loadTest() {
     $('#img-before').attr('src', '');
     $('#img-after').attr('src', '');
     $('#img-diff').attr('src', '');
+    $('#lbl-pager').text(`Failure: ${Testophobia.currentTestIdx + 1} of ${Testophobia.testRunInfo.failures.length}`);
+    $('#lbl-testname').text(`${Testophobia.currentTestFailure.test} - ${Testophobia.currentTestFailure.screenType}`);
   } else {
     $('#btn-diff').button('enable');
     $('#sld-diff').slider('enable');
