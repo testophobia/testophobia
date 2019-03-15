@@ -49,6 +49,7 @@ function layoutDialog() {
   }
   $('#divAddlFields').html(fieldsHtml + '\n    ');
   $('#divFields #txtDelay').val(action.delay || '');
+  $('#divFields #txtThreshold').val(action.threshold || '');
   $('#divFields #chkSkipScreen').prop('checked', action.skipScreen || false);
   $('#divBackdrop').removeAttr('hidden');
   $('#divDetails').removeAttr('hidden');
@@ -62,6 +63,10 @@ $('#btnSaveEdits').click(() => {
     Testophobia.actions[Testophobia.dialogActionIndex].delay = Number($('#divFields #txtDelay').val());
   else
     delete Testophobia.actions[Testophobia.dialogActionIndex].delay;
+  if (/^0\.[1-9]$/.test($('#divFields #txtThreshold').val()))
+    Testophobia.actions[Testophobia.dialogActionIndex].threshold = Number($('#divFields #txtThreshold').val());
+  else
+    delete Testophobia.actions[Testophobia.dialogActionIndex].threshold;
   if ($('#divFields #chkSkipScreen').prop('checked'))
     Testophobia.actions[Testophobia.dialogActionIndex].skipScreen = true;
   else

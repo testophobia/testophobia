@@ -106,10 +106,10 @@ h2 {
 #divDetails, #divTestDialog, #divAlert {
   z-index: 101;
   position: absolute;
-  top: calc(50% - 150px);
-  left: 10%;
-  width: 80%;
-  height: 340px;
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
   background: #333;
   color: #fff;
   padding: 10px 20px;
@@ -118,13 +118,6 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-
-#divTestDialog {
-  top: 32px;
-  left: 5%;
-  width: 90%;
-  height: calc(100% - 64px);
 }
 
 #divAlert {
