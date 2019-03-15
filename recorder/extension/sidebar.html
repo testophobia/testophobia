@@ -85,10 +85,10 @@
   </div>
 
   <!-- Test SaveDialog -->
-  <div id="divSaveDialog" hidden>
+  <div id="divTestDialog" hidden fullscreen>
     <h3>Save Test</h3>
-    <div id="divSaveDialogClose">&times;</div>
-    <h5 id="divSaveDialogTitle"></h5>
+    <div id="divTestDialogClose">&times;</div>
+    <h5 id="divTestDialogTitle"></h5>
     <div id="divTestProps">
       <label>Relative File Path</label>
       <input id="txtFile"/>
@@ -100,6 +100,8 @@
       <input id="txtDelay"/>
       <label>Threshold</label>
       <input id="txtThreshold"/>
+      <input id="chkSkipScreen" type="checkbox"/>
+      <label for="chkSkipScreen">Skip initial snapshot</label>
     </div>
     <button id="btnPostTest" class="green button">Save</button>
   </div>
@@ -119,6 +121,7 @@
   <script src="sidebar-action-controls.js"></script>
   <script src="sidebar-actions-table.js"></script>
   <script src="sidebar-actions-dialog.js"></script>
+  <script src="sidebar-test-dialog.js"></script>
   <script src="sidebar-footer.js"></script>
   <script src="sidebar.js"></script>
 </body>

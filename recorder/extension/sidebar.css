@@ -37,13 +37,26 @@ h2 {
 }
 
 #divTestList ul li {
-  padding: 10px;
+  padding: 0px 8px;
   cursor: pointer;
   border-bottom: 1px solid #454545;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-#divTestList ul li:hover {
-  background: #666;
+#divTestList ul li span:hover {
+  opacity: 0.8;
+}
+
+#divTestList ul li span:first-child {
+  flex: 1;
+  line-height: 36px;
+}
+
+#divTestList ul li svg {
+  cursor: pointer;
+  fill: #269CE9;
 }
 
 #divCurrentTest {
@@ -90,7 +103,7 @@ h2 {
   z-index: 100;
 }
 
-#divDetails, #divSaveDialog, #divAlert {
+#divDetails, #divTestDialog, #divAlert {
   z-index: 101;
   position: absolute;
   top: calc(50% - 150px);
@@ -107,6 +120,13 @@ h2 {
   align-items: flex-start;
 }
 
+#divTestDialog {
+  top: 32px;
+  left: 5%;
+  width: 90%;
+  height: calc(100% - 64px);
+}
+
 #divAlert {
   width: unset;
   height: unset;
@@ -121,7 +141,7 @@ h2 {
   margin-top: 4px;
 }
 
-#divDetailsClose, #divSaveDialogClose, #divAlertClose {
+#divDetailsClose, #divTestDialogClose, #divAlertClose {
   font-size: 20px;
   position: absolute;
   top: 10px;
@@ -129,7 +149,7 @@ h2 {
   cursor: pointer;
 }
 
-#divDetails h5, #divSaveDialog h5 {
+#divDetails h5, #divTestDialog h5 {
   text-overflow: ellipsis;
   overflow-x: hidden;
   white-space: nowrap;
@@ -137,20 +157,20 @@ h2 {
 }
 
 #divDetails #divFields,
-#divSaveDialog #divTestProps {
+#divTestDialog #divTestProps {
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   flex: 1;
 }
 
-#divDetails label, #divSaveDialog label {
+#divDetails label, #divTestDialog label {
   font-size: 10px;
   margin-left: 1px;
 }
 
 #divDetails input:not([type="checkbox"]),
-#divSaveDialog input:not([type="checkbox"]) {
+#divTestDialog input:not([type="checkbox"]) {
   display: block;
   margin-bottom: 10px;
   width: calc(100% - 10px);
@@ -162,11 +182,11 @@ h2 {
 }
 
 #divDetails input[invalid],
-#divSaveDialog input[invalid] {
+#divTestDialog input[invalid] {
   border: 1px solid red;
 }
 
-#divDetails button, #divSaveDialog button {
+#divDetails button, #divTestDialog button {
   margin-top: 10px;
 }
 
