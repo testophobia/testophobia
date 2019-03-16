@@ -27,18 +27,18 @@ h2 {
   color: #eee;
 }
 
-#divTestList ul {
+#divTestList ul, #lstDimensions {
   margin: 0 0 20px;
   padding: 0;
   list-style-type: none;
   background: #222;
   max-height: 400px;
+  min-height: 24px;
   overflow: auto;
 }
 
-#divTestList ul li {
+#divTestList ul li, #lstDimensions li {
   padding: 0px 8px;
-  cursor: pointer;
   border-bottom: 1px solid #454545;
   display: flex;
   flex-direction: row;
@@ -46,17 +46,29 @@ h2 {
 }
 
 #divTestList ul li span:hover {
+  cursor: pointer;
   opacity: 0.8;
 }
 
-#divTestList ul li span:first-child {
+#divTestList ul li span:first-child,
+#lstDimensions li span:first-child {
   flex: 1;
   line-height: 36px;
 }
 
-#divTestList ul li svg {
-  cursor: pointer;
+#divTestList ul li svg[data-type="edit"],
+#lstDimensions li svg[data-type="edit"] {
   fill: #269CE9;
+}
+#divTestList ul li svg[data-type="del"],
+#lstDimensions li svg[data-type="del"] {
+  fill: #ca3535;
+}
+
+#divTestList ul li svg:hover,
+#lstDimensions li svg:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 #divCurrentTest {
@@ -103,7 +115,7 @@ h2 {
   z-index: 100;
 }
 
-#divDetails, #divTestDialog, #divAlert {
+.dialog, #divAlert {
   z-index: 101;
   position: absolute;
   top: 5%;
@@ -130,11 +142,16 @@ h2 {
   min-width: 200px;
 }
 
+#divDimDialog {
+  height: 300px;
+  top: calc(50% - 150px);
+}
+
 #divAlert #titleAlert {
   margin-top: 4px;
 }
 
-#divDetailsClose, #divTestDialogClose, #divAlertClose {
+.dailogClose {
   font-size: 20px;
   position: absolute;
   top: 10px;
@@ -142,28 +159,32 @@ h2 {
   cursor: pointer;
 }
 
-#divDetails h5, #divTestDialog h5 {
+.dialog h5 {
   text-overflow: ellipsis;
   overflow-x: hidden;
   white-space: nowrap;
   max-width: 100%;
 }
 
-#divDetails #divFields,
-#divTestDialog #divTestProps {
+.dialogForm {
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   flex: 1;
 }
 
-#divDetails label, #divTestDialog label {
+.dialogForm label {
   font-size: 10px;
   margin-left: 1px;
+  margin-bottom: 2px;
+  display: block;
 }
 
-#divDetails input:not([type="checkbox"]),
-#divTestDialog input:not([type="checkbox"]) {
+.dialogForm label[for^="chk"] {
+  display: inline-block;
+}
+
+.dialogForm input:not([type="checkbox"]) {
   display: block;
   margin-bottom: 10px;
   width: calc(100% - 10px);
@@ -174,17 +195,32 @@ h2 {
   outline: none;
 }
 
-#divDetails input[invalid],
-#divTestDialog input[invalid] {
+.dialogForm input[invalid] {
   border: 1px solid red;
 }
 
-#divDetails button, #divTestDialog button {
+.dialogBtn  {
   margin-top: 10px;
 }
 
 #divAlert button {
   margin: 25px auto 5px;
+}
+
+div.listHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+div.listHeader label {
+  flex: 1;
+}
+
+div.listHeader button {
+  margin: 0;
+  padding: 4px;
+  font-size: 10px;
 }
 
 #btnSaveTest {

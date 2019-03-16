@@ -1,5 +1,11 @@
 /* global $, Testophobia */
 
+Testophobia.getEditingTest = () => {
+  return (Testophobia.editingTest) ?
+                {config:Testophobia.editingTest,path:Testophobia.editingTestPath} :
+                {config:Testophobia.activeTest,path:Testophobia.activeTestPath};
+};
+
 Testophobia.showTestDialog = () => {
   clearValidation();
   if (Testophobia.editingTest) {
@@ -18,9 +24,9 @@ Testophobia.showTestDialog = () => {
   $('#divTestDialog #divTestProps input').get(0).focus();
 };
 
-
+$('#btnAddTestDimension').click(addDimension);
 $('#divTestDialog #btnPostTest').click(saveTest);
-$('#divTestDialog #divTestDialogClose').click(hideSaveDialog);
+$('#divTestDialog .dailogClose').click(hideSaveDialog);
 
 function hideSaveDialog() {
   $('#divBackdrop').attr('hidden', '');
@@ -29,19 +35,56 @@ function hideSaveDialog() {
 
 function loadDialogValues(test, testPath) {
   $('#divTestDialog #divTestDialogTitle').removeAttr('hidden');
-  $('#divTestDialog #divTestProps label:nth-child(1)').attr('hidden', '');
+  $('#divTestDialog #divTestProps > label:nth-child(1)').attr('hidden', '');
   $('#divTestDialog #divTestProps #txtFile').attr('hidden', '');
   $('#divTestDialog #divTestDialogTitle').text(`${testPath}`);
   $('#divTestDialog #divTestProps #txtName').val(test.name || '');
   $('#divTestDialog #divTestProps #txtPath').val(test.path || '');
   $('#divTestDialog #divTestProps #txtDelay').val(test.delay || '');
   $('#divTestDialog #divTestProps #txtThreshold').val(test.threshold || '');
+  loadTestDimensions(test);
+}
+
+function loadTestDimensions(test) {
+  // const fields = ['type', 'width', 'height', 'scale'];
+  if (test.dimensions) {
+    let rendered = '';
+    test.dimensions.forEach((f, idx) => {
+      const displayString = `${f.type} - ${f.width}:${f.height} ${(f.scale) ? f.scale : ''}`;
+      rendered += `<li data-index="${idx}">`;
+      rendered += `<span>${displayString}</span>`;
+      rendered += `<svg data-row="${idx}" data-type="edit" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path></g></svg>`;
+      rendered += `<svg data-row="${idx}" data-type="del" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></g></svg>`;
+      rendered += '</li>';
+    });
+    $('#lstDimensions').html(rendered);
+    $('#lstDimensions li svg[data-type="edit"]').click(e => {
+      hideSaveDialog();
+      Testophobia.showDimensionsDialog($(e.currentTarget).attr('data-row'));
+    });
+    $('#lstDimensions li svg[data-type="del"]').click(e => {
+      deleteTestDimension($(e.currentTarget).attr('data-row'));
+    });
+  } else {
+    $('#lstDimensions').html('');
+  }
+}
+
+function deleteTestDimension(idx) {
+  const test = Testophobia.getEditingTest();
+  test.config.dimensions.splice(idx, 1);
+  loadTestDimensions(test);
+}
+
+function addDimension() {
+  hideSaveDialog();
+  Testophobia.showDimensionsDialog();
 }
 
 function saveTest() {
   clearValidation();
   const isEdit = Boolean(Testophobia.editingTest);
-  const test = (isEdit) ? {config:Testophobia.editingTest,path:Testophobia.editingTestPath} : {config:Testophobia.activeTest,path:Testophobia.activeTestPath};
+  const test = Testophobia.getEditingTest();
   if (test.path && test.path.indexOf('inline-test-') === 0) { //until we can support saving these tests
     setTimeout(() => Testophobia.showAlert('Error', 'Inline tests cannot be modified with the Testophobia recorder at this time.'), 100);
     return;

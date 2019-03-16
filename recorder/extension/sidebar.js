@@ -35,5 +35,5 @@ function hideAlert() {
   $('#divAlert').attr('hidden', '');
 }
 
-$('#divAlertClose').click(hideAlert);
+$('#divAlert .dialogClose').click(hideAlert);
 $('#btnAlertClose').click(hideAlert);

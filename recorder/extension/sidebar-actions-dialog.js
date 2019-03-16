@@ -56,7 +56,7 @@ function layoutDialog() {
   $('#divFields input').get(0).focus();
 }
 
-$('#divDetailsClose').click(Testophobia.hideDialog);
+$('#divDetails .dailogClose').click(Testophobia.hideDialog);
 
 $('#btnSaveEdits').click(() => {
   if (/^[1-9]\d*$/.test($('#divFields #txtDelay').val()))

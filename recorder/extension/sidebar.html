@@ -55,10 +55,10 @@
 
   <!-- Details Dialog -->
   <div id="divBackdrop" hidden></div>
-  <div id="divDetails" hidden>
+  <div id="divDetails" class="dialog" hidden>
     <h3>Action Details</h3>
-    <div id="divDetailsClose">&times;</div>
-    <div id="divFields">
+    <div class="dailogClose">&times;</div>
+    <div id="divFields" class="dialogForm">
       <div class="dropdown button blue" title="Select an Action Type">
         <select id="dlgAction" required>
           <option value="click">Click</option>
@@ -83,15 +83,15 @@
       <input id="chkSkipScreen" type="checkbox"/>
       <label for="chkSkipScreen">Skip snapshot for this action</label>
     </div>
-    <button id="btnSaveEdits" class="green button">Apply</button>
+    <button id="btnSaveEdits" class="dialogBtn green button">Apply</button>
   </div>
 
-  <!-- Test SaveDialog -->
-  <div id="divTestDialog" hidden fullscreen>
+  <!-- Test Dialog -->
+  <div id="divTestDialog" class="dialog" hidden>
     <h3>Save Test</h3>
-    <div id="divTestDialogClose">&times;</div>
+    <div class="dailogClose">&times;</div>
     <h5 id="divTestDialogTitle"></h5>
-    <div id="divTestProps">
+    <div id="divTestProps" class="dialogForm">
       <label>Relative File Path</label>
       <input id="txtFile"/>
       <label>Name</label>
@@ -104,14 +104,33 @@
       <input id="txtThreshold"/>
       <input id="chkSkipScreen" type="checkbox"/>
       <label for="chkSkipScreen">Skip initial snapshot</label>
+      <div class="listHeader"><label>Dimensions</label><button id="btnAddTestDimension" class="blue button">Add</button></div>
+      <ul id="lstDimensions"></ul>
     </div>
-    <button id="btnPostTest" class="green button">Save</button>
+    <button id="btnPostTest" class="dialogBtn green button">Save</button>
+  </div>
+
+  <!-- Dimensions Dialog -->
+  <div id="divDimDialog" class="dialog" hidden>
+    <h3>Test Dimension</h3>
+    <div class="dailogClose">&times;</div>
+    <div id="divDimProps" class="dialogForm">
+      <label>Type</label>
+      <input id="txtType"/>
+      <label>Width</label>
+      <input id="txtWidth"/>
+      <label>Height</label>
+      <input id="txtHeight"/>
+      <label>Scale</label>
+      <input id="txtScale"/>
+    </div>
+    <button id="btnSaveDimension" class="dialogBtn green button">Save</button>
   </div>
 
   <!-- Alert Dialog -->
   <div id="divAlert" hidden>
     <h3 id="titleAlert"></h3>
-    <div id="divAlertClose">&times;</div>
+    <div class="dailogClose">&times;</div>
     <div id="divAlertMessage"></div>
     <button id="btnAlertClose" class="blue button">OK</button>
   </div>
@@ -124,6 +143,7 @@
   <script src="sidebar-actions-table.js"></script>
   <script src="sidebar-actions-dialog.js"></script>
   <script src="sidebar-test-dialog.js"></script>
+  <script src="sidebar-dimensions-dialog.js"></script>
   <script src="sidebar-footer.js"></script>
   <script src="sidebar.js"></script>
 </body>
