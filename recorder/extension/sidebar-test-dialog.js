@@ -46,7 +46,6 @@ function loadDialogValues(test, testPath) {
 }
 
 function loadTestDimensions(test) {
-  // const fields = ['type', 'width', 'height', 'scale'];
   if (test.dimensions) {
     let rendered = '';
     test.dimensions.forEach((f, idx) => {
@@ -59,8 +58,9 @@ function loadTestDimensions(test) {
     });
     $('#lstDimensions').html(rendered);
     $('#lstDimensions li svg[data-type="edit"]').click(e => {
+      Testophobia.editingDimensionIndex = $(e.currentTarget).attr('data-row');
       hideSaveDialog();
-      Testophobia.showDimensionsDialog($(e.currentTarget).attr('data-row'));
+      Testophobia.showDimensionsDialog();
     });
     $('#lstDimensions li svg[data-type="del"]').click(e => {
       deleteTestDimension($(e.currentTarget).attr('data-row'));
@@ -73,7 +73,7 @@ function loadTestDimensions(test) {
 function deleteTestDimension(idx) {
   const test = Testophobia.getEditingTest();
   test.config.dimensions.splice(idx, 1);
-  loadTestDimensions(test);
+  loadTestDimensions(test.config);
 }
 
 function addDimension() {
