@@ -51,7 +51,7 @@ $('#actionsList').click(e => {
         playAction(actionIdx);
         break;
       case 'edit':
-        Testophobia.showDialog(actionIdx);
+        Testophobia.showActionDialog(actionIdx);
         break;
       case 'del':
         Testophobia.actions.splice(actionIdx, 1);

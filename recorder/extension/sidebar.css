@@ -27,8 +27,8 @@ h2 {
   color: #eee;
 }
 
-#divTestList ul, #lstDimensions {
-  margin: 0 0 20px;
+.dialogList {
+  margin: 0 0 10px;
   padding: 0;
   list-style-type: none;
   background: #222;
@@ -37,7 +37,7 @@ h2 {
   overflow: auto;
 }
 
-#divTestList ul li, #lstDimensions li {
+.dialogList li {
   padding: 0px 8px;
   border-bottom: 1px solid #454545;
   display: flex;
@@ -50,23 +50,19 @@ h2 {
   opacity: 0.8;
 }
 
-#divTestList ul li span:first-child,
-#lstDimensions li span:first-child {
+.dialogList li span:first-child {
   flex: 1;
   line-height: 36px;
 }
 
-#divTestList ul li svg[data-type="edit"],
-#lstDimensions li svg[data-type="edit"] {
+.dialogList li svg[data-type="edit"] {
   fill: #269CE9;
 }
-#divTestList ul li svg[data-type="del"],
-#lstDimensions li svg[data-type="del"] {
+.dialogList li svg[data-type="del"] {
   fill: #ca3535;
 }
 
-#divTestList ul li svg:hover,
-#lstDimensions li svg:hover {
+.dialogList li svg:hover {
   cursor: pointer;
   opacity: 0.8;
 }
@@ -135,16 +131,22 @@ h2 {
 #divAlert {
   width: unset;
   height: unset;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   max-width: 80%;
   min-width: 200px;
 }
 
 #divDimDialog {
-  height: 300px;
-  top: calc(50% - 150px);
+  max-height: 300px;
+}
+
+#divRegionsDialog {
+  max-height: 480px;
+}
+
+#divAlert, #divDimDialog, #divRegionsDialog {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #divAlert #titleAlert {

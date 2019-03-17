@@ -6,5 +6,5 @@ $('#btnAddAction').click(() => {
   const list = $('#actionsList').get(0);
   list.scrollTop = list.scrollHeight;
   if (['setProperty', 'setAttribute', 'removeAttribute', 'scroll', 'keypress', 'input'].indexOf(actionType) >= 0)
-    Testophobia.showDialog(Testophobia.actions.length - 1);
+    Testophobia.showActionDialog(Testophobia.actions.length - 1);
 });

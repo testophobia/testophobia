@@ -215,6 +215,10 @@ Testophobia instance:
 
 - `bottom`: (number, in px) the desired bottom of the screenshot
 
+- `width`: (number, in px) the desired width of the screenshot, overriding `right`
+
+- `height`: (number, in px) the desired height of the screenshot, overriding `bottom`
+
 `testDirectory`: (string) desired file location for the test screenshots | default: ./testophobia/test-screens
 
 `goldenDirectory`: (string) desired file location for the golden screenshots | default: ./testophobia/golden-screens

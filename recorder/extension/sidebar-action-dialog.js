@@ -2,7 +2,7 @@
 Testophobia.dialogActionIndex = -1;
 Testophobia.dialogActionType;
 
-Testophobia.showDialog = (actionIdx) => {
+Testophobia.showActionDialog = (actionIdx) => {
   Testophobia.dialogActionIndex = actionIdx;
   Testophobia.dialogActionType = Testophobia.actions[Testophobia.dialogActionIndex].type;
   $('#dlgAction').on('change', dropdownChanged);
@@ -11,7 +11,7 @@ Testophobia.showDialog = (actionIdx) => {
 
 Testophobia.hideDialog = () => {
   $('#divBackdrop').attr('hidden', '');
-  $('#divDetails').attr('hidden', '');
+  $('#divActionDialog').attr('hidden', '');
   $('#dlgAction').off('change');
   Testophobia.actionsChanged();
 };
@@ -48,26 +48,24 @@ function layoutDialog() {
       break;
   }
   $('#divAddlFields').html(fieldsHtml + '\n    ');
-  $('#divFields #txtDelay').val(action.delay || '');
-  $('#divFields #txtThreshold').val(action.threshold || '');
-  $('#divFields #chkSkipScreen').prop('checked', action.skipScreen || false);
+  $('#divActionProps #txtDelay').val(action.delay || '');
+  $('#divActionProps #txtThreshold').val(action.threshold || '');
+  $('#divActionProps #chkSkipScreen').prop('checked', action.skipScreen || false);
   $('#divBackdrop').removeAttr('hidden');
-  $('#divDetails').removeAttr('hidden');
-  $('#divFields input').get(0).focus();
+  $('#divActionDialog').removeAttr('hidden');
+  $('#divActionProps input').get(0).focus();
 }
 
-$('#divDetails .dailogClose').click(Testophobia.hideDialog);
-
-$('#btnSaveEdits').click(() => {
-  if (/^[1-9]\d*$/.test($('#divFields #txtDelay').val()))
-    Testophobia.actions[Testophobia.dialogActionIndex].delay = Number($('#divFields #txtDelay').val());
+function saveEdits() {
+  if (/^[1-9]\d*$/.test($('#divActionProps #txtDelay').val()))
+    Testophobia.actions[Testophobia.dialogActionIndex].delay = Number($('#divActionProps #txtDelay').val());
   else
     delete Testophobia.actions[Testophobia.dialogActionIndex].delay;
-  if (/^0\.[1-9]$/.test($('#divFields #txtThreshold').val()))
-    Testophobia.actions[Testophobia.dialogActionIndex].threshold = Number($('#divFields #txtThreshold').val());
+  if (/^0\.[1-9]$/.test($('#divActionProps #txtThreshold').val()))
+    Testophobia.actions[Testophobia.dialogActionIndex].threshold = Number($('#divActionProps #txtThreshold').val());
   else
     delete Testophobia.actions[Testophobia.dialogActionIndex].threshold;
-  if ($('#divFields #chkSkipScreen').prop('checked'))
+  if ($('#divActionProps #chkSkipScreen').prop('checked'))
     Testophobia.actions[Testophobia.dialogActionIndex].skipScreen = true;
   else
     delete Testophobia.actions[Testophobia.dialogActionIndex].skipScreen;
@@ -77,7 +75,7 @@ $('#btnSaveEdits').click(() => {
     Testophobia.actions[Testophobia.dialogActionIndex][this.id.substr(3)] = $(this).val();
   });
   Testophobia.hideDialog();
-});
+}
 
 Testophobia.setSelectedElement = () => {
   chrome.devtools.inspectedWindow.eval(`(function(){return getUniqueSelector($0);}())`,
@@ -88,4 +86,41 @@ Testophobia.setSelectedElement = () => {
   );
 };
 
+function buildList() {
+  let rendered = '';
+  rendered += '<h3>Action Details</h3>';
+  rendered += '<div class="dailogClose">&times;</div>';
+  rendered += '<div id="divActionProps" class="dialogForm">';
+  rendered += '<div class="dropdown button blue" title="Select an Action Type">';
+  rendered += '<select id="dlgAction" required>';
+  rendered += '<option value="click">Click</option>';
+  rendered += '<option value="hover">Hover</option>';
+  rendered += '<option value="scroll">Scroll</option>';
+  rendered += '<option value="clearInput">Clear Input</option>';
+  rendered += '<option value="input">Input Text</option>';
+  rendered += '<option value="keypress">Key Press</option>';
+  rendered += '<option value="setProperty">Set Property</option>';
+  rendered += '<option value="setAttribute">Set Attribute</option>';
+  rendered += '<option value="removeAttribute">Remove Attribute</option>';
+  rendered += '</select>';
+  rendered += '</div>';
+  rendered += '<br><br>';
+  rendered += '<label>Target</label>';
+  rendered += '<input id="txtTarget"/>';
+  rendered += '<div id="divAddlFields"></div>';
+  rendered += '<label>Delay before snapshot</label>';
+  rendered += '<input id="txtDelay"/>';
+  rendered += '<label>Threshold</label>';
+  rendered += '<input id="txtThreshold"/>';
+  rendered += '<input id="chkSkipScreen" type="checkbox"/>';
+  rendered += '<label for="chkSkipScreen">Skip snapshot for this action</label>';
+  rendered += '</div>';
+  rendered += '<button id="btnSaveEdits" class="dialogBtn green button">Apply</button>';
+  $('#divActionDialog').html(rendered);
+}
+
+buildList();
+
+$('#divActionDialog .dailogClose').click(Testophobia.hideDialog);
+$('#btnSaveEdits').click(saveEdits);
 chrome.devtools.panels.elements.onSelectionChanged.addListener(Testophobia.setSelectedElement);
