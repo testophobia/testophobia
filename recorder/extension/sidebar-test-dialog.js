@@ -39,7 +39,8 @@ function loadDialogValues(test, testPath) {
   $('#divTestDialog #divTestProps #txtDelay').val(test.delay || '');
   $('#divTestDialog #divTestProps #txtThreshold').val(test.threshold || '');
   loadTestDimensions(test);
-  loadClipRegions(test);
+  loadClipRegions(test, false);
+  loadClipRegions(test, true);
 }
 
 function loadTestDimensions(test) {
@@ -59,20 +60,25 @@ function loadTestDimensions(test) {
     });
 }
 
-function loadClipRegions(test) {
+function loadClipRegions(test, isAction) {
+  const modelProp = (isAction) ? 'actionsClipRegions' : 'clipRegions';
+  const idxField = (isAction) ? 'editingActionRegionsIndex' : 'editingClipRegionsIndex';
   Testophobia.buildListControl(
-    '#lstClipRegions',
-    test.clipRegions,
+    (isAction) ? '#lstActionClipRegions' : '#lstClipRegions',
+    test[modelProp],
     f => `${f.type} - ${f.left || 0}:${f.top || 0}:${f.width || f.right || '100%'}:${f.height || f.bottom || '100%'}`,
     e => {
-      Testophobia.editingClipRegionsIndex = $(e.currentTarget).attr('data-row');
+      Testophobia[idxField] = $(e.currentTarget).attr('data-row');
       hideSaveDialog();
-      Testophobia.showClipRegionsDialog();
+      Testophobia.showClipRegionsDialog(modelProp,
+                                        idxField ,
+                                        (isAction) ? '#divActionRegionsDialog' : '#divRegionsDialog',
+                                        (isAction) ? '#divActionRegionsProps' : '#divRegionsProps');
     },
     e => {
       const test = Testophobia.getEditingTest();
-      test.config.clipRegions.splice($(e.currentTarget).attr('data-row'), 1);
-      loadClipRegions(test.config);
+      test.config[modelProp].splice($(e.currentTarget).attr('data-row'), 1);
+      loadClipRegions(test.config, isAction);
     });
 }
 
@@ -81,9 +87,12 @@ function addDimension() {
   Testophobia.showDimensionsDialog();
 }
 
-function addClipRegion() {
+function addClipRegion(action) {
   hideSaveDialog();
-  Testophobia.showClipRegionsDialog();
+  if (action)
+    Testophobia.showClipRegionsDialog('clipRegions', 'editingClipRegionsIndex' , '#divRegionsDialog' , '#divRegionsProps');
+  else
+    Testophobia.showClipRegionsDialog('actionsClipRegions', 'editingActionRegionsIndex' , '#divActionRegionsDialog' , '#divActionRegionsProps');
 }
 
 function saveTest() {
@@ -168,6 +177,8 @@ function buildList() {
   rendered += '<ul id="lstDimensions" class="dialogList"></ul>';
   rendered += '<div class="listHeader"><label>Clip Regions</label><button id="btnAddTestClipRegion" class="blue button">Add</button></div>';
   rendered += '<ul id="lstClipRegions" class="dialogList"></ul>';
+  rendered += '<div class="listHeader"><label>Action Clip Regions</label><button id="btnAddTestActionClipRegion" class="blue button">Add</button></div>';
+  rendered += '<ul id="lstActionClipRegions" class="dialogList"></ul>';
   rendered += '<input id="chkSkipScreen" type="checkbox"/>';
   rendered += '<label for="chkSkipScreen">Skip initial snapshot</label>';
   rendered += '</div>';
@@ -177,6 +188,7 @@ function buildList() {
 
 buildList();
 $('#btnAddTestDimension').click(addDimension);
-$('#btnAddTestClipRegion').click(addClipRegion);
+$('#btnAddTestClipRegion').click(() => addClipRegion(true));
+$('#btnAddTestActionClipRegion').click(() => addClipRegion(false));
 $('#divTestDialog #btnPostTest').click(saveTest);
 $('#divTestDialog .dailogClose').click(hideSaveDialog);

@@ -139,11 +139,11 @@ h2 {
   max-height: 300px;
 }
 
-#divRegionsDialog {
+#divRegionsDialog, #divActionRegionsDialog {
   max-height: 480px;
 }
 
-#divAlert, #divDimDialog, #divRegionsDialog {
+#divAlert, #divDimDialog, #divRegionsDialog, #divActionRegionsDialog {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

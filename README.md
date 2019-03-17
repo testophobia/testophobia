@@ -245,7 +245,7 @@ Test definition properties:
 
 `clipRegions`: (array) `clipsRegions` override per test, see main config `clipRegions` | default null
 
-`actionsClipRegion`: (array) if set, along with clipRegions, will affect all of the action screenshots, while clipRegions only affects the initial test screenshot | default null
+`actionsClipRegions`: (array) if set, along with clipRegions, will affect all of the action screenshots, while clipRegions only affects the initial test screenshot | default null
 
 `skipScreen`: (boolean) whether to skip taking the initial screenshot after loading
 
