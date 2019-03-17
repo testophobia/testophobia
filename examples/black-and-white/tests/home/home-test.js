@@ -33,24 +33,5 @@ export default {
       "scrollTop": "2500",
       "scrollLeft": ""
     }
-  ],
-  "dimensions": [],
-  "clipRegions": [
-    {
-      "type": "clip2",
-      "left": 100,
-      "top": 200,
-      "right": 300,
-      "bottom": 400
-    }
-  ],
-  "actionsClipRegions": [
-    {
-      "type": "aclip2",
-      "left": 900,
-      "top": 800,
-      "right": 700,
-      "bottom": 300
-    }
   ]
 };
