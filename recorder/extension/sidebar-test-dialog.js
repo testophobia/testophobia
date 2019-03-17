@@ -1,5 +1,5 @@
 /* global $, Testophobia */
-
+(() => {
 Testophobia.getEditingTest = () => {
   return (Testophobia.editingTest) ?
                 {config:Testophobia.editingTest,path:Testophobia.editingTestPath} :
@@ -70,10 +70,13 @@ function loadClipRegions(test, isAction) {
     e => {
       Testophobia[idxField] = $(e.currentTarget).attr('data-row');
       hideSaveDialog();
-      Testophobia.showClipRegionsDialog(modelProp,
+      const test = Testophobia.getEditingTest();
+      Testophobia.showClipRegionsDialog(test.config,
+                                        modelProp,
                                         idxField ,
                                         (isAction) ? '#divActionRegionsDialog' : '#divRegionsDialog',
-                                        (isAction) ? '#divActionRegionsProps' : '#divRegionsProps');
+                                        (isAction) ? '#divActionRegionsProps' : '#divRegionsProps',
+                                        Testophobia.showTestDialog);
     },
     e => {
       const test = Testophobia.getEditingTest();
@@ -89,10 +92,11 @@ function addDimension() {
 
 function addClipRegion(action) {
   hideSaveDialog();
+  const test = Testophobia.getEditingTest();
   if (action)
-    Testophobia.showClipRegionsDialog('clipRegions', 'editingClipRegionsIndex' , '#divRegionsDialog' , '#divRegionsProps');
+    Testophobia.showClipRegionsDialog(test.config, 'clipRegions', 'editingClipRegionsIndex' , '#divRegionsDialog' , '#divRegionsProps', Testophobia.showTestDialog);
   else
-    Testophobia.showClipRegionsDialog('actionsClipRegions', 'editingActionRegionsIndex' , '#divActionRegionsDialog' , '#divActionRegionsProps');
+    Testophobia.showClipRegionsDialog(test.config, 'actionsClipRegions', 'editingActionRegionsIndex' , '#divActionRegionsDialog' , '#divActionRegionsProps', Testophobia.showTestDialog);
 }
 
 function saveTest() {
@@ -192,3 +196,4 @@ $('#btnAddTestClipRegion').click(() => addClipRegion(true));
 $('#btnAddTestActionClipRegion').click(() => addClipRegion(false));
 $('#divTestDialog #btnPostTest').click(saveTest);
 $('#divTestDialog .dailogClose').click(hideSaveDialog);
+})();

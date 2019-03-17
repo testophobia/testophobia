@@ -1,4 +1,5 @@
 /* global $, Testophobia, chrome */
+(() => {
 Testophobia.selectedElement = '';
 
 Testophobia.setSelectedElement = () => {
@@ -12,3 +13,4 @@ Testophobia.setSelectedElement = () => {
 };
 
 chrome.devtools.panels.elements.onSelectionChanged.addListener(Testophobia.setSelectedElement);
+})();

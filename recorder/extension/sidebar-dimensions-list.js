@@ -1,5 +1,5 @@
 /* global $, Testophobia */
-
+(() => {
 Testophobia.showDimensionsDialog = () => {
   const test = Testophobia.getEditingTest();
   if (!test.config.dimensions) test.config.dimensions = [];
@@ -13,7 +13,8 @@ Testophobia.showDimensionsDialog = () => {
       {name:'width', selector:'#txtWidth', type: 'number', required: true},
       {name:'height', selector:'#txtHeight', type: 'number', required: true},
       {name:'scale', selector:'#txtScale', type: 'decimal', required: false}
-    ]
+    ],
+    Testophobia.showTestDialog
   );
 };
 
@@ -31,8 +32,9 @@ function buildList() {
   rendered += '<label>Scale</label>';
   rendered += '<input id="txtScale"/>';
   rendered += '</div>';
-  rendered += '<button id="btnSaveDimension" class="dialogBtn green button">Save</button>';
+  rendered += '<button id="btnSaveDimension" class="dialogBtn green button">Apply</button>';
   $('#divDimDialog').html(rendered);
 }
 
 buildList();
+})();

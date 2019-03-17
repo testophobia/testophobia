@@ -1,4 +1,5 @@
 /* global $, Testophobia */
+(() => {
 $('#btnAddAction').click(() => {
   const actionType = $('#ddActionType').val();
   Testophobia.actions.push({type: actionType, target: $('#divSelected').html()});
@@ -8,3 +9,4 @@ $('#btnAddAction').click(() => {
   if (['setProperty', 'setAttribute', 'removeAttribute', 'scroll', 'keypress', 'input'].indexOf(actionType) >= 0)
     Testophobia.showActionDialog(Testophobia.actions.length - 1);
 });
+})();

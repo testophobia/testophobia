@@ -1,13 +1,12 @@
 /* global $, Testophobia */
-
-Testophobia.showClipRegionsDialog = (modelProp, idxField, dlgSelector, frmSelector) => {
-  const test = Testophobia.getEditingTest();
-  if (!test.config[modelProp]) test.config[modelProp] = [];
+(() => {
+Testophobia.showClipRegionsDialog = (model, modelProp, idxField, dlgSelector, frmSelector, onDone) => {
+  if (!model[modelProp]) model[modelProp] = [];
   Testophobia.showListDialog(
     idxField,
     dlgSelector,
     frmSelector,
-    test.config[modelProp],
+    model[modelProp],
     [
       {name:'type', selector:'#txtType', type: 'string', required: true},
       {name:'left', selector:'#txtLeft', type: 'number', required: false},
@@ -16,7 +15,8 @@ Testophobia.showClipRegionsDialog = (modelProp, idxField, dlgSelector, frmSelect
       {name:'bottom', selector:'#txtBottom', type: 'number', required: false},
       {name:'width', selector:'#txtWidth', type: 'number', required: false},
       {name:'height', selector:'#txtHeight', type: 'number', required: false}
-    ]
+    ],
+    onDone
   );
 };
 
@@ -40,9 +40,11 @@ function buildList(lbl, dlgSelector, formId, btnId) {
   rendered += '<label>Height</label>';
   rendered += '<input id="txtHeight"/>';
   rendered += '</div>';
-  rendered += `<button id="${btnId}" class="dialogBtn green button">Save</button>`;
+  rendered += `<button id="${btnId}" class="dialogBtn green button">Apply</button>`;
   $(dlgSelector).html(rendered);
 }
 
 buildList('Test Clip Regions', '#divRegionsDialog', 'divRegionsProps', 'btnSaveClipRegion');
 buildList('Test Action Clip Regions', '#divActionRegionsDialog', 'divActionRegionsProps', 'btnSaveActionRegion');
+buildList('Action Clip Regions', '#divClipRegionsForActionDialog', 'divClipRegionsForActionProps', 'btnClipRegionsForAction');
+})();

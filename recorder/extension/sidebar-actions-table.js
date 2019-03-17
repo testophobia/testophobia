@@ -1,4 +1,5 @@
 /* global $, Testophobia, chrome */
+(() => {
 Testophobia.actions = [];
 
 Testophobia.actionsChanged = (skipStorage) => {
@@ -98,3 +99,4 @@ function playAction(actionIdx) {
   let action = Testophobia.actions[actionIdx];
   fetch(`${Testophobia.serverUrl}/performAction/${encodeURIComponent(JSON.stringify(action))}`, {method: 'post'});
 }
+})();

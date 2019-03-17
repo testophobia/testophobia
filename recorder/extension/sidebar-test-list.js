@@ -1,4 +1,5 @@
 /* global $, Testophobia */
+(() => {
 Testophobia.tests = null;
 
 Testophobia.chooseTest = () => {
@@ -93,3 +94,4 @@ $('#btnNewTest').click(() => {
 $('#lnkStartOver').click(() => {
   if (confirm('Are you sure you want to start over?')) Testophobia.chooseTest();
 });
+})();

@@ -1,4 +1,5 @@
 /* global $, Testophobia, chrome */
+(() => {
 let enabled = false;
 
 const bgConnection = chrome.runtime.connect({name: 'sidebar'});
@@ -37,3 +38,4 @@ function hideAlert() {
 
 $('#divAlert .dialogClose').click(hideAlert);
 $('#btnAlertClose').click(hideAlert);
+})();

@@ -1,5 +1,5 @@
 /* global $, Testophobia */
-
+(() => {
 Testophobia.buildListControl = (listSelector, model, formatter, onEdit, onDelete) => {
   if (model) {
     let rendered = '';
@@ -19,7 +19,7 @@ Testophobia.buildListControl = (listSelector, model, formatter, onEdit, onDelete
   }
 };
 
-Testophobia.showListDialog = (idxField, dlgSelector, frmSelector, model, fields) => {
+Testophobia.showListDialog = (idxField, dlgSelector, frmSelector, model, fields, onDone) => {
   const clearValidation = () => fields.forEach(f => $(`${dlgSelector} ${frmSelector} ${f.selector}`).removeAttr('invalid'));
   clearValidation();
   const updateModel = () => {
@@ -47,7 +47,7 @@ Testophobia.showListDialog = (idxField, dlgSelector, frmSelector, model, fields)
   const hideDialog = () => {
     $('#divBackdrop').attr('hidden', '');
     $(dlgSelector).attr('hidden', '');
-    Testophobia.showTestDialog();
+    onDone();
     $(`${dlgSelector} .dailogClose`).off('click', hideDialog);
     $(`${dlgSelector} .dialogBtn`).off('click', updateModel);
   };
@@ -92,3 +92,4 @@ function handleInvalidField(field, model, dlg, frm) {
     delete model[field.name];
   }
 }
+})();

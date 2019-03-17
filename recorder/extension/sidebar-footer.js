@@ -1,5 +1,5 @@
 /* global $, Testophobia */
-
+(() => {
 $('#btnClearAll').click(() => {
   if (confirm('Are you sure you want to clear all actions?')) {
     Testophobia.actions = [];
@@ -8,3 +8,4 @@ $('#btnClearAll').click(() => {
 });
 
 $('#btnSaveTest').click(Testophobia.showTestDialog);
+})();

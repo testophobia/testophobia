@@ -1,4 +1,5 @@
 /* global $, Testophobia, chrome */
+(() => {
 Testophobia.dialogActionIndex = -1;
 Testophobia.dialogActionType;
 
@@ -9,7 +10,8 @@ Testophobia.showActionDialog = (actionIdx) => {
   layoutDialog();
 };
 
-Testophobia.hideDialog = () => {
+Testophobia.hideActionsDialog = () => {
+  console.dir('hiding the actions dialog');
   $('#divBackdrop').attr('hidden', '');
   $('#divActionDialog').attr('hidden', '');
   $('#dlgAction').off('change');
@@ -50,10 +52,32 @@ function layoutDialog() {
   $('#divAddlFields').html(fieldsHtml + '\n    ');
   $('#divActionProps #txtDelay').val(action.delay || '');
   $('#divActionProps #txtThreshold').val(action.threshold || '');
+  loadClipRegions(action);
   $('#divActionProps #chkSkipScreen').prop('checked', action.skipScreen || false);
   $('#divBackdrop').removeAttr('hidden');
   $('#divActionDialog').removeAttr('hidden');
   $('#divActionProps input').get(0).focus();
+}
+
+function loadClipRegions(action) {
+  Testophobia.buildListControl(
+    '#lstClipRegionsPerAction',
+    action.clipRegions,
+    f => `${f.type} - ${f.left || 0}:${f.top || 0}:${f.width || f.right || '100%'}:${f.height || f.bottom || '100%'}`,
+    e => {
+      Testophobia.editingClipRegionForActionIndex = $(e.currentTarget).attr('data-row');
+      Testophobia.hideActionsDialog();
+      Testophobia.showClipRegionsDialog(action,
+                                        'clipRegions',
+                                        'editingClipRegionForActionIndex' ,
+                                        '#divClipRegionsForActionDialog',
+                                        '#divClipRegionsForActionProps',
+                                        Testophobia.showActionDialog(Testophobia.dialogActionIndex));
+    },
+    e => {
+      action.clipRegions.splice($(e.currentTarget).attr('data-row'), 1);
+      loadClipRegions(action);
+    });
 }
 
 function saveEdits() {
@@ -74,7 +98,7 @@ function saveEdits() {
   $('#divAddlFields input').each(function () {
     Testophobia.actions[Testophobia.dialogActionIndex][this.id.substr(3)] = $(this).val();
   });
-  Testophobia.hideDialog();
+  Testophobia.hideActionsDialog();
 }
 
 Testophobia.setSelectedElement = () => {
@@ -85,6 +109,13 @@ Testophobia.setSelectedElement = () => {
     }
   );
 };
+
+function addClipRegion() {
+  console.dir('adding clip region');
+  Testophobia.hideActionsDialog();
+  const action = Testophobia.actions[Testophobia.dialogActionIndex];
+  Testophobia.showClipRegionsDialog(action, 'clipRegions', 'editingClipRegionForActionIndex' , '#divClipRegionsForActionDialog' , '#divClipRegionsForActionProps', () => Testophobia.showActionDialog(Testophobia.dialogActionIndex));
+}
 
 function buildList() {
   let rendered = '';
@@ -112,6 +143,8 @@ function buildList() {
   rendered += '<input id="txtDelay"/>';
   rendered += '<label>Threshold</label>';
   rendered += '<input id="txtThreshold"/>';
+  rendered += '<div class="listHeader"><label>Clip Regions (this action)</label><button id="btnAddClipRegionPerAction" class="blue button">Add</button></div>';
+  rendered += '<ul id="lstClipRegionsPerAction" class="dialogList"></ul>';
   rendered += '<input id="chkSkipScreen" type="checkbox"/>';
   rendered += '<label for="chkSkipScreen">Skip snapshot for this action</label>';
   rendered += '</div>';
@@ -121,6 +154,8 @@ function buildList() {
 
 buildList();
 
-$('#divActionDialog .dailogClose').click(Testophobia.hideDialog);
+$('#btnAddClipRegionPerAction').click(() => addClipRegion());
+$('#divActionDialog .dailogClose').click(Testophobia.hideActionsDialog);
 $('#btnSaveEdits').click(saveEdits);
 chrome.devtools.panels.elements.onSelectionChanged.addListener(Testophobia.setSelectedElement);
+})();
