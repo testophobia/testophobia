@@ -5,7 +5,6 @@ Testophobia.tests = null;
 Testophobia.chooseTest = () => {
   Testophobia.activeTest = null;
   Testophobia.activeTestPath = null;
-  Testophobia.actions = [];
   Testophobia.actionsChanged();
   fetchTests().then(() => {
     $('#divTestList').removeAttr('hidden');
@@ -28,7 +27,7 @@ Testophobia.loadTest = testPath => {
     .then(data => {
       Testophobia.activeTest = data;
       Testophobia.activeTestPath = testPath;
-      setTestophobiaActions(data.actions);
+      Testophobia.actionsChanged();
       localStorage.setItem('testophobia-test-loading', true);
       fetch(`${Testophobia.serverUrl}/navigate/${encodeURIComponent(data.path)}`, {method:'post'});
     });
@@ -78,11 +77,6 @@ function testsChanged() {
 
 function setTestName(name) {
   $('#divCurrentTest').text(name);
-}
-
-function setTestophobiaActions(actions) {
-  Testophobia.actions = actions;
-  Testophobia.actionsChanged();
 }
 
 $('#btnNewTest').click(() => {

@@ -139,11 +139,15 @@ h2 {
   max-height: 300px;
 }
 
+#divValueEditDialog {
+  max-height: 200px;
+}
+
 #divRegionsDialog, #divActionRegionsDialog, #divClipRegionsForActionDialog {
   max-height: 480px;
 }
 
-#divAlert, #divDimDialog, #divRegionsDialog, #divActionRegionsDialog, #divClipRegionsForActionDialog {
+#divAlert, #divDimDialog, #divRegionsDialog, #divActionRegionsDialog, #divClipRegionsForActionDialog, #divValueEditDialog {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

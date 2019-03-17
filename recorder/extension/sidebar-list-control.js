@@ -7,13 +7,13 @@ Testophobia.buildListControl = (listSelector, model, formatter, onEdit, onDelete
       const displayString = formatter(f);
       rendered += `<li data-index="${idx}">`;
       rendered += `<span>${displayString}</span>`;
-      rendered += `<svg data-row="${idx}" data-type="edit" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path></g></svg>`;
-      rendered += `<svg data-row="${idx}" data-type="del" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></g></svg>`;
+      if (onEdit) rendered += `<svg data-row="${idx}" data-type="edit" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path></g></svg>`;
+      if (onDelete) rendered += `<svg data-row="${idx}" data-type="del" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></g></svg>`;
       rendered += '</li>';
     });
     $(listSelector).html(rendered);
-    $(`${listSelector} li svg[data-type="edit"]`).click(e => onEdit(e));
-    $(`${listSelector} li svg[data-type="del"]`).click(e => onDelete(e));
+    if (onEdit) $(`${listSelector} li svg[data-type="edit"]`).click(e => onEdit(e));
+    if (onDelete) $(`${listSelector} li svg[data-type="del"]`).click(e => onDelete(e));
   } else {
     $(listSelector).html('');
   }
@@ -56,6 +56,37 @@ Testophobia.showListDialog = (idxField, dlgSelector, frmSelector, model, fields,
     fields.forEach(f => $(`${dlgSelector} ${frmSelector} ${f.selector}`).val(model[Testophobia[idxField]][f.name] || ''));
   else
     fields.forEach(f => $(`${dlgSelector} ${frmSelector} ${f.selector}`).val(''));
+  $(`#divBackdrop`).removeAttr('hidden');
+  $(`${dlgSelector}`).removeAttr('hidden');
+  $(`${dlgSelector} ${frmSelector} input`).get(0).focus();
+};
+
+//TODO factor out common code with function above
+Testophobia.showValueDialog = (dlgSelector, frmSelector, model, field, onDone) => {
+  const clearValidation = () => $(`${dlgSelector} ${frmSelector} ${field.selector}`).removeAttr('invalid');
+  clearValidation();
+  const updateModel = () => {
+    clearValidation();
+    const newModel = {};
+    if (isFieldValid(field, dlgSelector, frmSelector)) {
+      handleValidField(field, newModel, dlgSelector, frmSelector);
+    } else {
+      handleInvalidField(field, newModel, dlgSelector, frmSelector);
+      if (field.required) return;
+    }
+    if (newModel[field.name]) model.push(newModel[field.name]);
+    hideDialog();
+  };
+  $(`${dlgSelector} .dialogBtn`).click(updateModel);
+  const hideDialog = () => {
+    $('#divBackdrop').attr('hidden', '');
+    $(dlgSelector).attr('hidden', '');
+    onDone();
+    $(`${dlgSelector} .dailogClose`).off('click', hideDialog);
+    $(`${dlgSelector} .dialogBtn`).off('click', updateModel);
+  };
+  $(`${dlgSelector} .dailogClose`).click(hideDialog);
+  $(`${dlgSelector} ${frmSelector} ${field.selector}`).val('');
   $(`#divBackdrop`).removeAttr('hidden');
   $(`${dlgSelector}`).removeAttr('hidden');
   $(`${dlgSelector} ${frmSelector} input`).get(0).focus();

@@ -109,7 +109,8 @@ function saveTest() {
   }
   if (!isEdit && !test.config) {
     if (/(.|\s)*\S(.|\s)*/.test($('#divTestDialog #divTestProps #txtFile').val())) {
-      test.configPath = $('#divTestDialog #divTestProps #txtFile').val();
+      test.path = $('#divTestDialog #divTestProps #txtFile').val();
+      Testophobia.activeTestPath = test.path;
       test.config = {};
     } else {
       $('#divTestDialog #divTestProps #txtFile').attr('invalid', '');
@@ -138,7 +139,6 @@ function saveTest() {
     test.config.skipScreen = true;
   else
     delete test.config.skipScreen;
-  if (!isEdit) test.config.actions = Testophobia.actions;
   fetch(`${Testophobia.serverUrl}/test/${encodeURIComponent(test.path)}`,
     {
       method: 'post',

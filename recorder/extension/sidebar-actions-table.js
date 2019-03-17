@@ -1,21 +1,18 @@
-/* global $, Testophobia, chrome */
+/* global $, Testophobia */
 (() => {
-Testophobia.actions = [];
-
-Testophobia.actionsChanged = (skipStorage) => {
-  if (!skipStorage) Testophobia.storeActions();
+Testophobia.actionsChanged = () => {
   let rendered = '';
-  if (Testophobia.actions && Testophobia.actions.length) {
-    $('#actionsLbl').removeAttr('hidden');
-    $('#btnSaveTest').removeAttr('hidden');
-    $('#btnClearAll').removeAttr('hidden');
-  } else {
-    $('#actionsLbl').attr('hidden', '');
-    $('#btnSaveTest').attr('hidden', '');
-    $('#btnClearAll').attr('hidden', '');
-  }
-  if (Testophobia.actions) {
-    Testophobia.actions.forEach((a, idx) => {
+  // if (Testophobia.activeTest && Testophobia.activeTest.actions && Testophobia.activeTest.actions.length) {
+  //   $('#actionsLbl').removeAttr('hidden');
+  //   $('#btnSaveTest').removeAttr('hidden');
+  //   $('#btnClearAll').removeAttr('hidden');
+  // } else {
+  //   $('#actionsLbl').attr('hidden', '');
+  //   $('#btnSaveTest').attr('hidden', '');
+  //   $('#btnClearAll').attr('hidden', '');
+  // }
+  if (Testophobia.activeTest && Testophobia.activeTest.actions) {
+    Testophobia.activeTest.actions.forEach((a, idx) => {
       const playTpl = `<svg data-row="${idx}" data-type="play" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></g></svg>`;
       rendered += `<tr>
     <td title="${buildActionString(a)}">${a.type}</td>
@@ -27,7 +24,7 @@ Testophobia.actionsChanged = (skipStorage) => {
     <td title="Delete"><svg data-row="${idx}" data-type="del" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></g></svg></td>
   </tr>`;
     });
-    if (Testophobia.actions.length && Testophobia.actions.length > 6)
+    if (Testophobia.activeTest && Testophobia.activeTest.actions.length && Testophobia.activeTest.actions.length > 6)
       $('#actionsList').attr('can-scroll', '');
     else
       $('#actionsList').removeAttr('can-scroll');
@@ -55,11 +52,11 @@ $('#actionsList').click(e => {
         Testophobia.showActionDialog(actionIdx);
         break;
       case 'del':
-        Testophobia.actions.splice(actionIdx, 1);
+        Testophobia.activeTest.actions.splice(actionIdx, 1);
         Testophobia.actionsChanged();
         break;
       case 'down':
-        if (actionIdx === Testophobia.actions.length - 1) break;
+        if (actionIdx === Testophobia.activeTest.actions.length - 1) break;
         swapActionsAtIndexes(actionIdx, actionIdx+1);
         break;
       case 'up':
@@ -70,20 +67,9 @@ $('#actionsList').click(e => {
   }
 });
 
-Testophobia.storeActions = () => {
-  chrome.storage.sync.set({testophobiaActions: JSON.stringify(Testophobia.actions)});
-};
-
-Testophobia.retrieveActions = () => {
-  chrome.storage.sync.get('testophobiaActions', data => {
-    Testophobia.actions = (data && data.testophobiaActions) ? JSON.parse(data.testophobiaActions) : [];
-    Testophobia.actionsChanged(true);
-  });
-};
-
-
 function swapActionsAtIndexes(idx1, idx2) {
-  Testophobia.actions[idx2] = [Testophobia.actions[idx1], Testophobia.actions[idx1] = Testophobia.actions[idx2]][0];
+  const actions = Testophobia.activeTest.actions;
+  actions[idx2] = [actions[idx1], actions[idx1] = actions[idx2]][0];
   Testophobia.actionsChanged();
 }
 
@@ -96,7 +82,7 @@ function buildActionString(action) {
 }
 
 function playAction(actionIdx) {
-  let action = Testophobia.actions[actionIdx];
+  let action = Testophobia.activeTest.actions[actionIdx];
   fetch(`${Testophobia.serverUrl}/performAction/${encodeURIComponent(JSON.stringify(action))}`, {method: 'post'});
 }
 })();

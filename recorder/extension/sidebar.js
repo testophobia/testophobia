@@ -8,7 +8,6 @@ bgConnection.onMessage.addListener(request => {
   switch (request.name) {
     case 'testophobia-content-ready':
       Testophobia.setSelectedElement();
-      Testophobia.retrieveActions();
       if (localStorage.getItem('testophobia-test-loading'))
         localStorage.removeItem('testophobia-test-loading');
       else

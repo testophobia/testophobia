@@ -5,13 +5,12 @@ Testophobia.dialogActionType;
 
 Testophobia.showActionDialog = (actionIdx) => {
   Testophobia.dialogActionIndex = actionIdx;
-  Testophobia.dialogActionType = Testophobia.actions[Testophobia.dialogActionIndex].type;
+  Testophobia.dialogActionType = Testophobia.activeTest.actions[Testophobia.dialogActionIndex].type;
   $('#dlgAction').on('change', dropdownChanged);
   layoutDialog();
 };
 
 Testophobia.hideActionsDialog = () => {
-  console.dir('hiding the actions dialog');
   $('#divBackdrop').attr('hidden', '');
   $('#divActionDialog').attr('hidden', '');
   $('#dlgAction').off('change');
@@ -24,7 +23,7 @@ function dropdownChanged() {
 }
 
 function layoutDialog() {
-  let action = Testophobia.actions[Testophobia.dialogActionIndex];
+  let action = Testophobia.activeTest.actions[Testophobia.dialogActionIndex];
   $('#dlgAction').val(Testophobia.dialogActionType);
   $('#txtTarget').val(action.target);
   let fieldsHtml = '';
@@ -53,6 +52,7 @@ function layoutDialog() {
   $('#divActionProps #txtDelay').val(action.delay || '');
   $('#divActionProps #txtThreshold').val(action.threshold || '');
   loadClipRegions(action);
+  loadExcludedDimensions(action);
   $('#divActionProps #chkSkipScreen').prop('checked', action.skipScreen || false);
   $('#divBackdrop').removeAttr('hidden');
   $('#divActionDialog').removeAttr('hidden');
@@ -80,23 +80,35 @@ function loadClipRegions(action) {
     });
 }
 
+function loadExcludedDimensions(action) {
+  Testophobia.buildListControl(
+    '#lstExcludedDimensions',
+    action.excludeDimensions,
+    f => f,
+    null,
+    e => {
+      action.excludeDimensions.splice($(e.currentTarget).attr('data-row'), 1);
+      loadExcludedDimensions(action);
+    });
+}
+
 function saveEdits() {
   if (/^[1-9]\d*$/.test($('#divActionProps #txtDelay').val()))
-    Testophobia.actions[Testophobia.dialogActionIndex].delay = Number($('#divActionProps #txtDelay').val());
+    Testophobia.activeTest.actions[Testophobia.dialogActionIndex].delay = Number($('#divActionProps #txtDelay').val());
   else
-    delete Testophobia.actions[Testophobia.dialogActionIndex].delay;
+    delete Testophobia.activeTest.actions[Testophobia.dialogActionIndex].delay;
   if (/^0\.[1-9]$/.test($('#divActionProps #txtThreshold').val()))
-    Testophobia.actions[Testophobia.dialogActionIndex].threshold = Number($('#divActionProps #txtThreshold').val());
+    Testophobia.activeTest.actions[Testophobia.dialogActionIndex].threshold = Number($('#divActionProps #txtThreshold').val());
   else
-    delete Testophobia.actions[Testophobia.dialogActionIndex].threshold;
+    delete Testophobia.activeTest.actions[Testophobia.dialogActionIndex].threshold;
   if ($('#divActionProps #chkSkipScreen').prop('checked'))
-    Testophobia.actions[Testophobia.dialogActionIndex].skipScreen = true;
+    Testophobia.activeTest.actions[Testophobia.dialogActionIndex].skipScreen = true;
   else
-    delete Testophobia.actions[Testophobia.dialogActionIndex].skipScreen;
-  Testophobia.actions[Testophobia.dialogActionIndex].type = Testophobia.dialogActionType;
-  Testophobia.actions[Testophobia.dialogActionIndex].target = $('#txtTarget').val();
+    delete Testophobia.activeTest.actions[Testophobia.dialogActionIndex].skipScreen;
+  Testophobia.activeTest.actions[Testophobia.dialogActionIndex].type = Testophobia.dialogActionType;
+  Testophobia.activeTest.actions[Testophobia.dialogActionIndex].target = $('#txtTarget').val();
   $('#divAddlFields input').each(function () {
-    Testophobia.actions[Testophobia.dialogActionIndex][this.id.substr(3)] = $(this).val();
+    Testophobia.activeTest.actions[Testophobia.dialogActionIndex][this.id.substr(3)] = $(this).val();
   });
   Testophobia.hideActionsDialog();
 }
@@ -111,10 +123,31 @@ Testophobia.setSelectedElement = () => {
 };
 
 function addClipRegion() {
-  console.dir('adding clip region');
   Testophobia.hideActionsDialog();
-  const action = Testophobia.actions[Testophobia.dialogActionIndex];
+  const action = Testophobia.activeTest.actions[Testophobia.dialogActionIndex];
   Testophobia.showClipRegionsDialog(action, 'clipRegions', 'editingClipRegionForActionIndex' , '#divClipRegionsForActionDialog' , '#divClipRegionsForActionProps', () => Testophobia.showActionDialog(Testophobia.dialogActionIndex));
+}
+
+function addDimensionExclude() {
+  Testophobia.hideActionsDialog();
+  const action = Testophobia.activeTest.actions[Testophobia.dialogActionIndex];
+  if (!action.excludeDimensions) action.excludeDimensions = [];
+  let rendered = '';
+  rendered += '<h3>Add Dimension Exclude</h3>';
+  rendered += '<div class="dailogClose">&times;</div>';
+  rendered += '<div id="divValueEditProps" class="dialogForm">';
+  rendered += '<label>Dimension Name</label>';
+  rendered += '<input id="txtValue"/>';
+  rendered += '</div>';
+  rendered += '<button id="btnApplyValueEdit" class="dialogBtn green button">Apply</button>';
+  $('#divValueEditDialog').html(rendered);
+  Testophobia.showValueDialog(
+      '#divValueEditDialog',
+      '#divValueEditProps',
+      action.excludeDimensions,
+      {name:'excludeDimensions', selector:'#txtValue', type: 'string', required: true},
+      () => Testophobia.showActionDialog(Testophobia.dialogActionIndex)
+    );
 }
 
 function buildList() {
@@ -143,6 +176,8 @@ function buildList() {
   rendered += '<input id="txtDelay"/>';
   rendered += '<label>Threshold</label>';
   rendered += '<input id="txtThreshold"/>';
+  rendered += '<div class="listHeader"><label>Exclude Dimensions</label><button id="btnAddDimensionExclude" class="blue button">Add</button></div>';
+  rendered += '<ul id="lstExcludedDimensions" class="dialogList"></ul>';
   rendered += '<div class="listHeader"><label>Clip Regions (this action)</label><button id="btnAddClipRegionPerAction" class="blue button">Add</button></div>';
   rendered += '<ul id="lstClipRegionsPerAction" class="dialogList"></ul>';
   rendered += '<input id="chkSkipScreen" type="checkbox"/>';
@@ -155,6 +190,7 @@ function buildList() {
 buildList();
 
 $('#btnAddClipRegionPerAction').click(() => addClipRegion());
+$('#btnAddDimensionExclude').click(() => addDimensionExclude());
 $('#divActionDialog .dailogClose').click(Testophobia.hideActionsDialog);
 $('#btnSaveEdits').click(saveEdits);
 chrome.devtools.panels.elements.onSelectionChanged.addListener(Testophobia.setSelectedElement);
