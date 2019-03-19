@@ -229,6 +229,8 @@ Testophobia instance:
 
 `tests`: (string|array) test definitions or glob path to test files
 
+`delayModifier`: (decimal) number multiplied to every delay value to help fine tune the required amount of delay
+
 ### Test Definition
 
 Test definition properties:
