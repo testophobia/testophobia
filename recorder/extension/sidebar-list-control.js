@@ -20,20 +20,14 @@ Testophobia.buildListControl = (listSelector, model, formatter, onEdit, onDelete
 };
 
 Testophobia.showListDialog = (idxField, dlgSelector, frmSelector, model, fields, onDone) => {
-  const clearValidation = () => fields.forEach(f => $(`${dlgSelector} ${frmSelector} ${f.selector}`).removeAttr('invalid'));
-  clearValidation();
+  Testophobia.validation.clear(`${dlgSelector} ${frmSelector}`);
   const updateModel = () => {
-    clearValidation();
+    Testophobia.validation.clear(`${dlgSelector} ${frmSelector}`);
     const idx = Testophobia[idxField];
     const newModel = {};
     let hasErrors = false;
     fields.forEach(f => {
-      if (isFieldValid(f, dlgSelector, frmSelector)) {
-        handleValidField(f, newModel, dlgSelector, frmSelector);
-      } else {
-        handleInvalidField(f, newModel, dlgSelector, frmSelector);
-        if (f.required) hasErrors = true;
-      }
+      if (!Testophobia.validation.validate(f, newModel) && f.required) hasErrors = true;
     });
     if (hasErrors) return;
     if (idx == null)
@@ -53,27 +47,20 @@ Testophobia.showListDialog = (idxField, dlgSelector, frmSelector, model, fields,
   };
   $(`${dlgSelector} .dailogClose`).click(hideDialog);
   if (Testophobia[idxField])
-    fields.forEach(f => $(`${dlgSelector} ${frmSelector} ${f.selector}`).val(model[Testophobia[idxField]][f.name] || ''));
+    fields.forEach(f => $(f.selector).val(model[Testophobia[idxField]][f.name] || ''));
   else
-    fields.forEach(f => $(`${dlgSelector} ${frmSelector} ${f.selector}`).val(''));
+    fields.forEach(f => $(f.selector).val(''));
   $(`#divBackdrop`).removeAttr('hidden');
   $(`${dlgSelector}`).removeAttr('hidden');
   $(`${dlgSelector} ${frmSelector} input`).get(0).focus();
 };
 
-//TODO factor out common code with function above
 Testophobia.showValueDialog = (dlgSelector, frmSelector, model, field, onDone) => {
-  const clearValidation = () => $(`${dlgSelector} ${frmSelector} ${field.selector}`).removeAttr('invalid');
-  clearValidation();
+  Testophobia.validation.clear(`${dlgSelector} ${frmSelector}`);
   const updateModel = () => {
-    clearValidation();
+    Testophobia.validation.clear(`${dlgSelector} ${frmSelector}`);
     const newModel = {};
-    if (isFieldValid(field, dlgSelector, frmSelector)) {
-      handleValidField(field, newModel, dlgSelector, frmSelector);
-    } else {
-      handleInvalidField(field, newModel, dlgSelector, frmSelector);
-      if (field.required) return;
-    }
+    if (!Testophobia.validation.validate(field, newModel) && field.required) return;
     if (newModel[field.name]) model.push(newModel[field.name]);
     hideDialog();
   };
@@ -86,41 +73,9 @@ Testophobia.showValueDialog = (dlgSelector, frmSelector, model, field, onDone) =
     $(`${dlgSelector} .dialogBtn`).off('click', updateModel);
   };
   $(`${dlgSelector} .dailogClose`).click(hideDialog);
-  $(`${dlgSelector} ${frmSelector} ${field.selector}`).val('');
+  $(field.selector).val('');
   $(`#divBackdrop`).removeAttr('hidden');
   $(`${dlgSelector}`).removeAttr('hidden');
   $(`${dlgSelector} ${frmSelector} input`).get(0).focus();
 };
-
-function isFieldValid(field, dlg, frm) {
-  const ctrl = $(`${dlg} ${frm} ${field.selector}`);
-  switch (field.type) {
-    case 'string':
-      return /(.|\s)*\S(.|\s)*/.test(ctrl.val());
-    case 'number':
-      return /^[1-9]\d*$/.test(ctrl.val());
-    case 'decimal':
-      return /^(0(\.\d+)?|1(\.0+)?)$/.test(ctrl.val());
-  }
-}
-
-function handleValidField(field, model, dlg, frm) {
-  const ctrl = $(`${dlg} ${frm} ${field.selector}`);
-  switch (field.type) {
-    case 'string':
-      return model[field.name] = ctrl.val().trim();
-    case 'number':
-      return model[field.name] = Number(ctrl.val().trim());
-    case 'decimal':
-      return model[field.name] = Number(ctrl.val().trim());
-  }
-}
-
-function handleInvalidField(field, model, dlg, frm) {
-  if (field.required) {
-    $(`${dlg} ${frm} ${field.selector}`).attr('invalid', '');
-  } else {
-    delete model[field.name];
-  }
-}
 })();

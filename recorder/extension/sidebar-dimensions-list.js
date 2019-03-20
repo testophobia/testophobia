@@ -9,10 +9,10 @@ Testophobia.showDimensionsDialog = () => {
     '#divDimProps',
     test.config.dimensions,
     [
-      {name:'type', selector:'#txtType', type: 'string', required: true},
-      {name:'width', selector:'#txtWidth', type: 'number', required: true},
-      {name:'height', selector:'#txtHeight', type: 'number', required: true},
-      {name:'scale', selector:'#txtScale', type: 'decimal', required: false}
+      {name:'type', selector:`#divDimDialog #divDimProps #txtType`, type: 'string', required: true},
+      {name:'width', selector:`#divDimDialog #divDimProps #txtWidth`, type: 'number', required: true},
+      {name:'height', selector:`#divDimDialog #divDimProps #txtHeight`, type: 'number', required: true},
+      {name:'scale', selector:`#divDimDialog #divDimProps #txtScale`, type: 'decimal', required: false}
     ],
     Testophobia.showTestDialog
   );

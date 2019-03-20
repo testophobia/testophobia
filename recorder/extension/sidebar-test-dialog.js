@@ -7,7 +7,7 @@ Testophobia.getEditingTest = () => {
 };
 
 Testophobia.showTestDialog = () => {
-  clearValidation();
+  Testophobia.validation.clear('#divTestDialog #divTestProps');
   if (Testophobia.editingTest) {
     loadDialogValues(Testophobia.editingTest, Testophobia.editingTestPath);
   } else if (Testophobia.activeTest) {
@@ -100,7 +100,7 @@ function addClipRegion(action) {
 }
 
 function saveTest() {
-  clearValidation();
+  Testophobia.validation.clear('#divTestDialog #divTestProps');
   const isEdit = Boolean(Testophobia.editingTest);
   const test = Testophobia.getEditingTest();
   if (test.path && test.path.indexOf('inline-test-') === 0) { //until we can support saving these tests
@@ -108,37 +108,22 @@ function saveTest() {
     return;
   }
   if (!isEdit && !test.config) {
-    if (/(.|\s)*\S(.|\s)*/.test($('#divTestDialog #divTestProps #txtFile').val())) {
+    const fileField = {name:'path',type:'string',selector:'#txtFile',required:true};
+    if (Testophobia.validation.isFieldValid(fileField, '#divTestDialog', '#divTestProps')) {
       test.path = $('#divTestDialog #divTestProps #txtFile').val();
       Testophobia.activeTestPath = test.path;
       test.config = {};
     } else {
-      $('#divTestDialog #divTestProps #txtFile').attr('invalid', '');
+      Testophobia.validation.handleInvalidField(fileField, null, '#divTestDialog', '#divTestProps');
       return;
     }
   }
-  if (/(.|\s)*\S(.|\s)*/.test($('#divTestDialog #divTestProps #txtName').val())) {
-    test.config.name = $('#divTestDialog #divTestProps #txtName').val();
-  } else {
-    $('#divTestDialog #divTestProps #txtName').attr('invalid', '');
-    return;
-  }
-  if (/(.|\s)*\S(.|\s)*/.test($('#divTestDialog #divTestProps #txtPath').val()))
-    test.config.path = $('#divTestDialog #divTestProps #txtPath').val();
-  else
-    delete test.config.path;
-  if (/^[1-9]\d*$/.test($('#divTestDialog #divTestProps #txtDelay').val()))
-    test.config.delay = Number($('#divTestDialog #divTestProps #txtDelay').val());
-  else
-    delete test.config.delay;
-  if (/^0\.[1-9]$/.test($('#divTestDialog #divTestProps #txtThreshold').val()))
-    test.config.threshold = Number($('#divTestDialog #divTestProps #txtThreshold').val());
-  else
-    delete test.config.threshold;
-  if ($('#divTestDialog #divTestProps #chkSkipScreen').prop('checked'))
-    test.config.skipScreen = true;
-  else
-    delete test.config.skipScreen;
+  if (!Testophobia.validation.validate({name:'name',type:'string',selector:'#divTestDialog #divTestProps #txtName',required:true}, test.config)) return;
+  Testophobia.validation.validate({name:'path',type:'string',selector:'#divTestDialog #divTestProps #txtPath',required:false}, test.config);
+  Testophobia.validation.validate({name:'delay',type:'number',selector:'#divTestDialog #divTestProps #txtDelay',required:false}, test.config);
+  Testophobia.validation.validate({name:'threshold',type:'decimal',selector:'#divTestDialog #divTestProps #txtThreshold',required:false}, test.config);
+  Testophobia.validation.validate({name:'skipScreen',type:'boolean',selector:'#divTestDialog #divTestProps #chkSkipScreen',required:false}, test.config);
+
   fetch(`${Testophobia.serverUrl}/test/${encodeURIComponent(test.path)}`,
     {
       method: 'post',
@@ -154,11 +139,6 @@ function saveTest() {
         }
       }), 100);
     });
-}
-
-function clearValidation() {
-  $('#divTestDialog #divTestProps #txtName').removeAttr('invalid');
-  $('#divTestDialog #divTestProps #txtFile').removeAttr('invalid');
 }
 
 function buildList() {

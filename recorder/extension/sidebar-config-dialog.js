@@ -1,13 +1,13 @@
 /* global $, Testophobia */
 
 Testophobia.showConfigDialog = () => {
-  clearValidation();
   fetchConfig().then(() => {
     buildList();
     $('#divBackdrop').removeAttr('hidden');
     $('#divConfigDialog').removeAttr('hidden');
     $('#divConfigDialog #divConfigProps input').get(0).focus();
     $('#divConfigDialog .dailogClose').click(hideConfigDialog);
+    $('#divConfigDialog #btnPostConfig').click(saveConfig);
   });
 };
 
@@ -20,6 +20,33 @@ function fetchConfig() {
         resolve();
       })
       .catch(reject);
+    });
+}
+
+function saveConfig() {
+  Testophobia.validation.clear('#divConfigDialog #divConfigProps');
+  Testophobia.validation.validate({name:'projectDir',type:'string',selector:'#divConfigDialog #divConfigProps #txtProjectDir',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'baseUrl',type:'string',selector:'#divConfigDialog #divConfigProps #txtBaseUrl',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'delay',type:'number',selector:'#divConfigDialog #divConfigProps #txtDelay',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'bail',type:'boolean',selector:'#divConfigDialog #divConfigProps #chkBail',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'defaultTime',type:'number',selector:'#divConfigDialog #divConfigProps #txtDefaultTime',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'fileType',type:'string',selector:'#divConfigDialog #divConfigProps #txtFileType',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'quality',type:'number',selector:'#divConfigDialog #divConfigProps #txtQuality',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'testDirectory',type:'string',selector:'#divConfigDialog #divConfigProps #txtTestDirectory',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'goldenDirectory',type:'string',selector:'#divConfigDialog #divConfigProps #txtGoldenDirectory',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'diffDirectory',type:'string',selector:'#divConfigDialog #divConfigProps #txtDiffDirectory',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'threshold',type:'decimal',selector:'#divConfigDialog #divConfigProps #txtThreshold',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'tests',type:'string',selector:'#divConfigDialog #divConfigProps #txtTests',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'delayModifier',type:'decimal',selector:'#divConfigDialog #divConfigProps #txtDelayModifier',required:true}, Testophobia.config);
+  fetch(`${Testophobia.serverUrl}/config`,
+    {
+      method: 'post',
+      body: JSON.stringify(Testophobia.config)
+    }).then(() => {
+      hideConfigDialog();
+      setTimeout(() => Testophobia.showAlert('Success', 'Config saved.', () => {
+        Testophobia.chooseTest();
+      }), 100);
     });
 }
 
@@ -63,11 +90,6 @@ function buildList() {
   rendered += '</div>';
   rendered += '<button id="btnPostConfig" class="dialogBtn green button">Save</button>';
   $('#divConfigDialog').html(rendered);
-}
-
-function clearValidation() {
-  // $('#divConfigDialog #divConfigProps #txtName').removeAttr('invalid');
-  // $('#divConfigDialog #divConfigProps #txtFile').removeAttr('invalid');
 }
 
 function hideConfigDialog() {

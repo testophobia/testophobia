@@ -145,7 +145,7 @@ function addDimensionExclude() {
       '#divValueEditDialog',
       '#divValueEditProps',
       action.excludeDimensions,
-      {name:'excludeDimensions', selector:'#txtValue', type: 'string', required: true},
+      {name:'excludeDimensions', selector:'#divValueEditDialog #divValueEditProps #txtValue', type: 'string', required: true},
       () => Testophobia.showActionDialog(Testophobia.dialogActionIndex)
     );
 }

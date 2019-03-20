@@ -15,6 +15,7 @@ Testophobia.chooseTest = () => {
       $('#divTestListLabel').text('Existing Tests');
       testsChanged();
     } else {
+      $('#divTestList ul').html('');
       $('#divTestListLabel').text('No Tests Found!');
     }
   });

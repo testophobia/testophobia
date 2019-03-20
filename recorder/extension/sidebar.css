@@ -193,7 +193,7 @@ h2 {
 .dialogForm input:not([type="checkbox"]) {
   display: block;
   margin-bottom: 10px;
-  width: calc(100% - 10px);
+  width: calc(100% - 12px);
   background: #222;
   color: white;
   border: none;
