@@ -83,7 +83,6 @@ function setTestName(name) {
 }
 
 $('#btnNewTest').click(() => {
-  hideTestList();
   setTestName('(new test)');
   Testophobia.showTestDialog();
 });

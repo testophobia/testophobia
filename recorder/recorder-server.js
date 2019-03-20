@@ -99,9 +99,13 @@ exports.RecorderServer = {
       //TODO - saving inline tests?
       let json = JSON.parse(req.body);
       json = JSON.stringify(json, null, 2);
-      const testFile = path.join(process.cwd(), decodeURIComponent(req.params.testPath));
-      if (!fs.existsSync(path.dirname(testFile))) mkdirp.sync(path.dirname(testFile));
-      fs.writeFileSync(testFile, `export default ${json};`);
+      if (req.params.testPath) {
+        const testFile = path.join(process.cwd(), decodeURIComponent(req.params.testPath));
+        if (!fs.existsSync(path.dirname(testFile))) mkdirp.sync(path.dirname(testFile));
+        fs.writeFileSync(testFile, `export default ${json};`);
+      } else {
+        console.log('Unable to save. Test path not defined!');
+      }
       res.sendStatus(200);
     });
 
