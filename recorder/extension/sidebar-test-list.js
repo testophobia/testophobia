@@ -3,6 +3,7 @@
 Testophobia.tests = null;
 
 Testophobia.chooseTest = () => {
+  $('#lnkEditConfig').removeAttr('hidden');
   Testophobia.activeTest = null;
   Testophobia.activeTestPath = null;
   Testophobia.actionsChanged();
@@ -59,6 +60,7 @@ function fetchTests() {
 
 function hideTestList() {
   $('#divTestList').attr('hidden', '');
+  $('#lnkEditConfig').attr('hidden', '');
   $('#divControls').removeAttr('hidden');
   $('#lnkStartOver').removeAttr('hidden');
 }
@@ -87,5 +89,8 @@ $('#btnNewTest').click(() => {
 
 $('#lnkStartOver').click(() => {
   if (confirm('Are you sure you want to start over?')) Testophobia.chooseTest();
+});
+$('#lnkEditConfig').click(() => {
+  Testophobia.showConfigDialog();
 });
 })();

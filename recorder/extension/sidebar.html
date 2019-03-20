@@ -6,6 +6,7 @@
 </head>
 <body>
   <h2>&#x1F631 Testophobia Recorder</h2>
+  <span id="lnkEditConfig" hidden>Edit Config</span>
   <span id="lnkStartOver" hidden>Start Over</span>
 
   <!-- Tests List -->
@@ -55,11 +56,14 @@
 
   <div id="divBackdrop" hidden></div>
 
-  <!-- Action Dialog -->
-  <div id="divActionDialog" class="dialog" hidden></div>
+  <!-- Config Dialog -->
+  <div id="divConfigDialog" class="dialog" hidden></div>
 
   <!-- Test Dialog -->
   <div id="divTestDialog" class="dialog" hidden></div>
+
+  <!-- Action Dialog -->
+  <div id="divActionDialog" class="dialog" hidden></div>
 
   <!-- Dimensions Dialog -->
   <div id="divDimDialog" class="dialog" hidden></div>
@@ -92,6 +96,7 @@
   <script src="sidebar-actions-table.js"></script>
   <script src="sidebar-action-dialog.js"></script>
   <script src="sidebar-test-dialog.js"></script>
+  <script src="sidebar-config-dialog.js"></script>
   <script src="sidebar-list-control.js"></script>
   <script src="sidebar-dimensions-list.js"></script>
   <script src="sidebar-clipRegions-list.js"></script>

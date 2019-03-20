@@ -15,7 +15,7 @@ h2 {
   display: inline-block;
 }
 
-#lnkStartOver {
+#lnkStartOver, #lnkEditConfig {
   cursor: pointer;
   text-decoration: underline;
   font-size: smaller;
@@ -23,7 +23,7 @@ h2 {
   margin-top: 2.5em;
   color: #ccc;
 }
-#lnkStartOver:hover {
+#lnkStartOver:hover, #lnkEditConfig:hover {
   color: #eee;
 }
 
