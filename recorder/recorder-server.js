@@ -13,7 +13,16 @@ const app = express();
 app.use(bodyParser.text({}));
 
 exports.RecorderServer = {
-  start: (baseUrl, testsGlob, page) => {
+  start: (config, page) => {
+    const baseUrl = config.baseUrl;
+    const testsGlob = config.tests;
+
+    //add handler to retrieve the top-level configs
+    app.get('/config', (req, res) => {
+      res.header('Content-Type', 'application/json');
+      res.send(JSON.stringify(config));
+    });
+
     //add handler to perform recorder actions thru puppeteer
     app.post('/performAction/:actionString', async (req, res) => {
       //to make sure our shadow dom lib is always loaded, even when navigating, we'll remove it if it exists and re-add

@@ -201,6 +201,10 @@ h2 {
   outline: none;
 }
 
+.dialogForm input[type="checkbox"] {
+  margin-bottom: 16px;
+}
+
 .dialogForm input[invalid] {
   border: 1px solid red;
 }

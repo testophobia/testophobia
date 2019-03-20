@@ -9,20 +9,20 @@ const {RecorderServer} = require('./recorder-server');
 
 exports.TestophobiaRecorder = class TestophobiaRecorder {
   async launch() {
-    let baseUrl = 'about:blank';
-    let testsGlob = 'testophobia/tests/**/*.test.js';
+    let config;
     let defWidth = 1024;
     let defHeight = 768;
 
-    //if we can find a testophobia config, use the baseUrl and dimensions
+    //locate the testophobia config file
     if (fs.existsSync(`${process.cwd()}/testophobia.config.js`)) {
-      let config = loadConfig();
-      baseUrl = config.baseUrl;
-      testsGlob = config.tests || testsGlob;
+      config = loadConfig();
       if (config.dimensions && config.dimensions.length) {
         defWidth = config.dimensions[0].width;
         defHeight = config.dimensions[0].height;
       }
+    } else {
+      console.error('testophobia.config.js not found in current directory!');
+      return 1;
     }
 
     //use puppeteer-extras to inject custom user prefs
@@ -73,9 +73,9 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
     let pagelist = await browser.pages();
     pagelist[0].close();
     const page = await browser.newPage();
-    await page.goto(baseUrl, {waitUntil: 'networkidle0'});
+    await page.goto(config.baseUrl, {waitUntil: 'networkidle0'});
 
     //start the server
-    RecorderServer.start(baseUrl, testsGlob, page);
+    RecorderServer.start(config, page);
   }
 };

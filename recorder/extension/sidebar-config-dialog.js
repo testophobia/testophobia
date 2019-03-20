@@ -2,13 +2,30 @@
 
 Testophobia.showConfigDialog = () => {
   clearValidation();
-  $('#divConfigDialog #divConfigProps input').val('');
-  $('#divConfigDialog #divConfigProps label:nth-child(1)').removeAttr('hidden');
-  $('#divConfigDialog #divConfigProps #txtThreshold').removeAttr('hidden');
-  $('#divBackdrop').removeAttr('hidden');
-  $('#divConfigDialog').removeAttr('hidden');
-  $('#divConfigDialog #divConfigProps input').get(0).focus();
+  fetchConfig().then(() => {
+    buildList();
+    $('#divBackdrop').removeAttr('hidden');
+    $('#divConfigDialog').removeAttr('hidden');
+    $('#divConfigDialog #divConfigProps input').get(0).focus();
+    $('#divConfigDialog .dailogClose').click(hideConfigDialog);
+  });
 };
+
+function fetchConfig() {
+  return new Promise((resolve, reject) => {
+    fetch(`${Testophobia.serverUrl}/config`)
+      .then(response => response.json())
+      .then(configResult => {
+        Testophobia.config = configResult;
+        resolve();
+      })
+      .catch(reject);
+    });
+}
+
+function cleanParam(param) {
+  return (param == null) ? '' : param;
+}
 
 function buildList() {
   let rendered = '';
@@ -16,37 +33,33 @@ function buildList() {
   rendered += '<div class="dailogClose">&times;</div>';
   rendered += '<div id="divConfigProps" class="dialogForm">';
   rendered += '<label>Project Dir</label>';
-  rendered += '<input id="txtProjectDir"/>';
+  rendered += `<input id="txtProjectDir" value="${cleanParam(Testophobia.config.projectDir)}"/>`;
   rendered += '<label>Base Url</label>';
-  rendered += '<input id="txtBaseUrl"/>';
-  rendered += '<label>Golden</label>';
-  rendered += '<input id="txtGolden"/>';
+  rendered += `<input id="txtBaseUrl" value="${cleanParam(Testophobia.config.baseUrl)}"/>`;
   rendered += '<label>Delay</label>';
-  rendered += '<input id="txtDelay"/>';
-  rendered += '<label>Debug</label>';
-  rendered += '<input id="txtDebug"/>';
-  rendered += '<label>Bail</label>';
-  rendered += '<input id="txtBail"/>';
+  rendered += `<input id="txtDelay" value="${cleanParam(Testophobia.config.delay)}"/>`;
+  rendered += `<input id="chkBail" type="checkbox" ${(Testophobia.config.bail === true) ? 'checked' : ''}/>`;
+  rendered += '<label for="chkBail">Bail on first failure</label>';
   rendered += '<label>Default Time</label>';
-  rendered += '<input id="txtDefaultTime"/>';
+  rendered += `<input id="txtDefaultTime" value="${cleanParam(Testophobia.config.defaultTime)}"/>`;
   rendered += '<label>File Type</label>';
-  rendered += '<input id="txtFileType"/>';
+  rendered += `<input id="txtFileType" value="${cleanParam(Testophobia.config.fileType)}"/>`;
   rendered += '<label>Quality</label>';
-  rendered += '<input id="txtQuality"/>';
+  rendered += `<input id="txtQuality" value="${cleanParam(Testophobia.config.quality)}"/>`;
   // dimensions
   // clipRegions
   rendered += '<label>Test Directory</label>';
-  rendered += '<input id="txtTestDirectory"/>';
+  rendered += `<input id="txtTestDirectory" value="${cleanParam(Testophobia.config.testDirectory)}"/>`;
   rendered += '<label>Golden Directory</label>';
-  rendered += '<input id="txtGoldenDirectory"/>';
+  rendered += `<input id="txtGoldenDirectory" value="${cleanParam(Testophobia.config.goldenDirectory)}"/>`;
   rendered += '<label>Diff Directory</label>';
-  rendered += '<input id="txtDiffDirectory"/>';
+  rendered += `<input id="txtDiffDirectory" value="${cleanParam(Testophobia.config.diffDirectory)}"/>`;
   rendered += '<label>Threshold</label>';
-  rendered += '<input id="txtThreshold"/>';
+  rendered += `<input id="txtThreshold" value="${cleanParam(Testophobia.config.threshold)}"/>`;
   rendered += '<label>Tests</label>';
-  rendered += '<input id="txtTests"/>';
+  rendered += `<input id="txtTests" value="${cleanParam(Testophobia.config.tests)}"/>`;
   rendered += '<label>Delay Modifier</label>';
-  rendered += '<input id="txtDelayModifier"/>';
+  rendered += `<input id="txtDelayModifier" value="${cleanParam(Testophobia.config.delayModifier)}"/>`;
   rendered += '</div>';
   rendered += '<button id="btnPostConfig" class="dialogBtn green button">Save</button>';
   $('#divConfigDialog').html(rendered);
@@ -61,8 +74,3 @@ function hideConfigDialog() {
   $('#divBackdrop').attr('hidden', '');
   $('#divConfigDialog').attr('hidden', '');
 }
-
-buildList();
-
-$('#divConfigDialog .dailogClose').click(hideConfigDialog);
-
