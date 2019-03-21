@@ -23,7 +23,7 @@ Testophobia.showClipRegionsDialog = (model, modelProp, idxField, dlgSelector, fr
 function buildList(lbl, dlgSelector, formId, btnId) {
   let rendered = '';
   rendered += `<h3>${lbl}</h3>`;
-  rendered += '<div class="dailogClose">&times;</div>';
+  rendered += '<div class="dialogClose">&times;</div>';
   rendered += `<div id="${formId}" class="dialogForm">`;
   rendered += '<label>Type</label>';
   rendered += '<input id="txtType"/>';

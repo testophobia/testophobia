@@ -42,10 +42,10 @@ Testophobia.showListDialog = (idxField, dlgSelector, frmSelector, model, fields,
     $('#divBackdrop').attr('hidden', '');
     $(dlgSelector).attr('hidden', '');
     onDone();
-    $(`${dlgSelector} .dailogClose`).off('click', hideDialog);
+    $(`${dlgSelector} .dialogClose`).off('click', hideDialog);
     $(`${dlgSelector} .dialogBtn`).off('click', updateModel);
   };
-  $(`${dlgSelector} .dailogClose`).click(hideDialog);
+  $(`${dlgSelector} .dialogClose`).click(hideDialog);
   if (Testophobia[idxField])
     fields.forEach(f => $(f.selector).val(model[Testophobia[idxField]][f.name] || ''));
   else
@@ -69,10 +69,10 @@ Testophobia.showValueDialog = (dlgSelector, frmSelector, model, field, onDone) =
     $('#divBackdrop').attr('hidden', '');
     $(dlgSelector).attr('hidden', '');
     onDone();
-    $(`${dlgSelector} .dailogClose`).off('click', hideDialog);
+    $(`${dlgSelector} .dialogClose`).off('click', hideDialog);
     $(`${dlgSelector} .dialogBtn`).off('click', updateModel);
   };
-  $(`${dlgSelector} .dailogClose`).click(hideDialog);
+  $(`${dlgSelector} .dialogClose`).click(hideDialog);
   $(field.selector).val('');
   $(`#divBackdrop`).removeAttr('hidden');
   $(`${dlgSelector}`).removeAttr('hidden');

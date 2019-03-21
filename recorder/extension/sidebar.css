@@ -171,7 +171,11 @@ h2 {
   margin-top: 4px;
 }
 
-.dailogClose {
+#divAlert #divAlertMessage {
+  margin: 0 12px;
+}
+
+.dialogClose {
   font-size: 20px;
   position: absolute;
   top: 10px;

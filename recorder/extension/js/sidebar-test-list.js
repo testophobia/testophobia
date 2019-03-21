@@ -88,7 +88,9 @@ $('#btnNewTest').click(() => {
 });
 
 $('#lnkStartOver').click(() => {
-  if (confirm('Are you sure you want to start over?')) Testophobia.chooseTest();
+  Testophobia.showAlert('Confirm', 'Are you sure you want to start over??', null, () => {
+    Testophobia.chooseTest();
+  });
 });
 $('#lnkEditConfig').click(() => {
   Testophobia.showConfigDialog();

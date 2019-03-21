@@ -20,7 +20,7 @@ Testophobia.showDimensionsDialog = (model, cb) => {
 function buildList() {
   let rendered = '';
   rendered += '<h3>Edit Dimensions</h3>';
-  rendered += '<div class="dailogClose">&times;</div>';
+  rendered += '<div class="dialogClose">&times;</div>';
   rendered += '<div id="divDimProps" class="dialogForm">';
   rendered += '<label>Type</label>';
   rendered += '<input id="txtType"/>';

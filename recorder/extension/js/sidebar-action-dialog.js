@@ -134,7 +134,7 @@ function addDimensionExclude() {
   if (!action.excludeDimensions) action.excludeDimensions = [];
   let rendered = '';
   rendered += '<h3>Add Dimension Exclude</h3>';
-  rendered += '<div class="dailogClose">&times;</div>';
+  rendered += '<div class="dialogClose">&times;</div>';
   rendered += '<div id="divValueEditProps" class="dialogForm">';
   rendered += '<label>Dimension Name</label>';
   rendered += '<input id="txtValue"/>';
@@ -153,7 +153,7 @@ function addDimensionExclude() {
 function buildList() {
   let rendered = '';
   rendered += '<h3>Action Details</h3>';
-  rendered += '<div class="dailogClose">&times;</div>';
+  rendered += '<div class="dialogClose">&times;</div>';
   rendered += '<div id="divActionProps" class="dialogForm">';
   rendered += '<div class="dropdown button blue" title="Select an Action Type">';
   rendered += '<select id="dlgAction" required>';
@@ -191,7 +191,7 @@ buildList();
 
 $('#btnAddClipRegionPerAction').click(() => addClipRegion());
 $('#btnAddDimensionExclude').click(() => addDimensionExclude());
-$('#divActionDialog .dailogClose').click(Testophobia.hideActionsDialog);
+$('#divActionDialog .dialogClose').click(Testophobia.hideActionsDialog);
 $('#btnSaveEdits').click(saveEdits);
 chrome.devtools.panels.elements.onSelectionChanged.addListener(Testophobia.setSelectedElement);
 })();

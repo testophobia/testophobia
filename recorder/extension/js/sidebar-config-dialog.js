@@ -4,7 +4,7 @@ Testophobia.showConfigDialog = () => {
   $('#divBackdrop').removeAttr('hidden');
   $('#divConfigDialog').removeAttr('hidden');
   $('#divConfigDialog #divConfigProps input').get(0).focus();
-  $('#divConfigDialog .dailogClose').click(hideConfigDialog);
+  $('#divConfigDialog .dialogClose').click(hideConfigDialog);
   $('#divConfigDialog #btnPostConfig').click(saveConfig);
 };
 
@@ -54,7 +54,7 @@ function cleanParam(param) {
 function buildList() {
   let rendered = '';
   rendered += '<h3>Edit Config</h3>';
-  rendered += '<div class="dailogClose">&times;</div>';
+  rendered += '<div class="dialogClose">&times;</div>';
   rendered += '<div id="divConfigProps" class="dialogForm">';
   rendered += '<label>Project Dir</label>';
   rendered += `<input id="txtProjectDir" value="${cleanParam(Testophobia.config.projectDir)}"/>`;

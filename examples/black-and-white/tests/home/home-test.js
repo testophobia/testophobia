@@ -32,6 +32,10 @@ export default {
       "target": "html",
       "scrollTop": "2500",
       "scrollLeft": ""
+    },
+    {
+      "type": "setProperty",
+      "target": "body.pace-running"
     }
   ]
 };

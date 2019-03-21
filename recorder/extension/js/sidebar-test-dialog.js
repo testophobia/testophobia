@@ -146,7 +146,7 @@ function saveTest() {
 function buildList() {
   let rendered = '';
   rendered += '<h3>Save Test</h3>';
-  rendered += '<div class="dailogClose">&times;</div>';
+  rendered += '<div class="dialogClose">&times;</div>';
   rendered += '<h5 id="divTestDialogTitle"></h5>';
   rendered += '<div id="divTestProps" class="dialogForm">';
   rendered += '<label>Relative File Path</label>';
@@ -177,5 +177,5 @@ $('#btnAddTestDimension').click(addDimension);
 $('#btnAddTestClipRegion').click(() => addClipRegion(true));
 $('#btnAddTestActionClipRegion').click(() => addClipRegion(false));
 $('#divTestDialog #btnPostTest').click(saveTest);
-$('#divTestDialog .dailogClose').click(hideSaveDialog);
+$('#divTestDialog .dialogClose').click(hideSaveDialog);
 })();
