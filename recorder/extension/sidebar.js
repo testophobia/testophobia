@@ -1,8 +1,8 @@
-/* global Testophobia, chrome */
+/* global Testophobia */
 (() => {
 let enabled = false;
 
-const bgConnection = chrome.runtime.connect({name: 'sidebar'});
+const bgConnection = Testophobia.chrome.runtime.connect({name: 'sidebar'});
 
 bgConnection.onMessage.addListener(request => {
   switch (request.name) {
@@ -14,11 +14,11 @@ bgConnection.onMessage.addListener(request => {
         Testophobia.chooseTest();
       break;
     case 'testophobia-page-refresh':
-      if (enabled) bgConnection.postMessage({name: 'testophobia-init', tabId: chrome.devtools.inspectedWindow.tabId});
+      if (enabled) bgConnection.postMessage({name: 'testophobia-init', tabId: Testophobia.chrome.devtools.inspectedWindow.tabId});
       break;
   }
 });
 
 enabled = true;
-bgConnection.postMessage({name: 'testophobia-init', tabId: chrome.devtools.inspectedWindow.tabId});
+bgConnection.postMessage({name: 'testophobia-init', tabId: Testophobia.chrome.devtools.inspectedWindow.tabId});
 })();

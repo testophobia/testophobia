@@ -1,4 +1,4 @@
-/* global $, Testophobia, chrome */
+/* global $, Testophobia */
 (() => {
 Testophobia.dialogActionIndex = -1;
 Testophobia.dialogActionType;
@@ -113,14 +113,14 @@ function saveEdits() {
   Testophobia.hideActionsDialog();
 }
 
-Testophobia.setSelectedElement = () => {
-  chrome.devtools.inspectedWindow.eval(`(function(){return getUniqueSelector($0);}())`,
+function setSelectedElement() {
+  Testophobia.chrome.devtools.inspectedWindow.eval(`(function(){return getUniqueSelector($0);}())`,
     {useContentScriptContext: true},
     result => {
       $('#txtTarget').val(result);
     }
   );
-};
+}
 
 function addClipRegion() {
   Testophobia.hideActionsDialog();
@@ -193,5 +193,5 @@ $('#btnAddClipRegionPerAction').click(() => addClipRegion());
 $('#btnAddDimensionExclude').click(() => addDimensionExclude());
 $('#divActionDialog .dialogClose').click(Testophobia.hideActionsDialog);
 $('#btnSaveEdits').click(saveEdits);
-chrome.devtools.panels.elements.onSelectionChanged.addListener(Testophobia.setSelectedElement);
+Testophobia.chrome.devtools.panels.elements.onSelectionChanged.addListener(setSelectedElement);
 })();

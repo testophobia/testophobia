@@ -69,7 +69,7 @@ function hideTestList() {
 function testsChanged() {
   let rendered = '';
   Testophobia.tests.forEach((t, idx) => {
-    rendered += `<li data-index="${idx}"><span>${t}</span><span data-test="${t}"><svg data-row="${idx}" data-type="edit" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path></g></svg></span></li>`;
+    rendered += `<li data-index="${idx}"><span>${t}</span><span data-test="${t}"><div data-row="${idx}" data-type="edit"><svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path></g></svg></div></span></li>`;
   });
   $('#divTestList ul').html(rendered);
   $('#divTestList ul li span:first-child').click(e => Testophobia.loadTest($(e.target).text()));
