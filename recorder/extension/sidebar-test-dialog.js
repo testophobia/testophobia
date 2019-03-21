@@ -159,11 +159,11 @@ function buildList() {
   rendered += '<input id="txtDelay"/>';
   rendered += '<label>Threshold</label>';
   rendered += '<input id="txtThreshold"/>';
-  rendered += '<div class="listHeader"><label>Dimensions</label><button id="btnAddTestDimension" class="blue button">Add</button></div>';
+  rendered += '<div class="listHeader"><label>Dimensions</label><button id="btnAddTestDimension" class="link-button">Add</button></div>';
   rendered += '<ul id="lstDimensions" class="dialogList"></ul>';
-  rendered += '<div class="listHeader"><label>Clip Regions</label><button id="btnAddTestClipRegion" class="blue button">Add</button></div>';
+  rendered += '<div class="listHeader"><label>Clip Regions</label><button id="btnAddTestClipRegion" class="link-button">Add</button></div>';
   rendered += '<ul id="lstClipRegions" class="dialogList"></ul>';
-  rendered += '<div class="listHeader"><label>Action Clip Regions</label><button id="btnAddTestActionClipRegion" class="blue button">Add</button></div>';
+  rendered += '<div class="listHeader"><label>Action Clip Regions</label><button id="btnAddTestActionClipRegion" class="link-button">Add</button></div>';
   rendered += '<ul id="lstActionClipRegions" class="dialogList"></ul>';
   rendered += '<input id="chkSkipScreen" type="checkbox"/>';
   rendered += '<label for="chkSkipScreen">Skip initial snapshot</label>';

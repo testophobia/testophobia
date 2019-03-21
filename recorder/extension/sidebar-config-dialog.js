@@ -70,9 +70,9 @@ function buildList() {
   rendered += `<input id="txtFileType" value="${cleanParam(Testophobia.config.fileType)}"/>`;
   rendered += '<label>Quality</label>';
   rendered += `<input id="txtQuality" value="${cleanParam(Testophobia.config.quality)}"/>`;
-  rendered += '<div class="listHeader"><label>Dimensions</label><button id="btnAddDimension" class="blue button">Add</button></div>';
+  rendered += '<div class="listHeader"><label>Dimensions</label><button id="btnAddDimension" class="link-button">Add</button></div>';
   rendered += '<ul id="lstDimensions" class="dialogList"></ul>';
-  rendered += '<div class="listHeader"><label>Clip Regions</label><button id="btnAddClipRegion" class="blue button">Add</button></div>';
+  rendered += '<div class="listHeader"><label>Clip Regions</label><button id="btnAddClipRegion" class="link-button">Add</button></div>';
   rendered += '<ul id="lstClipRegions" class="dialogList"></ul>';
   rendered += '<label>Test Directory</label>';
   rendered += `<input id="txtTestDirectory" value="${cleanParam(Testophobia.config.testDirectory)}"/>`;

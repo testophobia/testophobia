@@ -176,9 +176,9 @@ function buildList() {
   rendered += '<input id="txtDelay"/>';
   rendered += '<label>Threshold</label>';
   rendered += '<input id="txtThreshold"/>';
-  rendered += '<div class="listHeader"><label>Exclude Dimensions</label><button id="btnAddDimensionExclude" class="blue button">Add</button></div>';
+  rendered += '<div class="listHeader"><label>Exclude Dimensions</label><button id="btnAddDimensionExclude" class="link-button">Add</button></div>';
   rendered += '<ul id="lstExcludedDimensions" class="dialogList"></ul>';
-  rendered += '<div class="listHeader"><label>Clip Regions (this action)</label><button id="btnAddClipRegionPerAction" class="blue button">Add</button></div>';
+  rendered += '<div class="listHeader"><label>Clip Regions (this action)</label><button id="btnAddClipRegionPerAction" class="link-button">Add</button></div>';
   rendered += '<ul id="lstClipRegionsPerAction" class="dialogList"></ul>';
   rendered += '<input id="chkSkipScreen" type="checkbox"/>';
   rendered += '<label for="chkSkipScreen">Skip snapshot for this action</label>';
