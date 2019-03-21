@@ -72,7 +72,8 @@ function buildList() {
   rendered += `<input id="txtQuality" value="${cleanParam(Testophobia.config.quality)}"/>`;
   rendered += '<div class="listHeader"><label>Dimensions</label><button id="btnAddDimension" class="blue button">Add</button></div>';
   rendered += '<ul id="lstDimensions" class="dialogList"></ul>';
-  // clipRegions
+  rendered += '<div class="listHeader"><label>Clip Regions</label><button id="btnAddClipRegion" class="blue button">Add</button></div>';
+  rendered += '<ul id="lstClipRegions" class="dialogList"></ul>';
   rendered += '<label>Test Directory</label>';
   rendered += `<input id="txtTestDirectory" value="${cleanParam(Testophobia.config.testDirectory)}"/>`;
   rendered += '<label>Golden Directory</label>';
@@ -91,6 +92,11 @@ function buildList() {
   loadDimensions();
 }
 
+function dimensionsChanged() {
+  Testophobia.showConfigDialog();
+  loadDimensions();
+}
+
 function loadDimensions() {
   Testophobia.buildListControl(
     '#divConfigProps #lstDimensions',
@@ -99,7 +105,7 @@ function loadDimensions() {
     e => {
       Testophobia.editingDimensionIndex = $(e.currentTarget).attr('data-row');
       hideConfigDialog();
-      Testophobia.showDimensionsDialog(Testophobia.config, Testophobia.showConfigDialog);
+      Testophobia.showDimensionsDialog(Testophobia.config, dimensionsChanged);
     },
     e => {
       Testophobia.config.dimensions.splice($(e.currentTarget).attr('data-row'), 1);
@@ -109,7 +115,34 @@ function loadDimensions() {
 
 function addDimension() {
   hideConfigDialog();
-  Testophobia.showDimensionsDialog(Testophobia.config, Testophobia.showConfigDialog);
+  Testophobia.showDimensionsDialog(Testophobia.config, dimensionsChanged);
+}
+
+function clipRegionsChanged() {
+  Testophobia.showConfigDialog();
+  loadClipRegions();
+}
+
+function loadClipRegions() {
+  Testophobia.buildListControl(
+    '#divConfigProps #lstClipRegions',
+    Testophobia.config.clipRegions,
+    f => `${f.type} - ${f.left || 0}:${f.top || 0}:${f.width || f.right || '100%'}:${f.height || f.bottom || '100%'}`,
+    e => {
+      Testophobia.editingClipRegionsIndex = $(e.currentTarget).attr('data-row');
+      hideConfigDialog();
+      //model, modelProp, idxField, dlgSelector, frmSelector, onDone
+      Testophobia.showClipRegionsDialog(Testophobia.config, 'clipRegions', 'editingClipRegionsIndex', '#divRegionsDialog', '#divRegionsProps', clipRegionsChanged);
+    },
+    e => {
+      Testophobia.config.clipRegions.splice($(e.currentTarget).attr('data-row'), 1);
+      loadClipRegions();
+    });
+}
+
+function addClipRegion() {
+  hideConfigDialog();
+  Testophobia.showClipRegionsDialog(Testophobia.config, 'clipRegions', 'editingClipRegionsIndex', '#divRegionsDialog', '#divRegionsProps', clipRegionsChanged);
 }
 
 function hideConfigDialog() {
@@ -120,4 +153,5 @@ function hideConfigDialog() {
 fetchConfig().then(() => {
   buildList();
   $('#btnAddDimension').click(addDimension);
+  $('#btnAddClipRegion').click(addClipRegion);
 });

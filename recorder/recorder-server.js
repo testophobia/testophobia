@@ -29,7 +29,13 @@ exports.RecorderServer = {
       let json = JSON.parse(req.body);
       const diffs = odiff(config, json);
       let current = esm(module, {cjs: false, force: true, mode: 'all'})(path.join(process.cwd(), 'testophobia.config.js')).default;
-      Object.keys(diffs).forEach(k => current[k] = diffs[k]);
+      Object.keys(diffs).forEach(k => {
+        if (Array.isArray(config[k])) {
+          current[k] = json[k];
+        } else {
+          current[k] = diffs[k];
+        }
+      });
       current = JSON.stringify(current, null, 2);
       const cfgFile = path.join(process.cwd(), 'testophobia.config.js');
       fs.writeFileSync(cfgFile, `export default ${current};`);
