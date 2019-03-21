@@ -1,14 +1,11 @@
 /* global $, Testophobia */
 
 Testophobia.showConfigDialog = () => {
-  fetchConfig().then(() => {
-    buildList();
-    $('#divBackdrop').removeAttr('hidden');
-    $('#divConfigDialog').removeAttr('hidden');
-    $('#divConfigDialog #divConfigProps input').get(0).focus();
-    $('#divConfigDialog .dailogClose').click(hideConfigDialog);
-    $('#divConfigDialog #btnPostConfig').click(saveConfig);
-  });
+  $('#divBackdrop').removeAttr('hidden');
+  $('#divConfigDialog').removeAttr('hidden');
+  $('#divConfigDialog #divConfigProps input').get(0).focus();
+  $('#divConfigDialog .dailogClose').click(hideConfigDialog);
+  $('#divConfigDialog #btnPostConfig').click(saveConfig);
 };
 
 function fetchConfig() {
@@ -73,7 +70,8 @@ function buildList() {
   rendered += `<input id="txtFileType" value="${cleanParam(Testophobia.config.fileType)}"/>`;
   rendered += '<label>Quality</label>';
   rendered += `<input id="txtQuality" value="${cleanParam(Testophobia.config.quality)}"/>`;
-  // dimensions
+  rendered += '<div class="listHeader"><label>Dimensions</label><button id="btnAddDimension" class="blue button">Add</button></div>';
+  rendered += '<ul id="lstDimensions" class="dialogList"></ul>';
   // clipRegions
   rendered += '<label>Test Directory</label>';
   rendered += `<input id="txtTestDirectory" value="${cleanParam(Testophobia.config.testDirectory)}"/>`;
@@ -90,9 +88,36 @@ function buildList() {
   rendered += '</div>';
   rendered += '<button id="btnPostConfig" class="dialogBtn green button">Save</button>';
   $('#divConfigDialog').html(rendered);
+  loadDimensions();
+}
+
+function loadDimensions() {
+  Testophobia.buildListControl(
+    '#divConfigProps #lstDimensions',
+    Testophobia.config.dimensions,
+    f => `${f.type} - ${f.width}:${f.height} ${(f.scale) ? f.scale : ''}`,
+    e => {
+      Testophobia.editingDimensionIndex = $(e.currentTarget).attr('data-row');
+      hideConfigDialog();
+      Testophobia.showDimensionsDialog(Testophobia.config, Testophobia.showConfigDialog);
+    },
+    e => {
+      Testophobia.config.dimensions.splice($(e.currentTarget).attr('data-row'), 1);
+      loadDimensions();
+    });
+}
+
+function addDimension() {
+  hideConfigDialog();
+  Testophobia.showDimensionsDialog(Testophobia.config, Testophobia.showConfigDialog);
 }
 
 function hideConfigDialog() {
   $('#divBackdrop').attr('hidden', '');
   $('#divConfigDialog').attr('hidden', '');
 }
+
+fetchConfig().then(() => {
+  buildList();
+  $('#btnAddDimension').click(addDimension);
+});

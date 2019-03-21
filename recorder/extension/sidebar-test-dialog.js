@@ -45,13 +45,14 @@ function loadDialogValues(test, testPath) {
 
 function loadTestDimensions(test) {
   Testophobia.buildListControl(
-    '#lstDimensions',
+    '#divTestProps #lstDimensions',
     test.dimensions,
     f => `${f.type} - ${f.width}:${f.height} ${(f.scale) ? f.scale : ''}`,
     e => {
+      const test = Testophobia.getEditingTest();
       Testophobia.editingDimensionIndex = $(e.currentTarget).attr('data-row');
       hideSaveDialog();
-      Testophobia.showDimensionsDialog();
+      Testophobia.showDimensionsDialog(test.config, Testophobia.showTestDialog);
     },
     e => {
       const test = Testophobia.getEditingTest();
@@ -87,7 +88,8 @@ function loadClipRegions(test, isAction) {
 
 function addDimension() {
   hideSaveDialog();
-  Testophobia.showDimensionsDialog();
+  const test = Testophobia.getEditingTest();
+  Testophobia.showDimensionsDialog(test.config, Testophobia.showTestDialog);
 }
 
 function addClipRegion(action) {
