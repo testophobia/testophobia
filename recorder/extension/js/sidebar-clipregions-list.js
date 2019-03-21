@@ -8,13 +8,13 @@ Testophobia.showClipRegionsDialog = (model, modelProp, idxField, dlgSelector, fr
     frmSelector,
     model[modelProp],
     [
-      {name:'type', selector:'#txtType', type: 'string', required: true},
-      {name:'left', selector:'#txtLeft', type: 'number', required: false},
-      {name:'top', selector:'#txtTop', type: 'number', required: false},
-      {name:'right', selector:'#txtRight', type: 'number', required: false},
-      {name:'bottom', selector:'#txtBottom', type: 'number', required: false},
-      {name:'width', selector:'#txtWidth', type: 'number', required: false},
-      {name:'height', selector:'#txtHeight', type: 'number', required: false}
+      {name:'type', selector:`${dlgSelector} ${frmSelector} #txtType`, type: 'string', required: true},
+      {name:'left', selector:`${dlgSelector} ${frmSelector} #txtLeft`, type: 'number', required: false},
+      {name:'top', selector:`${dlgSelector} ${frmSelector} #txtTop`, type: 'number', required: false},
+      {name:'right', selector:`${dlgSelector} ${frmSelector} #txtRight`, type: 'number', required: false},
+      {name:'bottom', selector:`${dlgSelector} ${frmSelector} #txtBottom`, type: 'number', required: false},
+      {name:'width', selector:`${dlgSelector} ${frmSelector} #txtWidth`, type: 'number', required: false},
+      {name:'height', selector:`${dlgSelector} ${frmSelector} #txtHeight`, type: 'number', required: false}
     ],
     onDone
   );
@@ -23,7 +23,7 @@ Testophobia.showClipRegionsDialog = (model, modelProp, idxField, dlgSelector, fr
 function buildList(lbl, dlgSelector, formId, btnId) {
   let rendered = '';
   rendered += `<h3>${lbl}</h3>`;
-  rendered += '<div class="dailogClose">&times;</div>';
+  rendered += '<div class="dialogClose">&times;</div>';
   rendered += `<div id="${formId}" class="dialogForm">`;
   rendered += '<label>Type</label>';
   rendered += '<input id="txtType"/>';

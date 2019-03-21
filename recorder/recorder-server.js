@@ -2,6 +2,7 @@
 const fs = require('fs');
 const glob = require('glob');
 const path = require('path');
+const odiff = require('deep-object-diff').diff;
 const esm = require('esm');
 const mkdirp = require('mkdirp');
 const express = require('express');
@@ -13,7 +14,37 @@ const app = express();
 app.use(bodyParser.text({}));
 
 exports.RecorderServer = {
-  start: (baseUrl, testsGlob, page) => {
+  start: (config, page) => {
+    let baseUrl = config.baseUrl;
+    let testsGlob = config.tests;
+
+    //add handler to retrieve the top-level configs
+    app.get('/config', (req, res) => {
+      res.header('Content-Type', 'application/json');
+      res.send(JSON.stringify(config));
+    });
+
+    //add handler to save a the config file
+    app.post('/config', (req, res) => {
+      let json = JSON.parse(req.body);
+      const diffs = odiff(config, json);
+      let current = esm(module, {cjs: false, force: true, mode: 'all'})(path.join(process.cwd(), 'testophobia.config.js')).default;
+      Object.keys(diffs).forEach(k => {
+        if (Array.isArray(config[k])) {
+          current[k] = json[k];
+        } else {
+          current[k] = diffs[k];
+        }
+      });
+      current = JSON.stringify(current, null, 2);
+      const cfgFile = path.join(process.cwd(), 'testophobia.config.js');
+      fs.writeFileSync(cfgFile, `export default ${current};`);
+      config = json;
+      baseUrl = json.baseUrl;
+      testsGlob = json.tests;
+      res.sendStatus(200);
+    });
+
     //add handler to perform recorder actions thru puppeteer
     app.post('/performAction/:actionString', async (req, res) => {
       //to make sure our shadow dom lib is always loaded, even when navigating, we'll remove it if it exists and re-add
@@ -74,9 +105,13 @@ exports.RecorderServer = {
       //TODO - saving inline tests?
       let json = JSON.parse(req.body);
       json = JSON.stringify(json, null, 2);
-      const testFile = path.join(process.cwd(), decodeURIComponent(req.params.testPath));
-      if (!fs.existsSync(path.dirname(testFile))) mkdirp.sync(path.dirname(testFile));
-      fs.writeFileSync(testFile, `export default ${json};`);
+      if (req.params.testPath) {
+        const testFile = path.join(process.cwd(), decodeURIComponent(req.params.testPath));
+        if (!fs.existsSync(path.dirname(testFile))) mkdirp.sync(path.dirname(testFile));
+        fs.writeFileSync(testFile, `export default ${json};`);
+      } else {
+        console.log('Unable to save. Test path not defined!');
+      }
       res.sendStatus(200);
     });
 

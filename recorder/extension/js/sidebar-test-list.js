@@ -3,6 +3,7 @@
 Testophobia.tests = null;
 
 Testophobia.chooseTest = () => {
+  $('#lnkEditConfig').removeAttr('hidden');
   Testophobia.activeTest = null;
   Testophobia.activeTestPath = null;
   Testophobia.actionsChanged();
@@ -14,6 +15,7 @@ Testophobia.chooseTest = () => {
       $('#divTestListLabel').text('Existing Tests');
       testsChanged();
     } else {
+      $('#divTestList ul').html('');
       $('#divTestListLabel').text('No Tests Found!');
     }
   });
@@ -59,6 +61,7 @@ function fetchTests() {
 
 function hideTestList() {
   $('#divTestList').attr('hidden', '');
+  $('#lnkEditConfig').attr('hidden', '');
   $('#divControls').removeAttr('hidden');
   $('#lnkStartOver').removeAttr('hidden');
 }
@@ -80,12 +83,16 @@ function setTestName(name) {
 }
 
 $('#btnNewTest').click(() => {
-  hideTestList();
   setTestName('(new test)');
   Testophobia.showTestDialog();
 });
 
 $('#lnkStartOver').click(() => {
-  if (confirm('Are you sure you want to start over?')) Testophobia.chooseTest();
+  Testophobia.showAlert('Confirm', 'Are you sure you want to start over??', null, () => {
+    Testophobia.chooseTest();
+  });
+});
+$('#lnkEditConfig').click(() => {
+  Testophobia.showConfigDialog();
 });
 })();

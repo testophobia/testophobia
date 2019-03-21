@@ -1,10 +1,10 @@
 /* global $, Testophobia */
 (() => {
 $('#btnClearAll').click(() => {
-  if (confirm('Are you sure you want to clear all actions?')) {
+  Testophobia.showAlert('Confirm', 'Are you sure you want to clear all actions?', null, () => {
     Testophobia.activeTest.actions = [];
     Testophobia.actionsChanged();
-  }
+  });
 });
 
 $('#btnSaveTest').click(() => {

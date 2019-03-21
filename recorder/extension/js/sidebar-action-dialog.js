@@ -134,7 +134,7 @@ function addDimensionExclude() {
   if (!action.excludeDimensions) action.excludeDimensions = [];
   let rendered = '';
   rendered += '<h3>Add Dimension Exclude</h3>';
-  rendered += '<div class="dailogClose">&times;</div>';
+  rendered += '<div class="dialogClose">&times;</div>';
   rendered += '<div id="divValueEditProps" class="dialogForm">';
   rendered += '<label>Dimension Name</label>';
   rendered += '<input id="txtValue"/>';
@@ -145,7 +145,7 @@ function addDimensionExclude() {
       '#divValueEditDialog',
       '#divValueEditProps',
       action.excludeDimensions,
-      {name:'excludeDimensions', selector:'#txtValue', type: 'string', required: true},
+      {name:'excludeDimensions', selector:'#divValueEditDialog #divValueEditProps #txtValue', type: 'string', required: true},
       () => Testophobia.showActionDialog(Testophobia.dialogActionIndex)
     );
 }
@@ -153,7 +153,7 @@ function addDimensionExclude() {
 function buildList() {
   let rendered = '';
   rendered += '<h3>Action Details</h3>';
-  rendered += '<div class="dailogClose">&times;</div>';
+  rendered += '<div class="dialogClose">&times;</div>';
   rendered += '<div id="divActionProps" class="dialogForm">';
   rendered += '<div class="dropdown button blue" title="Select an Action Type">';
   rendered += '<select id="dlgAction" required>';
@@ -176,9 +176,9 @@ function buildList() {
   rendered += '<input id="txtDelay"/>';
   rendered += '<label>Threshold</label>';
   rendered += '<input id="txtThreshold"/>';
-  rendered += '<div class="listHeader"><label>Exclude Dimensions</label><button id="btnAddDimensionExclude" class="blue button">Add</button></div>';
+  rendered += '<div class="listHeader"><label>Exclude Dimensions</label><button id="btnAddDimensionExclude" class="link-button">Add</button></div>';
   rendered += '<ul id="lstExcludedDimensions" class="dialogList"></ul>';
-  rendered += '<div class="listHeader"><label>Clip Regions (this action)</label><button id="btnAddClipRegionPerAction" class="blue button">Add</button></div>';
+  rendered += '<div class="listHeader"><label>Clip Regions (this action)</label><button id="btnAddClipRegionPerAction" class="link-button">Add</button></div>';
   rendered += '<ul id="lstClipRegionsPerAction" class="dialogList"></ul>';
   rendered += '<input id="chkSkipScreen" type="checkbox"/>';
   rendered += '<label for="chkSkipScreen">Skip snapshot for this action</label>';
@@ -191,7 +191,7 @@ buildList();
 
 $('#btnAddClipRegionPerAction').click(() => addClipRegion());
 $('#btnAddDimensionExclude').click(() => addDimensionExclude());
-$('#divActionDialog .dailogClose').click(Testophobia.hideActionsDialog);
+$('#divActionDialog .dialogClose').click(Testophobia.hideActionsDialog);
 $('#btnSaveEdits').click(saveEdits);
 chrome.devtools.panels.elements.onSelectionChanged.addListener(Testophobia.setSelectedElement);
 })();
