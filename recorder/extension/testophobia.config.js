@@ -1,5 +1,5 @@
 export default {
-  "threshold": 0.3,
+  "threshold": 0.1,
   "diffDirectory": "./testophobia/diffs",
   "goldenDirectory": "./testophobia/golden-screens",
   "testDirectory": "./testophobia/test-screens",
@@ -11,7 +11,8 @@ export default {
     {
       "type": "devtools",
       "width": 800,
-      "height": 500
+      "height": 500,
+      "scale": 0.5
     }
   ],
   "tests": "testophobia/tests/*-test.js"
