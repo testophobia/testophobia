@@ -53,6 +53,10 @@ Testophobia.validation.clear = (selector) => {
   });
 };
 
+Testophobia.checkEmpty = v => {
+  return (v !== undefined && v !== null && v !== '') ? v : '';
+};
+
 function trimValue(v) {
   return (v) ? v.trim() : v;
 }

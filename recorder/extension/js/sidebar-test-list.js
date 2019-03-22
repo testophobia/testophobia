@@ -48,11 +48,9 @@ Testophobia.editTest = testPath => {
 function fetchTests() {
   return new Promise((resolve, reject) => {
     fetch(`${Testophobia.serverUrl}/tests`)
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(testResults) {
-        Testophobia.tests = testResults;
+      .then(response => response.json())
+      .then(data => {
+        Testophobia.tests = data;
         resolve();
       })
       .catch(reject);
@@ -83,6 +81,8 @@ function setTestName(name) {
 }
 
 $('#btnNewTest').click(() => {
+  Testophobia.editingTest = null;
+  Testophobia.editingTestPath = null;
   setTestName('(new test)');
   Testophobia.showTestDialog();
 });

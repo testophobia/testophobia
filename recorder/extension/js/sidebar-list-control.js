@@ -47,7 +47,7 @@ Testophobia.showListDialog = (idxField, dlgSelector, frmSelector, model, fields,
   };
   $(`${dlgSelector} .dialogClose`).click(hideDialog);
   if (Testophobia[idxField])
-    fields.forEach(f => $(f.selector).val(model[Testophobia[idxField]][f.name] || ''));
+    fields.forEach(f => $(f.selector).val(Testophobia.checkEmpty(model[Testophobia[idxField]][f.name])));
   else
     fields.forEach(f => $(f.selector).val(''));
   $(`#divBackdrop`).removeAttr('hidden');
@@ -78,4 +78,5 @@ Testophobia.showValueDialog = (dlgSelector, frmSelector, model, field, onDone) =
   $(`${dlgSelector}`).removeAttr('hidden');
   $(`${dlgSelector} ${frmSelector} input`).get(0).focus();
 };
+
 })();

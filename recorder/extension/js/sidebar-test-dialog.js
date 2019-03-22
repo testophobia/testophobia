@@ -8,16 +8,22 @@ Testophobia.getEditingTest = () => {
 
 Testophobia.showTestDialog = () => {
   Testophobia.validation.clear('#divTestDialog #divTestProps');
+  $('#divTestDialog #divTestDialogTitle').removeAttr('hidden');
+  $('#divTestDialog #divTestProps > label:nth-child(1)').attr('hidden', '');
+  $('#divTestDialog #divTestProps #txtFile').attr('hidden', '');
   if (Testophobia.editingTest) {
-    loadDialogValues(Testophobia.editingTest, Testophobia.editingTestPath);
+    $('#divTestDialog #divTestDialogTitle').text(`${Testophobia.editingTestPath}`);
+    loadDialogValues(Testophobia.editingTest);
   } else if (Testophobia.activeTest) {
-    loadDialogValues(Testophobia.activeTest, Testophobia.activeTestPath);
+    $('#divTestDialog #divTestDialogTitle').text(`${Testophobia.activeTestPath}`);
+    loadDialogValues(Testophobia.activeTest);
   } else {
     $('#divTestDialog #divTestDialogTitle').text('');
     $('#divTestDialog #divTestDialogTitle').attr('hidden', '');
     $('#divTestDialog #divTestProps input').val('');
     $('#divTestDialog #divTestProps label:nth-child(1)').removeAttr('hidden');
     $('#divTestDialog #divTestProps #txtFile').removeAttr('hidden');
+    loadDialogValues({});
   }
   $('#divBackdrop').removeAttr('hidden');
   $('#divTestDialog').removeAttr('hidden');
@@ -29,15 +35,12 @@ function hideSaveDialog() {
   $('#divTestDialog').attr('hidden', '');
 }
 
-function loadDialogValues(test, testPath) {
-  $('#divTestDialog #divTestDialogTitle').removeAttr('hidden');
-  $('#divTestDialog #divTestProps > label:nth-child(1)').attr('hidden', '');
-  $('#divTestDialog #divTestProps #txtFile').attr('hidden', '');
-  $('#divTestDialog #divTestDialogTitle').text(`${testPath}`);
-  $('#divTestDialog #divTestProps #txtName').val(test.name || '');
-  $('#divTestDialog #divTestProps #txtPath').val(test.path || '');
-  $('#divTestDialog #divTestProps #txtDelay').val(test.delay || '');
-  $('#divTestDialog #divTestProps #txtThreshold').val(test.threshold || '');
+function loadDialogValues(test) {
+  $('#divTestDialog #divTestProps #txtName').val(Testophobia.checkEmpty(test.name));
+  $('#divTestDialog #divTestProps #txtPath').val(Testophobia.checkEmpty(test.path));
+  $('#divTestDialog #divTestProps #txtDelay').val(Testophobia.checkEmpty(test.delay));
+  $('#divTestDialog #divTestProps #txtThreshold').val(Testophobia.checkEmpty(test.threshold));
+  $('#divTestDialog #divTestProps #chkSkipScreen').prop('checked', test.skipScreen || false);
   loadTestDimensions(test);
   loadClipRegions(test, false);
   loadClipRegions(test, true);
@@ -65,7 +68,7 @@ function loadClipRegions(test, isAction) {
   const modelProp = (isAction) ? 'actionsClipRegions' : 'clipRegions';
   const idxField = (isAction) ? 'editingActionRegionsIndex' : 'editingClipRegionsIndex';
   Testophobia.buildListControl(
-    (isAction) ? '#lstActionClipRegions' : '#lstClipRegions',
+    (isAction) ? '#divTestProps #lstActionClipRegions' : '#divTestProps #lstClipRegions',
     test[modelProp],
     f => `${f.type} - ${f.left || 0}:${f.top || 0}:${f.width || f.right || '100%'}:${f.height || f.bottom || '100%'}`,
     e => {
@@ -88,6 +91,7 @@ function loadClipRegions(test, isAction) {
 
 function addDimension() {
   hideSaveDialog();
+  Testophobia.editingDimensionIndex = null;
   const test = Testophobia.getEditingTest();
   Testophobia.showDimensionsDialog(test.config, Testophobia.showTestDialog);
 }
@@ -95,6 +99,8 @@ function addDimension() {
 function addClipRegion(action) {
   hideSaveDialog();
   const test = Testophobia.getEditingTest();
+  Testophobia.editingClipRegionsIndex = null;
+  Testophobia.editingActionRegionsIndex = null;
   if (action)
     Testophobia.showClipRegionsDialog(test.config, 'clipRegions', 'editingClipRegionsIndex' , '#divRegionsDialog' , '#divRegionsProps', Testophobia.showTestDialog);
   else

@@ -90,6 +90,7 @@ function buildList() {
   rendered += '<button id="btnPostConfig" class="dialogBtn green button">Save</button>';
   $('#divConfigDialog').html(rendered);
   loadDimensions();
+  loadClipRegions();
 }
 
 function dimensionsChanged() {
@@ -115,6 +116,7 @@ function loadDimensions() {
 
 function addDimension() {
   hideConfigDialog();
+  Testophobia.editingDimensionIndex = null;
   Testophobia.showDimensionsDialog(Testophobia.config, dimensionsChanged);
 }
 
@@ -131,7 +133,6 @@ function loadClipRegions() {
     e => {
       Testophobia.editingClipRegionsIndex = $(e.currentTarget).attr('data-row');
       hideConfigDialog();
-      //model, modelProp, idxField, dlgSelector, frmSelector, onDone
       Testophobia.showClipRegionsDialog(Testophobia.config, 'clipRegions', 'editingClipRegionsIndex', '#divRegionsDialog', '#divRegionsProps', clipRegionsChanged);
     },
     e => {
@@ -142,6 +143,7 @@ function loadClipRegions() {
 
 function addClipRegion() {
   hideConfigDialog();
+  Testophobia.editingClipRegionsIndex = null;
   Testophobia.showClipRegionsDialog(Testophobia.config, 'clipRegions', 'editingClipRegionsIndex', '#divRegionsDialog', '#divRegionsProps', clipRegionsChanged);
 }
 

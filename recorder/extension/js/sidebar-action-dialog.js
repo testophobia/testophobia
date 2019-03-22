@@ -49,8 +49,8 @@ function layoutDialog() {
       break;
   }
   $('#divAddlFields').html(fieldsHtml + '\n    ');
-  $('#divActionProps #txtDelay').val(action.delay || '');
-  $('#divActionProps #txtThreshold').val(action.threshold || '');
+  $('#divActionProps #txtDelay').val(Testophobia.checkEmpty(action.delay));
+  $('#divActionProps #txtThreshold').val(Testophobia.checkEmpty(action.threshold));
   loadClipRegions(action);
   loadExcludedDimensions(action);
   $('#divActionProps #chkSkipScreen').prop('checked', action.skipScreen || false);
@@ -124,6 +124,7 @@ function setSelectedElement() {
 
 function addClipRegion() {
   Testophobia.hideActionsDialog();
+  Testophobia.editingClipRegionForActionIndex = null;
   const action = Testophobia.activeTest.actions[Testophobia.dialogActionIndex];
   Testophobia.showClipRegionsDialog(action, 'clipRegions', 'editingClipRegionForActionIndex' , '#divClipRegionsForActionDialog' , '#divClipRegionsForActionProps', () => Testophobia.showActionDialog(Testophobia.dialogActionIndex));
 }
