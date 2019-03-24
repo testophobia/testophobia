@@ -41,7 +41,7 @@ Testophobia.editTest = testPath => {
     .then(data => {
       Testophobia.editingTest = data;
       Testophobia.editingTestPath = testPath;
-      Testophobia.showTestDialog();
+      Testophobia.loadTestDialog();
     });
 };
 
@@ -84,7 +84,7 @@ $('#btnNewTest').click(() => {
   Testophobia.editingTest = null;
   Testophobia.editingTestPath = null;
   setTestName('(new test)');
-  Testophobia.showTestDialog();
+  Testophobia.loadTestDialog();
 });
 
 $('#lnkStartOver').click(() => {

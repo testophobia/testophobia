@@ -117,7 +117,7 @@ if (isChromium()) {
                 type: 'click',
                 target: '#btnSave',
                 delay: 300,
-                threshold: 0.5,
+                threshold: 0.2,
                 clipRegions: [
                   {
                     type: 'desktop',

@@ -3,7 +3,12 @@
 Testophobia.dialogActionIndex = -1;
 Testophobia.dialogActionType;
 
-Testophobia.showActionDialog = (actionIdx) => {
+Testophobia.showActionDialog = () => {
+  $('#divBackdrop').removeAttr('hidden');
+  $('#divActionDialog').removeAttr('hidden');
+};
+
+Testophobia.loadActionDialog = (actionIdx) => {
   Testophobia.dialogActionIndex = actionIdx;
   Testophobia.dialogActionType = Testophobia.activeTest.actions[Testophobia.dialogActionIndex].type;
   $('#dlgAction').on('change', dropdownChanged);
@@ -72,7 +77,7 @@ function loadClipRegions(action) {
                                         'editingClipRegionForActionIndex' ,
                                         '#divClipRegionsForActionDialog',
                                         '#divClipRegionsForActionProps',
-                                        Testophobia.showActionDialog(Testophobia.dialogActionIndex));
+                                        clipRegionsUpdated);
     },
     e => {
       action.clipRegions.splice($(e.currentTarget).attr('data-row'), 1);
@@ -126,7 +131,18 @@ function addClipRegion() {
   Testophobia.hideActionsDialog();
   Testophobia.editingClipRegionForActionIndex = null;
   const action = Testophobia.activeTest.actions[Testophobia.dialogActionIndex];
-  Testophobia.showClipRegionsDialog(action, 'clipRegions', 'editingClipRegionForActionIndex' , '#divClipRegionsForActionDialog' , '#divClipRegionsForActionProps', () => Testophobia.showActionDialog(Testophobia.dialogActionIndex));
+  Testophobia.showClipRegionsDialog(
+    action,
+    'clipRegions',
+    'editingClipRegionForActionIndex',
+    '#divClipRegionsForActionDialog',
+    '#divClipRegionsForActionProps',
+    clipRegionsUpdated);
+}
+
+function clipRegionsUpdated() {
+  loadClipRegions(Testophobia.activeTest.actions[Testophobia.dialogActionIndex]);
+  Testophobia.showActionDialog();
 }
 
 function addDimensionExclude() {
@@ -143,12 +159,16 @@ function addDimensionExclude() {
   rendered += '<button id="btnApplyValueEdit" class="dialogBtn green button">Apply</button>';
   $('#divValueEditDialog').html(rendered);
   Testophobia.showValueDialog(
-      '#divValueEditDialog',
-      '#divValueEditProps',
-      action.excludeDimensions,
-      {name:'excludeDimensions', selector:'#divValueEditDialog #divValueEditProps #txtValue', type: 'string', required: true},
-      () => Testophobia.showActionDialog(Testophobia.dialogActionIndex)
-    );
+    '#divValueEditDialog',
+    '#divValueEditProps',
+    action.excludeDimensions,
+    {name:'excludeDimensions', selector:'#divValueEditDialog #divValueEditProps #txtValue', type: 'string', required: true},
+    excludedDimensionsUpdated);
+}
+
+function excludedDimensionsUpdated() {
+  loadExcludedDimensions(Testophobia.activeTest.actions[Testophobia.dialogActionIndex]);
+  Testophobia.showActionDialog();
 }
 
 function buildList() {

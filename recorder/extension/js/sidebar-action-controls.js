@@ -8,6 +8,6 @@ $('#btnAddAction').click(() => {
   const list = $('#actionsList').get(0);
   list.scrollTop = list.scrollHeight;
   if (['setProperty', 'setAttribute', 'removeAttribute', 'scroll', 'keypress', 'input'].indexOf(actionType) >= 0)
-    Testophobia.showActionDialog(Testophobia.activeTest.actions.length - 1);
+    Testophobia.loadActionDialog(Testophobia.activeTest.actions.length - 1);
 });
 })();

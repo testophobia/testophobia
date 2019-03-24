@@ -7,6 +7,11 @@ Testophobia.getEditingTest = () => {
 };
 
 Testophobia.showTestDialog = () => {
+  $('#divBackdrop').removeAttr('hidden');
+  $('#divTestDialog').removeAttr('hidden');
+};
+
+Testophobia.loadTestDialog = () => {
   Testophobia.validation.clear('#divTestDialog #divTestProps');
   $('#divTestDialog #divTestDialogTitle').removeAttr('hidden');
   $('#divTestDialog #divTestProps > label:nth-child(1)').attr('hidden', '');
@@ -23,7 +28,8 @@ Testophobia.showTestDialog = () => {
     $('#divTestDialog #divTestProps input').val('');
     $('#divTestDialog #divTestProps label:nth-child(1)').removeAttr('hidden');
     $('#divTestDialog #divTestProps #txtFile').removeAttr('hidden');
-    loadDialogValues({});
+    Testophobia.editingTest = {};
+    loadDialogValues(Testophobia.editingTest);
   }
   $('#divBackdrop').removeAttr('hidden');
   $('#divTestDialog').removeAttr('hidden');
@@ -55,7 +61,7 @@ function loadTestDimensions(test) {
       const test = Testophobia.getEditingTest();
       Testophobia.editingDimensionIndex = $(e.currentTarget).attr('data-row');
       hideSaveDialog();
-      Testophobia.showDimensionsDialog(test.config, Testophobia.showTestDialog);
+      Testophobia.showDimensionsDialog(test.config, dimensionsUpdated);
     },
     e => {
       const test = Testophobia.getEditingTest();
@@ -80,7 +86,7 @@ function loadClipRegions(test, isAction) {
                                         idxField ,
                                         (isAction) ? '#divActionRegionsDialog' : '#divRegionsDialog',
                                         (isAction) ? '#divActionRegionsProps' : '#divRegionsProps',
-                                        Testophobia.showTestDialog);
+                                        () => clipRegionsUpdated(isAction));
     },
     e => {
       const test = Testophobia.getEditingTest();
@@ -93,7 +99,12 @@ function addDimension() {
   hideSaveDialog();
   Testophobia.editingDimensionIndex = null;
   const test = Testophobia.getEditingTest();
-  Testophobia.showDimensionsDialog(test.config, Testophobia.showTestDialog);
+  Testophobia.showDimensionsDialog(test.config, dimensionsUpdated);
+}
+
+function dimensionsUpdated() {
+  loadTestDimensions(Testophobia.getEditingTest().config);
+  Testophobia.showTestDialog();
 }
 
 function addClipRegion(action) {
@@ -102,9 +113,14 @@ function addClipRegion(action) {
   Testophobia.editingClipRegionsIndex = null;
   Testophobia.editingActionRegionsIndex = null;
   if (action)
-    Testophobia.showClipRegionsDialog(test.config, 'clipRegions', 'editingClipRegionsIndex' , '#divRegionsDialog' , '#divRegionsProps', Testophobia.showTestDialog);
+    Testophobia.showClipRegionsDialog(test.config, 'clipRegions', 'editingClipRegionsIndex' , '#divRegionsDialog' , '#divRegionsProps', () => clipRegionsUpdated(false));
   else
-    Testophobia.showClipRegionsDialog(test.config, 'actionsClipRegions', 'editingActionRegionsIndex' , '#divActionRegionsDialog' , '#divActionRegionsProps', Testophobia.showTestDialog);
+    Testophobia.showClipRegionsDialog(test.config, 'actionsClipRegions', 'editingActionRegionsIndex' , '#divActionRegionsDialog' , '#divActionRegionsProps', () => clipRegionsUpdated(true));
+}
+
+function clipRegionsUpdated(isAction) {
+  loadClipRegions(Testophobia.getEditingTest().config, isAction);
+  Testophobia.showTestDialog();
 }
 
 function saveTest() {
