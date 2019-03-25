@@ -58,6 +58,15 @@ export default {
     },{
       "type": "click",
       "target": "#divConfigDialog .dialogClose",
+    },{
+      "type": "click",
+      "target": "#lnkEditConfig",
+    },{
+      "type": "click",
+      "target": "#btnPostConfig"
+    },{
+      "type": "click",
+      "target": "#divAlert #btnAlertClose"
     }
   ]
 };

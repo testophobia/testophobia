@@ -2,6 +2,16 @@
 (() => {
 Testophobia.tests = null;
 
+function buildList() {
+  let rendered = '';
+  rendered += '<h3 id="divTestListLabel"></h3>';
+  rendered += '<ul class="dialogList"></ul>';
+  rendered += '<button id="btnNewTest" class="green button">New Test</button>';
+  $('#divTestList').html(rendered);
+}
+
+buildList();
+
 Testophobia.chooseTest = () => {
   $('#lnkEditConfig').removeAttr('hidden');
   Testophobia.activeTest = null;
@@ -9,7 +19,7 @@ Testophobia.chooseTest = () => {
   Testophobia.actionsChanged();
   fetchTests().then(() => {
     $('#divTestList').removeAttr('hidden');
-    $('#divControls').attr('hidden', '');
+    $('#divActionControls').attr('hidden', '');
     $('#lnkStartOver').attr('hidden', '');
     if (Testophobia.tests && Testophobia.tests.length) {
       $('#divTestListLabel').text('Existing Tests');
@@ -60,7 +70,7 @@ function fetchTests() {
 function hideTestList() {
   $('#divTestList').attr('hidden', '');
   $('#lnkEditConfig').attr('hidden', '');
-  $('#divControls').removeAttr('hidden');
+  $('#divActionControls').removeAttr('hidden');
   $('#lnkStartOver').removeAttr('hidden');
 }
 

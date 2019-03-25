@@ -1,6 +1,18 @@
 /* global $, Testophobia */
 (() => {
+function buildAlert() {
+  let rendered = '';
+  rendered += '<h3 id="titleAlert"></h3>';
+  rendered += '<div class="dialogClose">&times;</div>';
+  rendered += '<div id="divAlertMessage"></div>';
+  rendered += '<button id="btnAlertClose" class="blue button">OK</button>';
+  $('#divAlert').html(rendered);
+}
+
+buildAlert();
+
 let okCallback;
+
 Testophobia.showAlert = (title, message, onShow, onOk) => {
   okCallback = onOk;
   $('#titleAlert').text(title);
