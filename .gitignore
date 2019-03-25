@@ -61,3 +61,6 @@ typings/
 .next
 
 examples/*/testophobia
+
+recorder/extension/testophobia/test-screens
+recorder/extension/testophobia/diffs

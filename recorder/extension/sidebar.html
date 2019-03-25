@@ -4,95 +4,30 @@
   <link rel="stylesheet" href="vendor.css">
   <link rel="stylesheet" href="sidebar.css">
   <script src="js/sidebar-init.js"></script>
+  <script src="js/sidebar-mock.js"></script>
 </head>
 <body>
   <h2>&#x1F631 Testophobia Recorder</h2>
   <span id="lnkEditConfig" class="link-button" hidden>Edit Config</span>
   <span id="lnkStartOver" class="link-button" hidden>Start Over</span>
-
-  <!-- Tests List -->
-  <div id="divTestList" hidden>
-    <h3 id="divTestListLabel"></h3>
-    <ul class="dialogList"></ul>
-    <button id="btnNewTest" class="green button">New Test</button>
-  </div>
-
-  <!-- Actions Panel -->
-  <div id="divControls" hidden>
-
-    <!-- Current Test Label -->
-    <div id="divCurrentTest">(new test)</div>
-
-    <!-- Selected Element -->
-    <label>Selected Element:</label>
-    <div id="divSelected"></div>
-
-    <!-- Add Action Controls -->
-    <div id="divActionCtls">
-      <div class="dropdown button blue" title="Select an Action Type">
-        <select id="ddActionType" required>
-          <option value="click">Click</option>
-          <option value="hover">Hover</option>
-          <option value="scroll">Scroll</option>
-          <option value="clearInput">Clear Input</option>
-          <option value="input">Input Text</option>
-          <option value="keypress">Key Press</option>
-          <option value="setProperty">Set Property</option>
-          <option value="setAttribute">Set Attribute</option>
-          <option value="removeAttribute">Remove Attribute</option>
-        </select>
-      </div>
-      <button id="btnAddAction" class="green button" title="Add Action">+</button>
-    </div>
-    <br/>
-
-    <!-- Existing Actions Table -->
-    <label id="actionsLbl">Recorded Actions: <small>(Hover for full details)</small></label>
-    <div id="actionsList"></div>
-
-    <!-- Footer Controls -->
-    <button id="btnClearAll" class="red button" title="Clear All Actions">Clear All</button>
-    <button id="btnSaveTest" class="green button" title="Save the Test">Save</button>
-  </div>
-
+  <div id="divTestList" hidden></div>
+  <div id="divActionControls" hidden></div>
   <div id="divBackdrop" hidden></div>
-
-  <!-- Config Dialog -->
   <div id="divConfigDialog" class="dialog" hidden></div>
-
-  <!-- Test Dialog -->
   <div id="divTestDialog" class="dialog" hidden></div>
-
-  <!-- Action Dialog -->
   <div id="divActionDialog" class="dialog" hidden></div>
-
-  <!-- Dimensions Dialog -->
   <div id="divDimDialog" class="dialog" hidden></div>
-
-  <!-- ClipRegions Dialog -->
   <div id="divRegionsDialog" class="dialog" hidden></div>
-
-  <!-- ClipRegions Dialog -->
   <div id="divActionRegionsDialog" class="dialog" hidden></div>
-
-  <!-- ClipRegions Dialog -->
   <div id="divClipRegionsForActionDialog" class="dialog" hidden></div>
-
-  <!-- Single Value Edit Dialog -->
   <div id="divValueEditDialog" class="dialog" hidden></div>
-
-  <!-- Alert Dialog -->
-  <div id="divAlert" hidden>
-    <h3 id="titleAlert"></h3>
-    <div class="dialogClose">&times;</div>
-    <div id="divAlertMessage"></div>
-    <button id="btnAlertClose" class="blue button">OK</button>
-  </div>
-
-  <!-- Imports -->
+  <div id="divAlert" hidden></div>
   <script src="lib/jquery-3.3.1.slim.min.js"></script>
   <script src="js/sidebar-alert.js"></script>
   <script src="js/sidebar-validation.js"></script>
+  <script src="js/sidebar-list-control.js"></script>
+  <script src="js/sidebar-dimensions-list.js"></script>
+  <script src="js/sidebar-clipRegions-list.js"></script>
   <script src="js/sidebar-test-list.js"></script>
   <script src="js/sidebar-selected-element.js"></script>
   <script src="js/sidebar-action-controls.js"></script>
@@ -100,9 +35,6 @@
   <script src="js/sidebar-action-dialog.js"></script>
   <script src="js/sidebar-test-dialog.js"></script>
   <script src="js/sidebar-config-dialog.js"></script>
-  <script src="js/sidebar-list-control.js"></script>
-  <script src="js/sidebar-dimensions-list.js"></script>
-  <script src="js/sidebar-clipRegions-list.js"></script>
   <script src="js/sidebar-footer.js"></script>
   <script src="sidebar.js"></script>
 </body>

@@ -11,6 +11,11 @@ const {performAction} = require('../lib/utils/perform-action');
 const {resolveNodeModuleFile} = require('../lib/utils');
 
 const app = express();
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(bodyParser.text({}));
 
 exports.RecorderServer = {
@@ -47,6 +52,10 @@ exports.RecorderServer = {
 
     //add handler to perform recorder actions thru puppeteer
     app.post('/performAction/:actionString', async (req, res) => {
+      if (!page) {
+        res.sendStatus(200);
+        return;
+      }
       //to make sure our shadow dom lib is always loaded, even when navigating, we'll remove it if it exists and re-add
       await page.evaluate(() => {
         let scripts = document.querySelectorAll('script');
@@ -83,6 +92,10 @@ exports.RecorderServer = {
 
     //add handler to navigate the browser to a test's route
     app.post('/navigate/:testRoute', (req, res) => {
+      if (!page) {
+        res.sendStatus(200);
+        return;
+      }
       const url = `${baseUrl}${decodeURIComponent(req.params.testRoute)}`;
       if (page.url() !== url) page.goto(url);
       res.sendStatus(200);

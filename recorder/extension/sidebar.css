@@ -59,13 +59,18 @@ h2 {
 .dialogList li span:first-child {
   flex: 1;
   line-height: 24px;
+  font: 400 11px system-ui;
 }
 
-.dialogList li svg[data-type="edit"] {
+.dialogList li div[data-type="edit"] {
   fill: #269CE9;
 }
-.dialogList li svg[data-type="del"] {
+.dialogList li div[data-type="del"] {
   fill: #ca3535;
+}
+
+.dialogList li svg {
+  padding-top: 2px;
 }
 
 .dialogList li svg:hover {
@@ -301,14 +306,14 @@ table td svg {
 table td svg:hover {
   opacity: 0.8;
 }
-table td svg[data-type="play"] {
+table td div[data-type="play"] {
   fill: #57a957;
 }
-table td svg[data-type="edit"],
-table td svg[data-type="up"],
-table td svg[data-type="down"] {
+table td div[data-type="edit"],
+table td div[data-type="up"],
+table td div[data-type="down"] {
   fill: #269CE9;
 }
-table td svg[data-type="del"] {
+table td div[data-type="del"] {
   fill: #ca3535;
 }

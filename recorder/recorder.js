@@ -10,6 +10,7 @@ const {RecorderServer} = require('./recorder-server');
 exports.TestophobiaRecorder = class TestophobiaRecorder {
   async launch() {
     let config;
+    let page;
     let defWidth = 1024;
     let defHeight = 768;
 
@@ -72,7 +73,7 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
     //close the initial blank tab and open a fresh tab
     let pagelist = await browser.pages();
     pagelist[0].close();
-    const page = await browser.newPage();
+    page = await browser.newPage();
     await page.goto(config.baseUrl, {waitUntil: 'networkidle0'});
 
     //start the server
