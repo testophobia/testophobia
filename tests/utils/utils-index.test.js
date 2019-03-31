@@ -2,7 +2,7 @@
 const test = require('ava');
 const path = require('path');
 const fs = require('fs');
-const {cleanTargetName, resolveNodeModuleFile, deleteFile, createDirectory, deleteDirectory, getDate, asyncForEach} = require('../../lib/utils');
+const {cleanFileName, resolveNodeModuleFile, deleteFile, createDirectory, deleteDirectory, getDate, asyncForEach} = require('../../lib/utils');
 const {tempPath} = require('../common/config');
 
 const file = `${tempPath}/testfile.txt`;
@@ -32,12 +32,12 @@ test('asyncForEach - array', async t => {
   t.is(15, total);
 });
 
-test('cleanTargetName - null', t => {
-  t.is(cleanTargetName(null), 0);
+test('cleanFileName - null', t => {
+  t.is(cleanFileName(null), 0);
 });
 
-test('cleanTargetName - string', t => {
-  t.is(cleanTargetName('#some-element.sibling #id'), '-some-element-sibling--id');
+test('cleanFileName - string', t => {
+  t.is(cleanFileName('#some-element.sibling #id'), '-some-element-sibling--id');
 });
 
 test('resolveNodeModuleFile - no parameter', t => {
