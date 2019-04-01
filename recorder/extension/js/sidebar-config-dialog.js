@@ -34,7 +34,8 @@ function saveConfig() {
   Testophobia.validation.validate({name:'diffDirectory',type:'string',selector:'#divConfigDialog #divConfigProps #txtDiffDirectory',required:false}, Testophobia.config);
   Testophobia.validation.validate({name:'threshold',type:'decimal',selector:'#divConfigDialog #divConfigProps #txtThreshold',required:false}, Testophobia.config);
   Testophobia.validation.validate({name:'tests',type:'string',selector:'#divConfigDialog #divConfigProps #txtTests',required:false}, Testophobia.config);
-  Testophobia.validation.validate({name:'delayModifier',type:'decimal',selector:'#divConfigDialog #divConfigProps #txtDelayModifier',required:true}, Testophobia.config);
+  Testophobia.validation.validate({name:'delayModifier',type:'decimal',selector:'#divConfigDialog #divConfigProps #txtDelayModifier',required:false}, Testophobia.config);
+  Testophobia.validation.validate({name:'pageLoadMax',type:'number',selector:'#divConfigDialog #divConfigProps #txtPageLoadMax',required:false}, Testophobia.config);
   fetch(`${Testophobia.serverUrl}/config`,
     {
       method: 'post',
@@ -86,6 +87,8 @@ function buildList() {
   rendered += `<input id="txtTests" value="${cleanParam(Testophobia.config.tests)}"/>`;
   rendered += '<label>Delay Modifier</label>';
   rendered += `<input id="txtDelayModifier" value="${cleanParam(Testophobia.config.delayModifier)}"/>`;
+  rendered += '<label>Page Load Max</label>';
+  rendered += `<input id="txtPageLoadMax" value="${cleanParam(Testophobia.config.pageLoadMax)}"/>`;
   rendered += '</div>';
   rendered += '<button id="btnPostConfig" class="dialogBtn green button">Save</button>';
   $('#divConfigDialog').html(rendered);

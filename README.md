@@ -231,6 +231,8 @@ Testophobia instance:
 
 `delayModifier`: (decimal) number multiplied to every delay value to help fine tune the required amount of delay
 
+`pageLoadMax`: (number, in millis) explicit maximum amount of time the pages take to load (instead of counting on _networkidle_)
+
 ### Test Definition
 
 Test definition properties:

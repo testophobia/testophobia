@@ -68,7 +68,8 @@ if (isChromium()) {
             ],
             tests: 'tests/**/*-test.js',
             projectDir: '/Users/somedude/somedir/someproject',
-            delayModifier: 0.9
+            delayModifier: 0.9,
+            pageLoadMax: 1200
           })});
         }
       } else if (url.endsWith('/tests')) {
