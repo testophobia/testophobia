@@ -54,6 +54,7 @@ function layoutDialog() {
       break;
   }
   $('#divAddlFields').html(fieldsHtml + '\n    ');
+  $('#divActionProps #txtDescription').val(Testophobia.checkEmpty(action.description));
   $('#divActionProps #txtDelay').val(Testophobia.checkEmpty(action.delay));
   $('#divActionProps #txtThreshold').val(Testophobia.checkEmpty(action.threshold));
   loadClipRegions(action);
@@ -193,6 +194,8 @@ function buildList() {
   rendered += '<label>Target</label>';
   rendered += '<input id="txtTarget"/>';
   rendered += '<div id="divAddlFields"></div>';
+  rendered += '<label>Description</label>';
+  rendered += '<input id="txtDescription"/>';
   rendered += '<label>Delay before snapshot</label>';
   rendered += '<input id="txtDelay"/>';
   rendered += '<label>Threshold</label>';
