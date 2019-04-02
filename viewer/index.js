@@ -4,9 +4,15 @@ window.Testophobia = {};
 function loadTestRunProperties() {
   return new Promise(resolve => {
     $.getJSON('results.json', d => {
-      Testophobia.testRunInfo = d;
-      Testophobia.currentTestIdx = d.failures.length > 0 ? 0 : -1;
-      Testophobia.currentTestFailure = d.failures[Testophobia.currentTestIdx];
+      if (d.golden) {
+        Testophobia.golden = true;
+        Testophobia.goldenImages = d.images;
+        Testophobia.currentTestIdx = d.images.length > 0 ? 0 : -1;
+      } else {
+        Testophobia.testRunInfo = d;
+        Testophobia.currentTestIdx = d.failures.length > 0 ? 0 : -1;
+        Testophobia.currentTestFailure = d.failures[Testophobia.currentTestIdx];
+      }
       resolve();
     });
   });
@@ -32,29 +38,44 @@ function configureInfoButton() {
     });
 }
 
-function pageFailures(inc) {
-  if (inc) {
-    if (Testophobia.currentTestIdx < Testophobia.testRunInfo.failures.length - 1)
-      Testophobia.currentTestIdx = Testophobia.currentTestIdx + 1;
-    else
-      Testophobia.currentTestIdx = 0;
+function pageImages(inc) {
+  if (!Testophobia.golden) {
+    if (inc) {
+      if (Testophobia.currentTestIdx < Testophobia.testRunInfo.failures.length - 1)
+        Testophobia.currentTestIdx = Testophobia.currentTestIdx + 1;
+      else
+        Testophobia.currentTestIdx = 0;
+    } else {
+      if (Testophobia.currentTestIdx > 0)
+        Testophobia.currentTestIdx = Testophobia.currentTestIdx - 1;
+      else
+        Testophobia.currentTestIdx = Testophobia.testRunInfo.failures.length - 1;
+    }
+    Testophobia.currentTestFailure = Testophobia.testRunInfo.failures[Testophobia.currentTestIdx];
+    loadTest();
   } else {
-    if (Testophobia.currentTestIdx > 0)
-      Testophobia.currentTestIdx = Testophobia.currentTestIdx - 1;
-    else
-      Testophobia.currentTestIdx = Testophobia.testRunInfo.failures.length - 1;
+    if (inc) {
+      if (Testophobia.currentTestIdx < Testophobia.goldenImages.length - 1)
+        Testophobia.currentTestIdx = Testophobia.currentTestIdx + 1;
+      else
+        Testophobia.currentTestIdx = 0;
+    } else {
+      if (Testophobia.currentTestIdx > 0)
+        Testophobia.currentTestIdx = Testophobia.currentTestIdx - 1;
+      else
+        Testophobia.currentTestIdx = Testophobia.goldenImages.length - 1;
+    }
+    loadGolden();
   }
-  Testophobia.currentTestFailure = Testophobia.testRunInfo.failures[Testophobia.currentTestIdx];
-  loadTest();
 }
 
 function configurePrevNextButtons() {
   $('#btn-prev')
     .button()
-    .click(() => pageFailures(false));
+    .click(() => pageImages(false));
   $('#btn-next')
     .button()
-    .click(() => pageFailures(true));
+    .click(() => pageImages(true));
 }
 
 function configureApplyButton() {
@@ -124,7 +145,7 @@ function configureTwentyTwenty() {
 }
 
 function loadTest() {
-  $('#no-golden').hide();
+  $('#single-image').hide();
   $('#viewer-container').show();
   if (Testophobia.testRunInfo.failures.length === 0) {
     $('#btn-info').button('disable');
@@ -139,8 +160,10 @@ function loadTest() {
     $('#img-after').attr('src', '');
     $('#img-diff').attr('src', '');
   } else if (!Testophobia.testRunInfo.failures[Testophobia.currentTestIdx].diffFileLocation) {
-    $('#no-golden').show();
-    $('#no-golden-img').attr('src', `/images/${Testophobia.currentTestIdx}/test`);
+    $('#single-image').show();
+    $('#single-image-lbl').text('No golden image available (new test?)');
+    $('#single-image-lbl2').hide();
+    $('#single-image-img').attr('src', `/images/${Testophobia.currentTestIdx}/test`);
     $('#viewer-container').hide();
     $('#btn-diff').button('disable');
     $('#sld-diff').slider('disable');
@@ -161,16 +184,45 @@ function loadTest() {
   }
 }
 
+function initGoldenView() {
+  $('#single-image').show();
+  $('#single-image-lbl').hide();
+  $('#viewer-container').hide();
+  $('#btn-info').hide();
+  $('#bottom-control-bar').hide();
+  $('#img-before').attr('src', '');
+  $('#img-after').attr('src', '');
+  $('#img-diff').attr('src', '');
+  loadGolden();
+}
+
+function loadGolden() {
+  const img = Testophobia.goldenImages[Testophobia.currentTestIdx];
+  if (!img) {
+    $('#lbl-testname').text('No images found.');
+    return;
+  }
+  $('#single-image-img').attr('src', `/goldens/${img.file}`);
+  $('#single-image-lbl2').text(img.name);
+  $('#lbl-pager').text(`Image: ${Testophobia.currentTestIdx + 1} of ${Testophobia.goldenImages.length}`);
+  $('#lbl-testname').text(`${img.file}`);
+}
+
 async function init() {
   await loadTestRunProperties();
-  configureInfoButton();
+  if (!Testophobia.golden) {
+    configureInfoButton();
+    configureApplyButton();
+    configureDiffButton();
+    configureDiffSlider();
+    configureTestRunDialog();
+    configureTwentyTwenty();
+  }
   configurePrevNextButtons();
-  configureApplyButton();
-  configureDiffButton();
-  configureDiffSlider();
-  configureTestRunDialog();
-  configureTwentyTwenty();
-  loadTest();
+  if (Testophobia.golden)
+    initGoldenView();
+  else
+    loadTest();
 }
 
 $(window).on('load', () => {

@@ -23,26 +23,30 @@ body {
   box-sizing:border-box;
 }
 .jqui-label {
-  padding: .4em 1em;
+  padding: .4em 1vw;
   display: inline-block;
   position: relative;
   line-height: normal;
   margin-right: .1em;
   vertical-align: middle;
-  text-align: center;
   color: white;
   font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
   font-size: 1.1em;
 }
+#lbl-pager {
+  white-space: nowrap;
+}
 .spacer {
   flex: 1;
 }
-#no-golden {
+#single-image {
   margin-left: 2vw;
   display: none;
 }
-#no-golden > div {
+#single-image > div {
   margin-bottom: 1vh;
+}
+#single-image > #single-image-lbl {
   color: #FF9090;
 }
 #viewer-container {
@@ -57,7 +61,7 @@ body {
   display: none;
   pointer-events: none;
 }
-#no-golden-img,
+#single-image-img,
 #viewer-container img,
 #diff-overlay img {
   max-height: 72vh;
