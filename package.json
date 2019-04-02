@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "bs58": "^4.0.1",
     "chalk": "^2.4.1",
     "deep-object-diff": "^1.1.0",
     "esm": "^3.0.84",
