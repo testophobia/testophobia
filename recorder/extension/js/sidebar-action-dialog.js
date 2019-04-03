@@ -54,6 +54,7 @@ function layoutDialog() {
       break;
   }
   $('#divAddlFields').html(fieldsHtml + '\n    ');
+  $('#divActionProps #txtDescription').val(Testophobia.checkEmpty(action.description));
   $('#divActionProps #txtDelay').val(Testophobia.checkEmpty(action.delay));
   $('#divActionProps #txtThreshold').val(Testophobia.checkEmpty(action.threshold));
   loadClipRegions(action);
@@ -98,22 +99,16 @@ function loadExcludedDimensions(action) {
 }
 
 function saveEdits() {
-  if (/^[1-9]\d*$/.test($('#divActionProps #txtDelay').val()))
-    Testophobia.activeTest.actions[Testophobia.dialogActionIndex].delay = Number($('#divActionProps #txtDelay').val());
-  else
-    delete Testophobia.activeTest.actions[Testophobia.dialogActionIndex].delay;
-  if (/^0\.[1-9]$/.test($('#divActionProps #txtThreshold').val()))
-    Testophobia.activeTest.actions[Testophobia.dialogActionIndex].threshold = Number($('#divActionProps #txtThreshold').val());
-  else
-    delete Testophobia.activeTest.actions[Testophobia.dialogActionIndex].threshold;
-  if ($('#divActionProps #chkSkipScreen').prop('checked'))
-    Testophobia.activeTest.actions[Testophobia.dialogActionIndex].skipScreen = true;
-  else
-    delete Testophobia.activeTest.actions[Testophobia.dialogActionIndex].skipScreen;
+  const action = Testophobia.activeTest.actions[Testophobia.dialogActionIndex];
+  Testophobia.validation.validate({name:'description',type:'string',selector:'#divActionProps #txtDescription',required:false}, action);
+  Testophobia.validation.validate({name:'delay',type:'number',selector:'#divActionProps #txtDelay',required:false}, action);
+  Testophobia.validation.validate({name:'threshold',type:'decimal',selector:'#divActionProps #txtThreshold',required:false}, action);
+  Testophobia.validation.validate({name:'skipScreen',type:'boolean',selector:'#divActionProps #chkSkipScreen',required:false}, action);
   Testophobia.activeTest.actions[Testophobia.dialogActionIndex].type = Testophobia.dialogActionType;
   Testophobia.activeTest.actions[Testophobia.dialogActionIndex].target = $('#txtTarget').val();
   $('#divAddlFields input').each(function () {
-    Testophobia.activeTest.actions[Testophobia.dialogActionIndex][this.id.substr(3)] = $(this).val();
+    const v = $(this).val();
+    Testophobia.activeTest.actions[Testophobia.dialogActionIndex][this.id.substr(3)] = ((v) ? v.trim() : v);
   });
   Testophobia.hideActionsDialog();
 }
@@ -193,6 +188,8 @@ function buildList() {
   rendered += '<label>Target</label>';
   rendered += '<input id="txtTarget"/>';
   rendered += '<div id="divAddlFields"></div>';
+  rendered += '<label>Description</label>';
+  rendered += '<input id="txtDescription"/>';
   rendered += '<label>Delay before snapshot</label>';
   rendered += '<input id="txtDelay"/>';
   rendered += '<label>Threshold</label>';

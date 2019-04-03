@@ -115,6 +115,7 @@ if (isChromium()) {
             ],
             actions:[
               {
+                description: 'This is action #1',
                 type: 'click',
                 target: '#btnSave',
                 delay: 300,
@@ -133,17 +134,20 @@ if (isChromium()) {
                 excludeDimensions: ['desktop','tablet'],
                 skipScreen: true
               },{
+                description: 'This is action #2',
                 type: 'setProperty',
                 target: '#my-input1',
                 property: 'value',
                 value: 'Testy Phobia',
                 delay: 300
               },{
+                description: 'This is action #3',
                 type: 'keypress',
                 target: '#my-timepicker',
                 key: 'Enter',
                 delay: 400
               },{
+                description: 'This is action #4',
                 type: 'setProperty',
                 target: '#my-timepicker',
                 property: 'value',

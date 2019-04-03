@@ -82,6 +82,7 @@ export default {
   path: "home",
   actions: [
     {
+      description: "Click the button",
       type: "click",
       target: "#btn"
     }
@@ -255,6 +256,8 @@ Test definition properties:
 
 `actions`: (array) list of interactions to perform sequentially. Each action is an object consisting of:
 
+- `description`: (string) unique description of the test action
+
 - `type`: (string) the type of action to run.  supported actions include:
 
   - `click` - performs a mouse click against the specified target
@@ -332,6 +335,7 @@ const tp = new Testophobia({
       path: 'home',
       actions: [
         {
+          description: "Click the button",
           type: 'click',
           target: '#btn'
         }
