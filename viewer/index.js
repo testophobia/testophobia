@@ -171,7 +171,7 @@ function loadTest() {
     $('#img-after').attr('src', '');
     $('#img-diff').attr('src', '');
     $('#lbl-pager').text(`Failure: ${Testophobia.currentTestIdx + 1} of ${Testophobia.testRunInfo.failures.length}`);
-    $('#lbl-testname').text(`${Testophobia.currentTestFailure.test} - ${Testophobia.currentTestFailure.screenType}`);
+    $('#lbl-testname').text(`${Testophobia.currentTestFailure.test} (${Testophobia.currentTestFailure.screenType}) - ${Testophobia.currentTestFailure.action}`);
   } else {
     $('#btn-diff').button('enable');
     $('#sld-diff').slider('enable');
@@ -179,7 +179,7 @@ function loadTest() {
     $('#img-after').attr('src', `/images/${Testophobia.currentTestIdx}/test`);
     $('#img-diff').attr('src', `/images/${Testophobia.currentTestIdx}/diff`);
     $('#lbl-pager').text(`Failure: ${Testophobia.currentTestIdx + 1} of ${Testophobia.testRunInfo.failures.length}`);
-    $('#lbl-testname').text(`${Testophobia.currentTestFailure.test} - ${Testophobia.currentTestFailure.screenType}`);
+    $('#lbl-testname').text(`${Testophobia.currentTestFailure.test} (${Testophobia.currentTestFailure.screenType}) - ${Testophobia.currentTestFailure.action}`);
     setTimeout(() => $(window).trigger('resize.twentytwenty'), 100);
   }
 }
