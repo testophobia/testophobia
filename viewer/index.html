@@ -16,6 +16,12 @@
 <body>
   <div id="top-bar">
     <div class="jqui-title">😱 Testophobia Viewer</div>
+  </div>
+  <div id="golden-view">
+    Choose a golden image directory:
+    <ul id="golden-list"></ul>
+  </div>
+  <div id="viewer-view">
     <div id="top-control-bar">
       <button id="btn-info" class="blue button" title="Show info about this test failure">Test Info</button>
       <label id="lbl-testname" class="jqui-label"></label>
@@ -24,26 +30,28 @@
       <button id="btn-prev" class="blue button" title="View previous failure"><</button>
       <button id="btn-next" class="blue button" title="View next failure">></button>
     </div>
-  </div>
-  <div id="single-image">
-    <div id="single-image-lbl"></div>
-    <div id="single-image-lbl2"></div>
-    <img id="single-image-img" />
-  </div>
-  <div id="viewer-container">
-    <img id="img-before"/>
-    <img id="img-after"/>
-  </div>
-  <div id="diff-overlay">
-    <img id="img-diff"/>
-  </div>
-  <div id="bottom-control-bar">
-    <button id="btn-diff" class="blue button" title="Overlay the diff image">Show Diff</button>
-    <label for="sld-diff" class="jqui-label" style="display:none">Opacity</label><div id="sld-diff" style="display:none"></div>
-    <span class="spacer">&nbsp;</span>
-    <button id="btn-apply" class="green button" title="Apply the After image as the new golden image">Apply Golden</button>
+    <div id="single-image">
+      <div id="single-image-lbl"></div>
+      <div id="single-image-lbl2"></div>
+      <img id="single-image-img" />
+    </div>
+    <div id="viewer-container">
+      <img id="img-before"/>
+      <img id="img-after"/>
+    </div>
+    <div id="diff-overlay">
+      <img id="img-diff"/>
+    </div>
+    <div id="bottom-control-bar">
+      <button id="btn-diff" class="blue button" title="Overlay the diff image">Show Diff</button>
+      <label for="sld-diff" class="jqui-label" style="display:none">Opacity</label><div id="sld-diff" style="display:none"></div>
+      <span class="spacer">&nbsp;</span>
+      <button id="btn-apply" class="green button" title="Apply the After image as the new golden image">Apply Golden</button>
+    </div>
   </div>
   <div id="dlg-info" title="Test Run Info"></div>
   <script src="index.js"></script>
+  <script src="goldenlist.js"></script>
+  <script src="viewer.js"></script>
 </body>
 </html>

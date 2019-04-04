@@ -4,7 +4,7 @@ body {
   color: white;
 }
 #top-bar {
-  height: 15vh;
+  height: 7vh;
 }
 #top-control-bar,
 #bottom-control-bar {
@@ -33,6 +33,39 @@ body {
   font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
   font-size: 1.1em;
 }
+
+#golden-view {
+  margin: 2vh 2vw;
+}
+#golden-list {
+  background: #222;
+  margin: 10px 0;
+  padding: 0;
+  list-style-type: none;
+  background: #2b2b2b;
+  max-height: 75vh;
+  min-height: 24px;
+  overflow: auto;
+}
+#golden-list li {
+  padding: 0px;
+  border-bottom: 1px solid #454545;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#golden-list li div {
+  padding: 10px 5px;
+  width: 100%;
+}
+#golden-list li div:hover {
+  cursor: pointer;
+  background: #4A4A4A;
+}
+#golden-list li div:active {
+  opacity: 0.8;
+}
+
 #lbl-pager {
   white-space: nowrap;
 }
