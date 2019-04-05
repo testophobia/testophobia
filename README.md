@@ -147,6 +147,13 @@ Finally, in the event that the test image is in fact valid, and should replace t
 golden, you can use the __Apply Golden__ feature of the viewer to apply the new image, without the need to perform
 another _--golden_ run.
 
+The viewer can also be used to view your golden images, in order to manually validate them. To launch the viewer in this
+way, run this command in your testophobia project root (where your testophobia.config.js file lives):
+
+```bash
+$ testophobia-viewer -g
+```
+
 ## Recorder - Chrome DevTools Extension
 
 Testophobia also includes a Chrome DevTools extension that you can use to edit tests and easily record a set of
@@ -158,18 +165,15 @@ This allows you to use the power of Chrome DevTools to easily __find__ DOM eleme
 and then __configure__ the action with the necessary parameters.  You can __playback__ the actions, to make sure they
 work as desired, and when you're satisfied, you can __save__ the Testophobia test file.
 
-To use, run this command:
+To use, run this command in your testophobia project root (where your testophobia.config.js file lives):
 
 ```bash
 $ testophobia-recorder
 ```
 
-This will launch an instance of Chromium, with the extension loaded.  If run from a directory that contains a
-Testophobia config file, it will recognize your existing tests and configurations and use them.  If run anywhere else,
-you'll still be able to record actions and save new test files.
-
-Once Chromium is launched, just select _Testophobia_ in the sidebar tabs of the devtools _elements_ panel to use the
-extension.
+This will launch an instance of Chromium, with the extension loaded, and will recognize your existing tests and
+configurations. Once Chromium is launched, just select _Testophobia_ in the sidebar tabs of the devtools
+_elements_ panel to use the extension.
 
 ## Config Options
 
