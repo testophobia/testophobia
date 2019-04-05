@@ -209,6 +209,7 @@ function loadGolden() {
 
 async function init(golden, goldenPath) {
   $('#golden-view').hide();
+  $('#lnk-start-over').hide();
   $('#viewer-view').show();
   await loadTestResults(goldenPath);
   if (!golden) {
@@ -220,10 +221,12 @@ async function init(golden, goldenPath) {
     configureTwentyTwenty();
   }
   configurePrevNextButtons();
-  if (golden)
+  if (golden) {
+    $('#lnk-start-over').show();
     initGoldenView();
-  else
+  } else {
     loadTest();
+  }
 }
 
 Testophobia.viewer = {init:init};

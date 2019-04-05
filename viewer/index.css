@@ -4,7 +4,11 @@ body {
   color: white;
 }
 #top-bar {
-  height: 7vh;
+  height: 8vh;
+  padding: 0 2vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 #top-control-bar,
 #bottom-control-bar {
@@ -14,13 +18,24 @@ body {
   padding: 1vh 1vw;
   box-sizing: border-box;
 }
+#lnk-start-over  {
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: smaller;
+  color: #ccc;
+  border: none;
+  background: unset;
+  outline: none;
+}
+#lnk-start-over:hover {
+  color: #eee;
+}
 .jqui-title {
   color: white;
   font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
-  font-size:4vh;
-  padding:1vh 1vw;
-  height:7vh;
-  box-sizing:border-box;
+  font-size: 4vh;
+  box-sizing: border-box;
+  flex: 1;
 }
 .jqui-label {
   padding: .4em 1vw;
@@ -89,7 +104,7 @@ body {
 #diff-overlay {
   opacity: 0.3;
   position: absolute;
-  top: 15vh;
+  top: 16vh;
   left: 1vw;
   display: none;
   pointer-events: none;
