@@ -1,5 +1,6 @@
 /* global $, Testophobia */
 (() => {
+let viewerLoaded = false;
 function loadTestResults(goldenPath) {
   const gPath = (goldenPath) ? '/' + goldenPath : '';
   return new Promise(resolve => {
@@ -69,12 +70,14 @@ function pageImages(inc) {
 }
 
 function configurePrevNextButtons() {
-  $('#btn-prev')
-    .button()
-    .click(() => pageImages(false));
-  $('#btn-next')
-    .button()
-    .click(() => pageImages(true));
+  if (!viewerLoaded) {
+    $('#btn-prev')
+      .button()
+      .click(() => pageImages(false));
+    $('#btn-next')
+      .button()
+      .click(() => pageImages(true));
+  }
 }
 
 function configureApplyButton() {
@@ -227,6 +230,7 @@ async function init(golden, goldenPath) {
   } else {
     loadTest();
   }
+  viewerLoaded = true;
 }
 
 Testophobia.viewer = {init:init};
