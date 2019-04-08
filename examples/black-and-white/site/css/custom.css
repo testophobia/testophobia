@@ -44,14 +44,14 @@ Text Domain: blackandwhite
  * 2.0 - General Elements
  */
 
-* {outline: none;}
+* {outline: none !important;}
 
-h1, 
-h2, 
-h3, 
-h4, 
-h5, 
-h6 { 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	margin-top: 0;
 }
 
@@ -64,7 +64,7 @@ a {
 }
 
 a:hover, a:focus {
-	text-decoration: none; 
+	text-decoration: none;
 	color: #000;
 }
 
@@ -188,7 +188,7 @@ figure {
 	padding: 10px 0;
 	color: #0972b4;
 	text-shadow: none;
-} 
+}
 
 .cl-effect-11 a::before {
 	position: absolute;
@@ -353,14 +353,14 @@ figure {
  */
 
 .widget {
-    background: #fff;  
-    padding: 30px 0 0;  
+    background: #fff;
+    padding: 30px 0 0;
 }
 
-.widget-title {  
-	font-size: 1.5em;  
-	margin-bottom: 20px;  
-	line-height: 1.6;  
+.widget-title {
+	font-size: 1.5em;
+	margin-bottom: 20px;
+	line-height: 1.6;
 	padding: 10px 0 0;
 	font-weight: 400;
 }

@@ -14,7 +14,10 @@ bgConnection.onMessage.addListener(request => {
         Testophobia.chooseTest();
       break;
     case 'testophobia-page-refresh':
-      if (enabled) bgConnection.postMessage({name: 'testophobia-init', tabId: Testophobia.chrome.devtools.inspectedWindow.tabId});
+      if (enabled) {
+        // this breaks the case when we walk through a test that spans multiple pages.  Cant remember what edge case required this.  Will leave temporarily.
+        // bgConnection.postMessage({name: 'testophobia-init', tabId: Testophobia.chrome.devtools.inspectedWindow.tabId});
+      }
       break;
   }
 });

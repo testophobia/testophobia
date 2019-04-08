@@ -47,6 +47,7 @@ body {
   color: white;
   font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
   font-size: 1.1em;
+  word-break: break-all;
 }
 
 #golden-view {
@@ -96,6 +97,9 @@ body {
 }
 #single-image > #single-image-lbl {
   color: #FF9090;
+}
+#single-image > #single-image-lbl2 {
+  color: #f5da4f
 }
 #viewer-container {
   margin: 0 1vw;
