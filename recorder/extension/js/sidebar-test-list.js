@@ -40,7 +40,7 @@ Testophobia.loadTest = testPath => {
       Testophobia.activeTest = data;
       Testophobia.activeTestPath = testPath;
       Testophobia.actionsChanged();
-      localStorage.setItem('testophobia-test-loading', true);
+      localStorage.setItem('testophobia-test', true);
       fetch(`${Testophobia.serverUrl}/navigate/${encodeURIComponent(data.path)}`, {method:'post'});
     });
 };
@@ -99,6 +99,7 @@ $('#btnNewTest').click(() => {
 
 $('#lnkStartOver').click(() => {
   Testophobia.showAlert('Confirm', 'Are you sure you want to start over??', null, () => {
+    localStorage.removeItem('testophobia-test');
     Testophobia.chooseTest();
   });
 });
