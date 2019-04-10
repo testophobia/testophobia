@@ -3,6 +3,7 @@ const test = require('ava');
 const {Testophobia} = require('../lib/Testophobia');
 const fs = require('fs');
 const path = require('path');
+const {mocki} = require('./common/inquirer-mock');
 const {createDirectory, deleteDirectory} = require('../lib/utils');
 const {tempPath, config} = require('./common/config');
 
@@ -47,9 +48,13 @@ test('Testophobia - golden check', t => {
 });
 
 test('Testophobia - init check', async t => {
+  mocki({
+    genFile: 'config'
+  });
   let tpInit = await new Testophobia(initConfig);
   let res = await tpInit._checkFlagsAndFiles();
   t.is(res, 1);
+  t.is(fs.existsSync(path.join(process.cwd(), 'testophobia.config.js')), true);
 });
 
 test('Testophobia - clear check (no path)', async t => {

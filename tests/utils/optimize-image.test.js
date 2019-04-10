@@ -6,11 +6,11 @@ const path = require('path');
 const {tempPath} = require('../common/config');
 
 test.before(() => {
-  fs.copyFile(path.join(process.cwd(), 'recorder/extension/images/testophobia16.png'), `${tempPath}/testophobia16.png`, () => 1);
+  fs.copyFile(path.join(process.cwd(), 'recorder/extension/images/testophobia16.png'), `${tempPath}/testophobia16-unscaled.png`, () => 1);
 });
 
-const oldPath = `${tempPath}/testophobia16.png`;
-const newPath = `${tempPath}/testophobia16-scaled.png`;
+const oldPath = `${tempPath}/testophobia16-unscaled.png`;
+const newPath = `${tempPath}/testophobia16.png`;
 
 const dimensions = {
   width: 12,

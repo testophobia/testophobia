@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const {tempPath, config} = require('./common/config');
 
-const fullPath = `${tempPath}/testophobia-recorder.png`;
+const fullPath = `${tempPath}/testophobia-recorder-unscaled.png`;
 
 const exampleTest = {
   name: "about",
@@ -38,7 +38,7 @@ test('ScreenCompare init - args', async t => {
 
 test('ScreenCompare - perform comparison', async t => {
   let c = await new ScreenCompare(scConfig, exampleTest, scConfig.dimensions[0]);
-  let d = await c._performComparison(`testophobia-recorder.png`);
+  let d = await c._performComparison(`testophobia-recorder-unscaled.png`);
   t.is(d, 0);
 });
 

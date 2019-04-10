@@ -5,10 +5,10 @@ const {generateScreenshot} = require('../../lib/utils/generate-screenshot');
 const {Browser} = require('../../lib/Browser');
 const {browserConfig, tempPath} = require('../common/config');
 
-const pathJpeg = `${tempPath}/screen.jpeg`;
-const pathPng = `${tempPath}/screen.png`;
-const newPathJpeg = `${tempPath}/screen-scaled.jpeg`;
-const newPathPng = `${tempPath}/screen-scaled.png`;
+const pathJpeg = `${tempPath}/screen-unscaled.jpeg`;
+const pathPng = `${tempPath}/screen-unscaled.png`;
+const newPathJpeg = `${tempPath}/screen.jpeg`;
+const newPathPng = `${tempPath}/screen.png`;
 const dimensions = {type: 'desktop', width: 1024, height: 768};
 const clipRegions = [{type: 'desktop', top: 0, left: 0, right: 1024, bottom: 768}];
 const screenTypeJpeg = 'jpeg';

@@ -75,7 +75,7 @@
   },
   "scripts": {
     "pretest": "node tests/common/generate-temp.js",
-    "test": "ava"
+    "test": "ava -v"
   },
   "devDependencies": {
     "ava": "1.0.0-rc.2"
