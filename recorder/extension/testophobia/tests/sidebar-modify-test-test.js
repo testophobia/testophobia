@@ -11,7 +11,7 @@ export default {
       "type": "setAttribute",
       "target": "#ddActionType",
       "attribute": "size",
-      "value": "9"
+      "value": "10"
     },{
       "description": "Close the actions dropdown",
       "type": "setAttribute",

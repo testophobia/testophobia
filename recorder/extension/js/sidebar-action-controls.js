@@ -15,6 +15,7 @@ function buildView() {
   rendered += '<option value="clearInput">Clear Input</option>';
   rendered += '<option value="input">Input Text</option>';
   rendered += '<option value="keypress">Key Press</option>';
+  rendered += '<option value="drag">Drag</option>';
   rendered += '<option value="setProperty">Set Property</option>';
   rendered += '<option value="setAttribute">Set Attribute</option>';
   rendered += '<option value="removeAttribute">Remove Attribute</option>';
@@ -39,7 +40,6 @@ $('#btnAddAction').click(() => {
   Testophobia.actionsChanged();
   const list = $('#actionsList').get(0);
   list.scrollTop = list.scrollHeight;
-  if (['setProperty', 'setAttribute', 'removeAttribute', 'scroll', 'keypress', 'input'].indexOf(actionType) >= 0)
-    Testophobia.loadActionDialog(Testophobia.activeTest.actions.length - 1);
+  Testophobia.loadActionDialog(Testophobia.activeTest.actions.length - 1);
 });
 })();
