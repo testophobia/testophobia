@@ -1,0 +1,90 @@
+{
+  "tests": [
+    "about",
+    "home"
+  ],
+  "date": 1554928954072,
+  "fileType": "jpeg",
+  "quality": 80,
+  "threshold": 0.2,
+  "baseUrl": "http://localhost:8080",
+  "screenTypes": [
+    {
+      "type": "desktop",
+      "width": 1024,
+      "height": 768
+    },
+    {
+      "type": "tablet",
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "type": "mobile",
+      "width": 350,
+      "height": 667
+    }
+  ],
+  "failures": [
+    {
+      "test": "home",
+      "testDefinitionPath": "tests/home/home-test.js",
+      "screenType": "desktop",
+      "action": "none",
+      "pixelDifference": 772,
+      "dimensions": {
+        "type": "desktop",
+        "width": 1024,
+        "height": 768
+      },
+      "testFileLocation": "./mock-results/test-screens/desktop/home/9nLGvMUKhvYNzLezgt.jpeg",
+      "goldenFileLocation": "./mock-results/golden-screens/desktop/home/9nLGvMUKhvYNzLezgt.jpeg",
+      "diffFileLocation": "./mock-results/diffs/home-desktop--4-10-2019_13-42-30-diff.png"
+    },
+    {
+      "test": "home",
+      "testDefinitionPath": "tests/home/home-test.js",
+      "screenType": "desktop",
+      "action": "Click the button to toggle the text color",
+      "pixelDifference": 787,
+      "dimensions": {
+        "type": "desktop",
+        "width": 1024,
+        "height": 768
+      },
+      "testFileLocation": "./mock-results/test-screens/desktop/home/FndLEQ3udp5ofVhABHGtCV86DLVoBrLHU2uL9VgFwfHCRFPfPXZgFRc5.jpeg",
+      "goldenFileLocation": "./mock-results/golden-screens/desktop/home/FndLEQ3udp5ofVhABHGtCV86DLVoBrLHU2uL9VgFwfHCRFPfPXZgFRc5.jpeg",
+      "diffFileLocation": "./mock-results/diffs/home-desktop-0-click--btn-4-10-2019_13-42-31-diff.png"
+    },
+    {
+      "test": "home",
+      "testDefinitionPath": "tests/home/home-test.js",
+      "screenType": "tablet",
+      "action": "none",
+      "pixelDifference": 772,
+      "dimensions": {
+        "type": "tablet",
+        "width": 768,
+        "height": 1024
+      },
+      "testFileLocation": "./mock-results/test-screens/tablet/home/9nLGvMUKhvYNzLezgt.jpeg",
+      "goldenFileLocation": "./mock-results/golden-screens/tablet/home/9nLGvMUKhvYNzLezgt.jpeg",
+      "diffFileLocation": "./mock-results/diffs/home-tablet--4-10-2019_13-42-32-diff.png"
+    },
+    {
+      "test": "home",
+      "testDefinitionPath": "tests/home/home-test.js",
+      "screenType": "mobile",
+      "action": "none",
+      "pixelDifference": 772,
+      "dimensions": {
+        "type": "mobile",
+        "width": 350,
+        "height": 667
+      },
+      "testFileLocation": "./mock-results/test-screens/mobile/home/9nLGvMUKhvYNzLezgt.jpeg",
+      "goldenFileLocation": "./mock-results/golden-screens/mobile/home/9nLGvMUKhvYNzLezgt.jpeg",
+      "diffFileLocation": "./mock-results/diffs/home-mobile--4-10-2019_13-42-34-diff.png"
+    }
+  ]
+}

@@ -52,6 +52,9 @@ function layoutDialog() {
     case 'input':
       fieldsHtml = `${addField('Value', 'value')}`;
       break;
+    case 'drag':
+      fieldsHtml = `${addField('X Delta', 'x')}${addField('Y Delta', 'y')}`;
+      break;
   }
   $('#divAddlFields').html(fieldsHtml + '\n    ');
   $('#divActionProps #txtDescription').val(Testophobia.checkEmpty(action.description));
@@ -179,6 +182,7 @@ function buildList() {
   rendered += '<option value="clearInput">Clear Input</option>';
   rendered += '<option value="input">Input Text</option>';
   rendered += '<option value="keypress">Key Press</option>';
+  rendered += '<option value="drag">Drag</option>';
   rendered += '<option value="setProperty">Set Property</option>';
   rendered += '<option value="setAttribute">Set Attribute</option>';
   rendered += '<option value="removeAttribute">Remove Attribute</option>';
