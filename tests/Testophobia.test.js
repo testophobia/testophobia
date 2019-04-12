@@ -64,7 +64,7 @@ test('Testophobia - clear check (no path)', async t => {
 
 test('Testophobia - clear check (with path)', async t => {
   let res = await tp._clearTestophobiaDirectories(testClearPath);
-  t.is(res, 0);
+  t.is(res, 1);
 });
 
 test.after('cleanup', () => {
