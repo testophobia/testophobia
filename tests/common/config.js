@@ -39,6 +39,12 @@ exports.exampleTest = [{
   ]
 }];
 
+exports.exampleAction = {
+  type: "click",
+  target: "body",
+  delay: 100
+};
+
 exports.browserConfig = {
   baseUrl: 'http://google.com',
   dimensions: {
