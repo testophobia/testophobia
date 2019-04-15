@@ -54,3 +54,8 @@ exports.browserConfig = {
   debug: false,
   defaultTime: false
 };
+
+exports.browserTest = {
+  name: "homepage",
+  path: "/",
+};

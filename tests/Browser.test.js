@@ -1,7 +1,7 @@
 /* global require */
 const test = require('ava');
 const {Browser} = require('../lib/Browser');
-const {browserConfig} = require('./common/config');
+const {browserConfig, exampleAction, browserTest} = require('./common/config');
 
 let b = new Browser();
 
@@ -21,4 +21,29 @@ test('Browser init - create page', async t => {
   await b.launch(browserConfig);
   await b.createPage();
   t.is(typeof(b.page) === 'object', true);
+});
+
+test('Browser - perform action - no test passed', async t => {
+  await b.launch(browserConfig);
+  await b.createPage();
+  await b.goto(browserConfig.baseUrl);
+  let r = await b.performAction(exampleAction);
+  t.is(r, undefined);
+});
+
+test('Browser - perform action - action with target that doesnt exist', async t => {
+  let newAction = {...exampleAction, target: '#really-obscure-target-selector'};
+  await b.launch(browserConfig);
+  await b.createPage();
+  await b.goto(browserConfig.baseUrl);
+  let r = await b.performAction(newAction, browserTest);
+  t.is(r, 1);
+});
+
+test('Browser - perform action - accurate info', async t => {
+  await b.launch(browserConfig);
+  await b.createPage();
+  await b.goto(browserConfig.baseUrl);
+  let r = await b.performAction(exampleAction, browserTest);
+  t.is(r, 1);
 }); 
