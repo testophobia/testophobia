@@ -30,6 +30,17 @@ const clipRegionsTest = {
   ]
 };
 
+const actionClipRegionsTest = {
+  ...exampleTest,
+  actionsClipRegions: [
+    {
+      type: 'tablet',
+      left: 80,
+      top: 95
+    }
+  ]
+};
+
 const clipRegionsAction = {
   ...exampleAction,
   clipRegions: [
@@ -79,29 +90,29 @@ test('getActionClipRegion - null', t => {
 });
 
 test('getActionClipRegion - no clip regions in action or test', t => {
-  let r = getClipRegion(exampleAction, exampleTest);
+  let r = getActionClipRegion(exampleAction, exampleTest);
   t.is(r, undefined);
 });
 
 test('getActionClipRegion - missing screenType', t => {
-  let r = getClipRegion(clipRegionsAction, exampleTest);
+  let r = getActionClipRegion(clipRegionsAction, exampleTest);
   t.is(r, undefined);
 });
 
 test('getActionClipRegion - undefined when unmatched screentype', t => {
-  let r = getClipRegion(clipRegionsAction, exampleTest, 'desktop');
+  let r = getActionClipRegion(clipRegionsAction, exampleTest, 'desktop');
   t.is(r, undefined);
 });
 
 test('getActionClipRegion - action clipRegion', t => {
-  let r = getClipRegion(clipRegionsAction, exampleTest, 'tablet');
+  let r = getActionClipRegion(clipRegionsAction, exampleTest, 'tablet');
   t.is(typeof r === 'object', true);
   t.is(r.left, 80);
   t.is(r.top, 95);
 });
 
-test('getActionClipRegion - test clipRegion', t => {
-  let r = getClipRegion(exampleAction, clipRegionsTest, 'tablet');
+test('getActionClipRegion - test actionsClipRegions', t => {
+  let r = getActionClipRegion(exampleAction, actionClipRegionsTest, 'tablet');
   t.is(typeof r === 'object', true);
   t.is(r.left, 80);
   t.is(r.top, 95);
