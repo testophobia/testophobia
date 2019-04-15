@@ -1,7 +1,7 @@
 /* global require */
 const test = require('ava');
 const {TestRunner} = require('../lib/TestRunner');
-const {config, exampleTest} = require('./common/config');
+const {config, exampleTest, tempPath} = require('./common/config');
 
 const dim = {
   type: 'desktop',
@@ -9,7 +9,11 @@ const dim = {
   height: 50
 };
 
+let jpegConfig = {...config, fileType: 'jpeg', quality: .9};
+
 let tr = new TestRunner(config, exampleTest, dim, './');
+let trJpeg = new TestRunner(jpegConfig, exampleTest, dim, './');
+
 
 test('TestRunner - init with no args', t => {
   t.throws(() => new TestRunner());
@@ -37,9 +41,24 @@ test('TestRunner - _checkBaseUrl - good domain example', t => {
   t.is(r, undefined);
 });
 
-test('TestRunner - _validateUniqueActionDescriptions no test actions', t => {
-  let r = tr._validateUniqueActionDescriptions();
-  t.is(r, undefined);
+test('TestRunner - _getScreenshotOptions no args', t => {
+  let r = tr._getScreenshotOptions();
+  t.is(typeof r, 'object');
+  t.is(r.path, undefined);
+});
+
+test('TestRunner - _getScreenshotOptions pass path, verify no quality prop since png fileType', t => {
+  let r = tr._getScreenshotOptions(tempPath);
+  t.is(typeof r, 'object');
+  t.is(r.path, tempPath);
+  t.is(r.quality, undefined);
+});
+
+test('TestRunner - _getScreenshotOptions pass path, verify quality prop for jpeg fileType', t => {
+  let r = trJpeg._getScreenshotOptions(tempPath);
+  t.is(typeof r, 'object');
+  t.is(r.path, tempPath);
+  t.is(r.quality, 0.9);
 });
 
 
