@@ -1,13 +1,14 @@
 /* global require */
 const test = require('ava');
 const fs = require('fs');
-const {generateScreenshot} = require('../../lib/utils/generate-screenshot');
+const {generateScreenshot, writeGoldensManifest} = require('../../lib/utils/generate-screenshot');
 const {Browser} = require('../../lib/Browser');
 const {browserConfig, tempPath} = require('../common/config');
 
 const pathJpeg = `${tempPath}/screen-unscaled.jpeg`;
 const pathPng = `${tempPath}/screen-unscaled.png`;
 const newPathJpeg = `${tempPath}/screen.jpeg`;
+const manifestPath = `${tempPath}/manifest`;
 const newPathPng = `${tempPath}/screen.png`;
 const dimensions = {type: 'desktop', width: 1024, height: 768};
 const clipRegions = [{type: 'desktop', top: 0, left: 0, right: 1024, bottom: 768}];
@@ -41,7 +42,17 @@ test('generateScreenshot - args - png', async t => {
   t.is(fs.existsSync(newPathPng), true);
 });
 
+test('writeGoldensManifest - no args', t => {
+  t.throws(() => writeGoldensManifest());
+});
+
+test('writeGoldensManifest - args', async t => {
+  await writeGoldensManifest(tempPath, []);
+  t.is(fs.existsSync(manifestPath), true);
+});
+
 test.after('cleanup', () => {
   fs.unlink((newPathJpeg), () => 0);
   fs.unlink((newPathPng), () => 0);
+  fs.unlink((manifestPath), () => 0);
 });
