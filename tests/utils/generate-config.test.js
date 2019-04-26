@@ -10,7 +10,7 @@ test.serial('generateConfig - config option', async t => {
   mocki({
     genFile: 'config'
   });
-  const answers = await generateConfigFile(null, tempPath);
+  const answers = await generateConfigFile(null, null, tempPath);
   t.is(answers, 1);
   t.is(fs.existsSync(path.join(tempPath, 'testophobia.config.js')), true);
 });
