@@ -66,7 +66,6 @@ exports.RecorderServer = {
       });
       await page.addScriptTag({path: resolveNodeModuleFile('/node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js')});
       let action = JSON.parse(decodeURIComponent(req.params.actionString));
-      action.target = action.target.replace(/\s&gt;/g, '');
       try {
         performAction(action, page, {});
       } catch (e) {
