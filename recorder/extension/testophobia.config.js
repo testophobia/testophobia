@@ -3,7 +3,7 @@ export default {
   "diffDirectory": "./testophobia/diffs",
   "goldenDirectory": "./testophobia/golden-screens",
   "testDirectory": "./testophobia/test-screens",
-  "baseUrl": "http://localhost:8091",
+  "baseUrl": "http://localhost:9080",
   "fileType": "jpeg",
   "defaultTime": 2068786800000,
   "quality": 80,
