@@ -117,7 +117,8 @@ export default {
       "type": "setProperty",
       "target": "#divClipRegionsForActionDialog #txtHeight",
       "property": "value",
-      "value": "678"
+      "value": "678",
+      "blurActiveElement": true
     },{
       "description": "Apply the clip region",
       "type": "click",
@@ -126,6 +127,12 @@ export default {
       "description": "Set the skipScreen",
       "type": "setProperty",
       "target": "#divActionDialog #chkSkipScreen",
+      "property": "checked",
+      "value": true
+    },{
+      "description": "Set the blurActiveElement",
+      "type": "setProperty",
+      "target": "#divActionDialog #chkBlurElement",
       "property": "checked",
       "value": true
     },{
