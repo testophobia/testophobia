@@ -63,6 +63,7 @@ function layoutDialog() {
   loadClipRegions(action);
   loadExcludedDimensions(action);
   $('#divActionProps #chkSkipScreen').prop('checked', action.skipScreen || false);
+  $('#divActionProps #chkBlurElement').prop('checked', action.blurActiveElement || false);
   $('#divBackdrop').removeAttr('hidden');
   $('#divActionDialog').removeAttr('hidden');
   $('#divActionProps input').get(0).focus();
@@ -107,6 +108,7 @@ function saveEdits() {
   Testophobia.validation.validate({name:'delay',type:'number',selector:'#divActionProps #txtDelay',required:false}, action);
   Testophobia.validation.validate({name:'threshold',type:'decimal',selector:'#divActionProps #txtThreshold',required:false}, action);
   Testophobia.validation.validate({name:'skipScreen',type:'boolean',selector:'#divActionProps #chkSkipScreen',required:false}, action);
+  Testophobia.validation.validate({name:'blurActiveElement',type:'boolean',selector:'#divActionProps #chkBlurElement',required:false}, action);
   Testophobia.activeTest.actions[Testophobia.dialogActionIndex].type = Testophobia.dialogActionType;
   Testophobia.activeTest.actions[Testophobia.dialogActionIndex].target = $('#txtTarget').val();
   $('#divAddlFields input').each(function () {
@@ -204,6 +206,9 @@ function buildList() {
   rendered += '<ul id="lstClipRegionsPerAction" class="dialogList"></ul>';
   rendered += '<input id="chkSkipScreen" type="checkbox"/>';
   rendered += '<label for="chkSkipScreen">Skip snapshot for this action</label>';
+  rendered += '<br>';
+  rendered += '<input id="chkBlurElement" type="checkbox"/>';
+  rendered += '<label for="chkBlurElement">Unfocus the active element before snapshot</label>';
   rendered += '</div>';
   rendered += '<button id="btnSaveEdits" class="dialogBtn green button">Apply</button>';
   $('#divActionDialog').html(rendered);

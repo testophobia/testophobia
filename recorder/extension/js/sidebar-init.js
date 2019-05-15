@@ -1,3 +1,3 @@
 window.Testophobia = {
-  serverUrl:'http://localhost:8091'
+  serverUrl:'http://localhost:9080'
 };
