@@ -83,13 +83,15 @@ function configurePrevNextButtons() {
 function configureApplyButton() {
   $('#btn-apply')
     .button()
-    .click(async () => {
+    .click(async e => {
       $.post(
         '/apply-golden/' + Testophobia.currentImageIdx,
         (data, statusText, xhr) => {
-          if (xhr.status === 200)
-            alert('Test image applied as the new golden image.');
-          else alert('Unable to apply the new golden image: ' + statusText);
+          if (xhr.status === 200) {
+            if (!e.altKey) alert('Test image applied as the new golden image.');
+          } else {
+            alert('Unable to apply the new golden image: ' + statusText);
+          }
         }
       );
       await loadTestResults();
