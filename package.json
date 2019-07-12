@@ -55,7 +55,7 @@
     "inquirer": "^6.2.2",
     "is-plain-object": "^2.0.4",
     "jpeg-js": "^0.3.4",
-    "jquery": "3.2.1",
+    "jquery": "3.4.0",
     "lolex": "^3.0.0",
     "meow": "^5.0.0",
     "mkdirp": "^0.5.1",
@@ -78,6 +78,6 @@
     "test": "ava -v"
   },
   "devDependencies": {
-    "ava": "^1.0.0-rc.2"
+    "ava": "^2.2.0"
   }
 }
