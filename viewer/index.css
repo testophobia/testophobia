@@ -103,8 +103,48 @@ body {
 }
 #viewer-container {
   margin: 0 1vw;
-  background: #ccc;
+  /*background: #ccc;*/
 }
+#viewer-container.side-by-side {
+  /*background: none;*/
+  white-space: nowrap;
+  overflow: visible;
+  margin-bottom: 16px;
+}
+#viewer-container.side-by-side .twentytwenty-overlay,
+#viewer-container.side-by-side .twentytwenty-handle {
+  display: none;
+}
+
+#viewer-container.side-by-side #img-before,
+#viewer-container.side-by-side #img-after {
+  clip: unset !important;
+  position: relative;
+}
+#viewer-container.side-by-side #img-before {
+  margin-right: 32px;
+}
+#viewer-container.side-by-side #img-after {
+}
+#viewer-container.side-by-side > div {
+  display: inline-block;
+  max-width: calc(50% - 16px);
+  position: relative;
+}
+#viewer-container.side-by-side > div:after {
+  position: absolute;
+  bottom: -20px;
+  color: #aaa;
+}
+#viewer-container.side-by-side > div:first-child:after {
+  left: 0;
+  content: 'Golden';
+}
+#viewer-container.side-by-side > div:nth-child(2):after {
+  right: 0;
+  content: 'New';
+}
+
 #diff-overlay {
   opacity: 0.3;
   position: absolute;
@@ -129,6 +169,9 @@ body {
   max-width: 128px;
   min-width: 128px;
   display: inline-block
+}
+#btn-view-type {
+  margin-right: 16px;
 }
 #btn-prev {
   margin-right: 1vw;

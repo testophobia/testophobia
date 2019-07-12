@@ -99,24 +99,47 @@ function configureApplyButton() {
     });
 }
 
+function resetDiffButton() {
+  $('#btn-diff').text('Show Diff');
+  $('#btn-diff').addClass('blue');
+  $('#btn-diff').removeClass('red');
+  $('#diff-overlay').hide();
+  $('#sld-diff').hide();
+  $('label[for="sld-diff"]').hide();
+  $('#sld-diff').slider('disable');
+}
+
+function configureViewTypeButton() {
+  $('#btn-view-type')
+    .button()
+    .click(function () {
+      resetDiffButton();
+      if ($(this).text() === 'Side By Side') {
+        $(this).text('Overlay');
+        $('#btn-diff').hide();
+        $('#viewer-container').addClass('side-by-side');
+      } else {
+        $(this).text('Side By Side');
+        $('#btn-diff').show();
+        $('#viewer-container').removeClass('side-by-side');
+      }
+    });
+}
+
 function configureDiffButton() {
   $('#btn-diff')
     .button()
     .click(function () {
       if ($(this).text() === 'Show Diff') {
         $(this).text('Hide Diff');
-        $(this).toggleClass('blue red');
+        $(this).addClass('red');
+        $(this).removeClass('blue');
         $('#diff-overlay').show();
         $('#sld-diff').slider('enable');
         $('#sld-diff').show();
         $('label[for="sld-diff"]').show();
       } else {
-        $(this).text('Show Diff');
-        $(this).toggleClass('blue red');
-        $('#diff-overlay').hide();
-        $('#sld-diff').hide();
-        $('label[for="sld-diff"]').hide();
-        $('#sld-diff').slider('disable');
+        resetDiffButton();
       }
     });
 }
@@ -156,6 +179,7 @@ function loadTest() {
     $('#btn-prev').button('disable');
     $('#btn-next').button('disable');
     $('#btn-apply').button('disable');
+    $('#btn-view-type').button('disable');
     $('#btn-diff').button('disable');
     $('#sld-diff').slider('disable');
     $('#lbl-pager').text(`Failure: 0 of 0`);
@@ -169,6 +193,7 @@ function loadTest() {
     $('#single-image-lbl2').hide();
     $('#single-image-img').attr('src', `/images/${Testophobia.currentImageIdx}/test`);
     $('#viewer-container').hide();
+    $('#btn-view-type').button('enable');
     $('#btn-diff').button('disable');
     $('#sld-diff').slider('disable');
     $('#img-before').attr('src', '');
@@ -177,6 +202,7 @@ function loadTest() {
     $('#lbl-pager').text(`Failure: ${Testophobia.currentImageIdx + 1} of ${Testophobia.testRunInfo.failures.length}`);
     $('#lbl-testname').text(`${Testophobia.currentTestFailure.test} (${Testophobia.currentTestFailure.screenType}) - ${Testophobia.currentTestFailure.action}`);
   } else {
+    $('#btn-view-type').button('enable');
     $('#btn-diff').button('enable');
     $('#sld-diff').slider('enable');
     $('#img-before').attr('src',`/images/${Testophobia.currentImageIdx}/golden`);
@@ -220,6 +246,7 @@ async function init(golden, goldenPath) {
   if (!golden) {
     configureInfoButton();
     configureApplyButton();
+    configureViewTypeButton();
     configureDiffButton();
     configureDiffSlider();
     configureTestRunDialog();
