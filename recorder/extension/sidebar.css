@@ -1,3 +1,7 @@
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
 body {
   background: #333;
   color: #fff;
@@ -29,7 +33,8 @@ h2 {
   color: #eee;
 }
 
-#lnkStartOver, #lnkEditConfig {
+#lnkStartOver,
+#lnkEditConfig {
   margin-top: 2.5em;
 }
 
@@ -63,7 +68,7 @@ h2 {
 }
 
 .dialogList li div[data-type="edit"] {
-  fill: #269CE9;
+  fill: #269ce9;
 }
 .dialogList li div[data-type="del"] {
   fill: #ca3535;
@@ -98,7 +103,8 @@ h2 {
   padding: 6px 10px;
 }
 
-#divSelected, #actionsList {
+#divSelected,
+#actionsList {
   background: #222;
   padding: 5px;
   margin-top: 5px;
@@ -126,7 +132,8 @@ h2 {
   z-index: 100;
 }
 
-.dialog, #divAlert {
+.dialog,
+#divAlert {
   z-index: 101;
   position: absolute;
   top: 5%;
@@ -137,13 +144,15 @@ h2 {
   color: #fff;
   padding: 10px 0;
   box-sizing: border-box;
-  box-shadow: rgba(0, 0, 0, 0.14) 0px 16px 24px 2px, rgba(0, 0, 0, 0.12) 0px 6px 30px 5px, rgba(0, 0, 0, 0.4) 0px 8px 10px -5px;
+  box-shadow: rgba(0, 0, 0, 0.14) 0px 16px 24px 2px,
+    rgba(0, 0, 0, 0.12) 0px 6px 30px 5px, rgba(0, 0, 0, 0.4) 0px 8px 10px -5px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.dialog h3, #divAlert h3 {
+.dialog h3,
+#divAlert h3 {
   margin: 5px 10px 15px;
 }
 
@@ -162,11 +171,18 @@ h2 {
   max-height: 200px;
 }
 
-#divRegionsDialog, #divActionRegionsDialog, #divClipRegionsForActionDialog {
+#divRegionsDialog,
+#divActionRegionsDialog,
+#divClipRegionsForActionDialog {
   max-height: 480px;
 }
 
-#divAlert, #divDimDialog, #divRegionsDialog, #divActionRegionsDialog, #divClipRegionsForActionDialog, #divValueEditDialog {
+#divAlert,
+#divDimDialog,
+#divRegionsDialog,
+#divActionRegionsDialog,
+#divClipRegionsForActionDialog,
+#divValueEditDialog {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -205,7 +221,10 @@ h2 {
   background: #3c3c3c;
 }
 
-.dialogForm label, .dialogForm input, .dialogForm ul, .dialogForm .dropdown {
+.dialogForm label,
+.dialogForm input,
+.dialogForm ul,
+.dialogForm .dropdown {
   margin: 0 10px;
 }
 
@@ -297,7 +316,7 @@ table td:nth-child(1) {
 table td:nth-child(2) {
   width: 75%;
 }
-table td:nth-child(n+3) {
+table td:nth-child(n + 3) {
   width: 24px;
 }
 table td svg {
@@ -312,7 +331,7 @@ table td div[data-type="play"] {
 table td div[data-type="edit"],
 table td div[data-type="up"],
 table td div[data-type="down"] {
-  fill: #269CE9;
+  fill: #269ce9;
 }
 table td div[data-type="del"] {
   fill: #ca3535;

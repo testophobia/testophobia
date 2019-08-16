@@ -1,3 +1,6 @@
+* {
+  -webkit-font-smoothing: antialiased;
+}
 body {
   margin: 0;
   background: #333;
@@ -18,7 +21,7 @@ body {
   padding: 1vh 1vw;
   box-sizing: border-box;
 }
-#lnk-start-over  {
+#lnk-start-over {
   cursor: pointer;
   text-decoration: underline;
   font-size: smaller;
@@ -32,20 +35,20 @@ body {
 }
 .jqui-title {
   color: white;
-  font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+  font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
   font-size: 4vh;
   box-sizing: border-box;
   flex: 1;
 }
 .jqui-label {
-  padding: .4em 1vw;
+  padding: 0.4em 1vw;
   display: inline-block;
   position: relative;
   line-height: normal;
-  margin-right: .1em;
+  margin-right: 0.1em;
   vertical-align: middle;
   color: white;
-  font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+  font-family: Lucida Grande, Lucida Sans, Arial, sans-serif;
   font-size: 1.1em;
   word-break: break-all;
 }
@@ -76,7 +79,7 @@ body {
 }
 #golden-list li div:hover {
   cursor: pointer;
-  background: #4A4A4A;
+  background: #4a4a4a;
 }
 #golden-list li div:active {
   opacity: 0.8;
@@ -96,10 +99,10 @@ body {
   margin-bottom: 1vh;
 }
 #single-image > #single-image-lbl {
-  color: #FF9090;
+  color: #ff9090;
 }
 #single-image > #single-image-lbl2 {
-  color: #f5da4f
+  color: #f5da4f;
 }
 #viewer-container {
   margin: 0 1vw;
@@ -138,11 +141,11 @@ body {
 }
 #viewer-container.side-by-side > div:first-child:after {
   left: 0;
-  content: 'Golden';
+  content: "Golden";
 }
 #viewer-container.side-by-side > div:nth-child(2):after {
   right: 0;
-  content: 'New';
+  content: "New";
 }
 
 #diff-overlay {
@@ -168,7 +171,7 @@ body {
   margin-right: 12px;
   max-width: 128px;
   min-width: 128px;
-  display: inline-block
+  display: inline-block;
 }
 #btn-view-type {
   margin-right: 16px;
@@ -186,33 +189,62 @@ body {
   cursor: pointer;
   outline: none;
   color: white;
-  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.3)), to(rgba(255,255,255,0)));
-  background-image: -webkit-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
-  background-image: -moz-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
-  background-image: -ms-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
-  background-image: -o-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
-  background-image: linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(255, 255, 255, 0.3)),
+    to(rgba(255, 255, 255, 0))
+  );
+  background-image: -webkit-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: -moz-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: -ms-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: -o-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
 
-  background-color: #269CE9;
-  border-color: #269CE9;
+  background-color: #269ce9;
+  border-color: #269ce9;
 
-  -webkit-transition: background-color .2s ease-out;
-  -moz-transition: background-color .2s ease-out;
-  -ms-transition: background-color .2s ease-out;
-  -o-transition: background-color .2s ease-out;
-  transition: background-color .2s ease-out;
+  -webkit-transition: background-color 0.2s ease-out;
+  -moz-transition: background-color 0.2s ease-out;
+  -ms-transition: background-color 0.2s ease-out;
+  -o-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
   background-clip: padding-box; /* Fix bleeding */
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
-  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
+  -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 2px 2px -1px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.3) inset;
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3),
+    0 2px 2px -1px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 2px 2px -1px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.3) inset;
 }
 #sld-diff .ui-slider-handle:hover {
-  background-color: #70B9E8;
+  background-color: #70b9e8;
 }
 
 .ui-dialog.ui-widget.ui-widget-content {
@@ -252,16 +284,16 @@ body {
 /* credit for button styles: https://codepen.io/ben_jammin/pen/syaCq */
 
 .centered {
-  margin:50px auto;
-  text-align:center;
+  margin: 50px auto;
+  text-align: center;
 }
 
-.button::-moz-focus-inner{
+.button::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
 
-.button{
+.button {
   display: inline-block;
   outline: none;
   zoom: 1;
@@ -276,26 +308,55 @@ body {
   color: #555;
 
   background-color: #ddd;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,1)), to(rgba(255,255,255,0)));
-  background-image: -webkit-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
-  background-image: -moz-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
-  background-image: -ms-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
-  background-image: -o-linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
-  background-image: linear-gradient(top, rgba(255,255,255,1), rgba(255,255,255,0));
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(255, 255, 255, 1)),
+    to(rgba(255, 255, 255, 0))
+  );
+  background-image: -webkit-linear-gradient(
+    top,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: -moz-linear-gradient(
+    top,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: -ms-linear-gradient(
+    top,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: -o-linear-gradient(
+    top,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: linear-gradient(
+    top,
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
 
-  -webkit-transition: background-color .2s ease-out;
-  -moz-transition: background-color .2s ease-out;
-  -ms-transition: background-color .2s ease-out;
-  -o-transition: background-color .2s ease-out;
-  transition: background-color .2s ease-out;
+  -webkit-transition: background-color 0.2s ease-out;
+  -moz-transition: background-color 0.2s ease-out;
+  -ms-transition: background-color 0.2s ease-out;
+  -o-transition: background-color 0.2s ease-out;
+  transition: background-color 0.2s ease-out;
   background-clip: padding-box; /* Fix bleeding */
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
-  -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
-  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 2px 2px -1px rgba(0, 0, 0, .5), 0 1px 0 rgba(255, 255, 255, .3) inset;
-  text-shadow: 0 1px 0 rgba(255,255,255, .9);
+  -moz-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 2px 2px -1px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.3) inset;
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3),
+    0 2px 2px -1px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 2px 2px -1px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.3) inset;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.9);
 
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -309,22 +370,24 @@ body {
   fill: #555;
 }
 
-.button:hover{
+.button:hover {
   background-color: #eee;
   color: #555;
 }
 
-.button:active{
+.button:active {
   background: #e9e9e9;
   position: relative;
   top: 1px;
   text-shadow: none;
-  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+  -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) inset;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) inset;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) inset;
 }
 
-.button[disabled], .button[disabled]:hover, .button[disabled]:active{
+.button[disabled],
+.button[disabled]:hover,
+.button[disabled]:active {
   border-color: #eaeaea;
   background: #fafafa;
   cursor: default;
@@ -339,100 +402,136 @@ body {
 
 /* Smaller buttons styles */
 
-.button.small{
+.button.small {
   padding: 4px 12px;
 }
 
 /* Larger buttons styles */
 
-.button.large{
+.button.large {
   padding: 12px 30px;
   text-transform: uppercase;
 }
 
-.button.large:active{
+.button.large:active {
   top: 2px;
 }
 
 /* Colored buttons styles */
 
-.button.green, .button.red, .button.blue {
+.button.green,
+.button.red,
+.button.blue {
   color: white;
-  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 
-  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,.3)), to(rgba(255,255,255,0)));
-  background-image: -webkit-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
-  background-image: -moz-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
-  background-image: -ms-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
-  background-image: -o-linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
-  background-image: linear-gradient(top, rgba(255,255,255,.3), rgba(255,255,255,0));
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(255, 255, 255, 0.3)),
+    to(rgba(255, 255, 255, 0))
+  );
+  background-image: -webkit-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: -moz-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: -ms-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: -o-linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
+  background-image: linear-gradient(
+    top,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0)
+  );
 }
 
-.button.green svg, .button.red svg, .button.blue svg {
+.button.green svg,
+.button.red svg,
+.button.blue svg {
   fill: white;
 }
 
 /* */
 
-.button.green{
+.button.green {
   background-color: #57a957;
   border-color: #57a957;
 }
 
-.button.green:hover{
+.button.green:hover {
   background-color: #62c462;
 }
 
-.button.green:active{
+.button.green:active {
   background: #57a957;
 }
 
 /* */
 
-.button.red{
+.button.red {
   background-color: #ca3535;
   border-color: #c43c35;
 }
 
-.button.red:hover{
+.button.red:hover {
   background-color: #ee5f5b;
 }
 
-.button.red:active{
+.button.red:active {
   background: #c43c35;
 }
 
 /* */
 
-.button.blue{
-  background-color: #269CE9;
-  border-color: #269CE9;
+.button.blue {
+  background-color: #269ce9;
+  border-color: #269ce9;
 }
 
-.button.blue:hover{
-  background-color: #70B9E8;
+.button.blue:hover {
+  background-color: #70b9e8;
 }
 
-.button.blue:active{
-  background: #269CE9;
+.button.blue:active {
+  background: #269ce9;
 }
 
 /* */
 
-.green[disabled], .green[disabled]:hover, .green[disabled]:active{
-  border-color: #57A957;
-  background: #57A957;
-  color: #D2FFD2;
+.green[disabled],
+.green[disabled]:hover,
+.green[disabled]:active {
+  border-color: #57a957;
+  background: #57a957;
+  color: #d2ffd2;
 }
 
-.red[disabled], .red[disabled]:hover, .red[disabled]:active{
-  border-color: #C43C35;
-  background: #C43C35;
-  color: #FFD3D3;
+.red[disabled],
+.red[disabled]:hover,
+.red[disabled]:active {
+  border-color: #c43c35;
+  background: #c43c35;
+  color: #ffd3d3;
 }
 
-.blue[disabled], .blue[disabled]:hover, .blue[disabled]:active{
-  border-color: #269CE9;
-  background: #269CE9;
-  color: #93D5FF;
+.blue[disabled],
+.blue[disabled]:hover,
+.blue[disabled]:active {
+  border-color: #269ce9;
+  background: #269ce9;
+  color: #93d5ff;
 }
