@@ -9,18 +9,17 @@ const dim = {
   height: 50
 };
 
-let jpegConfig = {...config, fileType: 'jpeg', quality: .9};
+let jpegConfig = {...config, fileType: 'jpeg', quality: 0.9};
 
-let tr = new TestRunner(config, exampleTest, dim, './');
-let trJpeg = new TestRunner(jpegConfig, exampleTest, dim, './');
-
+let tr = new TestRunner(0, config, exampleTest, dim, './');
+let trJpeg = new TestRunner(0, jpegConfig, exampleTest, dim, './');
 
 test('TestRunner - init with no args', t => {
   t.throws(() => new TestRunner());
 });
 
 test('TestRunner - init, no output args', t => {
-  let r = new TestRunner(config, exampleTest, dim, './');
+  let r = new TestRunner(0, config, exampleTest, dim, './');
   t.is(typeof r === 'object', true);
   t.is(r.config.fileType === 'png', true);
 });
@@ -32,7 +31,7 @@ test('TestRunner - init browser', async t => {
 
 test('TestRunner - _checkBaseUrl - bad domain example', t => {
   let badCfg = {...config, baseUrl: 'http://google.com/sub/route'};
-  let tst = new TestRunner(badCfg, exampleTest, dim, './');
+  let tst = new TestRunner(0, badCfg, exampleTest, dim, './');
   t.throws(() => tst._checkBaseUrl());
 });
 
@@ -60,5 +59,3 @@ test('TestRunner - _getScreenshotOptions pass path, verify quality prop for jpeg
   t.is(r.path, tempPath);
   t.is(r.quality, 0.9);
 });
-
-

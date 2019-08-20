@@ -14,7 +14,7 @@ const dimensions = {type: 'desktop', width: 1024, height: 768};
 const clipRegions = [{type: 'desktop', top: 0, left: 0, right: 1024, bottom: 768}];
 const screenTypeJpeg = 'jpeg';
 const screenTypePng = 'png';
-const browser = new Browser();
+const browser = new Browser(0);
 const quality = 90;
 
 test('generateScreenshot - no args', async t => {
@@ -52,7 +52,7 @@ test('writeGoldensManifest - args', async t => {
 });
 
 test.after('cleanup', () => {
-  fs.unlink((newPathJpeg), () => 0);
-  fs.unlink((newPathPng), () => 0);
-  fs.unlink((manifestPath), () => 0);
+  fs.unlink(newPathJpeg, () => 0);
+  fs.unlink(newPathPng, () => 0);
+  fs.unlink(manifestPath, () => 0);
 });
