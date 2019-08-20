@@ -18,7 +18,6 @@ test('Viewer - initialize config, no args', t => {
 
 test('Viewer - initialize config, pass example config', t => {
   let r = v._initializeConfig(config);
-  console.log(r.target);
   t.is(typeof r === 'object', true);
   t.is(r.target === 'examples/basic/tests/about/about-test.js', true);
 });
