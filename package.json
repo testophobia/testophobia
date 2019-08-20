@@ -77,9 +77,16 @@
   },
   "scripts": {
     "pretest": "node tests/common/generate-temp.js",
-    "test": "ava -v"
+    "test": "ava -v 2> /dev/null"
   },
   "devDependencies": {
     "ava": "^2.2.0"
+  },
+  "ava": {
+    "files": [
+      "tests/**/*",
+      "!tests/common/*",
+      "!tests/temp/*"
+    ]
   }
 }
