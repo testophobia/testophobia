@@ -1,7 +1,7 @@
 /* global require, process */
 const test = require('ava');
 const path = require('path');
-const {retrieveImageData} = require('../../lib/utils/retrieve-image-data');
+const {retrieveImageData} = require('../../../lib/utils/retrieve-image-data');
 const fs = require('fs');
 const {tempPath} = require('../common/config');
 
@@ -27,7 +27,7 @@ test('retrieveImageData - invalid path', async t => {
 
 test('retrieveImageData - path', async t => {
   let i = await retrieveImageData(fullPath, 'png');
-  t.is(typeof(i), 'object');
+  t.is(typeof i, 'object');
   t.is(i.width, 16);
 });
 

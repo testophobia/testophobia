@@ -1,8 +1,8 @@
 /* global require */
 const test = require('ava');
 const fs = require('fs');
-const {generateScreenshot, writeGoldensManifest} = require('../../lib/utils/generate-screenshot');
-const {Browser} = require('../../lib/Browser');
+const {generateScreenshot, writeGoldensManifest} = require('../../../lib/utils/generate-screenshot');
+const {Browser} = require('../../../lib/Browser');
 const {browserConfig, tempPath} = require('../common/config');
 
 const pathJpeg = `${tempPath}/screen-unscaled.jpeg`;

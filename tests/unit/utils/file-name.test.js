@@ -1,7 +1,7 @@
 /* global require */
 const test = require('ava');
 const {exampleAction} = require('../common/config');
-const {getIntialFileName, getActionFileName} = require('../../lib/utils/file-name');
+const {getIntialFileName, getActionFileName} = require('../../../lib/utils/file-name');
 
 test('getIntialFileName - no args (unscaled)', t => {
   let r = getIntialFileName();

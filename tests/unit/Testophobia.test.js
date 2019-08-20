@@ -1,10 +1,10 @@
 /* global require, process */
 const test = require('ava');
-const {Testophobia} = require('../lib/Testophobia');
+const {Testophobia} = require('../../lib/Testophobia');
 const fs = require('fs');
 const path = require('path');
 const {mocki} = require('./common/inquirer-mock');
-const {createDirectory, deleteDirectory} = require('../lib/utils');
+const {createDirectory, deleteDirectory} = require('../../lib/utils');
 const {tempPath, config} = require('./common/config');
 
 const testClearPath = `${process.cwd()}/manual-test-screens`;
@@ -13,7 +13,7 @@ const tConfig = {
   ...config,
   diffDirectory: `${tempPath}/diff-screens`,
   goldenDirectory: `${tempPath}/golden-screens`,
-  testDirectory: `${tempPath}/test-screens`,
+  testDirectory: `${tempPath}/test-screens`
 };
 
 let initConfig = {

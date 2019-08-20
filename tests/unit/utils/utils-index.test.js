@@ -2,7 +2,7 @@
 const test = require('ava');
 const path = require('path');
 const fs = require('fs');
-const {cleanFileName, resolveNodeModuleFile, deleteFile, createDirectory, deleteDirectory, getDate, asyncForEach} = require('../../lib/utils');
+const {cleanFileName, resolveNodeModuleFile, deleteFile, createDirectory, deleteDirectory, getDate, asyncForEach} = require('../../../lib/utils');
 const {tempPath} = require('../common/config');
 
 const file = `${tempPath}/testfile.txt`;
@@ -14,7 +14,9 @@ const date = `${currentdate.getMonth() +
 const arr = [1, 2, 3, 4, 5];
 
 test.before(() => {
-  fs.writeFileSync(file, 'this is a test file', (err) => {if (err) throw err;});
+  fs.writeFileSync(file, 'this is a test file', err => {
+    if (err) throw err;
+  });
 });
 
 test('getDate', t => {
@@ -28,7 +30,7 @@ test('asyncForEach - null', async t => {
 
 test('asyncForEach - array', async t => {
   let total = 0;
-  await asyncForEach(arr, i => total += i);
+  await asyncForEach(arr, i => (total += i));
   t.is(15, total);
 });
 

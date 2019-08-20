@@ -1,6 +1,6 @@
 /* global require */
 const test = require('ava');
-const {TestRunner} = require('../lib/TestRunner');
+const {TestRunner} = require('../../lib/TestRunner');
 const {config, exampleTest, tempPath} = require('./common/config');
 
 const dim = {

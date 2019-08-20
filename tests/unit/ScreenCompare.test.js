@@ -1,6 +1,6 @@
 /* global require, process */
 const test = require('ava');
-const {ScreenCompare} = require('../lib/ScreenCompare');
+const {ScreenCompare} = require('../../lib/ScreenCompare');
 const fs = require('fs');
 const path = require('path');
 const {tempPath, config} = require('./common/config');
@@ -8,8 +8,8 @@ const {tempPath, config} = require('./common/config');
 const fullPath = `${tempPath}/testophobia-recorder-unscaled.png`;
 
 const exampleTest = {
-  name: "about",
-  path: "about/about.html"
+  name: 'about',
+  path: 'about/about.html'
 };
 
 const scConfig = {
@@ -26,7 +26,7 @@ test.before(() => {
 
 test('ScreenCompare init - no args', t => {
   let c = new ScreenCompare();
-  t.is(typeof(c), 'object');
+  t.is(typeof c, 'object');
 });
 
 test('ScreenCompare init - args', async t => {

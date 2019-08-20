@@ -1,7 +1,7 @@
 /* global require, process */
 const test = require('ava');
 const fs = require('fs');
-const {optimizeImage} = require('../../lib/utils/optimize-image');
+const {optimizeImage} = require('../../../lib/utils/optimize-image');
 const path = require('path');
 const {tempPath} = require('../common/config');
 

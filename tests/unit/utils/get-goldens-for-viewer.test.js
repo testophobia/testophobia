@@ -2,7 +2,7 @@
 const test = require('ava');
 const {config} = require('../common/config');
 const path = require('path');
-const {getGoldenDirectoriesForViewer, getGoldenImagesForViewer} = require('../../lib/utils/get-goldens-for-viewer');
+const {getGoldenDirectoriesForViewer, getGoldenImagesForViewer} = require('../../../lib/utils/get-goldens-for-viewer');
 
 const gdConfig = {
   ...config,

@@ -2,7 +2,7 @@
 const test = require('ava');
 const path = require('path');
 const fs = require('fs');
-const {generateResultFile} = require('../../lib/utils/generate-result-file');
+const {generateResultFile} = require('../../../lib/utils/generate-result-file');
 const {tempPath, config} = require('../common/config');
 
 const resultConfig = {
@@ -11,8 +11,8 @@ const resultConfig = {
 };
 
 const results = {
-  tests: "generate-result-file.test.js",
-  failures: "none"
+  tests: 'generate-result-file.test.js',
+  failures: 'none'
 };
 
 test('generateResultFile - null', t => {

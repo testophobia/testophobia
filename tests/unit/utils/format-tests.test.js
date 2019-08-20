@@ -1,11 +1,9 @@
 /* global require */
 const test = require('ava');
-const {formatTests} = require('../../lib/utils/format-tests');
+const {formatTests} = require('../../../lib/utils/format-tests');
 const {testPath, exampleTest} = require('../common/config');
 
-const arrTarget = [
-  testPath
-];
+const arrTarget = [testPath];
 
 test('formatTest - no config', async t => {
   let r = await formatTests(null, []);

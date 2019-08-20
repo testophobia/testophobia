@@ -1,6 +1,6 @@
 /* global require */
 const test = require('ava');
-const {Output} = require('../lib/Output');
+const {Output} = require('../../lib/Output');
 const {config, exampleTest} = require('./common/config');
 
 let c = new Output(config);
@@ -10,7 +10,7 @@ test('Output init - no args', t => {
 });
 
 test('Output init', t => {
-  t.is(typeof(c.spinner), 'object');
+  t.is(typeof c.spinner, 'object');
   t.is(c.total, 0);
 });
 

@@ -1,6 +1,6 @@
 /* global require */
 const test = require('ava');
-const {Browser} = require('../lib/Browser');
+const {Browser} = require('../../lib/Browser');
 const {browserConfig, exampleAction, browserTest} = require('./common/config');
 
 let b = new Browser(0);

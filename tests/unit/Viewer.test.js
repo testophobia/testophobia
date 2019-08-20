@@ -1,6 +1,6 @@
 /* global require */
 const test = require('ava');
-const {Viewer} = require('../lib/Viewer');
+const {Viewer} = require('../../lib/Viewer');
 const {config} = require('./common/config');
 
 let v = new Viewer(config);

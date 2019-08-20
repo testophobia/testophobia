@@ -1,6 +1,6 @@
 /* global require */
 const test = require('ava');
-const {getClipRegion, getActionClipRegion} = require('../../lib/utils/clip-regions');
+const {getClipRegion, getActionClipRegion} = require('../../../lib/utils/clip-regions');
 const {config, exampleTest, exampleAction} = require('../common/config');
 
 const clipRegionsConfig = {
