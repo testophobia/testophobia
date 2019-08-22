@@ -5,30 +5,32 @@ const sinon = require('sinon');
 const {createDirectory, deleteDirectory} = require('../../lib/utils');
 const {loadConfigFile} = require('../../lib/utils/load-config');
 const {Testophobia} = require('../../lib/Testophobia');
+const {Output} = require('../../lib/Output');
 
 const sandboxDir = path.join(__dirname, 'sandbox');
+let consoleChanges = [];
+let loggerStub = null;
+let exitStub = null;
 
-exports.setupTests = test => {
-  test.beforeEach(() => {
-    createDirectory(sandboxDir);
-    const cfg = copyCleanConfig();
-    createDirectory(cfg.goldenDirectory);
-    createDirectory(cfg.testDirectory);
-    createDirectory(cfg.diffDirectory);
-  });
-
+setupTests = test => {
   test.afterEach.always.cb(t => {
-    deleteDirectory(path.join(__dirname, 'sandbox'));
+    consoleChanges = [];
+    deleteDirectory(sandboxDir);
+    loggerStub.restore();
+    if (exitStub) exitStub.restore();
     t.end();
   });
 };
 
-exports.createTestophobia = () => {
-  const tp = new Testophobia();
-  tp.consoleChanges = [];
-  const logger = tp.output._getLog();
-  sinon.stub(logger, 'log').callsFake((message, consoleLevel, chalkColor) => {
-    tp.consoleChanges.push({message, consoleLevel, chalkColor});
+getConsoleChanges = () => {
+  return consoleChanges;
+};
+
+createTestophobia = () => {
+  const output = new Output();
+  const logger = output._getLog();
+  loggerStub = sinon.stub(logger, 'log').callsFake((message, consoleLevel, chalkColor) => {
+    consoleChanges.push({message, consoleLevel, chalkColor});
   });
   let isSpinning = false;
   const spinner = {
@@ -36,31 +38,56 @@ exports.createTestophobia = () => {
     isSpinning: sinon.stub().returns(isSpinning),
     start: sinon.stub().callsFake(() => {
       isSpinning = true;
-      tp.consoleChanges.push({spinner: 'start'});
+      consoleChanges.push({spinner: 'start'});
     }),
     stop: sinon.stub().callsFake(() => {
       isSpinning = false;
-      tp.consoleChanges.push({spinner: 'stop'});
+      consoleChanges.push({spinner: 'stop'});
     }),
     succeed: sinon.stub().callsFake(() => {
-      tp.consoleChanges.push({spinner: 'succeed'});
+      consoleChanges.push({spinner: 'succeed'});
     }),
     fail: sinon.stub().callsFake(() => {
-      tp.consoleChanges.push({spinner: 'fail'});
+      consoleChanges.push({spinner: 'fail'});
     })
   };
   sinon.stub(spinner, 'text').set(val => {
-    tp.consoleChanges.push({spinner: 'message', text: val});
+    consoleChanges.push({spinner: 'message', text: val});
   });
-  tp.output._overrideSpinner(spinner);
-  return tp;
+  output._overrideSpinner(spinner);
+  return new Testophobia({configFileDir: sandboxDir}, output);
 };
 
-exports.dumpConsole = tp => {
-  console.log(JSON.stringify(tp.consoleChanges, null, 2));
+dumpConsole = tp => {
+  console.log(JSON.stringify(consoleChanges, null, 2));
 };
 
-const copyCleanConfig = () => {
-  fs.copyFileSync(path.join(__dirname, 'default.testophobia.config.js'), path.join(sandboxDir, 'testophobia.config.js'));
-  return loadConfigFile(sandboxDir, {});
+applyConfigFile = async (manipulateFn, skipDirs) => {
+  createDirectory(sandboxDir);
+  const cfg = await loadConfigFile(__dirname, 'default.testophobia.config.js', {});
+  if (manipulateFn) manipulateFn(cfg);
+  const contents = `export default ${JSON.stringify(cfg, null, 2)};`;
+  await fs.writeFileSync(path.join(sandboxDir, 'testophobia.config.js'), contents, err => {
+    if (err) throw err;
+  });
+  if (!skipDirs) {
+    if (cfg.goldenDirectory) createDirectory(cfg.goldenDirectory);
+    if (cfg.testDirectory) createDirectory(cfg.testDirectory);
+    if (cfg.diffDirectory) createDirectory(cfg.diffDirectory);
+  }
+  return cfg;
+};
+
+stubFatalExit = cb => {
+  exitStub = sinon.stub(process, 'exit');
+  exitStub.withArgs(1).callsFake(code => cb());
+};
+
+exports.blackbox = {
+  applyConfigFile: applyConfigFile,
+  createTestophobia: createTestophobia,
+  dumpConsole: dumpConsole,
+  getConsoleChanges: getConsoleChanges,
+  setupTests: setupTests,
+  stubFatalExit: stubFatalExit
 };

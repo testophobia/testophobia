@@ -80,7 +80,7 @@
     "test": "ava -v 2> /dev/null"
   },
   "devDependencies": {
-    "ava": "^2.2.0",
+    "ava": "^2.3.0",
     "sinon": "^7.4.1"
   },
   "ava": {

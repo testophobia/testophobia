@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "test": "ava -v 2> /dev/null"
+  },
+  "ava": {
+    "files": [
+      "blackbox.test.js"
+    ]
+  },
+  "dependencies": {
+    "ava": "^2.3.0"
+  }
+}
