@@ -10,13 +10,20 @@ const {Output} = require('../../lib/Output');
 const sandboxDir = path.join(__dirname, 'sandbox');
 let consoleChanges = [];
 let loggerStub = null;
+let spinnerStub = null;
 let exitStub = null;
 
 setupTests = test => {
+  test.beforeEach.cb(t => {
+    deleteDirectory(sandboxDir);
+    t.end();
+  });
+
   test.afterEach.always.cb(t => {
     consoleChanges = [];
     deleteDirectory(sandboxDir);
     loggerStub.restore();
+    spinnerStub.restore();
     if (exitStub) exitStub.restore();
     t.end();
   });
@@ -51,7 +58,7 @@ createTestophobia = () => {
       consoleChanges.push({spinner: 'fail'});
     })
   };
-  sinon.stub(spinner, 'text').set(val => {
+  spinnerStub = sinon.stub(spinner, 'text').set(val => {
     consoleChanges.push({spinner: 'message', text: val});
   });
   output._overrideSpinner(spinner);
@@ -64,7 +71,7 @@ dumpConsole = tp => {
 
 applyConfigFile = async (manipulateFn, skipDirs) => {
   createDirectory(sandboxDir);
-  const cfg = await loadConfigFile(__dirname, 'default.testophobia.config.js', {});
+  const cfg = await loadConfigFile(path.join(__dirname, 'configs'), 'default.testophobia.config.js', {});
   if (manipulateFn) manipulateFn(cfg);
   const contents = `export default ${JSON.stringify(cfg, null, 2)};`;
   await fs.writeFileSync(path.join(sandboxDir, 'testophobia.config.js'), contents, err => {
@@ -78,7 +85,13 @@ applyConfigFile = async (manipulateFn, skipDirs) => {
   return cfg;
 };
 
+useBadConfigFile = async (fileName) => {
+  createDirectory(sandboxDir);
+  await fs.copyFileSync(path.join(path.join(__dirname, 'configs'), fileName), path.join(sandboxDir, 'testophobia.config.js'));
+}
+
 stubFatalExit = cb => {
+  //stub.restore doesn't seem to be working right
   exitStub = sinon.stub(process, 'exit');
   exitStub.withArgs(1).callsFake(code => cb());
 };
@@ -89,5 +102,6 @@ exports.blackbox = {
   dumpConsole: dumpConsole,
   getConsoleChanges: getConsoleChanges,
   setupTests: setupTests,
-  stubFatalExit: stubFatalExit
+  stubFatalExit: stubFatalExit,
+  useBadConfigFile: useBadConfigFile
 };
