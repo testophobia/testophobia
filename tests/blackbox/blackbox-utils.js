@@ -2,15 +2,16 @@
 const path = require('path');
 const fs = require('fs');
 const sinon = require('sinon');
+const bbconfig = require('./blackbox-config');
+
 const {createDirectory, deleteDirectory} = require('../../lib/utils');
-const {loadConfigFile} = require('../../lib/utils/load-config');
 const {Testophobia} = require('../../lib/Testophobia');
 const {Output} = require('../../lib/Output');
 
 const sandboxDir = path.join(__dirname, 'sandbox');
 let consoleChanges = [];
 let loggerStub = null;
-let spinnerStub = null;
+let spinnerStubs = [];
 let exitStub = null;
 
 setupTests = test => {
@@ -23,7 +24,7 @@ setupTests = test => {
     consoleChanges = [];
     deleteDirectory(sandboxDir);
     loggerStub.restore();
-    spinnerStub.restore();
+    spinnerStubs.forEach(s => s.restore());
     if (exitStub) exitStub.restore();
     t.end();
   });
@@ -35,63 +36,62 @@ getConsoleChanges = () => {
 
 createTestophobia = () => {
   const output = new Output();
+  stubLogger(output);
+  stubOra(output);
+  return new Testophobia({configFileDir: sandboxDir}, output);
+};
+
+stubLogger = output => {
   const logger = output._getLog();
   loggerStub = sinon.stub(logger, 'log').callsFake((message, consoleLevel, chalkColor) => {
     consoleChanges.push({message, consoleLevel, chalkColor});
   });
+}
+
+stubOra = output => {
   let isSpinning = false;
-  const spinner = {
-    text: '',
-    isSpinning: sinon.stub().returns(isSpinning),
-    start: sinon.stub().callsFake(() => {
-      isSpinning = true;
-      consoleChanges.push({spinner: 'start'});
-    }),
-    stop: sinon.stub().callsFake(() => {
-      isSpinning = false;
-      consoleChanges.push({spinner: 'stop'});
-    }),
-    succeed: sinon.stub().callsFake(() => {
-      consoleChanges.push({spinner: 'succeed'});
-    }),
-    fail: sinon.stub().callsFake(() => {
-      consoleChanges.push({spinner: 'fail'});
-    })
-  };
-  spinnerStub = sinon.stub(spinner, 'text').set(val => {
-    consoleChanges.push({spinner: 'message', text: val});
-  });
-  output._overrideSpinner(spinner);
-  return new Testophobia({configFileDir: sandboxDir}, output);
-};
+  let spinner = output._getSpinner();
+  spinnerStubs = [];
+  spinnerStubs.push(sinon.stub(spinner, 'isSpinning').returns(isSpinning));
+  spinnerStubs.push(sinon.stub(spinner, 'start').callsFake(() => {
+    isSpinning = true;
+    consoleChanges.push({spinner: 'start'});
+  }));
+  spinnerStubs.push(sinon.stub(spinner, 'stop').callsFake(() => {
+    isSpinning = false;
+    consoleChanges.push({spinner: 'stop'});
+  }));
+  spinnerStubs.push(sinon.stub(spinner, 'succeed').callsFake(() => {
+    consoleChanges.push({spinner: 'succeed'});
+  }));
+  spinnerStubs.push(sinon.stub(spinner, 'fail').callsFake(() => {
+    consoleChanges.push({spinner: 'fail'});
+  }));
+  spinnerStubs.push(sinon.stub(spinner, 'text').set(val => {
+     consoleChanges.push({spinner: 'message', text: val});
+  }));
+}
 
 dumpConsole = tp => {
   console.log(JSON.stringify(consoleChanges, null, 2));
 };
 
-applyConfigFile = async (manipulateFn, skipDirs) => {
+applyConfigFile = async (skipDirs) => {
   createDirectory(sandboxDir);
-  const cfg = await loadConfigFile(path.join(__dirname, 'configs'), 'default.testophobia.config.js', {});
-  if (manipulateFn) manipulateFn(cfg);
-  const contents = `export default ${JSON.stringify(cfg, null, 2)};`;
-  await fs.writeFileSync(path.join(sandboxDir, 'testophobia.config.js'), contents, err => {
-    if (err) throw err;
-  });
+  bbconfig.setConfigResult({default:bbconfig.getConfig()});
   if (!skipDirs) {
-    if (cfg.goldenDirectory) createDirectory(cfg.goldenDirectory);
-    if (cfg.testDirectory) createDirectory(cfg.testDirectory);
-    if (cfg.diffDirectory) createDirectory(cfg.diffDirectory);
+    createDirectory('./sandbox/diffs');
+    createDirectory('./sandbox/golden-screens');
+    createDirectory('./sandbox/test-screens');
   }
-  return cfg;
 };
 
-useBadConfigFile = async (fileName) => {
+useBadConfigFile = async (result) => {
   createDirectory(sandboxDir);
-  await fs.copyFileSync(path.join(path.join(__dirname, 'configs'), fileName), path.join(sandboxDir, 'testophobia.config.js'));
+  bbconfig.setConfigResult(result);
 }
 
 stubFatalExit = cb => {
-  //stub.restore doesn't seem to be working right
   exitStub = sinon.stub(process, 'exit');
   exitStub.withArgs(1).callsFake(code => cb());
 };
