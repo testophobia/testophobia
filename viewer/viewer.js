@@ -1,7 +1,7 @@
 /* global $, Testophobia */
 (() => {
 let viewerLoaded = false;
-function loadTestResults(goldenPath) {
+function loadTestResults(goldenPath, maintainIndex) {
   const gPath = (goldenPath) ? '/' + goldenPath : '';
   return new Promise(resolve => {
     $.getJSON('test-results' + gPath, d => {
@@ -10,7 +10,12 @@ function loadTestResults(goldenPath) {
         Testophobia.currentImageIdx = d.images.length > 0 ? 0 : -1;
       } else {
         Testophobia.testRunInfo = d;
-        Testophobia.currentImageIdx = d.failures.length > 0 ? 0 : -1;
+        if (maintainIndex) {
+          if (Testophobia.currentImageIdx === Testophobia.testRunInfo.failures.length)
+            Testophobia.currentImageIdx = Testophobia.currentImageIdx - 1;
+        } else {
+          Testophobia.currentImageIdx = d.failures.length > 0 ? 0 : -1;
+        }
         Testophobia.currentTestFailure = d.failures[Testophobia.currentImageIdx];
       }
       resolve();
@@ -94,7 +99,7 @@ function configureApplyButton() {
           }
         }
       );
-      await loadTestResults();
+      await loadTestResults(null, true);
       loadTest();
     });
 }
