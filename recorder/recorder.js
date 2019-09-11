@@ -74,7 +74,7 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
     let pagelist = await browser.pages();
     pagelist[0].close();
     page = await browser.newPage();
-    await page.goto(config.baseUrl, { waitUntil: "networkidle0" });
+    await page.goto(config.baseUrl, { waitUntil: "networkidle2" });
 
     //start the server
     RecorderServer.start(config, page);
