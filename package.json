@@ -73,7 +73,7 @@
     "query-selector-shadow-dom": "^0.3.0",
     "request": "^2.88.0",
     "rimraf": "^2.6.2",
-    "sharp": "^0.21.0",
+    "sharp": "^0.22.1",
     "zurb-twentytwenty": "https://github.com/zurb/twentytwenty"
   },
   "scripts": {
