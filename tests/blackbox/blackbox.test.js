@@ -9,7 +9,7 @@ test.serial('No config file - should fail', t => {
   return new Promise(resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     blackbox.stubFatalExit(() => {
-      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  testophobia.config.js not found!', consoleLevel: 'error', chalkColor: 'red'}]);
+      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Unable to process config files!', consoleLevel: 'error', chalkColor: 'red'}]);
       resolve();
     });
     const err = new Error();
@@ -23,7 +23,7 @@ test.serial('Unparseable config file - should fail', t => {
   return new Promise(resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     blackbox.stubFatalExit(() => {
-      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Error loading testophobia config file', consoleLevel: 'error', chalkColor: 'red'}]);
+      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Unable to process config files!', consoleLevel: 'error', chalkColor: 'red'}]);
       resolve();
     });
     blackbox.useBadConfigFile(new Error('Bad config file!'));
@@ -35,7 +35,7 @@ test.serial('Bad config file - noexport - should fail', t => {
   return new Promise(resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     blackbox.stubFatalExit(() => {
-      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  testophobia config file must have a default export, using ES module syntax', consoleLevel: 'error', chalkColor: 'red'}]);
+      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Unable to process config files!', consoleLevel: 'error', chalkColor: 'red'}]);
       resolve();
     });
     blackbox.useBadConfigFile({});
@@ -76,5 +76,3 @@ test.serial('No test files exist - should fail', t => {
     await tp.run();
   });
 });
-
-

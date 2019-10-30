@@ -23,5 +23,8 @@
     "ava": "^2.3.0",
     "mock-require": "^3.0.3",
     "nyc": "^14.1.1"
+  },
+  "devDependencies": {
+    "sinon": "^7.5.0"
   }
 }

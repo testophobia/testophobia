@@ -1,6 +1,6 @@
 {
   "name": "testophobia",
-  "version": "0.1.7",
+  "version": "0.2.7",
   "description": "Web application snapshot tester",
   "license": "MIT",
   "repository": {
@@ -50,6 +50,7 @@
     "esm": "^3.0.84",
     "express": "^4.16.3",
     "figures": "^2.0.0",
+    "find-config": "^1.0.0",
     "glob": "^7.1.3",
     "imagesloaded": "^4.1.4",
     "inquirer": "^6.2.2",
@@ -72,7 +73,7 @@
     "query-selector-shadow-dom": "^0.3.0",
     "request": "^2.88.0",
     "rimraf": "^2.6.2",
-    "sharp": "^0.21.0",
+    "sharp": "^0.22.1",
     "zurb-twentytwenty": "https://github.com/zurb/twentytwenty"
   },
   "scripts": {
