@@ -6,6 +6,7 @@ const bbconfig = require('./blackbox-config');
 
 const {createDirectory, deleteDirectory} = require('../../lib/utils');
 const {Testophobia} = require('../../lib/Testophobia');
+const {Logger} = require('../../lib/Logger');
 const {Output} = require('../../lib/Output');
 
 const sandboxDir = path.join(__dirname, 'sandbox');
@@ -34,17 +35,18 @@ getConsoleChanges = () => {
   return consoleChanges;
 };
 
-createTestophobia = defaults => {
+createTestophobia = verbose => {
   const output = new Output();
-  stubLogger(output);
+  stubLogger(output, verbose);
   stubOra(output);
-  return new Testophobia(defaults !== undefined ? defaults : {configFileDir: sandboxDir}, output);
+  return new Testophobia(sandboxDir, output);
 };
 
-stubLogger = output => {
+stubLogger = (output, verbose) => {
   const logger = output._getLog();
+  logger.setLevel(verbose ? Logger.DEBUG_LEVEL : Logger.INFO_LEVEL);
   loggerStub = sinon.stub(logger, 'log').callsFake((message, consoleLevel, chalkColor) => {
-    consoleChanges.push({message, consoleLevel, chalkColor});
+    if (verbose || chalkColor !== 'dim') consoleChanges.push({message, consoleLevel, chalkColor});
   });
 };
 
@@ -86,9 +88,10 @@ dumpConsole = tp => {
   console.log(JSON.stringify(consoleChanges, null, 2));
 };
 
-applyConfigFile = async (skipDirs, applyUserCfg) => {
+applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   createDirectory(sandboxDir);
-  bbconfig.setEsmResult('testophobia.config.js', {default: bbconfig.getConfig()});
+  bbconfig.setEsmResult(path.join(__dirname, 'testophobia.config.js'), {default: bbconfig.getConfig()});
+  bbconfig.setMeowResult(meowResult);
   bbconfig.setUserCfgInUse(Boolean(applyUserCfg));
   if (!skipDirs) {
     createDirectory('./sandbox/diffs');
@@ -97,14 +100,28 @@ applyConfigFile = async (skipDirs, applyUserCfg) => {
   }
 };
 
+writeTestFiles = async tests => {
+  tests.forEach(async t => {
+    await createDirectory(t.dir);
+    const filepath = path.join(__dirname, t.dir, t.file);
+    bbconfig.setEsmResult(filepath, {default: t.contents});
+    fs.writeFileSync(filepath, 'export default ' + JSON.stringify(t.contents));
+  });
+};
+
 useBadConfigFile = async result => {
   createDirectory(sandboxDir);
   bbconfig.setEsmResult('testophobia.config.js', result);
 };
 
 stubFatalExit = cb => {
+  let called = false;
   exitStub = sinon.stub(process, 'exit');
-  exitStub.withArgs(1).callsFake(code => cb());
+  exitStub.withArgs(1).callsFake(code => {
+    if (called) return;
+    called = true;
+    cb();
+  });
 };
 
 exports.blackbox = {
@@ -114,5 +131,6 @@ exports.blackbox = {
   getConsoleChanges: getConsoleChanges,
   setupTests: setupTests,
   stubFatalExit: stubFatalExit,
-  useBadConfigFile: useBadConfigFile
+  useBadConfigFile: useBadConfigFile,
+  writeTestFiles: writeTestFiles
 };

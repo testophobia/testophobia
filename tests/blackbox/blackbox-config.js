@@ -1,25 +1,29 @@
+const path = require('path');
 const mockRequire = require('mock-require');
-
 mockRequire('esm', () => getEsmResult);
-
+mockRequire('meow', () => getMeowResult());
 mockRequire('find-config', {obj: () => getFindConfigResult()});
 
 const esmResults = {};
+let meowResult;
 let userCfgInUse = false;
 
 const getEsmResult = esmPath => {
-  const file = esmPath.split('/');
-  const esmResult = esmResults[file.pop()];
+  const esmResult = esmResults[esmPath];
   if (esmResult instanceof Error) {
     throw esmResult;
   }
   return esmResult;
 };
 
+const getMeowResult = () => {
+  return meowResult;
+};
+
 const getFindConfigResult = () => {
   if (!userCfgInUse) return;
-  const userCfg = './sandbox/.testophobia.config.js';
-  esmResults['.testophobia.config.js'] = {
+  const userCfg = './sandbox';
+  esmResults['sandbox/.testophobia.config.js'] = {
     default: {
       threshold: 0.5,
       fileType: 'jpeg'
@@ -30,6 +34,10 @@ const getFindConfigResult = () => {
 
 exports.setUserCfgInUse = inUse => {
   userCfgInUse = inUse;
+};
+
+exports.setMeowResult = result => {
+  meowResult = result || {input: ['undefined']};
 };
 
 exports.setEsmResult = (fileName, result) => {
