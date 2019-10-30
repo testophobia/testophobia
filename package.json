@@ -64,7 +64,6 @@
     "opn": "^5.4.0",
     "ora": "^3.0.0",
     "pixelmatch": "^4.0.2",
-    "pkg-conf": "^2.1.0",
     "pngjs": "^3.3.3",
     "puppeteer": "^1.19.0",
     "puppeteer-extra": "^2.1.1",

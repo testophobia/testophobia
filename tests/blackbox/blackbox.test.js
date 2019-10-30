@@ -15,7 +15,7 @@ test.serial('No config file - should fail', t => {
     const err = new Error();
     err.code = 'MODULE_NOT_FOUND';
     blackbox.useBadConfigFile(err);
-    const tp = blackbox.createTestophobia();
+    const tp = blackbox.createTestophobia(null);
   });
 });
 
@@ -40,6 +40,16 @@ test.serial('Bad config file - noexport - should fail', t => {
     });
     blackbox.useBadConfigFile({});
     const tp = blackbox.createTestophobia();
+  });
+});
+
+test.serial('User config overrides - should override the base config values', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile(true, true);
+    const tp = blackbox.createTestophobia();
+    t.is(tp.config.threshold, 0.5);
+    resolve();
   });
 });
 

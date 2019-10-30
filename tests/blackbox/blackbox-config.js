@@ -2,18 +2,39 @@ const mockRequire = require('mock-require');
 
 mockRequire('esm', () => getEsmResult);
 
-let esmResult;
+mockRequire('find-config', {obj: () => getFindConfigResult()});
+
+const esmResults = {};
+let userCfgInUse = false;
 
 const getEsmResult = esmPath => {
+  const file = esmPath.split('/');
+  const esmResult = esmResults[file.pop()];
   if (esmResult instanceof Error) {
-    throw(esmResult);
+    throw esmResult;
   }
   return esmResult;
-}
+};
 
-exports.setConfigResult = result => {
-  esmResult = result;
-}
+const getFindConfigResult = () => {
+  if (!userCfgInUse) return;
+  const userCfg = './sandbox/.testophobia.config.js';
+  esmResults['.testophobia.config.js'] = {
+    default: {
+      threshold: 0.5,
+      fileType: 'jpeg'
+    }
+  };
+  return {dir: userCfg};
+};
+
+exports.setUserCfgInUse = inUse => {
+  userCfgInUse = inUse;
+};
+
+exports.setEsmResult = (fileName, result) => {
+  esmResults[fileName] = result;
+};
 
 exports.getConfig = () => {
   return {
@@ -41,4 +62,4 @@ exports.getConfig = () => {
     ],
     tests: 'sandbox/tests/**/*-test.js'
   };
-}
+};

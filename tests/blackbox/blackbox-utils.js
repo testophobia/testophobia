@@ -34,11 +34,11 @@ getConsoleChanges = () => {
   return consoleChanges;
 };
 
-createTestophobia = () => {
+createTestophobia = defaults => {
   const output = new Output();
   stubLogger(output);
   stubOra(output);
-  return new Testophobia({configFileDir: sandboxDir}, output);
+  return new Testophobia(defaults !== undefined ? defaults : {configFileDir: sandboxDir}, output);
 };
 
 stubLogger = output => {
@@ -46,39 +46,50 @@ stubLogger = output => {
   loggerStub = sinon.stub(logger, 'log').callsFake((message, consoleLevel, chalkColor) => {
     consoleChanges.push({message, consoleLevel, chalkColor});
   });
-}
+};
 
 stubOra = output => {
   let isSpinning = false;
   let spinner = output._getSpinner();
   spinnerStubs = [];
   spinnerStubs.push(sinon.stub(spinner, 'isSpinning').returns(isSpinning));
-  spinnerStubs.push(sinon.stub(spinner, 'start').callsFake(() => {
-    isSpinning = true;
-    consoleChanges.push({spinner: 'start'});
-  }));
-  spinnerStubs.push(sinon.stub(spinner, 'stop').callsFake(() => {
-    isSpinning = false;
-    consoleChanges.push({spinner: 'stop'});
-  }));
-  spinnerStubs.push(sinon.stub(spinner, 'succeed').callsFake(() => {
-    consoleChanges.push({spinner: 'succeed'});
-  }));
-  spinnerStubs.push(sinon.stub(spinner, 'fail').callsFake(() => {
-    consoleChanges.push({spinner: 'fail'});
-  }));
-  spinnerStubs.push(sinon.stub(spinner, 'text').set(val => {
-     consoleChanges.push({spinner: 'message', text: val});
-  }));
-}
+  spinnerStubs.push(
+    sinon.stub(spinner, 'start').callsFake(() => {
+      isSpinning = true;
+      consoleChanges.push({spinner: 'start'});
+    })
+  );
+  spinnerStubs.push(
+    sinon.stub(spinner, 'stop').callsFake(() => {
+      isSpinning = false;
+      consoleChanges.push({spinner: 'stop'});
+    })
+  );
+  spinnerStubs.push(
+    sinon.stub(spinner, 'succeed').callsFake(() => {
+      consoleChanges.push({spinner: 'succeed'});
+    })
+  );
+  spinnerStubs.push(
+    sinon.stub(spinner, 'fail').callsFake(() => {
+      consoleChanges.push({spinner: 'fail'});
+    })
+  );
+  spinnerStubs.push(
+    sinon.stub(spinner, 'text').set(val => {
+      consoleChanges.push({spinner: 'message', text: val});
+    })
+  );
+};
 
 dumpConsole = tp => {
   console.log(JSON.stringify(consoleChanges, null, 2));
 };
 
-applyConfigFile = async (skipDirs) => {
+applyConfigFile = async (skipDirs, applyUserCfg) => {
   createDirectory(sandboxDir);
-  bbconfig.setConfigResult({default:bbconfig.getConfig()});
+  bbconfig.setEsmResult('testophobia.config.js', {default: bbconfig.getConfig()});
+  bbconfig.setUserCfgInUse(Boolean(applyUserCfg));
   if (!skipDirs) {
     createDirectory('./sandbox/diffs');
     createDirectory('./sandbox/golden-screens');
@@ -86,10 +97,10 @@ applyConfigFile = async (skipDirs) => {
   }
 };
 
-useBadConfigFile = async (result) => {
+useBadConfigFile = async result => {
   createDirectory(sandboxDir);
-  bbconfig.setConfigResult(result);
-}
+  bbconfig.setEsmResult('testophobia.config.js', result);
+};
 
 stubFatalExit = cb => {
   exitStub = sinon.stub(process, 'exit');
