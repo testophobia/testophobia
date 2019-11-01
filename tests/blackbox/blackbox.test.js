@@ -53,7 +53,7 @@ test.serial('User config overrides - should override the base config values', t 
     await blackbox.applyConfigFile(true, true);
     const tp = blackbox.createTestophobia(true);
     t.true(consoleChanges.some(c => c.message === '  threshold: 0.5'));
-    t.true(consoleChanges.some(c => c.message === '  fileType: "jpeg"'));
+    t.true(consoleChanges.some(c => c.message === '  fileType: "png"'));
     t.true(consoleChanges.some(c => c.message === '  defaultTime: 2068786800000'));
     t.true(consoleChanges.some(c => c.message === '  quality: 80'));
     t.true(consoleChanges.some(c => c.message === '  tests: "sandbox/tests/**/*-test.js"'));
@@ -122,7 +122,7 @@ test.serial('Test - no goldens directory found - should fail', t => {
       resolve();
     });
     await blackbox.applyConfigFile();
-    blackbox.writeTestFiles(simpleTest);
+    blackbox.writeTestFiles(noActionsTest);
     const tp = blackbox.createTestophobia();
     await blackbox.runTestophobia(tp);
   });
@@ -146,40 +146,104 @@ test.serial('Test - bad baseUrl', t => {
       resolve();
     });
     await blackbox.applyConfigFile();
-    blackbox.writeTestFiles(simpleTest);
-    blackbox.prepareGoldens('./sandbox/golden-screens/desktop/home');
-    blackbox.prepareGoldens('./sandbox/golden-screens/mobile/home');
+    blackbox.writeTestFiles(noActionsTest);
+    blackbox.prepareGoldens('desktop/home');
+    blackbox.prepareGoldens('mobile/home');
     const tp = blackbox.createTestophobia();
     tp.config.baseUrl = 'test://o/phobia';
     await blackbox.runTestophobia(tp);
   });
 });
 
-test.serial('Test - golden not available for tests', t => {
+test.serial('Test - golden not available for tests (w/ bail)', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
-    blackbox.writeTestFiles(simpleTest);
-    blackbox.prepareGoldens('./sandbox/golden-screens/desktop/home');
-    blackbox.prepareGoldens('./sandbox/golden-screens/mobile/home');
-    blackbox.stubFatalExit(() => {
-      blackbox.dumpConsole();
-      t.fail('Should not have failed!');
-      resolve();
-    });
+    blackbox.writeTestFiles(noActionsTest);
+    blackbox.prepareGoldens('desktop/home', true);
+    blackbox.prepareGoldens('mobile/home', true);
     const tp = blackbox.createTestophobia();
+    tp.config.bail = true;
     await blackbox.runTestophobia(tp);
-    // blackbox.dumpConsole();
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
       {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
       {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 1 pending]'},
-      {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m2 failed\u001b[39m]'},
-      {spinner: 'succeed'},
-      {message: '\u001b[31m   Test Failure: \u001b[39mhome (desktop) none', consoleLevel: 'error', chalkColor: undefined},
-      {message: '\u001b[31m   Test Failure: \u001b[39mhome (mobile) none', consoleLevel: 'error', chalkColor: undefined}
+      {spinner: 'message', text: ' \u001b[36mBailed\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 1 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 1 pending]'},
+      {spinner: 'fail'},
+      {message: '\u001b[31m   Test Failure: \u001b[39mhome (desktop) none', consoleLevel: 'error', chalkColor: undefined}
     ]);
+    resolve();
+  });
+});
+
+test.serial.skip('Test - basic test', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile();
+    blackbox.writeTestFiles(oneActionTest);
+    blackbox.prepareGoldens('desktop/home');
+    blackbox.prepareGoldens('mobile/home');
+    const tp = blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+    blackbox.dumpConsole();
+    t.deepEqual(consoleChanges, [
+      {
+        message: '😱 Starting Testophobia...',
+        consoleLevel: 'info',
+        chalkColor: 'cyan'
+      },
+      {
+        spinner: 'start'
+      },
+      {
+        spinner: 'message',
+        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 4 pending]'
+      },
+      {
+        spinner: 'message',
+        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 3 pending]'
+      },
+      {
+        spinner: 'message',
+        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 3 pending]'
+      },
+      {
+        spinner: 'message',
+        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 2 pending]'
+      },
+      {
+        spinner: 'message',
+        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 1 pending]'
+      },
+      {
+        spinner: 'message',
+        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m2 failed\u001b[39m | 1 pending]'
+      },
+      {
+        spinner: 'message',
+        text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m2 failed\u001b[39m]'
+      },
+      {
+        spinner: 'succeed'
+      },
+      {
+        message: '\u001b[31m   Test Failure: \u001b[39mhome (desktop) Scroll page to 500',
+        consoleLevel: 'error',
+        chalkColor: undefined
+      },
+      {
+        message: '\u001b[31m   Test Failure: \u001b[39mhome (mobile) Scroll page to 500',
+        consoleLevel: 'error',
+        chalkColor: undefined
+      }
+    ]);
+    // const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
+    // t.deepEqual(desktopFiles, ['9nLGvMUKhvYNzLezgt.jpeg', 'manifest']);
+    // const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
+    // t.deepEqual(mobileFiles, ['9nLGvMUKhvYNzLezgt.jpeg', 'manifest']);
     resolve();
   });
 });
@@ -188,14 +252,34 @@ test.serial('Test - golden not available for tests', t => {
  *********************************  Test Files  ********************************
  *******************************************************************************/
 
-const simpleTest = [
+const noActionsTest = [
   {
-    dir: './sandbox/tests/foo/bar',
-    file: 'baz-test.js',
+    dir: './sandbox/tests/site/home',
+    file: 'home-test.js',
     contents: {
       name: 'home',
-      path: '/foo/bar/baz.html',
+      path: '/index.html',
       actions: []
+    }
+  }
+];
+
+const oneActionTest = [
+  {
+    dir: './sandbox/tests/site/home',
+    file: 'home-test.js',
+    contents: {
+      name: 'home',
+      path: '/index.html',
+      actions: [
+        {
+          description: 'Hover the home link - desktop res',
+          type: 'hover',
+          target: '.main-nav a[data-hover="Home"]',
+          excludeDimensions: ['mobile'],
+          delay: 600
+        }
+      ]
     }
   }
 ];

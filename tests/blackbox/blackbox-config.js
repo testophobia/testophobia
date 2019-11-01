@@ -26,7 +26,7 @@ const getFindConfigResult = () => {
   esmResults['sandbox/.testophobia.config.js'] = {
     default: {
       threshold: 0.5,
-      fileType: 'jpeg'
+      fileType: 'png'
     }
   };
   return {dir: userCfg};
@@ -54,7 +54,7 @@ exports.getConfig = () => {
     goldenDirectory: './sandbox/golden-screens',
     testDirectory: './sandbox/test-screens',
     baseUrl: 'http://localhost:8081',
-    fileType: 'png',
+    fileType: 'jpeg',
     defaultTime: 2068786800000,
     quality: 80,
     dimensions: [

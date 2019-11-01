@@ -4,57 +4,17 @@ const fs = require('fs');
 const sinon = require('sinon');
 const bbconfig = require('./blackbox-config');
 
-const {createDirectory, deleteDirectory} = require('../../lib/utils');
+const {createDirectory, copyFileOrDirectory, deleteDirectory} = require('../../lib/utils');
 const {Testophobia} = require('../../lib/Testophobia');
 const {Logger} = require('../../lib/Logger');
 const {Output} = require('../../lib/Output');
 
+const blackbox = {};
 const sandboxDir = path.join(__dirname, 'sandbox');
 let consoleChanges = [];
 let loggerStub = null;
 let spinnerStubs = [];
 let exitStub = null;
-
-setupTests = test => {
-  test.beforeEach(t => {
-    return new Promise(async resolve => {
-      await deleteDirectory(sandboxDir);
-      resolve();
-    });
-  });
-
-  test.afterEach.always(t => {
-    return new Promise(async resolve => {
-      consoleChanges = [];
-      await deleteDirectory(sandboxDir);
-      loggerStub.restore();
-      spinnerStubs.forEach(s => s.restore());
-      if (exitStub) {
-        exitStub.restore();
-      }
-      resolve();
-    });
-  });
-};
-
-getConsoleChanges = () => {
-  return consoleChanges;
-};
-
-createTestophobia = verbose => {
-  const output = new Output();
-  stubLogger(output, verbose);
-  stubOra(output);
-  return new Testophobia(sandboxDir, output);
-};
-
-runTestophobia = async tp => {
-  try {
-    await tp.run();
-  } catch (e) {
-    /* ignored */
-  }
-};
 
 stubLogger = (output, verbose) => {
   const logger = output._getLog();
@@ -95,11 +55,52 @@ stubOra = output => {
   );
 };
 
-dumpConsole = tp => {
+blackbox.setupTests = test => {
+  test.beforeEach(t => {
+    return new Promise(async resolve => {
+      await deleteDirectory(sandboxDir);
+      resolve();
+    });
+  });
+
+  test.afterEach.always(t => {
+    return new Promise(async resolve => {
+      consoleChanges = [];
+      //await deleteDirectory(sandboxDir);
+      loggerStub.restore();
+      spinnerStubs.forEach(s => s.restore());
+      if (exitStub) {
+        exitStub.restore();
+      }
+      resolve();
+    });
+  });
+};
+
+blackbox.getConsoleChanges = () => {
+  return consoleChanges;
+};
+
+blackbox.createTestophobia = verbose => {
+  const output = new Output();
+  stubLogger(output, verbose);
+  stubOra(output);
+  return new Testophobia(sandboxDir, output);
+};
+
+blackbox.runTestophobia = async tp => {
+  try {
+    await tp.run();
+  } catch (e) {
+    /* ignored */
+  }
+};
+
+blackbox.dumpConsole = tp => {
   console.log(JSON.stringify(consoleChanges, null, 2));
 };
 
-applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
+blackbox.applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   createDirectory(sandboxDir);
   bbconfig.setEsmResult(path.join(__dirname, 'testophobia.config.js'), {default: bbconfig.getConfig()});
   bbconfig.setMeowResult(meowResult);
@@ -111,7 +112,7 @@ applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   }
 };
 
-writeTestFiles = async tests => {
+blackbox.writeTestFiles = async tests => {
   tests.forEach(async t => {
     await createDirectory(t.dir);
     const filepath = path.join(__dirname, t.dir, t.file);
@@ -120,35 +121,24 @@ writeTestFiles = async tests => {
   });
 };
 
-prepareGoldens = async goldenDir => {
-  createDirectory(goldenDir);
+blackbox.prepareGoldens = async (goldenPath, leaveEmpty) => {
+  createDirectory(`./sandbox/golden-screens/${goldenPath}`);
+  if (!leaveEmpty) copyFileOrDirectory(`./files/goldens/${goldenPath}`, `./sandbox/golden-screens/${goldenPath}`);
 };
 
-useBadConfigFile = async result => {
+blackbox.getFiles = dir => fs.readdirSync(dir);
+
+blackbox.useBadConfigFile = async result => {
   createDirectory(sandboxDir);
   bbconfig.setEsmResult('testophobia.config.js', result);
 };
 
-stubFatalExit = cb => {
-  // let called = false;
+blackbox.stubFatalExit = cb => {
   exitStub = sinon.stub(process, 'exit');
   exitStub.withArgs(1).callsFake(code => {
-    // if (called) return;
-    // called = true;
     cb();
     return true;
   });
 };
 
-exports.blackbox = {
-  applyConfigFile: applyConfigFile,
-  createTestophobia: createTestophobia,
-  dumpConsole: dumpConsole,
-  getConsoleChanges: getConsoleChanges,
-  prepareGoldens: prepareGoldens,
-  runTestophobia: runTestophobia,
-  setupTests: setupTests,
-  stubFatalExit: stubFatalExit,
-  useBadConfigFile: useBadConfigFile,
-  writeTestFiles: writeTestFiles
-};
+exports.blackbox = blackbox;

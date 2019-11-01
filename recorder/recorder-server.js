@@ -1,19 +1,18 @@
 /* global require, process, exports, module */
-const fs = require('fs');
+const fs = require('fs-extra');
 const glob = require('glob');
 const path = require('path');
 const odiff = require('deep-object-diff').diff;
 const esm = require('esm');
-const mkdirp = require('mkdirp');
 const express = require('express');
 const bodyParser = require('body-parser');
 const {performAction} = require('../lib/utils/perform-action');
 const {resolveNodeModuleFile} = require('../lib/utils');
 
 const app = express();
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
 app.use(bodyParser.text({}));
@@ -60,8 +59,7 @@ exports.RecorderServer = {
       await page.evaluate(() => {
         let scripts = document.querySelectorAll('script');
         for (let i = 0; i < scripts.length; i++) {
-          if (scripts[i].innerHTML.indexOf('querySelectorShadowDom') >= 0)
-            scripts[i].parentNode.removeChild(scripts[i]);
+          if (scripts[i].innerHTML.indexOf('querySelectorShadowDom') >= 0) scripts[i].parentNode.removeChild(scripts[i]);
         }
       });
       await page.addScriptTag({path: resolveNodeModuleFile('/node_modules/query-selector-shadow-dom/dist/querySelectorShadowDom.js')});
@@ -119,7 +117,7 @@ exports.RecorderServer = {
       json = JSON.stringify(json, null, 2);
       if (req.params.testPath) {
         const testFile = path.join(process.cwd(), decodeURIComponent(req.params.testPath));
-        if (!fs.existsSync(path.dirname(testFile))) mkdirp.sync(path.dirname(testFile));
+        if (!fs.existsSync(path.dirname(testFile))) fs.ensureDirSync(path.dirname(testFile));
         fs.writeFileSync(testFile, `export default ${json};`);
       } else {
         console.log('Unable to save. Test path not defined!');
