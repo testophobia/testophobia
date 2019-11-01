@@ -16,18 +16,24 @@ let spinnerStubs = [];
 let exitStub = null;
 
 setupTests = test => {
-  test.beforeEach.cb(t => {
-    deleteDirectory(sandboxDir);
-    t.end();
+  test.beforeEach(t => {
+    return new Promise(async resolve => {
+      await deleteDirectory(sandboxDir);
+      resolve();
+    });
   });
 
-  test.afterEach.always.cb(t => {
-    consoleChanges = [];
-    deleteDirectory(sandboxDir);
-    loggerStub.restore();
-    spinnerStubs.forEach(s => s.restore());
-    if (exitStub) exitStub.restore();
-    t.end();
+  test.afterEach.always(t => {
+    return new Promise(async resolve => {
+      consoleChanges = [];
+      await deleteDirectory(sandboxDir);
+      loggerStub.restore();
+      spinnerStubs.forEach(s => s.restore());
+      if (exitStub) {
+        exitStub.restore();
+      }
+      resolve();
+    });
   });
 };
 
@@ -40,6 +46,14 @@ createTestophobia = verbose => {
   stubLogger(output, verbose);
   stubOra(output);
   return new Testophobia(sandboxDir, output);
+};
+
+runTestophobia = async tp => {
+  try {
+    await tp.run();
+  } catch (e) {
+    /* ignored */
+  }
 };
 
 stubLogger = (output, verbose) => {
@@ -57,24 +71,21 @@ stubOra = output => {
   spinnerStubs.push(sinon.stub(spinner, 'isSpinning').returns(isSpinning));
   spinnerStubs.push(
     sinon.stub(spinner, 'start').callsFake(() => {
+      if (!isSpinning) consoleChanges.push({spinner: 'start'});
       isSpinning = true;
-      consoleChanges.push({spinner: 'start'});
     })
   );
-  spinnerStubs.push(
-    sinon.stub(spinner, 'stop').callsFake(() => {
-      isSpinning = false;
-      consoleChanges.push({spinner: 'stop'});
-    })
-  );
+  spinnerStubs.push(sinon.stub(spinner, 'stop').callsFake(() => {}));
   spinnerStubs.push(
     sinon.stub(spinner, 'succeed').callsFake(() => {
       consoleChanges.push({spinner: 'succeed'});
+      isSpinning = false;
     })
   );
   spinnerStubs.push(
     sinon.stub(spinner, 'fail').callsFake(() => {
       consoleChanges.push({spinner: 'fail'});
+      isSpinning = false;
     })
   );
   spinnerStubs.push(
@@ -109,18 +120,23 @@ writeTestFiles = async tests => {
   });
 };
 
+prepareGoldens = async goldenDir => {
+  createDirectory(goldenDir);
+};
+
 useBadConfigFile = async result => {
   createDirectory(sandboxDir);
   bbconfig.setEsmResult('testophobia.config.js', result);
 };
 
 stubFatalExit = cb => {
-  let called = false;
+  // let called = false;
   exitStub = sinon.stub(process, 'exit');
   exitStub.withArgs(1).callsFake(code => {
-    if (called) return;
-    called = true;
+    // if (called) return;
+    // called = true;
     cb();
+    return true;
   });
 };
 
@@ -129,6 +145,8 @@ exports.blackbox = {
   createTestophobia: createTestophobia,
   dumpConsole: dumpConsole,
   getConsoleChanges: getConsoleChanges,
+  prepareGoldens: prepareGoldens,
+  runTestophobia: runTestophobia,
   setupTests: setupTests,
   stubFatalExit: stubFatalExit,
   useBadConfigFile: useBadConfigFile,

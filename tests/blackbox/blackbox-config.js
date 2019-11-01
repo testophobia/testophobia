@@ -37,7 +37,8 @@ exports.setUserCfgInUse = inUse => {
 };
 
 exports.setMeowResult = result => {
-  meowResult = result || {input: ['undefined']};
+  meowResult = {input: ['undefined'], flags: {skipViewer: true}};
+  meowResult = Object.assign(meowResult, result);
 };
 
 exports.setEsmResult = (fileName, result) => {
@@ -52,7 +53,7 @@ exports.getConfig = () => {
     diffDirectory: './sandbox/diffs',
     goldenDirectory: './sandbox/golden-screens',
     testDirectory: './sandbox/test-screens',
-    baseUrl: 'test://o/phobia',
+    baseUrl: 'http://localhost:8081',
     fileType: 'png',
     defaultTime: 2068786800000,
     quality: 80,
