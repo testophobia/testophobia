@@ -179,7 +179,7 @@ test.serial('Test - golden not available for tests (w/ bail)', t => {
   });
 });
 
-test.serial.skip('Test - basic test', t => {
+test.serial.only('Test - basic test', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -188,57 +188,16 @@ test.serial.skip('Test - basic test', t => {
     blackbox.prepareGoldens('mobile/home');
     const tp = blackbox.createTestophobia();
     await blackbox.runTestophobia(tp);
-    blackbox.dumpConsole();
+    // blackbox.dumpConsole();
     t.deepEqual(consoleChanges, [
-      {
-        message: '😱 Starting Testophobia...',
-        consoleLevel: 'info',
-        chalkColor: 'cyan'
-      },
-      {
-        spinner: 'start'
-      },
-      {
-        spinner: 'message',
-        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 4 pending]'
-      },
-      {
-        spinner: 'message',
-        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 3 pending]'
-      },
-      {
-        spinner: 'message',
-        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 3 pending]'
-      },
-      {
-        spinner: 'message',
-        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 2 pending]'
-      },
-      {
-        spinner: 'message',
-        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 1 pending]'
-      },
-      {
-        spinner: 'message',
-        text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m2 failed\u001b[39m | 1 pending]'
-      },
-      {
-        spinner: 'message',
-        text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m2 failed\u001b[39m]'
-      },
-      {
-        spinner: 'succeed'
-      },
-      {
-        message: '\u001b[31m   Test Failure: \u001b[39mhome (desktop) Scroll page to 500',
-        consoleLevel: 'error',
-        chalkColor: undefined
-      },
-      {
-        message: '\u001b[31m   Test Failure: \u001b[39mhome (mobile) Scroll page to 500',
-        consoleLevel: 'error',
-        chalkColor: undefined
-      }
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {spinner: 'start'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 4 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 3 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m3 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 1 pending]'},
+      {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m4 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
+      {spinner: 'succeed'}
     ]);
     // const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
     // t.deepEqual(desktopFiles, ['9nLGvMUKhvYNzLezgt.jpeg', 'manifest']);
@@ -273,11 +232,10 @@ const oneActionTest = [
       path: '/index.html',
       actions: [
         {
-          description: 'Hover the home link - desktop res',
-          type: 'hover',
-          target: '.main-nav a[data-hover="Home"]',
-          excludeDimensions: ['mobile'],
-          delay: 600
+          description: 'Scroll page to 500',
+          type: 'scroll',
+          target: 'html',
+          scrollTop: '500'
         }
       ]
     }

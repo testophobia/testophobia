@@ -56,6 +56,7 @@ exports.RecorderServer = {
         return;
       }
       //to make sure our shadow dom lib is always loaded, even when navigating, we'll remove it if it exists and re-add
+      /* istanbul ignore next */
       await page.evaluate(() => {
         let scripts = document.querySelectorAll('script');
         for (let i = 0; i < scripts.length; i++) {
