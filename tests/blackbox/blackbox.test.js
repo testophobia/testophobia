@@ -179,30 +179,57 @@ test.serial('Test - golden not available for tests (w/ bail)', t => {
   });
 });
 
-test.serial.only('Test - basic test', t => {
+test.serial('Test - basic test', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
-    blackbox.writeTestFiles(oneActionTest);
+    blackbox.writeTestFiles(basicActionsTest);
     blackbox.prepareGoldens('desktop/home');
     blackbox.prepareGoldens('mobile/home');
     const tp = blackbox.createTestophobia();
     await blackbox.runTestophobia(tp);
-    // blackbox.dumpConsole();
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
-      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 4 pending]'},
-      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 3 pending]'},
-      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
-      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m3 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 1 pending]'},
-      {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m4 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 14 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 13 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 12 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m3 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 11 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m4 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 10 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m5 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 9 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m6 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 8 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m7 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 7 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m8 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 6 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m9 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 5 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m10 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 4 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m11 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 3 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m12 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m13 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 1 pending]'},
+      {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m14 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
       {spinner: 'succeed'}
     ]);
-    // const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
-    // t.deepEqual(desktopFiles, ['9nLGvMUKhvYNzLezgt.jpeg', 'manifest']);
-    // const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
-    // t.deepEqual(mobileFiles, ['9nLGvMUKhvYNzLezgt.jpeg', 'manifest']);
+    const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
+    t.deepEqual(desktopFiles, [
+      '2fm1HKw4gcoXhLVNxWp77htEfe9TDSbwB3wFFV4XcgDgeS7EkhYSkVxrKqLi8V.jpeg',
+      '4Tc5tHFf96q46SVjWdvi5Ltby.jpeg',
+      '9nLGvMUKhvYNzLezgt.jpeg',
+      'GGRrZLjhLkj6f1Xpdoz4J4rpDd.jpeg',
+      'M2gR52Jm6N2s55oivx7fMfGdncpVHewcDwmw5CXLkdxj4.jpeg',
+      'NX2ueh6nJoM5kmkbm1mhcLkLv8gLxtn9BJ683FQGo5tp2.jpeg',
+      'manifest'
+    ]);
+    const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
+    t.deepEqual(mobileFiles, [
+      '2fm1HKw4gcoXhLVNxWp77htEfe9TDSbwB3wFFV4XcgDgeS7EkhYSkVxrKqLi8V.jpeg',
+      '3G4d3v7SFaqWUTW1AeYwB3MrST2BHmcVo8ToqwZSLPRQtjTweCr.jpeg',
+      '4Tc5tHFf96q46SVjWdvi5Ltby.jpeg',
+      '9nLGvMUKhvYNzLezgt.jpeg',
+      'DLuoppmPYDyKPXRxRQoLdK57MC.jpeg',
+      'GGRrZLjhLkj6f1Xpdoz4J4rpDd.jpeg',
+      'GGRrZLjhLkj6f1Xpdoz4J4tVdH.jpeg',
+      'GGRrZLjhLkj6f1Xpdoz4J6LoVy.jpeg',
+      'manifest'
+    ]);
     resolve();
   });
 });
@@ -223,7 +250,7 @@ const noActionsTest = [
   }
 ];
 
-const oneActionTest = [
+const basicActionsTest = [
   {
     dir: './sandbox/tests/site/home',
     file: 'home-test.js',
@@ -236,6 +263,57 @@ const oneActionTest = [
           type: 'scroll',
           target: 'html',
           scrollTop: '500'
+        },
+        {
+          description: 'Scroll page to 1000',
+          type: 'scroll',
+          target: 'html',
+          scrollTop: '1000'
+        },
+        {
+          description: 'Scroll page to 1500',
+          type: 'scroll',
+          target: 'html',
+          scrollTop: '1500',
+          excludeDimensions: ['desktop']
+        },
+        {
+          description: 'Scroll page to 2000',
+          type: 'scroll',
+          target: 'html',
+          scrollTop: '2000',
+          excludeDimensions: ['desktop']
+        },
+        {
+          description: 'Click on the last article, confirm navigation',
+          type: 'click',
+          target: '.post-3 .more-link'
+        },
+        {
+          description: 'Hover the home link - desktop res',
+          type: 'hover',
+          target: '.main-nav a[data-hover="Home"]',
+          excludeDimensions: ['mobile'],
+          delay: 600
+        },
+        {
+          description: 'Click the home link - desktop res',
+          type: 'click',
+          target: '.main-nav a[data-hover="Home"]',
+          excludeDimensions: ['mobile']
+        },
+        {
+          description: 'Click the hamburger menu - mobile res',
+          type: 'click',
+          target: '.main-nav #trigger-overlay',
+          excludeDimensions: ['desktop'],
+          delay: 600
+        },
+        {
+          description: 'Click the home link',
+          type: 'click',
+          target: '.overlay-hugeinc li:first-child a',
+          excludeDimensions: ['desktop']
         }
       ]
     }
