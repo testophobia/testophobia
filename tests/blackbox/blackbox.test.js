@@ -1,4 +1,5 @@
 /* global require, process */
+const fs = require('fs');
 const test = require('ava');
 const sinon = require('sinon');
 const {blackbox} = require('./blackbox-utils');
@@ -209,33 +210,87 @@ test.serial('Test - basic test', t => {
       {spinner: 'succeed'}
     ]);
     const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
-    t.deepEqual(desktopFiles, [
-      '2fm1HKw4gcoXhLVNxWp77htEfe9TDSbwB3wFFV4XcgDgeS7EkhYSkVxrKqLi8V.jpeg',
-      '4Tc5tHFf96q46SVjWdvi5Ltby.jpeg',
-      '9nLGvMUKhvYNzLezgt.jpeg',
-      'GGRrZLjhLkj6f1Xpdoz4J4rpDd.jpeg',
-      'M2gR52Jm6N2s55oivx7fMfGdncpVHewcDwmw5CXLkdxj4.jpeg',
-      'NX2ueh6nJoM5kmkbm1mhcLkLv8gLxtn9BJ683FQGo5tp2.jpeg',
-      'manifest'
-    ]);
+    t.deepEqual(desktopFiles, desktopGoldenFiles);
     const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
-    t.deepEqual(mobileFiles, [
-      '2fm1HKw4gcoXhLVNxWp77htEfe9TDSbwB3wFFV4XcgDgeS7EkhYSkVxrKqLi8V.jpeg',
-      '3G4d3v7SFaqWUTW1AeYwB3MrST2BHmcVo8ToqwZSLPRQtjTweCr.jpeg',
-      '4Tc5tHFf96q46SVjWdvi5Ltby.jpeg',
-      '9nLGvMUKhvYNzLezgt.jpeg',
-      'DLuoppmPYDyKPXRxRQoLdK57MC.jpeg',
-      'GGRrZLjhLkj6f1Xpdoz4J4rpDd.jpeg',
-      'GGRrZLjhLkj6f1Xpdoz4J4tVdH.jpeg',
-      'GGRrZLjhLkj6f1Xpdoz4J6LoVy.jpeg',
-      'manifest'
-    ]);
+    t.deepEqual(mobileFiles, mobileGoldenFiles);
     resolve();
   });
 });
 
 /*******************************************************************************
- *********************************  Test Files  ********************************
+ *********************************  T E S T S  *********************************
+ *******************************************************************************/
+
+test.serial('clear - particular directory', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile(false, false, {input: ['sandbox/golden-screens/mobile/**/*'], flags: {clear: true}});
+    blackbox.writeTestFiles(noActionsTest);
+    blackbox.prepareGoldens('desktop/home');
+    blackbox.prepareGoldens('mobile/home');
+    const tp = blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {message: '\u001b[33m⚠  sandbox/golden-screens/mobile/**/* cleared.\u001b[39m', consoleLevel: 'warn', chalkColor: undefined}
+    ]);
+    const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
+    t.deepEqual(desktopFiles, desktopGoldenFiles);
+    const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
+    t.deepEqual(mobileFiles, []);
+    resolve();
+  });
+});
+
+test.serial('clear - all directories', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile(false, false, {flags: {clear: true}});
+    blackbox.writeTestFiles(noActionsTest);
+    blackbox.prepareGoldens('desktop/home');
+    blackbox.prepareGoldens('mobile/home');
+    const tp = blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {message: '\u001b[33m⚠  Testophobia directories cleared.\u001b[39m', consoleLevel: 'warn', chalkColor: undefined}
+    ]);
+    t.false(fs.existsSync('./sandbox/test-screens'));
+    t.false(fs.existsSync('./sandbox/diffs'));
+    const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
+    t.deepEqual(desktopFiles, desktopGoldenFiles);
+    const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
+    t.deepEqual(mobileFiles, mobileGoldenFiles);
+    resolve();
+  });
+});
+
+test.serial('clear - all directories w/ golden', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile(false, false, {flags: {clear: true, golden: true}});
+    blackbox.writeTestFiles(noActionsTest);
+    blackbox.prepareGoldens('desktop/home');
+    blackbox.prepareGoldens('mobile/home');
+    const tp = blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {message: '\u001b[33m⚠  Testophobia directories cleared.\u001b[39m', consoleLevel: 'warn', chalkColor: undefined}
+    ]);
+    t.false(fs.existsSync('./sandbox/test-screens'));
+    t.false(fs.existsSync('./sandbox/diffs'));
+    t.false(fs.existsSync('./sandbox/golden-screens'));
+    // const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
+    // t.deepEqual(desktopFiles, desktopGoldenFiles);
+    // const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
+    // t.deepEqual(mobileFiles, mobileGoldenFiles);
+    resolve();
+  });
+});
+
+/*******************************************************************************
+ **********************************  Internal  *********************************
  *******************************************************************************/
 
 const noActionsTest = [
@@ -318,4 +373,26 @@ const basicActionsTest = [
       ]
     }
   }
+];
+
+const desktopGoldenFiles = [
+  '2fm1HKw4gcoXhLVNxWp77htEfe9TDSbwB3wFFV4XcgDgeS7EkhYSkVxrKqLi8V.jpeg',
+  '4Tc5tHFf96q46SVjWdvi5Ltby.jpeg',
+  '9nLGvMUKhvYNzLezgt.jpeg',
+  'GGRrZLjhLkj6f1Xpdoz4J4rpDd.jpeg',
+  'M2gR52Jm6N2s55oivx7fMfGdncpVHewcDwmw5CXLkdxj4.jpeg',
+  'NX2ueh6nJoM5kmkbm1mhcLkLv8gLxtn9BJ683FQGo5tp2.jpeg',
+  'manifest'
+];
+
+const mobileGoldenFiles = [
+  '2fm1HKw4gcoXhLVNxWp77htEfe9TDSbwB3wFFV4XcgDgeS7EkhYSkVxrKqLi8V.jpeg',
+  '3G4d3v7SFaqWUTW1AeYwB3MrST2BHmcVo8ToqwZSLPRQtjTweCr.jpeg',
+  '4Tc5tHFf96q46SVjWdvi5Ltby.jpeg',
+  '9nLGvMUKhvYNzLezgt.jpeg',
+  'DLuoppmPYDyKPXRxRQoLdK57MC.jpeg',
+  'GGRrZLjhLkj6f1Xpdoz4J4rpDd.jpeg',
+  'GGRrZLjhLkj6f1Xpdoz4J4tVdH.jpeg',
+  'GGRrZLjhLkj6f1Xpdoz4J6LoVy.jpeg',
+  'manifest'
 ];
