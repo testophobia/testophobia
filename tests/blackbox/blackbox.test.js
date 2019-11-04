@@ -3,6 +3,7 @@ const fs = require('fs');
 const test = require('ava');
 const sinon = require('sinon');
 const {blackbox} = require('./blackbox-utils');
+const tests = require('./files/tests');
 
 blackbox.setupTests(test);
 
@@ -123,7 +124,7 @@ test.serial('Test - no goldens directory found - should fail', t => {
       resolve();
     });
     await blackbox.applyConfigFile();
-    blackbox.writeTestFiles(noActionsTest);
+    blackbox.writeTestFiles([tests.test1]);
     const tp = blackbox.createTestophobia();
     await blackbox.runTestophobia(tp);
   });
@@ -147,7 +148,7 @@ test.serial('Test - bad baseUrl (slashes)', t => {
       resolve();
     });
     await blackbox.applyConfigFile();
-    const tp = prepareTestRun(noActionsTest);
+    const tp = prepareTestRun([tests.test1]);
     tp.config.baseUrl = 'test://o/phobia';
     await blackbox.runTestophobia(tp);
   });
@@ -171,7 +172,7 @@ test.serial('Test - bad baseUrl (hash)', t => {
       resolve();
     });
     await blackbox.applyConfigFile();
-    const tp = prepareTestRun(noActionsTest);
+    const tp = prepareTestRun([tests.test1]);
     tp.config.baseUrl = 'test://o.phobia#foo';
     await blackbox.runTestophobia(tp);
   });
@@ -195,7 +196,7 @@ test.serial('Test - unreachable url', t => {
       resolve();
     });
     await blackbox.applyConfigFile();
-    const testConfig = noActionsTest[0];
+    const testConfig = [tests.test1][0];
     delete testConfig.contents.path;
     const tp = prepareTestRun([testConfig]);
     tp.config.baseUrl = 'test://o.phobia';
@@ -207,7 +208,7 @@ test.serial('Test - golden not available for tests (w/ bail)', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
-    blackbox.writeTestFiles(noActionsTest);
+    blackbox.writeTestFiles([tests.test1]);
     blackbox.prepareGoldens('desktop/home', true);
     blackbox.prepareGoldens('mobile/home', true);
     const tp = blackbox.createTestophobia();
@@ -234,7 +235,7 @@ test.serial('Generate goldens', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {golden: true}});
-    blackbox.writeTestFiles(basicActionsTest);
+    blackbox.writeTestFiles([tests.test2]);
     const tp = blackbox.createTestophobia();
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
@@ -273,7 +274,7 @@ test.serial('Test - basic test', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
-    const tp = prepareTestRun(basicActionsTest);
+    const tp = prepareTestRun([tests.test2]);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -311,7 +312,7 @@ test.serial('clear - particular directory', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {input: ['sandbox/golden-screens/mobile/**/*'], flags: {clear: true}});
-    const tp = prepareTestRun(noActionsTest);
+    const tp = prepareTestRun([tests.test1]);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -329,7 +330,7 @@ test.serial('clear - all directories', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {clear: true}});
-    const tp = prepareTestRun(noActionsTest);
+    const tp = prepareTestRun([tests.test1]);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -349,7 +350,7 @@ test.serial('clear - all directories w/ golden', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {clear: true, golden: true}});
-    const tp = prepareTestRun(noActionsTest);
+    const tp = prepareTestRun([tests.test1]);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -372,89 +373,6 @@ const prepareTestRun = tests => {
   blackbox.prepareGoldens('mobile/home');
   return blackbox.createTestophobia();
 };
-
-const noActionsTest = [
-  {
-    dir: './sandbox/tests/site/home',
-    file: 'home-test.js',
-    contents: {
-      name: 'home',
-      path: '/index.html',
-      delay: 200,
-      actions: []
-    }
-  }
-];
-
-const basicActionsTest = [
-  {
-    dir: './sandbox/tests/site/home',
-    file: 'home-test.js',
-    contents: {
-      name: 'home',
-      path: '/index.html',
-      actions: [
-        {
-          description: 'Scroll page to 500',
-          type: 'scroll',
-          target: 'html',
-          scrollTop: '500'
-        },
-        {
-          description: 'Scroll page to 1000',
-          type: 'scroll',
-          target: 'html',
-          scrollTop: '1000'
-        },
-        {
-          description: 'Scroll page to 1500',
-          type: 'scroll',
-          target: 'html',
-          scrollTop: '1500',
-          excludeDimensions: ['desktop']
-        },
-        {
-          description: 'Scroll page to 2000',
-          type: 'scroll',
-          target: 'html',
-          scrollTop: '2000',
-          excludeDimensions: ['desktop']
-        },
-        {
-          description: 'Click on the last article, confirm navigation',
-          type: 'click',
-          target: '.post-3 .more-link'
-        },
-        {
-          description: 'Hover the home link - desktop res',
-          type: 'hover',
-          target: '.main-nav a[data-hover="Home"]',
-          excludeDimensions: ['mobile'],
-          delay: 600
-        },
-        {
-          description: 'Click the home link - desktop res',
-          type: 'click',
-          target: '.main-nav a[data-hover="Home"]',
-          excludeDimensions: ['mobile']
-        },
-        {
-          description: 'Click the hamburger menu - mobile res',
-          type: 'click',
-          target: '.main-nav #trigger-overlay',
-          excludeDimensions: ['desktop'],
-          delay: 600
-        },
-        {
-          description: 'Click the home link',
-          type: 'click',
-          target: '.overlay-hugeinc li:first-child a',
-          excludeDimensions: ['desktop']
-        }
-      ]
-    }
-  }
-];
 
 const desktopGoldenFiles = [
   '2fm1HKw4gcoXhLVNxWp77htEfe9TDSbwB3wFFV4XcgDgeS7EkhYSkVxrKqLi8V.jpeg',
