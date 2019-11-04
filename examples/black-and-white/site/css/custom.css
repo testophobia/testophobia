@@ -11,7 +11,6 @@ Tags: black, white, two-columns, right-sidebar, responsive-layout, accessibility
 Text Domain: blackandwhite
 */
 
-
 /**
  * Table of Contents
  *
@@ -36,15 +35,16 @@ Text Domain: blackandwhite
  * 1.0 - Google Font
  */
 
-
-@import url(http://fonts.googleapis.com/css?family=Lato:300,400);
-@import url(http://fonts.googleapis.com/css?family=Ubuntu:300,400);
+@import url(http://fonts.googleapis.com/css?family=Lato:300, 400);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:300, 400);
 
 /**
  * 2.0 - General Elements
  */
 
-* {outline: none !important;}
+* {
+	outline: none !important;
+}
 
 h1,
 h2,
@@ -63,7 +63,8 @@ a {
 	color: #333;
 }
 
-a:hover, a:focus {
+a:hover,
+a:focus {
 	text-decoration: none;
 	color: #000;
 }
@@ -75,6 +76,9 @@ a:hover, a:focus {
 body {
 	color: #444;
 	font-family: 'Lato', sans-serif;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
 }
 
 p {
@@ -118,7 +122,7 @@ figure {
  */
 
 #site-header {
-	background-color: #FFF;
+	background-color: #fff;
 	padding: 25px 20px;
 	margin-bottom: 40px;
 	border-bottom: 1px solid #e7e7e7;
@@ -129,12 +133,12 @@ figure {
  */
 
 .logo h1 a {
-    color: #000;
+	color: #000;
 }
 
 .logo h1 a:hover {
-    text-decoration: none;
-    border-bottom: none;
+	text-decoration: none;
+	border-bottom: none;
 }
 
 .logo h1 {
@@ -169,15 +173,15 @@ figure {
 }
 
 .navbar-toggle {
-    margin: 0;
-    border: 0;
-    padding: 0;
-    margin-right: 25px;
+	margin: 0;
+	border: 0;
+	padding: 0;
+	margin-right: 25px;
 }
 
 .navbar-toggle span {
-    font-size: 2em;
-    color: #000;
+	font-size: 2em;
+	color: #000;
 }
 
 /**
@@ -233,7 +237,7 @@ figure {
 
 .entry-meta {
 	text-align: center;
-	color: #DDDDDD;
+	color: #dddddd;
 	font-size: 13px;
 	letter-spacing: 1px;
 	margin-bottom: 30px;
@@ -286,7 +290,7 @@ figure {
 	margin: 15px 25px;
 	letter-spacing: 1px;
 	font-weight: 400;
-	text-shadow: 0 0 1px rgba(255,255,255,0.3);
+	text-shadow: 0 0 1px rgba(255, 255, 255, 0.3);
 }
 
 .cl-effect-14 a::before,
@@ -294,7 +298,7 @@ figure {
 	position: absolute;
 	width: 45px;
 	height: 1px;
-	background: #C3C3C3;
+	background: #c3c3c3;
 	content: '';
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
@@ -347,14 +351,13 @@ figure {
 	transform: rotate(0deg) translateX(50%);
 }
 
-
 /**
  * 5.0 - Widget
  */
 
 .widget {
-    background: #fff;
-    padding: 30px 0 0;
+	background: #fff;
+	padding: 30px 0 0;
 }
 
 .widget-title {
@@ -366,72 +369,72 @@ figure {
 }
 
 .widget-recent-posts ul {
-    padding: 0;
-    margin: 0;
-    padding-left: 20px;
+	padding: 0;
+	margin: 0;
+	padding-left: 20px;
 }
 
 .widget-recent-posts ul li {
-    list-style-type: none;
-    position: relative;
-    line-height: 170%;
-    margin-bottom: 10px;
+	list-style-type: none;
+	position: relative;
+	line-height: 170%;
+	margin-bottom: 10px;
 }
 
 .widget-recent-posts ul li::before {
-    content: '\f3d3';
-    font-family: "Ionicons";
-    position: absolute;
-    left: -17px;
-    top: 3px;
-    font-size: 16px;
-    color: #000;
+	content: '\f3d3';
+	font-family: 'Ionicons';
+	position: absolute;
+	left: -17px;
+	top: 3px;
+	font-size: 16px;
+	color: #000;
 }
 
 .widget-archives ul {
-    padding: 0;
-    margin: 0;
-    padding-left: 25px;
+	padding: 0;
+	margin: 0;
+	padding-left: 25px;
 }
 
 .widget-archives ul li {
-    list-style-type: none;
-    position: relative;
-    line-height: 170%;
-    margin-bottom: 10px;
+	list-style-type: none;
+	position: relative;
+	line-height: 170%;
+	margin-bottom: 10px;
 }
 
 .widget-archives ul li::before {
-    content: '\f3f3';
-    font-family: "Ionicons";
-    position: absolute;
-    left: -25px;
-    top: 1px;
-    font-size: 16px;
-    color: #000;
+	content: '\f3f3';
+	font-family: 'Ionicons';
+	position: absolute;
+	left: -25px;
+	top: 1px;
+	font-size: 16px;
+	color: #000;
 }
 
 .widget-category ul {
-    padding: 0;
-    margin: 0;
-    padding-left: 25px;
+	padding: 0;
+	margin: 0;
+	padding-left: 25px;
 }
 
 .widget-category ul li {
-    list-style-type: none;
-    position: relative;
-    line-height: 170%;
-    margin-bottom: 10px;
+	list-style-type: none;
+	position: relative;
+	line-height: 170%;
+	margin-bottom: 10px;
 }
 
 .widget-category ul li::before {
-    content: '\f3fe';
-    font-family: "Ionicons";
-    position: absolute;
-    left: -25px;
-    top: 1px;
-    font-size: 18px;
-    color: #000;
+	content: '\f3fe';
+	font-family: 'Ionicons';
+	position: absolute;
+	left: -25px;
+	top: 1px;
+	font-size: 18px;
+	color: #000;
 }
 
 /**
@@ -475,12 +478,12 @@ figure {
 }
 
 #searchform {
-    position: relative;
+	position: relative;
 	border: 1px solid #ddd;
 	min-height: 42px;
 }
 
-#searchform input[type=search] {
+#searchform input[type='search'] {
 	width: 100%;
 	border: none;
 	position: absolute;
@@ -504,10 +507,10 @@ figure {
 }
 
 #search-menu span.ion-ios-close-empty {
-    font-size: 40px;
-    line-height: 0;
-    position: relative;
-    top: -6px;
+	font-size: 40px;
+	line-height: 0;
+	position: relative;
+	top: -6px;
 }
 
 /**
@@ -536,8 +539,8 @@ figure {
 }
 
 .overlay-hugeinc.open .ion-ios-close-empty {
-    color: #000;
-    font-size: 50px;
+	color: #000;
+	font-size: 50px;
 }
 
 .overlay nav {
@@ -621,16 +624,16 @@ figure {
  */
 
 .social {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    text-align: center;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	text-align: center;
 }
 
 .social li {
-    display: inline-block;
-    margin-right: 10px;
-    margin-bottom: 20px;
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 20px;
 }
 
 .social li a {
@@ -650,11 +653,11 @@ figure {
 }
 
 .twitter a {
-    padding: 12px 15px;
+	padding: 12px 15px;
 }
 
 .google-plus a {
-    padding: 12px 15px;
+	padding: 12px 15px;
 }
 
 .tumblr a {
@@ -783,11 +786,11 @@ figure {
 	}
 
 	.btn-5 span {
-    	display: none;
+		display: none;
 	}
 
 	.btn-5b:before {
-	    left: 0;
+		left: 0;
 	}
 }
 
