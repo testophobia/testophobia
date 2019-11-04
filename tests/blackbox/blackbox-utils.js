@@ -132,6 +132,8 @@ blackbox.writeTestFiles = async tests => {
 blackbox.prepareGoldens = async tests => {
   createDirectory(`./sandbox/golden-screens/desktop/home`);
   createDirectory(`./sandbox/golden-screens/mobile/home`);
+  createDirectory(`./sandbox/golden-screens/desktop/contact`);
+  createDirectory(`./sandbox/golden-screens/mobile/contact`);
   if (tests && tests.length) {
     tests.forEach(t => {
       copyFileOrDirectory(`./files/goldens/${t.testName}`, `./sandbox/golden-screens`);
@@ -139,7 +141,10 @@ blackbox.prepareGoldens = async tests => {
   }
 };
 
-blackbox.getFiles = dir => fs.readdirSync(dir).filter(p => !p.startsWith('.'));
+blackbox.getFiles = dir => {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir).filter(p => !p.startsWith('.'));
+};
 
 blackbox.useBadConfigFile = async result => {
   createDirectory(sandboxDir);
@@ -163,4 +168,4 @@ class SpinnerMock {
   set text(t) {}
 }
 
-exports.blackbox = blackbox;
+module.exports = blackbox;
