@@ -347,7 +347,7 @@ test.serial('Test - home page - clip regions, scale, exclude, and png', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
-    blackbox.writeTestFiles([tests.test1]);
+    blackbox.writeTestFiles([tests.test3]);
     const tp = blackbox.prepareTestRun([tests.test3]);
     tp.config.fileType = 'png';
     await blackbox.runTestophobia(tp);
@@ -374,7 +374,6 @@ test.serial('Test - contact page', t => {
     blackbox.writeTestFiles([tests.test4]);
     const tp = blackbox.prepareTestRun([tests.test4]);
     await blackbox.runTestophobia(tp);
-    // blackbox.dumpConsole();
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
@@ -407,6 +406,67 @@ test.serial('Test - contact page', t => {
     t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/contact'), tests.test4.goldens.mobile);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
     resolve();
+  });
+});
+
+test.serial('Test - parallel home and contact', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile();
+    blackbox.writeTestFiles([tests.test2, tests.test4]);
+    const tp = blackbox.prepareTestRun([tests.test2, tests.test4]);
+    tp.config.maxParallel = 2;
+    blackbox.stubParallel(tp, () => {
+      t.deepEqual(consoleChanges, [
+        {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+        {spinner: 'start'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 36 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 35 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 34 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m3 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 33 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m4 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 32 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m5 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 31 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m6 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 30 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m7 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 29 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m8 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 28 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m9 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 27 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m10 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 26 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m11 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 25 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m12 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 24 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m13 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 23 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m14 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 22 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m15 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 21 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m16 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 20 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m17 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 19 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m18 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 18 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m19 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 17 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m20 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 16 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m21 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 15 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m22 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 14 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m23 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 13 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m24 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 12 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m25 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 11 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m26 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 10 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m27 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 9 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m28 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 8 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m29 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 7 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m30 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 6 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m31 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 5 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m32 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 4 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m33 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 3 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m34 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m35 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 1 pending]'},
+        {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m36 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
+        {spinner: 'succeed'}
+      ]);
+      t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/home'), tests.test2.goldens.desktop);
+      t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/home'), tests.test2.goldens.mobile);
+      t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/contact'), tests.test4.goldens.desktop);
+      t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/contact'), tests.test4.goldens.mobile);
+      t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+      resolve();
+    });
+    await blackbox.runTestophobia(tp);
   });
 });
 

@@ -15,6 +15,7 @@ let consoleChanges = [];
 let loggerStub = null;
 let spinnerStubs = [];
 let exitStub = null;
+let parallelStub = null;
 
 stubLogger = (output, verbose) => {
   const logger = output._getLog();
@@ -71,9 +72,8 @@ blackbox.setupTests = test => {
       //await deleteDirectory(sandboxDir);
       loggerStub.restore();
       spinnerStubs.forEach(s => s.restore());
-      if (exitStub) {
-        exitStub.restore();
-      }
+      if (exitStub) exitStub.restore();
+      if (parallelStub) parallelStub.restore();
       resolve();
     });
   });
@@ -157,6 +157,11 @@ blackbox.stubFatalExit = cb => {
     cb();
     return true;
   });
+};
+
+blackbox.stubParallel = (tp, cb) => {
+  parallelStub = sinon.stub(tp, '_parallelRunComplete');
+  parallelStub.callsFake(() => cb());
 };
 
 class SpinnerMock {
