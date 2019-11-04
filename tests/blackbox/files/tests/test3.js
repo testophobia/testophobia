@@ -1,5 +1,9 @@
 module.exports = {
   testName: 'test3',
+  goldens: {
+    desktop: ['4Tc5tHFf96q46SVjWdvi5Ltby.png', '9nLGvMUKhvYNzLezgt.png', 'manifest'],
+    mobile: []
+  },
   dir: './sandbox/tests/site/home',
   file: 'home-test.js',
   contents: {
