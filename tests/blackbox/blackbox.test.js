@@ -3,6 +3,7 @@ const fs = require('fs');
 const test = require('ava');
 const blackbox = require('./blackbox-utils');
 const tests = require('./files/tests');
+const {copyFileOrDirectory} = require('../../lib/utils');
 
 blackbox.setupTests(test);
 
@@ -303,9 +304,35 @@ test.serial('Test - home page - no actions', t => {
       {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/home'), tests.test1.goldens.desktop);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/home'), tests.test1.goldens.mobile);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+    resolve();
+  });
+});
+
+test.serial('Test - home page - no actions - failure', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile();
+    blackbox.writeTestFiles([tests.test1]);
+    copyFileOrDirectory(`./files/goldens/test4/desktop/contact`, `./sandbox/golden-screens/desktop/home`);
+    copyFileOrDirectory(`./files/goldens/test4/mobile/contact`, `./sandbox/golden-screens/mobile/home`);
+    const tp = blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+    blackbox.dumpConsole();
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {spinner: 'start'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 1 pending]'},
+      {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m2 failed\u001b[39m]'},
+      {spinner: 'succeed'},
+      {message: '\u001b[31m   Test Failure: \u001b[39mhome (desktop) none', consoleLevel: 'error', chalkColor: undefined},
+      {message: '\u001b[31m   Test Failure: \u001b[39mhome (mobile) none', consoleLevel: 'error', chalkColor: undefined}
+    ]);
+    const files = blackbox.getFiles('./sandbox/diffs');
+    t.true(files.includes('results.json'));
+    t.true(files.some(f => f.startsWith('home-desktop--')));
+    t.true(files.some(f => f.startsWith('home-mobile--')));
     resolve();
   });
 });
@@ -336,8 +363,6 @@ test.serial('Test - home page', t => {
       {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m14 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/home'), tests.test2.goldens.desktop);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/home'), tests.test2.goldens.mobile);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
     resolve();
   });
@@ -360,8 +385,6 @@ test.serial('Test - home page - clip regions, scale, exclude, and png', t => {
       {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m3 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/home'), tests.test3.goldens.desktop);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/home'), tests.test3.goldens.mobile);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
     resolve();
   });
@@ -402,8 +425,6 @@ test.serial('Test - contact page', t => {
       {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m22 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/contact'), tests.test4.goldens.desktop);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/contact'), tests.test4.goldens.mobile);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
     resolve();
   });
@@ -459,10 +480,6 @@ test.serial('Test - parallel home and contact', t => {
         {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m36 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
         {spinner: 'succeed'}
       ]);
-      t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/home'), tests.test2.goldens.desktop);
-      t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/home'), tests.test2.goldens.mobile);
-      t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/contact'), tests.test4.goldens.desktop);
-      t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/contact'), tests.test4.goldens.mobile);
       t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
       resolve();
     });
