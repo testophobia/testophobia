@@ -107,7 +107,7 @@ test.serial('No test files exist - should fail', t => {
 });
 
 /*******************************************************************************
- *********************************  T E S T S  *********************************
+ ***********************  B A D   T E S T   C O N F I G  ***********************
  *******************************************************************************/
 
 test.serial('Test - no goldens directory found - should fail', t => {
@@ -129,7 +129,7 @@ test.serial('Test - no goldens directory found - should fail', t => {
   });
 });
 
-test.serial('Test - bad baseUrl', t => {
+test.serial('Test - bad baseUrl (slashes)', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     blackbox.stubFatalExit(() => {
@@ -147,11 +147,58 @@ test.serial('Test - bad baseUrl', t => {
       resolve();
     });
     await blackbox.applyConfigFile();
-    blackbox.writeTestFiles(noActionsTest);
-    blackbox.prepareGoldens('desktop/home');
-    blackbox.prepareGoldens('mobile/home');
-    const tp = blackbox.createTestophobia();
+    const tp = prepareTestRun(noActionsTest);
     tp.config.baseUrl = 'test://o/phobia';
+    await blackbox.runTestophobia(tp);
+  });
+});
+
+test.serial('Test - bad baseUrl (hash)', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    blackbox.stubFatalExit(() => {
+      t.deepEqual(consoleChanges, [
+        {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+        {spinner: 'start'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
+        {spinner: 'fail'},
+        {
+          message: '✖  Error: baseUrl should only contain a domain name, but a path was supplied. Handle all pathing in test files.',
+          consoleLevel: 'error',
+          chalkColor: 'red'
+        }
+      ]);
+      resolve();
+    });
+    await blackbox.applyConfigFile();
+    const tp = prepareTestRun(noActionsTest);
+    tp.config.baseUrl = 'test://o.phobia#foo';
+    await blackbox.runTestophobia(tp);
+  });
+});
+
+test.serial('Test - unreachable url', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    blackbox.stubFatalExit(() => {
+      t.deepEqual(consoleChanges, [
+        {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+        {spinner: 'start'},
+        {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
+        {spinner: 'fail'},
+        {
+          message: '✖  baseUrl supplied cannot be reached: test://o.phobia',
+          consoleLevel: 'error',
+          chalkColor: 'red'
+        }
+      ]);
+      resolve();
+    });
+    await blackbox.applyConfigFile();
+    const testConfig = noActionsTest[0];
+    delete testConfig.contents.path;
+    const tp = prepareTestRun([testConfig]);
+    tp.config.baseUrl = 'test://o.phobia';
     await blackbox.runTestophobia(tp);
   });
 });
@@ -166,6 +213,7 @@ test.serial('Test - golden not available for tests (w/ bail)', t => {
     const tp = blackbox.createTestophobia();
     tp.config.bail = true;
     await blackbox.runTestophobia(tp);
+    blackbox.dumpConsole();
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
@@ -180,14 +228,15 @@ test.serial('Test - golden not available for tests (w/ bail)', t => {
   });
 });
 
+/*******************************************************************************
+ *********************************  T E S T S  *********************************
+ *******************************************************************************/
+
 test.serial('Test - basic test', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
-    blackbox.writeTestFiles(basicActionsTest);
-    blackbox.prepareGoldens('desktop/home');
-    blackbox.prepareGoldens('mobile/home');
-    const tp = blackbox.createTestophobia();
+    const tp = prepareTestRun(basicActionsTest);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -218,17 +267,14 @@ test.serial('Test - basic test', t => {
 });
 
 /*******************************************************************************
- *********************************  T E S T S  *********************************
+ *********************************  C L E A R  *********************************
  *******************************************************************************/
 
 test.serial('clear - particular directory', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {input: ['sandbox/golden-screens/mobile/**/*'], flags: {clear: true}});
-    blackbox.writeTestFiles(noActionsTest);
-    blackbox.prepareGoldens('desktop/home');
-    blackbox.prepareGoldens('mobile/home');
-    const tp = blackbox.createTestophobia();
+    const tp = prepareTestRun(noActionsTest);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -246,10 +292,7 @@ test.serial('clear - all directories', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {clear: true}});
-    blackbox.writeTestFiles(noActionsTest);
-    blackbox.prepareGoldens('desktop/home');
-    blackbox.prepareGoldens('mobile/home');
-    const tp = blackbox.createTestophobia();
+    const tp = prepareTestRun(noActionsTest);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -269,10 +312,7 @@ test.serial('clear - all directories w/ golden', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {clear: true, golden: true}});
-    blackbox.writeTestFiles(noActionsTest);
-    blackbox.prepareGoldens('desktop/home');
-    blackbox.prepareGoldens('mobile/home');
-    const tp = blackbox.createTestophobia();
+    const tp = prepareTestRun(noActionsTest);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -281,10 +321,6 @@ test.serial('clear - all directories w/ golden', t => {
     t.false(fs.existsSync('./sandbox/test-screens'));
     t.false(fs.existsSync('./sandbox/diffs'));
     t.false(fs.existsSync('./sandbox/golden-screens'));
-    // const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
-    // t.deepEqual(desktopFiles, desktopGoldenFiles);
-    // const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
-    // t.deepEqual(mobileFiles, mobileGoldenFiles);
     resolve();
   });
 });
@@ -292,6 +328,13 @@ test.serial('clear - all directories w/ golden', t => {
 /*******************************************************************************
  **********************************  Internal  *********************************
  *******************************************************************************/
+
+const prepareTestRun = tests => {
+  blackbox.writeTestFiles(tests);
+  blackbox.prepareGoldens('desktop/home');
+  blackbox.prepareGoldens('mobile/home');
+  return blackbox.createTestophobia();
+};
 
 const noActionsTest = [
   {
