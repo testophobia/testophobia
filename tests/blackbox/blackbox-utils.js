@@ -21,12 +21,13 @@ stubLogger = (output, verbose) => {
   logger.setLevel(verbose ? Logger.DEBUG_LEVEL : Logger.INFO_LEVEL);
   loggerStub = sinon.stub(logger, 'log').callsFake((message, consoleLevel, chalkColor) => {
     if (verbose || chalkColor !== 'dim') consoleChanges.push({message, consoleLevel, chalkColor});
+    if (consoleLevel === 'error') console.error(message);
   });
 };
 
 stubOra = output => {
   let isSpinning = false;
-  let spinner = output._getSpinner();
+  let spinner = new SpinnerMock();
   spinnerStubs = [];
   spinnerStubs.push(sinon.stub(spinner, 'isSpinning').returns(isSpinning));
   spinnerStubs.push(
@@ -53,6 +54,7 @@ stubOra = output => {
       consoleChanges.push({spinner: 'message', text: val});
     })
   );
+  output._setSpinner(spinner);
 };
 
 blackbox.setupTests = test => {
@@ -140,5 +142,14 @@ blackbox.stubFatalExit = cb => {
     return true;
   });
 };
+
+class SpinnerMock {
+  fail() {}
+  get isSpinning() {}
+  start() {}
+  stop() {}
+  succeed() {}
+  set text(t) {}
+}
 
 exports.blackbox = blackbox;

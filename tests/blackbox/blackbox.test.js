@@ -213,17 +213,54 @@ test.serial('Test - golden not available for tests (w/ bail)', t => {
     const tp = blackbox.createTestophobia();
     tp.config.bail = true;
     await blackbox.runTestophobia(tp);
-    blackbox.dumpConsole();
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
       {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
       {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 1 pending]'},
       {spinner: 'message', text: ' \u001b[36mBailed\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 1 pending]'},
-      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m1 failed\u001b[39m | 1 pending]'},
       {spinner: 'fail'},
       {message: '\u001b[31m   Test Failure: \u001b[39mhome (desktop) none', consoleLevel: 'error', chalkColor: undefined}
     ]);
+    resolve();
+  });
+});
+
+/*******************************************************************************
+ ****************************  G O L D E N   R U N  ****************************
+ *******************************************************************************/
+
+test.serial('Generate goldens', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile(false, false, {flags: {golden: true}});
+    blackbox.writeTestFiles(basicActionsTest);
+    const tp = blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {spinner: 'start'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m0 done\u001b[39m | 14 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m1 done\u001b[39m | 13 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m2 done\u001b[39m | 12 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m3 done\u001b[39m | 11 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m4 done\u001b[39m | 10 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m5 done\u001b[39m | 9 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m6 done\u001b[39m | 8 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m7 done\u001b[39m | 7 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m8 done\u001b[39m | 6 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m9 done\u001b[39m | 5 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m10 done\u001b[39m | 4 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m11 done\u001b[39m | 3 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m12 done\u001b[39m | 2 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGenerating Goldens\u001b[39m [\u001b[32m13 done\u001b[39m | 1 pending]'},
+      {spinner: 'message', text: ' \u001b[36mGeneration Complete\u001b[39m [\u001b[32m14 done\u001b[39m]'},
+      {spinner: 'succeed'}
+    ]);
+    const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
+    t.deepEqual(desktopFiles, desktopGoldenFiles);
+    const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
+    t.deepEqual(mobileFiles, mobileGoldenFiles);
     resolve();
   });
 });
@@ -343,6 +380,7 @@ const noActionsTest = [
     contents: {
       name: 'home',
       path: '/index.html',
+      delay: 200,
       actions: []
     }
   }
