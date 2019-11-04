@@ -148,7 +148,7 @@ test.serial('Test - bad baseUrl (slashes)', t => {
       resolve();
     });
     await blackbox.applyConfigFile();
-    const tp = prepareTestRun([tests.test1]);
+    const tp = blackbox.prepareTestRun([tests.test1]);
     tp.config.baseUrl = 'test://o/phobia';
     await blackbox.runTestophobia(tp);
   });
@@ -172,7 +172,7 @@ test.serial('Test - bad baseUrl (hash)', t => {
       resolve();
     });
     await blackbox.applyConfigFile();
-    const tp = prepareTestRun([tests.test1]);
+    const tp = blackbox.prepareTestRun([tests.test1]);
     tp.config.baseUrl = 'test://o.phobia#foo';
     await blackbox.runTestophobia(tp);
   });
@@ -198,7 +198,7 @@ test.serial('Test - unreachable url', t => {
     await blackbox.applyConfigFile();
     const testConfig = [tests.test1][0];
     delete testConfig.contents.path;
-    const tp = prepareTestRun([testConfig]);
+    const tp = blackbox.prepareTestRun([testConfig]);
     tp.config.baseUrl = 'test://o.phobia';
     await blackbox.runTestophobia(tp);
   });
@@ -209,8 +209,7 @@ test.serial('Test - golden not available for tests (w/ bail)', t => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
     blackbox.writeTestFiles([tests.test1]);
-    blackbox.prepareGoldens('desktop/home', true);
-    blackbox.prepareGoldens('mobile/home', true);
+    blackbox.prepareGoldens(null);
     const tp = blackbox.createTestophobia();
     tp.config.bail = true;
     await blackbox.runTestophobia(tp);
@@ -259,9 +258,9 @@ test.serial('Generate goldens', t => {
       {spinner: 'succeed'}
     ]);
     const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
-    t.deepEqual(desktopFiles, desktopGoldenFiles);
+    t.deepEqual(desktopFiles, tests.test2.goldens.desktop);
     const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
-    t.deepEqual(mobileFiles, mobileGoldenFiles);
+    t.deepEqual(mobileFiles, tests.test2.goldens.mobile);
     resolve();
   });
 });
@@ -274,7 +273,7 @@ test.serial('Test - basic test', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
-    const tp = prepareTestRun([tests.test2]);
+    const tp = blackbox.prepareTestRun([tests.test2]);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -297,9 +296,31 @@ test.serial('Test - basic test', t => {
       {spinner: 'succeed'}
     ]);
     const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
-    t.deepEqual(desktopFiles, desktopGoldenFiles);
+    t.deepEqual(desktopFiles, tests.test2.goldens.desktop);
     const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
-    t.deepEqual(mobileFiles, mobileGoldenFiles);
+    t.deepEqual(mobileFiles, tests.test2.goldens.mobile);
+    resolve();
+  });
+});
+
+test.serial('Test - clip regions', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile();
+    const tp = blackbox.prepareTestRun([tests.test3]);
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {spinner: 'start'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 1 pending]'},
+      {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
+      {spinner: 'succeed'}
+    ]);
+    const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
+    //t.deepEqual(desktopFiles, todo);
+    const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
+    //t.deepEqual(mobileFiles, todo);
     resolve();
   });
 });
@@ -312,14 +333,14 @@ test.serial('clear - particular directory', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {input: ['sandbox/golden-screens/mobile/**/*'], flags: {clear: true}});
-    const tp = prepareTestRun([tests.test1]);
+    const tp = blackbox.prepareTestRun([tests.test1]);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {message: '\u001b[33m⚠  sandbox/golden-screens/mobile/**/* cleared.\u001b[39m', consoleLevel: 'warn', chalkColor: undefined}
     ]);
     const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
-    t.deepEqual(desktopFiles, desktopGoldenFiles);
+    t.deepEqual(desktopFiles, tests.test1.goldens.desktop);
     const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
     t.deepEqual(mobileFiles, []);
     resolve();
@@ -330,7 +351,7 @@ test.serial('clear - all directories', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {clear: true}});
-    const tp = prepareTestRun([tests.test1]);
+    const tp = blackbox.prepareTestRun([tests.test1]);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -339,9 +360,9 @@ test.serial('clear - all directories', t => {
     t.false(fs.existsSync('./sandbox/test-screens'));
     t.false(fs.existsSync('./sandbox/diffs'));
     const desktopFiles = blackbox.getFiles('./sandbox/golden-screens/desktop/home');
-    t.deepEqual(desktopFiles, desktopGoldenFiles);
+    t.deepEqual(desktopFiles, tests.test1.goldens.desktop);
     const mobileFiles = blackbox.getFiles('./sandbox/golden-screens/mobile/home');
-    t.deepEqual(mobileFiles, mobileGoldenFiles);
+    t.deepEqual(mobileFiles, tests.test1.goldens.mobile);
     resolve();
   });
 });
@@ -350,7 +371,7 @@ test.serial('clear - all directories w/ golden', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {clear: true, golden: true}});
-    const tp = prepareTestRun([tests.test1]);
+    const tp = blackbox.prepareTestRun([tests.test1]);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -362,36 +383,3 @@ test.serial('clear - all directories w/ golden', t => {
     resolve();
   });
 });
-
-/*******************************************************************************
- **********************************  Internal  *********************************
- *******************************************************************************/
-
-const prepareTestRun = tests => {
-  blackbox.writeTestFiles(tests);
-  blackbox.prepareGoldens('desktop/home');
-  blackbox.prepareGoldens('mobile/home');
-  return blackbox.createTestophobia();
-};
-
-const desktopGoldenFiles = [
-  '2fm1HKw4gcoXhLVNxWp77htEfe9TDSbwB3wFFV4XcgDgeS7EkhYSkVxrKqLi8V.jpeg',
-  '4Tc5tHFf96q46SVjWdvi5Ltby.jpeg',
-  '9nLGvMUKhvYNzLezgt.jpeg',
-  'GGRrZLjhLkj6f1Xpdoz4J4rpDd.jpeg',
-  'M2gR52Jm6N2s55oivx7fMfGdncpVHewcDwmw5CXLkdxj4.jpeg',
-  'NX2ueh6nJoM5kmkbm1mhcLkLv8gLxtn9BJ683FQGo5tp2.jpeg',
-  'manifest'
-];
-
-const mobileGoldenFiles = [
-  '2fm1HKw4gcoXhLVNxWp77htEfe9TDSbwB3wFFV4XcgDgeS7EkhYSkVxrKqLi8V.jpeg',
-  '3G4d3v7SFaqWUTW1AeYwB3MrST2BHmcVo8ToqwZSLPRQtjTweCr.jpeg',
-  '4Tc5tHFf96q46SVjWdvi5Ltby.jpeg',
-  '9nLGvMUKhvYNzLezgt.jpeg',
-  'DLuoppmPYDyKPXRxRQoLdK57MC.jpeg',
-  'GGRrZLjhLkj6f1Xpdoz4J4rpDd.jpeg',
-  'GGRrZLjhLkj6f1Xpdoz4J4tVdH.jpeg',
-  'GGRrZLjhLkj6f1Xpdoz4J6LoVy.jpeg',
-  'manifest'
-];

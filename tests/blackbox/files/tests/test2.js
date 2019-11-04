@@ -1,4 +1,27 @@
 module.exports = {
+  testName: 'test2',
+  goldens: {
+    desktop: [
+      '2fm1HKw4gcoXhLVNxWp77htEfe9TDSbwB3wFFV4XcgDgeS7EkhYSkVxrKqLi8V.jpeg',
+      '4Tc5tHFf96q46SVjWdvi5Ltby.jpeg',
+      '9nLGvMUKhvYNzLezgt.jpeg',
+      'GGRrZLjhLkj6f1Xpdoz4J4rpDd.jpeg',
+      'M2gR52Jm6N2s55oivx7fMfGdncpVHewcDwmw5CXLkdxj4.jpeg',
+      'NX2ueh6nJoM5kmkbm1mhcLkLv8gLxtn9BJ683FQGo5tp2.jpeg',
+      'manifest'
+    ],
+    mobile: [
+      '2fm1HKw4gcoXhLVNxWp77htEfe9TDSbwB3wFFV4XcgDgeS7EkhYSkVxrKqLi8V.jpeg',
+      '3G4d3v7SFaqWUTW1AeYwB3MrST2BHmcVo8ToqwZSLPRQtjTweCr.jpeg',
+      '4Tc5tHFf96q46SVjWdvi5Ltby.jpeg',
+      '9nLGvMUKhvYNzLezgt.jpeg',
+      'DLuoppmPYDyKPXRxRQoLdK57MC.jpeg',
+      'GGRrZLjhLkj6f1Xpdoz4J4rpDd.jpeg',
+      'GGRrZLjhLkj6f1Xpdoz4J4tVdH.jpeg',
+      'GGRrZLjhLkj6f1Xpdoz4J6LoVy.jpeg',
+      'manifest'
+    ]
+  },
   dir: './sandbox/tests/site/home',
   file: 'home-test.js',
   contents: {

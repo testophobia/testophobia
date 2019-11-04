@@ -114,6 +114,12 @@ blackbox.applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   }
 };
 
+blackbox.prepareTestRun = tests => {
+  blackbox.writeTestFiles(tests);
+  blackbox.prepareGoldens(tests);
+  return blackbox.createTestophobia();
+};
+
 blackbox.writeTestFiles = async tests => {
   tests.forEach(async t => {
     await createDirectory(t.dir);
@@ -123,12 +129,17 @@ blackbox.writeTestFiles = async tests => {
   });
 };
 
-blackbox.prepareGoldens = async (goldenPath, leaveEmpty) => {
-  createDirectory(`./sandbox/golden-screens/${goldenPath}`);
-  if (!leaveEmpty) copyFileOrDirectory(`./files/goldens/${goldenPath}`, `./sandbox/golden-screens/${goldenPath}`);
+blackbox.prepareGoldens = async tests => {
+  createDirectory(`./sandbox/golden-screens/desktop/home`);
+  createDirectory(`./sandbox/golden-screens/mobile/home`);
+  if (tests && tests.length) {
+    tests.forEach(t => {
+      copyFileOrDirectory(`./files/goldens/${t.testName}`, `./sandbox/golden-screens`);
+    });
+  }
 };
 
-blackbox.getFiles = dir => fs.readdirSync(dir);
+blackbox.getFiles = dir => fs.readdirSync(dir).filter(p => !p.startsWith('.'));
 
 blackbox.useBadConfigFile = async result => {
   createDirectory(sandboxDir);
