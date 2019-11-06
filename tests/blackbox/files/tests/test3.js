@@ -13,7 +13,7 @@ module.exports = {
         description: 'Click the test button',
         type: 'click',
         target: '#btn1',
-        clipRegions: [{type: 'desktop', top: 200, left: 300}]
+        clipRegions: [{type: 'desktop', top: 64, left: 64}]
       },
       {
         description: 'Click the test button again',
