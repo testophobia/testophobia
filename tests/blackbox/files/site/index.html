@@ -7,6 +7,9 @@
   body {
     padding: 16px 32px;
   }
+  input {
+    caret-color: transparent;
+  }
   #btn1 {
     margin-right:64px;
   }
@@ -60,6 +63,13 @@
     btn1.addEventListener('click', e => {
       btn1.style.color = 'red';
       setTimeout(() => btn1.style.color = 'unset', 2000);
+    });
+    const input1 = document.getElementById('input1');
+    input1.addEventListener('keypress', e => {
+      if (e.key === '?') {
+        e.preventDefault();
+        input1.value = 'Question Mark!';
+      }
     });
     const drop = e => {
       e.preventDefault();
