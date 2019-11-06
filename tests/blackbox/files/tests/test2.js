@@ -1,33 +1,5 @@
 module.exports = {
   testName: 'test2',
-  goldens: {
-    desktop: [
-      '2FsZFzNm2GGjfUVFJ26WxqZRh4KiBFutgsxZMV2mkP1.jpeg',
-      '2tQWV8YTEkuLkjBVadQM1.jpeg',
-      '3XLZ7aztoLEUwxejAmph7CqLky3pHfN3sVbr.jpeg',
-      '3q9vK9A5Z6WmKEb7VBS3AfsJUyHRnzCC5Kr5cTU7vVMY9dX37eB.jpeg',
-      '59U4TdWJX3mZKNdH8mr2CVCwwKPCh.jpeg',
-      '5TLp9EQWuxy6hUocVzk9DpYVcRhcq.jpeg',
-      '9nLGvMUKhvYNzLezgt.jpeg',
-      'AvdND9JajcwKy6yXEwUqHkKWjKaoFNFxTw2Dm.jpeg',
-      'SxXp4CQ5scxLmLdKj5HQDbasjsyPHzVgmgffUYzKfS4k3.jpeg',
-      'djFJkSYVtCQTWjeBBbPCmW4XNXXNJBCDXGJkgmkDc1sgC2jbJ.jpeg',
-      'manifest'
-    ],
-    mobile: [
-      '2FsZFzNm2GGjfUVFJ26WxqZRh4KiBFutgsxZMV2mkP1.jpeg',
-      '2tQWV8YTEkuLkjBVadQM1.jpeg',
-      '3XLZ7aztoLEUwxejAmph7CqLky3pHfN3sVbr.jpeg',
-      '3q9vK9A5Z6WmKEb7VBS3AfsJUyHRnzCC5Kr5cTU7vVMY9dX37eB.jpeg',
-      '59U4TdWJX3mZKNdH8mr2CVCwwKPCh.jpeg',
-      '5TLp9EQWuxy6hUocVzk9DpYVcRhcq.jpeg',
-      '9nLGvMUKhvYNzLezgt.jpeg',
-      'AvdND9JajcwKy6yXEwUqHkKWjKaoFNFxTw2Dm.jpeg',
-      'SxXp4CQ5scxLmLdKj5HQDbasjsyPHzVgmgffUYzKfS4k3.jpeg',
-      'djFJkSYVtCQTWjeBBbPCmW4XNXXNJBCDXGJkgmkDc1sgC2jbJ.jpeg',
-      'manifest'
-    ]
-  },
   dir: './sandbox/tests/site/section1',
   file: 'section1-test.js',
   contents: {

@@ -126,8 +126,8 @@ test.serial('Golden - no actions', t => {
       {spinner: 'message', text: ' \u001b[36mGeneration Complete\u001b[39m [\u001b[32m2 done\u001b[39m]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), tests.test1.goldens.desktop);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/section1'), tests.test1.goldens.mobile);
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), blackbox.getFiles('./files/goldens/test1/desktop/section1'));
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/section1'), blackbox.getFiles('./files/goldens/test1/mobile/section1'));
     t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
     resolve();
   });
@@ -166,8 +166,8 @@ test.serial('Golden - with actions', t => {
       {spinner: 'message', text: ' \u001b[36mGeneration Complete\u001b[39m [\u001b[32m20 done\u001b[39m]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), tests.test2.goldens.desktop);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/section1'), tests.test2.goldens.mobile);
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), blackbox.getFiles('./files/goldens/test2/desktop/section1'));
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/section1'), blackbox.getFiles('./files/goldens/test2/mobile/section1'));
     t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
     resolve();
   });
@@ -483,7 +483,7 @@ test.serial('Clear - particular directory', t => {
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {message: '\u001b[33m⚠  sandbox/golden-screens/mobile/**/* cleared.\u001b[39m', consoleLevel: 'warn', chalkColor: undefined}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), tests.test1.goldens.desktop);
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), blackbox.getFiles('./files/goldens/test1/desktop/section1'));
     t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/section1'), []);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
     resolve();
@@ -502,8 +502,8 @@ test.serial('Clear - all directories', t => {
     ]);
     t.false(fs.existsSync('./sandbox/test-screens'));
     t.false(fs.existsSync('./sandbox/diffs'));
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), tests.test1.goldens.desktop);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/section1'), tests.test1.goldens.mobile);
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), blackbox.getFiles('./files/goldens/test1/desktop/section1'));
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/section1'), blackbox.getFiles('./files/goldens/test1/mobile/section1'));
     t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
     resolve();
   });
