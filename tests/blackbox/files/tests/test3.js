@@ -1,30 +1,28 @@
 module.exports = {
   testName: 'test3',
   goldens: {
-    desktop: ['4Tc5tHFf96q46SVjWdvi5Ltby.png', '9nLGvMUKhvYNzLezgt.png', 'GGRrZLjhLkj6f1Xpdoz4J4rpDd.png', 'manifest'],
+    desktop: ['59U4TdWJX3mZKNdH8mr2CVCwwKPCh.png', '9nLGvMUKhvYNzLezgt.png', 'A7XoTca2HGSnm6tsdvL6QH9zSJvghGT9oxAMj.png', 'manifest'],
     mobile: []
   },
-  dir: './sandbox/tests/site/home',
-  file: 'home-test.js',
+  dir: './sandbox/tests/site/section1',
+  file: 'section1-test.js',
   contents: {
-    name: 'home',
+    name: 'section1',
     path: '/index.html',
     dimensions: [{type: 'desktop', width: 1024, height: 768, scale: 0.8}, {type: 'mobile', width: 375, height: 812, scale: 0.7}],
     excludeDimensions: ['mobile'],
     clipRegions: [{type: 'desktop', width: 800, height: 600}],
     actions: [
       {
-        description: 'Scroll page to 500',
-        type: 'scroll',
-        target: 'html',
-        scrollTop: '500',
+        description: 'Click the test button',
+        type: 'click',
+        target: '#btn1',
         clipRegions: [{type: 'desktop', top: 200, left: 300}]
       },
       {
-        description: 'Scroll page to 1000',
-        type: 'scroll',
-        target: 'html',
-        scrollTop: '1000',
+        description: 'Click the test button again',
+        type: 'click',
+        target: '#btn1',
         clipRegions: [{type: 'desktop', right: 250, bottom: 350}]
       }
     ]

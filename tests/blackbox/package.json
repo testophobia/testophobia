@@ -1,7 +1,7 @@
 {
   "scripts": {
     "test": "ava -v 2> /dev/null",
-    "serve:site": "cd ../../examples/black-and-white/site && http-server -p 8081",
+    "serve:site": "cd ./files/site && http-server -p 8081",
     "serve:coverage": "cd coverage && http-server -p 8080"
   },
   "ava": {

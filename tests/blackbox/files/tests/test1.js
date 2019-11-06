@@ -4,10 +4,10 @@ module.exports = {
     desktop: ['9nLGvMUKhvYNzLezgt.jpeg', 'manifest'],
     mobile: ['9nLGvMUKhvYNzLezgt.jpeg', 'manifest']
   },
-  dir: './sandbox/tests/site/home',
-  file: 'home-test.js',
+  dir: './sandbox/tests/site/section1',
+  file: 'section1-test.js',
   contents: {
-    name: 'home',
+    name: 'section1',
     path: '/index.html',
     delay: 200,
     actions: []
