@@ -296,10 +296,10 @@ test.serial('Bad Test - golden not available (w/ bail)', t => {
  *********************************  T E S T S  *********************************
  *******************************************************************************/
 
-test.serial('Test - section 1 - no actions', t => {
+test.serial('Test - section 1 - no actions - junit output', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    await blackbox.applyConfigFile();
+    await blackbox.applyConfigFile(false, false, {flags: {writeXml: true}});
     const tp = blackbox.prepareTestRun([tests.test1]);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
@@ -310,7 +310,11 @@ test.serial('Test - section 1 - no actions', t => {
       {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), ['junit.xml']);
+    t.is(
+      fs.readFileSync('./sandbox/diffs/junit.xml').toString(),
+      '<?xml version="1.0" encoding="UTF-8"?><testsuites><testsuite name="section1-desktop" time="0" tests="1" skipped="0" failures="0"><testcase className="section1-desktop-0" name="Initial Snapshot" time="0"></testcase></testsuite><testsuite name="section1-mobile" time="0" tests="1" skipped="0" failures="0"><testcase className="section1-mobile-0" name="Initial Snapshot" time="0"></testcase></testsuite></testsuites>'
+    );
     resolve();
   });
 });
