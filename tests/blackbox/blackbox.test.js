@@ -406,7 +406,6 @@ test.serial('Test - section 2', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
-    // await blackbox.applyConfigFile(false, false, {flags: {golden: true}});
     blackbox.writeTestFiles([tests.test5]);
     copyFileOrDirectory(`./files/files/testfile.json`, `./sandbox/files/testfile.jsonsection`);
     const tp = blackbox.prepareTestRun([tests.test5]);
@@ -414,11 +413,13 @@ test.serial('Test - section 2', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
-      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 4 pending]'},
-      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 3 pending]'},
-      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
-      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m3 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 1 pending]'},
-      {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m4 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m0 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 6 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m1 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 5 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 4 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m3 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 3 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m4 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 2 pending]'},
+      {spinner: 'message', text: ' \u001b[36mRunning Tests\u001b[39m [\u001b[32m5 passed\u001b[39m | \u001b[31m0 failed\u001b[39m | 1 pending]'},
+      {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m6 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
       {spinner: 'succeed'}
     ]);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);

@@ -3,6 +3,7 @@
 <head>
   <title>Testophobia Test Page</title>
 </head>
+<link rel="stylesheet" href="dragula.min.css"/>
 <style>
   body {
     padding: 16px 32px;
@@ -43,7 +44,7 @@
   <hr>
   <div style="display:flex;flex-wrap:wrap;">
     <div id="drop1">
-      <img id="drag1" src="testophobia.png" draggable="true" width="128" height="128">
+      <img id="drag1" src="testophobia.png" width="128" height="128">
     </div>
     <div id="drop2"></div>
     <input id="input2" type="file"/>
@@ -58,6 +59,7 @@
 
     Tincidunt faucibus elementum quam adipiscing ut morbi. Eu ac urna, interdum eget ridiculus in. Egestas netus sociis consectetuer, diam quis et, neque magnis ac sapien et, risus elementum orci dictumst, mauris vivamus vehicula. Nulla tincidunt et pede velit malesuada. Maecenas eros sagittis amet. Suspendisse vestibulum nulla, cum lobortis, cras vivamus ullamcorper purus in. Neque arcu quam duis, amet quisque, elit nulla commodo, tellus mi. Accumsan et velit, at nec nostra dui, sed tellus, at augue tincidunt ut pellentesque lacus, nulla vestibulum gravida pretium pellentesque. Eu ante, turpis sodales commodo mauris ut sed sit, sollicitudin massa justo lectus erat vestibulum, neque luctus voluptate. Vitae eros lectus taciti hendrerit proin, odio velit commodo quisque porta gravida, sed aliquet aenean, mauris urna ut aliquet, curabitur a.
   </div>
+  <script src="dragula.min.js"></script>
   <script>
     const btn1 = document.getElementById('btn1');
     btn1.addEventListener('click', e => {
@@ -71,18 +73,7 @@
         input1.value = 'Question Mark!';
       }
     });
-    const drop = e => {
-      e.preventDefault();
-      e.target.appendChild(document.getElementById(e.dataTransfer.getData("text")));
-    };
-    const drop1 = document.getElementById('drop1');
-    const drop2 = document.getElementById('drop2');
-    drop1.addEventListener('drop', drop);
-    drop2.addEventListener('drop', drop);
-    drop1.addEventListener('dragover', e => e.preventDefault());
-    drop2.addEventListener('dragover', e => e.preventDefault());
-    const drag1 = document.getElementById('drag1');
-    drag1.addEventListener('dragstart', e => e.dataTransfer.setData("text", e.target.id));
+    dragula([document.getElementById('drop1'), document.getElementById('drop2')]);
   </script>
 </body>
 </html>
