@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Testophobia Test Page</title>
+</head>
+<link rel="stylesheet" href="dragula.min.css"/>
+<style>
+  body {
+    padding: 16px 32px;
+  }
+  input {
+    caret-color: transparent;
+  }
+  #btn1 {
+    margin-right:64px;
+  }
+  #btn1:hover {
+    background-color: lightgreen;
+  }
+  #btn1, #input1 {
+    font-size:16px;
+  }
+  hr {
+    margin: 8px 0;
+  }
+  #drop1, #drop2 {
+    width: 128px;
+    height: 128px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+  }
+  #scroll1 {
+    border: 1px solid #aaaaaa;
+    width: 320px;
+    height: 160px;
+    overflow-y: auto;
+  }
+</style>
+<body>
+  <h1>Testophobia Test Page</h1>
+  <button id="btn1">Test Button</button>
+  <input id="input1" type="text"/>
+  <hr>
+  <div style="display:flex;flex-wrap:wrap;">
+    <div id="drop1">
+      <img id="drag1" src="testophobia.png" width="128" height="128">
+    </div>
+    <div id="drop2"></div>
+    <input id="input2" type="file"/>
+  </div>
+  <hr>
+  <div id="scroll1">
+    Lorem ipsum dolor sit amet, eros semper, curabitur turpis commodo laoreet sed quisque dui, viverra suscipit gravida eu vivamus rutrum et, amet sit tempor, molestie ante nec augue taciti vitae est. Mi arcu amet neque sem vitae, viverra elementum veniam placerat augue eros, magna nec lectus placerat magna aliquam, omnis aliquam sed porttitor sem, proin euismod in. Nunc luctus porttitor id. Tellus ut aenean leo libero, parturient sociosqu mattis ligula mauris vestibulum integer, condimentum condimentum pharetra ac, est rerum. Nisl nec diam amet nibh sodales malesuada, risus ut eu accumsan justo elit fermentum. Enim id donec in ultrices, sodales metus curabitur ut nullam. Sed sed dui elit, nam condimentum blandit ut a non sapien. Urna consequat praesent. At amet, sem nunc impedit, volutpat erat ut pellentesque.
+
+    Proin id eget ornare sem sit sapien, eum dignissim, purus etiam porttitor tellus ut ac, posuere eu turpis id in sodales arcu, sed enim. In auctor tempus auctor eget tellus, vel molestie odio. A imperdiet non praesent qui ipsum. Duis iaculis erat. Donec nulla, hac molestie, velit augue nibh, a malesuada at sed lectus, tortor eu neque luctus penatibus donec. Amet nec justo duis, pellentesque donec mauris ligula gravida ridiculus, dui in. Ligula amet duis id porta quisque, tincidunt magna vitae aliquam, lorem rutrum risus venenatis, ipsum condimentum, cum nec. Quis commodo nulla lorem, ullamcorper nunc vivamus, nisl nam adipiscing congue lacus leo suspendisse, sem lacus repudiandae ut neque ultricies ut. Est eget orci orci ipsum vehicula, justo etiam mi corrupti non, massa fames luctus non mauris potenti, praesent odio lectus donec varius, pellentesque laoreet at integer vitae ultricies.
+
+    Iaculis sed, feugiat nunc, lectus sit donec aptent, ut habitasse. Eget donec magna, elementum at vestibulum leo vitae placerat etiam, lobortis nullam vestibulum a nullam viverra, pulvinar felis. Elit sit morbi, eu augue nunc nullam molestiae nibh, quam sit tellus ullamcorper morbi, vel suscipit, dictum odio est platea arcu imperdiet. Orci facilisis, id quis dapibus ullamcorper id, odio erat nam morbi libero nec, aenean orci nulla integer. Massa iaculis pellentesque arcu eget malesuada, non iaculis, metus a suspendisse at felis lacinia quis. Nisl nulla, elit massa faucibus enim, at pretium sit pretium tincidunt, eget diam ultricies id luctus fusce porttitor. Lorem similique cursus. Tempor litora ac voluptate erat, nonummy proin imperdiet nunc justo, donec dapibus ornare hendrerit adipiscing nisl, iaculis mauris wisi ut nullam placerat, sed urna duis. Sit lacus risus tempus sem maecenas non, tincidunt et erat nunc. Pellentesque semper sit sed, diam at, malesuada magna lacinia cras rutrum vestibulum mauris.
+
+    Tincidunt faucibus elementum quam adipiscing ut morbi. Eu ac urna, interdum eget ridiculus in. Egestas netus sociis consectetuer, diam quis et, neque magnis ac sapien et, risus elementum orci dictumst, mauris vivamus vehicula. Nulla tincidunt et pede velit malesuada. Maecenas eros sagittis amet. Suspendisse vestibulum nulla, cum lobortis, cras vivamus ullamcorper purus in. Neque arcu quam duis, amet quisque, elit nulla commodo, tellus mi. Accumsan et velit, at nec nostra dui, sed tellus, at augue tincidunt ut pellentesque lacus, nulla vestibulum gravida pretium pellentesque. Eu ante, turpis sodales commodo mauris ut sed sit, sollicitudin massa justo lectus erat vestibulum, neque luctus voluptate. Vitae eros lectus taciti hendrerit proin, odio velit commodo quisque porta gravida, sed aliquet aenean, mauris urna ut aliquet, curabitur a.
+  </div>
+  <script src="dragula.min.js"></script>
+  <script>
+    const btn1 = document.getElementById('btn1');
+    btn1.addEventListener('click', e => {
+      btn1.style.color = 'red';
+      setTimeout(() => btn1.style.color = 'unset', 2000);
+    });
+    const input1 = document.getElementById('input1');
+    input1.addEventListener('keypress', e => {
+      if (e.key === '?') {
+        e.preventDefault();
+        input1.value = 'Question Mark!';
+      }
+    });
+    dragula([document.getElementById('drop1'), document.getElementById('drop2')]);
+  </script>
+</body>
+</html>

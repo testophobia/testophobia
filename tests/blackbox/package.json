@@ -1,0 +1,32 @@
+{
+  "scripts": {
+    "test": "ava -v 2> /dev/null",
+    "serve:site": "cd ./files/site && http-server -p 8081",
+    "serve:coverage": "cd coverage && http-server -p 8080"
+  },
+  "ava": {
+    "files": [
+      "blackbox.test.js"
+    ]
+  },
+  "nyc": {
+    "all": true,
+    "reporter": "html",
+    "cwd": "../../",
+    "report-dir": "tests/blackbox/coverage",
+    "include": [
+      "lib/**/*.js"
+    ],
+    "exclude": [
+      "tests/**/*.js"
+    ]
+  },
+  "dependencies": {
+    "ava": "^2.3.0",
+    "mock-require": "^3.0.3",
+    "nyc": "^14.1.1"
+  },
+  "devDependencies": {
+    "sinon": "^7.5.0"
+  }
+}
