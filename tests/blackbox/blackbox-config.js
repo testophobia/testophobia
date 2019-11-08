@@ -43,7 +43,10 @@ exports.setUserCfgInUse = inUse => {
 
 exports.setMeowResult = result => {
   meowResult = {input: ['undefined'], flags: {skipViewer: true}};
-  meowResult = Object.assign(meowResult, result);
+  if (result) {
+    if (result.input) meowResult.input = result.input;
+    meowResult.flags = Object.assign(meowResult.flags, result.flags);
+  }
 };
 
 exports.setEsmResult = (fileName, result) => {

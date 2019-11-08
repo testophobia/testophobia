@@ -5,7 +5,6 @@ module.exports = {
   contents: {
     name: 'section1',
     path: '/index.html',
-    delay: 200,
-    actions: []
+    delay: 200
   }
 };

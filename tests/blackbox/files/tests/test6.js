@@ -5,10 +5,9 @@ module.exports = {
   contents: {
     name: 'section1',
     path: '/index.html',
-    dimensions: [{type: 'desktop', width: 1024, height: 768, scale: 0.8}, {type: 'mobile', width: 375, height: 812, scale: 0.7}],
+    dimensions: [{type: 'desktop', width: 1024, height: 768, scale: 0.8}, {type: 'tablet', width: 375, height: 812, scale: 0.7}],
     excludeDimensions: ['mobile'],
     clipRegions: [{type: 'desktop', width: 800, height: 600}],
-    actionsClipRegions: [{type: 'desktop', width: 700, height: 500}],
     actions: [
       {
         description: 'Click the test button',
@@ -17,7 +16,7 @@ module.exports = {
         clipRegions: [{type: 'desktop', top: 64, left: 64}]
       },
       {
-        description: 'Click the test button again',
+        description: 'Click the test button',
         type: 'click',
         target: '#btn1',
         clipRegions: [{type: 'desktop', right: 250, bottom: 350}]

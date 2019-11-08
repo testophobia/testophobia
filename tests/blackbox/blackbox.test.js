@@ -3,7 +3,7 @@ const fs = require('fs');
 const test = require('ava');
 const blackbox = require('./blackbox-utils');
 const tests = require('./files/tests');
-const {copyFileOrDirectory} = require('../../lib/utils');
+const {createDirectory, copyFileOrDirectory} = require('../../lib/utils');
 
 blackbox.setupTests(test);
 
@@ -103,6 +103,7 @@ test.serial('Config - no test files exist', t => {
     });
     await blackbox.applyConfigFile();
     const tp = blackbox.createTestophobia();
+    tp.config.tests = undefined;
     await blackbox.runTestophobia(tp);
   });
 });
@@ -266,6 +267,7 @@ test.serial('Bad Test - unreachable url', t => {
     delete testConfig.contents.path;
     const tp = blackbox.prepareTestRun([testConfig]);
     tp.config.baseUrl = 'test://o.phobia';
+    tp.config.tests = ['sandbox/tests/site/section1/section1-test.js'];
     await blackbox.runTestophobia(tp);
   });
 });
@@ -292,6 +294,27 @@ test.serial('Bad Test - golden not available (w/ bail)', t => {
   });
 });
 
+test.serial('Bad Test - duplicate action descriptions', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile();
+    blackbox.writeTestFiles([tests.test6]);
+    blackbox.prepareGoldens(null);
+    createDirectory(`./sandbox/golden-screens/tablet/section1`);
+    blackbox.stubFatalExit(() => {
+      t.deepEqual(consoleChanges, [
+        {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+        {spinner: 'start'},
+        {spinner: 'fail'},
+        {message: '✖  Duplicate action description: Click the test button', consoleLevel: 'error', chalkColor: 'red'}
+      ]);
+      resolve();
+    });
+    const tp = blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+  });
+});
+
 /*******************************************************************************
  *********************************  T E S T S  *********************************
  *******************************************************************************/
@@ -299,7 +322,7 @@ test.serial('Bad Test - golden not available (w/ bail)', t => {
 test.serial('Test - section 1 - no actions - junit output', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    await blackbox.applyConfigFile(false, false, {flags: {writeXml: true}});
+    await blackbox.applyConfigFile();
     const tp = blackbox.prepareTestRun([tests.test1]);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
@@ -310,11 +333,7 @@ test.serial('Test - section 1 - no actions - junit output', t => {
       {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m2 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), ['junit.xml']);
-    t.is(
-      fs.readFileSync('./sandbox/diffs/junit.xml').toString(),
-      '<?xml version="1.0" encoding="UTF-8"?><testsuites><testsuite name="section1-desktop" time="0" tests="1" skipped="0" failures="0"><testcase className="section1-desktop-0" name="Initial Snapshot" time="0"></testcase></testsuite><testsuite name="section1-mobile" time="0" tests="1" skipped="0" failures="0"><testcase className="section1-mobile-0" name="Initial Snapshot" time="0"></testcase></testsuite></testsuites>'
-    );
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
     resolve();
   });
 });
@@ -322,7 +341,7 @@ test.serial('Test - section 1 - no actions - junit output', t => {
 test.serial('Test - section 1 - no actions - failure', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    await blackbox.applyConfigFile();
+    await blackbox.applyConfigFile(false, false, {flags: {writeXml: true}});
     blackbox.writeTestFiles([tests.test1]);
     copyFileOrDirectory(`./files/goldens/test1/failure/desktop`, `./sandbox/golden-screens/desktop/section1`);
     copyFileOrDirectory(`./files/goldens/test1/failure/mobile`, `./sandbox/golden-screens/mobile/section1`);
@@ -342,6 +361,11 @@ test.serial('Test - section 1 - no actions - failure', t => {
     t.true(files.includes('results.json'));
     t.true(files.some(f => f.startsWith('section1-desktop--')));
     t.true(files.some(f => f.startsWith('section1-mobile--')));
+    t.true(files.includes('junit.xml'));
+    t.is(
+      fs.readFileSync('./sandbox/diffs/junit.xml').toString(),
+      '<?xml version="1.0" encoding="UTF-8"?><testsuites><testsuite name="section1-desktop" time="0" tests="1" skipped="0" failures="1"><testcase className="section1-desktop-0" name="Initial Snapshot" time="0"><failure message="Not a match!">Screenshot Failure</failure></testcase></testsuite><testsuite name="section1-mobile" time="0" tests="1" skipped="0" failures="1"><testcase className="section1-mobile-0" name="Initial Snapshot" time="0"><failure message="Not a match!">Screenshot Failure</failure></testcase></testsuite></testsuites>'
+    );
     resolve();
   });
 });
@@ -390,6 +414,7 @@ test.serial('Test - section 1 - clip regions, scale, exclude, and png', t => {
     blackbox.writeTestFiles([tests.test3]);
     const tp = blackbox.prepareTestRun([tests.test3]);
     tp.config.fileType = 'png';
+    tp.config.clipRegions = [{type: 'desktop', width: 1024, height: 768}];
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -433,7 +458,7 @@ test.serial('Test - section 2', t => {
 test.serial('Test - section 3', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    await blackbox.applyConfigFile();
+    await blackbox.applyConfigFile(false, false, {flags: {writeXml: true}});
     blackbox.writeTestFiles([tests.test4]);
     const tp = blackbox.prepareTestRun([tests.test4]);
     await blackbox.runTestophobia(tp);
@@ -447,7 +472,11 @@ test.serial('Test - section 3', t => {
       {spinner: 'message', text: ' \u001b[36mTesting Complete\u001b[39m [\u001b[32m4 passed\u001b[39m | \u001b[31m0 failed\u001b[39m]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), ['junit.xml']);
+    t.is(
+      fs.readFileSync('./sandbox/diffs/junit.xml').toString(),
+      '<?xml version="1.0" encoding="UTF-8"?><testsuites><testsuite name="section3-desktop" time="0" tests="2" skipped="0" failures="0"><testcase className="section3-desktop-0" name="Initial Snapshot" time="0"></testcase><testcase className="section3-desktop-1" name="Scroll the div to 500" time="0"></testcase></testsuite><testsuite name="section3-mobile" time="0" tests="2" skipped="0" failures="0"><testcase className="section3-mobile-0" name="Initial Snapshot" time="0"></testcase><testcase className="section3-mobile-1" name="Scroll the div to 500" time="0"></testcase></testsuite></testsuites>'
+    );
     resolve();
   });
 });
