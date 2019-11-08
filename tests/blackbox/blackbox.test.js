@@ -375,6 +375,7 @@ test.serial('Test - section 1', t => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
     const tp = blackbox.prepareTestRun([tests.test2]);
+    tp.config.pageLoadMax = 5000;
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
