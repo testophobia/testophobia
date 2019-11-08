@@ -2,6 +2,7 @@ const path = require('path');
 const mockRequire = require('mock-require');
 mockRequire('esm', () => getEsmResult);
 mockRequire('meow', () => getMeowResult());
+mockRequire('inquirer', {prompt: () => getInquirerResult()});
 mockRequire('find-config', {obj: () => getFindConfigResult()});
 
 const esmResults = {};
@@ -32,6 +33,10 @@ const getFindConfigResult = () => {
   return {dir: userCfg};
 };
 
+const getInquirerResult = () => {
+  return inquirerResult;
+};
+
 exports.setUserCfgInUse = inUse => {
   userCfgInUse = inUse;
 };
@@ -43,6 +48,15 @@ exports.setMeowResult = result => {
 
 exports.setEsmResult = (fileName, result) => {
   esmResults[fileName] = result;
+};
+
+exports.setInquirerResult = (result, cb) => {
+  inquirerResult = {
+    then: async f => {
+      await f(result);
+      cb();
+    }
+  };
 };
 
 exports.getConfig = () => {
@@ -72,3 +86,41 @@ exports.getConfig = () => {
     tests: 'sandbox/tests/**/*-test.js'
   };
 };
+
+exports.getGenConfig = () => {
+  return {
+    bail: false,
+    verbose: false,
+    threshold: 0.2,
+    diffDirectory: './testophobia/diffs',
+    goldenDirectory: './testophobia/golden-screens',
+    testDirectory: './testophobia/test-screens',
+    baseUrl: 'http://test.o.phobia',
+    fileType: 'jpeg',
+    defaultTime: 2068786800000,
+    quality: 80,
+    dimensions: [
+      {
+        type: 'desktop',
+        width: 1024,
+        height: 768
+      },
+      {
+        type: 'mobile',
+        width: 375,
+        height: 812
+      }
+    ],
+    tests: 'foo/bar/baz*'
+  };
+};
+
+exports.getGenTest = () => {
+  return {
+    actions: [],
+    name: 'Generated Test',
+    path: '/some/generated/test'
+  };
+};
+
+

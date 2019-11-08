@@ -166,6 +166,18 @@ blackbox.stubParallel = (tp, cb) => {
   parallelStub.callsFake(() => cb());
 };
 
+blackbox.setFileGenResult = (result, cb) => {
+  bbconfig.setInquirerResult(result, cb);
+};
+
+blackbox.getGenConfigContents = () => {
+  return bbconfig.getGenConfig();
+};
+
+blackbox.getGenTestContents = () => {
+  return bbconfig.getGenTest();
+};
+
 class SpinnerMock {
   fail() {}
   get isSpinning() {}

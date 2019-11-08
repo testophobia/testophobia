@@ -328,7 +328,6 @@ test.serial('Test - section 1 - no actions - failure', t => {
     copyFileOrDirectory(`./files/goldens/test1/failure/mobile`, `./sandbox/golden-screens/mobile/section1`);
     const tp = blackbox.createTestophobia();
     await blackbox.runTestophobia(tp);
-    blackbox.dumpConsole();
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
@@ -552,5 +551,136 @@ test.serial('Clear - all directories w/ golden', t => {
     t.false(fs.existsSync('./sandbox/diffs'));
     t.false(fs.existsSync('./sandbox/golden-screens'));
     resolve();
+  });
+});
+
+/*******************************************************************************
+ *****************************  G E N   F I L E S  *****************************
+ *******************************************************************************/
+
+test.serial('Gen File - testophobia.config.js - already exists', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile(false, false, {flags: {init: true}});
+    fs.writeFileSync('./sandbox/testophobia.config.js', 'export default {}');
+    blackbox.setFileGenResult(
+      {
+        genFile: 'config'
+      },
+      () => {
+        t.deepEqual(consoleChanges, [
+          {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+          {
+            message: 'testophobia.config.js already exists!',
+            consoleLevel: 'info',
+            chalkColor: undefined
+          }
+        ]);
+        resolve();
+      }
+    );
+    const tp = blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+  });
+});
+
+test.serial('Gen File - testophobia.config.js', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile(false, false, {flags: {init: true}});
+    blackbox.setFileGenResult(
+      {
+        genFile: 'config',
+        fileType: 'jpeg',
+        baseUrl: 'http://test.o.phobia',
+        testGlob: 'foo/bar/baz*'
+      },
+      () => {
+        t.deepEqual(consoleChanges, [
+          {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+          {
+            message: 'testophobia.config.js created.',
+            consoleLevel: 'info',
+            chalkColor: undefined
+          }
+        ]);
+        t.deepEqual(
+          JSON.parse(
+            fs
+              .readFileSync('./sandbox/testophobia.config.js')
+              .toString()
+              .slice(15, -1)
+          ),
+          blackbox.getGenConfigContents()
+        );
+        resolve();
+      }
+    );
+    const tp = blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+  });
+});
+
+test.serial('Gen File - test file - already exists', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile(false, false, {flags: {init: true}});
+    fs.writeFileSync('./sandbox/generated-test.js', 'export default {}');
+    blackbox.setFileGenResult(
+      {
+        genFile: 'test',
+        testLoc: 'generated-test.js'
+      },
+      () => {
+        t.deepEqual(consoleChanges, [
+          {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+          {
+            message: 'test file already exists!',
+            consoleLevel: 'info',
+            chalkColor: undefined
+          }
+        ]);
+        resolve();
+      }
+    );
+    const tp = blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+  });
+});
+
+test.serial('Gen File - test file', t => {
+  return new Promise(async resolve => {
+    const consoleChanges = blackbox.getConsoleChanges();
+    await blackbox.applyConfigFile(false, false, {flags: {init: true}});
+    blackbox.setFileGenResult(
+      {
+        genFile: 'test',
+        testLoc: 'generated-test.js',
+        testName: 'Generated Test',
+        testPath: '/some/generated/test'
+      },
+      () => {
+        t.deepEqual(consoleChanges, [
+          {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+          {
+            message: 'generated-test.js created.',
+            consoleLevel: 'info',
+            chalkColor: undefined
+          }
+        ]);
+        t.deepEqual(
+          JSON.parse(
+            fs
+              .readFileSync('./sandbox/generated-test.js')
+              .toString()
+              .slice(15, -1)
+          ),
+          blackbox.getGenTestContents()
+        );
+        resolve();
+      }
+    );
+    const tp = blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
   });
 });
