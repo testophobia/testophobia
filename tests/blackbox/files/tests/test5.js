@@ -7,7 +7,6 @@ module.exports = {
     path: '/index.html',
     actions: [
       {
-        description: 'Click the choose file button',
         type: 'triggerOpenFileDialog',
         target: '#input2',
         filePath: 'sandbox/files/testfile.json',
