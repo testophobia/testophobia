@@ -4,7 +4,7 @@ const fs = require('fs');
 const sinon = require('sinon');
 const bbconfig = require('./blackbox-config');
 
-const {createDirectory, copyFileOrDirectory, deleteDirectory} = require('../../lib/utils');
+const {createDirectory, copyFileOrDirectory, deleteDirectory} = require('../../lib/utils/file/file');
 const {Testophobia} = require('../../lib/Testophobia');
 const {Logger} = require('../../lib/Logger');
 const {Output} = require('../../lib/Output');
