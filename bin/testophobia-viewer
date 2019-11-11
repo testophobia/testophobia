@@ -3,5 +3,5 @@
 'use strict';
 const {Viewer} = require('../lib/Viewer');
 
-let v = new Viewer();
+const v = new Viewer();
 v.launchViewer();
