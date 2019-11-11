@@ -2,6 +2,4 @@
 /* global require */
 'use strict';
 const {Viewer} = require('../lib/Viewer');
-
-const v = new Viewer();
-v.launchViewer();
+new Viewer().launchViewer();

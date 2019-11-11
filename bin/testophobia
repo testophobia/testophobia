@@ -2,7 +2,4 @@
 /* global require */
 'use strict';
 const {Testophobia} = require('../lib/Testophobia');
-
-let t = new Testophobia();
-
-t.run();
+new Testophobia().run();

@@ -104,7 +104,7 @@ blackbox.dumpConsole = tp => {
 
 blackbox.applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   createDirectory(sandboxDir);
-  bbconfig.setEsmResult(path.join(__dirname, 'testophobia.config.js'), {default: bbconfig.getConfig()});
+  bbconfig.setEsmResult(path.join(__dirname, 'sandbox/testophobia.config.js'), {default: bbconfig.getConfig()});
   bbconfig.setMeowResult(meowResult);
   bbconfig.setUserCfgInUse(Boolean(applyUserCfg));
   if (!skipDirs) {
