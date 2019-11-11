@@ -20,7 +20,7 @@ let parallelStub = null;
 stubLogger = (output, verbose) => {
   const logger = output._getLog();
   logger.setLevel(verbose ? Logger.DEBUG_LEVEL : Logger.INFO_LEVEL);
-  loggerStub = sinon.stub(logger, 'log').callsFake((message, consoleLevel, chalkColor) => {
+  loggerStub = sinon.stub(logger, '_log').callsFake((message, consoleLevel, chalkColor) => {
     if (verbose || chalkColor !== 'dim') consoleChanges.push({message, consoleLevel, chalkColor});
     if (consoleLevel === 'error') console.error(message);
   });
