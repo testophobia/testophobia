@@ -84,9 +84,7 @@
   },
   "ava": {
     "files": [
-      "tests/unit/**/*",
-      "!tests/unit/common/*",
-      "!tests/unit/temp/*"
+      "tests/unit/**/*"
     ]
   }
 }
