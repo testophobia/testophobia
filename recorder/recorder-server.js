@@ -6,8 +6,8 @@ const odiff = require('deep-object-diff').diff;
 const esm = require('esm');
 const express = require('express');
 const bodyParser = require('body-parser');
-const {performAction} = require('../lib/utils/perform-action');
-const {resolveNodeModuleFile} = require('../lib/utils');
+const {performAction} = require('../lib/utils/test/perform-action');
+const {resolveNodeModuleFile} = require('../lib/utils/file/file');
 
 const app = express();
 app.use(function(req, res, next) {

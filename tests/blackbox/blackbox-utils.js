@@ -4,7 +4,7 @@ const fs = require('fs');
 const sinon = require('sinon');
 const bbconfig = require('./blackbox-config');
 
-const {createDirectory, copyFileOrDirectory, deleteDirectory} = require('../../lib/utils');
+const {createDirectory, copyFileOrDirectory, deleteDirectory} = require('../../lib/utils/file/file');
 const {Testophobia} = require('../../lib/Testophobia');
 const {Logger} = require('../../lib/Logger');
 const {Output} = require('../../lib/Output');
@@ -20,7 +20,7 @@ let parallelStub = null;
 stubLogger = (output, verbose) => {
   const logger = output._getLog();
   logger.setLevel(verbose ? Logger.DEBUG_LEVEL : Logger.INFO_LEVEL);
-  loggerStub = sinon.stub(logger, 'log').callsFake((message, consoleLevel, chalkColor) => {
+  loggerStub = sinon.stub(logger, '_log').callsFake((message, consoleLevel, chalkColor) => {
     if (verbose || chalkColor !== 'dim') consoleChanges.push({message, consoleLevel, chalkColor});
     if (consoleLevel === 'error') console.error(message);
   });
@@ -104,7 +104,7 @@ blackbox.dumpConsole = tp => {
 
 blackbox.applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   createDirectory(sandboxDir);
-  bbconfig.setEsmResult(path.join(__dirname, 'testophobia.config.js'), {default: bbconfig.getConfig()});
+  bbconfig.setEsmResult(path.join(__dirname, 'sandbox/testophobia.config.js'), {default: bbconfig.getConfig()});
   bbconfig.setMeowResult(meowResult);
   bbconfig.setUserCfgInUse(Boolean(applyUserCfg));
   if (!skipDirs) {

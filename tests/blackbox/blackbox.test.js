@@ -3,7 +3,7 @@ const fs = require('fs');
 const test = require('ava');
 const blackbox = require('./blackbox-utils');
 const tests = require('./files/tests');
-const {createDirectory, copyFileOrDirectory} = require('../../lib/utils');
+const {createDirectory, copyFileOrDirectory} = require('../../lib/utils/file/file');
 
 blackbox.setupTests(test);
 
