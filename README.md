@@ -10,12 +10,10 @@ specify, taking screenshots of the page along the way.  It will compare these sn
 
 <sup>\* Only Google Chrome currently, and Firefox on an experimental branch</sup>
 
-<img align="right" width="320" height="289" src="https://github.com/testophobia/testophobia/raw/master/docs/images/testophobia-viewer.gif">
-<img align="right" width="511" height="231" src="https://github.com/testophobia/testophobia/raw/master/docs/images/testophobia-recorder.png">
-
-<br/><br/>
-<div>&nbsp;</div>
-<br/><br/>
+<div>
+  <img width="511" height="231" src="https://github.com/testophobia/testophobia/raw/master/docs/images/testophobia-recorder.png">
+  <img width="320" height="289" src="https://github.com/testophobia/testophobia/raw/master/docs/images/testophobia-viewer.gif">
+</div>
 
 ## Getting Started
 
