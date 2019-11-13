@@ -15,7 +15,7 @@ test.serial('Config - no config file', t => {
   return new Promise(resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     blackbox.stubFatalExit(() => {
-      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Unable to process config files!', consoleLevel: 'error', chalkColor: 'red'}]);
+      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Error loading testophobia config file', consoleLevel: 'error', chalkColor: 'red'}]);
       resolve();
     });
     const err = new Error();
@@ -29,7 +29,7 @@ test.serial('Config - unparseable config file', t => {
   return new Promise(resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     blackbox.stubFatalExit(() => {
-      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Unable to process config files!', consoleLevel: 'error', chalkColor: 'red'}]);
+      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Error loading testophobia config file', consoleLevel: 'error', chalkColor: 'red'}]);
       resolve();
     });
     blackbox.useBadConfigFile(new Error('Bad config file!'));
@@ -41,7 +41,7 @@ test.serial('Config - bad config file (noexport)', t => {
   return new Promise(resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     blackbox.stubFatalExit(() => {
-      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Unable to process config files!', consoleLevel: 'error', chalkColor: 'red'}]);
+      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Error loading testophobia config file', consoleLevel: 'error', chalkColor: 'red'}]);
       resolve();
     });
     blackbox.useBadConfigFile({});

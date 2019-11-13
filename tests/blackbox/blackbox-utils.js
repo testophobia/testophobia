@@ -151,6 +151,7 @@ blackbox.getFiles = dir => {
 blackbox.useBadConfigFile = async result => {
   createDirectory(sandboxDir);
   bbconfig.setEsmResult('testophobia.config.js', result);
+  bbconfig.setMeowResult({input: ['undefined'], flags: {}});
 };
 
 blackbox.stubFatalExit = cb => {

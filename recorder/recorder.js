@@ -1,11 +1,11 @@
 /* global __dirname, require, process, exports */
-"use strict";
-const fs = require("fs");
-const puppeteer = require("puppeteer-extra");
-const puppeteerUserDataDir = require("puppeteer-extra-plugin-user-data-dir");
-const puppeteerUserPrefs = require("puppeteer-extra-plugin-user-preferences");
-const { loadConfig } = require("../lib/utils/load-config");
-const { RecorderServer } = require("./recorder-server");
+'use strict';
+const fs = require('fs');
+const puppeteer = require('puppeteer-extra');
+const puppeteerUserDataDir = require('puppeteer-extra-plugin-user-data-dir');
+const puppeteerUserPrefs = require('puppeteer-extra-plugin-user-preferences');
+const {loadConfig} = require('../lib/utils/config/load-config');
+const {RecorderServer} = require('./recorder-server');
 
 exports.TestophobiaRecorder = class TestophobiaRecorder {
   async launch() {
@@ -22,7 +22,7 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
         defHeight = config.dimensions[0].height;
       }
     } else {
-      console.error("testophobia.config.js not found in current directory!");
+      console.error('testophobia.config.js not found in current directory!');
       return 1;
     }
 
@@ -35,10 +35,10 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
       userPrefs: {
         devtools: {
           preferences: {
-            cacheDisabled: "true",
+            cacheDisabled: 'true',
             currentDockState: '"undocked"',
             elementsPanelSplitViewState: '{"vertical":{"size":600}}',
-            "panel-selectedTab": '"elements"',
+            'panel-selectedTab': '"elements"',
             uiTheme: '"dark"'
           }
         }
@@ -49,8 +49,8 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
     puppeteer.use(userPrefsPlugin);
     const args = puppeteer.defaultArgs().filter(arg => {
       switch (String(arg).toLowerCase()) {
-        case "--disable-extensions":
-        case "--headless":
+        case '--disable-extensions':
+        case '--headless':
           return false;
         default:
           return true;
@@ -61,7 +61,7 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
     const browser = await puppeteer.launch({
       ignoreDefaultArgs: true,
       args: args.concat([
-        "--auto-open-devtools-for-tabs",
+        '--auto-open-devtools-for-tabs',
         `--load-extension=${__dirname}/extension`,
         `--window-size=${defWidth},${defHeight}`,
         `--user-data-dir=${userDataDir}`
@@ -74,7 +74,7 @@ exports.TestophobiaRecorder = class TestophobiaRecorder {
     let pagelist = await browser.pages();
     pagelist[0].close();
     page = await browser.newPage();
-    await page.goto(config.baseUrl, { waitUntil: "networkidle2" });
+    await page.goto(config.baseUrl, {waitUntil: 'networkidle2'});
 
     //start the server
     RecorderServer.start(config, page);
