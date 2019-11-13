@@ -1,14 +1,12 @@
 export default {
-  fileType: "png",
-  baseUrl: "https://demo.nopcommerce.com",
+  fileType: 'png',
+  baseUrl: 'https://demo.nopcommerce.com',
   dimensions: [
     {
-      type: "desktop",
+      type: 'desktop',
       width: 1024,
       height: 680
     }
   ],
-  tests: [
-    {name: "home"}
-  ]
+  tests: 'tests/**/*-test.js'
 };
