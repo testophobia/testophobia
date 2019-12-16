@@ -33,6 +33,8 @@
     $('#txtTarget').val(action.target);
     let fieldsHtml = '';
     const addField = (label, prop) => `\n      <label>${label}</label>\n      <input id="txt${prop}" value="${action[prop] || ''}"/>`;
+    const addBooleanField = (label, prop) =>
+      `\n      '<input id="chk${prop}" type="checkbox" ${action[prop] ? 'checked' : ''}/><label for="chk${prop}">${label}</label>`;
     switch (Testophobia.dialogActionType) {
       case 'setProperty':
         fieldsHtml = `${addField('Property Name', 'property')}${addField('Property Value', 'value')}`;
@@ -50,7 +52,7 @@
         fieldsHtml = `${addField('Key', 'key')}`;
         break;
       case 'input':
-        fieldsHtml = `${addField('Value', 'value')}${addField('Replace', 'replace')}`;
+        fieldsHtml = `${addField('Value', 'value')}${addBooleanField('Replace Existing Text', 'replace')}`;
         break;
       case 'drag':
         fieldsHtml = `${addField('X Delta', 'x')}${addField('Y Delta', 'y')}`;
@@ -165,8 +167,13 @@
     Testophobia.activeTest.actions[Testophobia.dialogActionIndex].type = Testophobia.dialogActionType;
     Testophobia.activeTest.actions[Testophobia.dialogActionIndex].target = $('#txtTarget').val();
     $('#divAddlFields input').each(function() {
-      const v = $(this).val();
-      Testophobia.activeTest.actions[Testophobia.dialogActionIndex][this.id.substr(3)] = v ? v.trim() : v;
+      let v;
+      if (this.type === 'checkbox') v = $(this).is(':checked');
+      else
+        v = $(this)
+          .val()
+          .trim();
+      Testophobia.activeTest.actions[Testophobia.dialogActionIndex][this.id.substr(3)] = v;
     });
     Testophobia.hideActionsDialog();
   }
