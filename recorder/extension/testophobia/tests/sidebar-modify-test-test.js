@@ -12,7 +12,7 @@ export default {
       type: 'setAttribute',
       target: '#ddActionType',
       attribute: 'size',
-      value: '12'
+      value: '13'
     },
     {
       description: 'Close the actions dropdown',

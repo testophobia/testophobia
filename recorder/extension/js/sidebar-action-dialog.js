@@ -51,6 +51,9 @@
       case 'keypress':
         fieldsHtml = `${addField('Key', 'key')}`;
         break;
+      case 'mouseevent':
+        fieldsHtml = `${addField('Event Name', 'eventName')}${addField('ClientX', 'clientX')}${addField('ClientY', 'clientY')}`;
+        break;
       case 'input':
         fieldsHtml = `${addField('Value', 'value')}${addBooleanField('Replace Existing Text', 'replace')}`;
         break;
@@ -248,6 +251,7 @@
     rendered += '<option value="clearInput">Clear Input</option>';
     rendered += '<option value="input">Input Text</option>';
     rendered += '<option value="keypress">Key Press</option>';
+    rendered += '<option value="mouseevent">Mouse Event</option>';
     rendered += '<option value="drag">Drag</option>';
     rendered += '<option value="triggerOpenFileDialog">Open File Dialog</option>';
     rendered += '<option value="setProperty">Set Property</option>';

@@ -14,6 +14,7 @@
     rendered += '<option value="clearInput">Clear Input</option>';
     rendered += '<option value="input">Input Text</option>';
     rendered += '<option value="keypress">Key Press</option>';
+    rendered += '<option value="mouseevent">Mouse Event</option>';
     rendered += '<option value="drag">Drag</option>';
     rendered += '<option value="triggerOpenFileDialog">Open File Dialog</option>';
     rendered += '<option value="setProperty">Set Property</option>';
