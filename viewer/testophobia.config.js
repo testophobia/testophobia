@@ -14,11 +14,6 @@ export default {
       "type": "desktop",
       "width": 1024,
       "height": 768
-    },
-    {
-      "type": "mobile",
-      "width": 375,
-      "height": 812
     }
   ],
   "tests": "testophobia/tests/**/*-test.js"
