@@ -73,6 +73,7 @@
     $('#divActionProps #chkSkipScreen').prop('checked', action.skipScreen || false);
     $('#divActionProps #chkBlurElement').prop('checked', action.blurActiveElement || false);
     $('#divActionProps #chkHideMouse').prop('checked', action.hideMouse || false);
+    $('#divActionProps #chkNavBack').prop('checked', action.navigateBackAfterAction || false);
     $('#divBackdrop').removeAttr('hidden');
     $('#divActionDialog').removeAttr('hidden');
     $('#divActionProps input')
@@ -163,6 +164,15 @@
         name: 'hideMouse',
         type: 'boolean',
         selector: '#divActionProps #chkHideMouse',
+        required: false
+      },
+      action
+    );
+    Testophobia.validation.validate(
+      {
+        name: 'navigateBackAfterAction',
+        type: 'boolean',
+        selector: '#divActionProps #chkNavBack',
         required: false
       },
       action
@@ -283,6 +293,9 @@
     rendered += '<br>';
     rendered += '<input id="chkHideMouse" type="checkbox"/>';
     rendered += '<label for="chkHideMouse">Hide the mouse before snapshot</label>';
+    rendered += '<br>';
+    rendered += '<input id="chkNavBack" type="checkbox"/>';
+    rendered += '<label for="chkNavBack">Navigate back after screenshot</label>';
     rendered += '</div>';
     rendered += '<button id="btnSaveEdits" class="dialogBtn green button">Apply</button>';
     $('#divActionDialog').html(rendered);
