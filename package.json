@@ -1,6 +1,6 @@
 {
   "name": "testophobia",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "Web application snapshot tester",
   "license": "MIT",
   "repository": {
@@ -86,5 +86,8 @@
     "files": [
       "tests/unit/**/*"
     ]
+  },
+  "resolutions": {
+    "fsevents": ">=1.2.9"
   }
 }
