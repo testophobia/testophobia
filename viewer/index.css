@@ -56,9 +56,12 @@ body {
 #golden-view {
   margin: 2vh 2vw;
 }
+.golden-list-section {
+  margin-bottom: 8px;
+}
 .golden-list {
   background: #222;
-  margin: 10px 0;
+  margin: 0 0 24px 0;
   padding: 0;
   list-style-type: none;
   background: #2b2b2b;
