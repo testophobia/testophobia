@@ -5,6 +5,7 @@
     return new Promise(resolve => {
       $.getJSON('golden-dirs', d => {
         d.forEach(t => {
+          console.dir(t);
           const idx = t.indexOf('/');
           const testDim = t.substr(0, idx);
           const testName = t.substr(idx + 1);
@@ -25,8 +26,10 @@
   }
 
   function buildList() {
-    $('#golden-list').empty();
+    $('#golden-view').empty();
+    let thisList;
     Object.keys(Testophobia.testNames).forEach(k => {
+      thisList = $('<ul class="golden-list"></ul>');
       const thisRow = $(`<li></li>`);
       thisRow.append($(`<div>${k}</div>`));
       Testophobia.testNames[k].forEach(d => {
@@ -34,7 +37,8 @@
         dimBtn.click(() => Testophobia.viewer.init(true, `${d}/${k}`));
         thisRow.append(dimBtn);
       });
-      $('#golden-list').append(thisRow);
+      thisList.append(thisRow);
+      $('#golden-view').append(thisList);
     });
   }
 
