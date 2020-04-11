@@ -181,9 +181,8 @@ body {
   min-width: 128px;
   display: inline-block;
 }
-#btn-view-type {
-  margin-right: 16px;
-}
+#btn-view-type,
+#btn-apply,
 #btn-prev {
   margin-right: 1vw;
 }

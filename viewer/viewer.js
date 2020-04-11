@@ -91,6 +91,19 @@
         await loadTestResults(null, true);
         loadTest();
       });
+    $('#btn-apply-all')
+      .button()
+      .click(async e => {
+        $.post('/apply-all-goldens', (data, statusText, xhr) => {
+          if (xhr.status === 200) {
+            if (!e.altKey) alert('All test images applied as the new golden images.');
+          } else {
+            alert('Unable to apply the new golden images: ' + statusText);
+          }
+        });
+        await loadTestResults(null, true);
+        loadTest();
+      });
   }
 
   function resetDiffButton() {
@@ -173,6 +186,7 @@
       $('#btn-prev').button('disable');
       $('#btn-next').button('disable');
       $('#btn-apply').button('disable');
+      $('#btn-apply-all').button('disable');
       $('#btn-view-type').button('disable');
       $('#btn-diff').button('disable');
       $('#sld-diff').slider('disable');
