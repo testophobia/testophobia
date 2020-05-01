@@ -4,7 +4,7 @@
   function loadTestResults(goldenPath, maintainIndex) {
     const gPath = goldenPath ? '/' + goldenPath : '';
     return new Promise(resolve => {
-      $.getJSON('test-results' + gPath, d => {
+      $.getJSON('test-results' + gPath, async d => {
         if (Testophobia.golden) {
           Testophobia.goldenImages = d.images;
           Testophobia.currentImageIdx = d.images.length > 0 ? 0 : -1;
@@ -226,8 +226,9 @@
     }
   }
 
-  function initGoldenView() {
-    $('#single-image').show();
+  function resetGoldenView() {
+    $('#lbl-testname').text('Loading...');
+    $('#single-image').hide();
     $('#single-image-lbl').hide();
     $('#viewer-container').hide();
     $('#btn-info').hide();
@@ -235,6 +236,16 @@
     $('#img-before').attr('src', '');
     $('#img-after').attr('src', '');
     $('#img-diff').attr('src', '');
+    $('#btn-prev').hide();
+    $('#btn-next').hide();
+    $('#lbl-pager').hide();
+  }
+
+  function initGoldenView() {
+    $('#single-image').show();
+    $('#btn-prev').show();
+    $('#btn-next').show();
+    $('#lbl-pager').show();
     loadGolden();
   }
 
@@ -251,6 +262,7 @@
   }
 
   async function init(golden, goldenPath) {
+    if (golden) resetGoldenView();
     $('#golden-view').hide();
     $('#lnk-start-over').hide();
     $('#viewer-view').show();
