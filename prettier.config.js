@@ -3,5 +3,8 @@ module.exports = {
   singleQuote: true,
   bracketSpacing: false,
   printWidth: 160,
-  htmlWhitespaceSensitivity: 'ignore'
+  tabWidth: 2,
+  htmlWhitespaceSensitivity: 'ignore',
+  arrowParens: 'avoid',
+  trailingComma: 'none',
 };

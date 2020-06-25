@@ -37,21 +37,23 @@
   function buildList() {
     $('#golden-view').empty();
     let thisList;
-    Object.keys(Testophobia.testGoldens).forEach(k => {
-      $('#golden-view').append($(`<div class="golden-list-section">${k}</div>`));
-      thisList = $('<ul class="golden-list"></ul>');
-      Testophobia.testGoldens[k].forEach(tg => {
-        const thisRow = $(`<li></li>`);
-        thisRow.append($(`<div>${tg.golden}</div>`));
-        tg.dimensions.forEach(d => {
-          const dimBtn = $(`<div>${d}</div>`);
-          dimBtn.click(() => Testophobia.viewer.init(true, `${d}/${tg.golden}`));
-          thisRow.append(dimBtn);
+    Object.keys(Testophobia.testGoldens)
+      .sort()
+      .forEach(k => {
+        $('#golden-view').append($(`<div class="golden-list-section">${k}</div>`));
+        thisList = $('<ul class="golden-list"></ul>');
+        Testophobia.testGoldens[k].forEach(tg => {
+          const thisRow = $(`<li></li>`);
+          thisRow.append($(`<div>${tg.golden}</div>`));
+          tg.dimensions.forEach(d => {
+            const dimBtn = $(`<div>${d}</div>`);
+            dimBtn.click(() => Testophobia.viewer.init(true, `${d}/${tg.golden}`));
+            thisRow.append(dimBtn);
+          });
+          thisList.append(thisRow);
         });
-        thisList.append(thisRow);
+        $('#golden-view').append(thisList);
       });
-      $('#golden-view').append(thisList);
-    });
   }
 
   async function init() {

@@ -114,19 +114,22 @@ body {
 }
 #viewer-container {
   margin: 0 1vw;
-  /*background: #ccc;*/
+  height: 76vh !important;
 }
 #viewer-container.side-by-side {
-  /*background: none;*/
   white-space: nowrap;
   overflow: visible;
-  margin-bottom: 16px;
 }
 #viewer-container.side-by-side .twentytwenty-overlay,
 #viewer-container.side-by-side .twentytwenty-handle {
   display: none;
 }
-
+#viewer-container .twentytwenty-left-arrow {
+  border-right-color: #ddd;
+}
+#viewer-container .twentytwenty-right-arrow {
+  border-left-color: #ddd;
+}
 #viewer-container.side-by-side #img-before,
 #viewer-container.side-by-side #img-after {
   clip: unset !important;
@@ -157,7 +160,6 @@ body {
 }
 
 #diff-overlay {
-  opacity: 0.3;
   position: absolute;
   top: 16vh;
   left: 1vw;
@@ -167,7 +169,7 @@ body {
 #single-image-img,
 #viewer-container img,
 #diff-overlay img {
-  max-height: 72vh;
+  max-height: 76vh;
 }
 #dlg-info ul {
   list-style-type: none;

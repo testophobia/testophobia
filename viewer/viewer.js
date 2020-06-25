@@ -25,7 +25,7 @@
   function configureInfoButton() {
     $('#btn-info')
       .button()
-      .click(function() {
+      .click(function () {
         const dlg = $('#dlg-info');
         dlg.get(0).innerHTML = `<ul>
   <li><span>File:</span>${Testophobia.currentTestFailure.testFileLocation.split('/').pop()}</li>
@@ -114,12 +114,13 @@
     $('#sld-diff').hide();
     $('label[for="sld-diff"]').hide();
     $('#sld-diff').slider('disable');
+    resetDiffOpacity();
   }
 
   function configureViewTypeButton() {
     $('#btn-view-type')
       .button()
-      .click(function() {
+      .click(function () {
         resetDiffButton();
         if ($(this).text() === 'Side By Side') {
           $(this).text('Overlay');
@@ -136,15 +137,17 @@
   function configureDiffButton() {
     $('#btn-diff')
       .button()
-      .click(function() {
+      .click(function () {
         if ($(this).text() === 'Show Diff') {
           $(this).text('Hide Diff');
           $(this).addClass('red');
           $(this).removeClass('blue');
           $('#diff-overlay').show();
+          $('#sld-diff').slider({value: 50});
           $('#sld-diff').slider('enable');
           $('#sld-diff').show();
           $('label[for="sld-diff"]').show();
+          updateDiffOpacity(null, {value: 50});
         } else {
           resetDiffButton();
         }
@@ -155,12 +158,20 @@
     $('#sld-diff').slider({
       min: 0,
       max: 100,
-      value: 30,
+      value: 50,
       disabled: true,
-      change: function(e, u) {
-        $('#diff-overlay').fadeTo('fast', u.value / 100);
-      }
+      change: updateDiffOpacity
     });
+  }
+
+  function updateDiffOpacity(e, u) {
+    $('#img-before').fadeTo('fast', (100 - u.value) / 100);
+    $('#img-after').fadeTo('fast', (100 - u.value) / 100);
+  }
+
+  function resetDiffOpacity() {
+    $('#img-before').fadeTo('fast', 1);
+    $('#img-after').fadeTo('fast', 1);
   }
 
   function configureTestRunDialog() {
