@@ -130,7 +130,8 @@ export default {
       type: 'setProperty',
       target: '#divClipRegionsForActionDialog #txtWidth',
       property: 'value',
-      value: '567'
+      value: '567',
+      blurAfterAction: true
     },
     {
       description: 'Set the clip region height',
@@ -138,7 +139,7 @@ export default {
       target: '#divClipRegionsForActionDialog #txtHeight',
       property: 'value',
       value: '678',
-      blurActiveElement: true
+      blurAfterAction: true
     },
     {
       description: 'Apply the clip region',
@@ -153,7 +154,7 @@ export default {
       value: true
     },
     {
-      description: 'Set the blurActiveElement',
+      description: 'Set the blurAfterAction',
       type: 'setProperty',
       target: '#divActionDialog #chkBlurElement',
       property: 'checked',

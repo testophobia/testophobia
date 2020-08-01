@@ -71,14 +71,12 @@
     loadClipRegions(action);
     loadExcludedDimensions(action);
     $('#divActionProps #chkSkipScreen').prop('checked', action.skipScreen || false);
-    $('#divActionProps #chkBlurElement').prop('checked', action.blurActiveElement || false);
+    $('#divActionProps #chkBlurElement').prop('checked', action.blurAfterAction || false);
     $('#divActionProps #chkHideMouse').prop('checked', action.hideMouse || false);
     $('#divActionProps #chkNavBack').prop('checked', action.navigateBackAfterAction || false);
     $('#divBackdrop').removeAttr('hidden');
     $('#divActionDialog').removeAttr('hidden');
-    $('#divActionProps input')
-      .get(0)
-      .focus();
+    $('#divActionProps input').get(0).focus();
   }
 
   function loadClipRegions(action) {
@@ -106,10 +104,16 @@
   }
 
   function loadExcludedDimensions(action) {
-    Testophobia.buildListControl('#lstExcludedDimensions', action.excludeDimensions, f => f, null, e => {
-      action.excludeDimensions.splice($(e.currentTarget).attr('data-row'), 1);
-      loadExcludedDimensions(action);
-    });
+    Testophobia.buildListControl(
+      '#lstExcludedDimensions',
+      action.excludeDimensions,
+      f => f,
+      null,
+      e => {
+        action.excludeDimensions.splice($(e.currentTarget).attr('data-row'), 1);
+        loadExcludedDimensions(action);
+      }
+    );
   }
 
   function saveEdits() {
@@ -152,7 +156,7 @@
     );
     Testophobia.validation.validate(
       {
-        name: 'blurActiveElement',
+        name: 'blurAfterAction',
         type: 'boolean',
         selector: '#divActionProps #chkBlurElement',
         required: false
@@ -179,13 +183,10 @@
     );
     Testophobia.activeTest.actions[Testophobia.dialogActionIndex].type = Testophobia.dialogActionType;
     Testophobia.activeTest.actions[Testophobia.dialogActionIndex].target = $('#txtTarget').val();
-    $('#divAddlFields input').each(function() {
+    $('#divAddlFields input').each(function () {
       let v;
       if (this.type === 'checkbox') v = $(this).is(':checked');
-      else
-        v = $(this)
-          .val()
-          .trim();
+      else v = $(this).val().trim();
       Testophobia.activeTest.actions[Testophobia.dialogActionIndex][this.id.substr(3)] = v;
     });
     Testophobia.hideActionsDialog();
@@ -289,7 +290,7 @@
     rendered += '<label for="chkSkipScreen">Skip snapshot for this action</label>';
     rendered += '<br>';
     rendered += '<input id="chkBlurElement" type="checkbox"/>';
-    rendered += '<label for="chkBlurElement">Unfocus the active element before snapshot</label>';
+    rendered += '<label for="chkBlurElement">Unfocus the target element after action</label>';
     rendered += '<br>';
     rendered += '<input id="chkHideMouse" type="checkbox"/>';
     rendered += '<label for="chkHideMouse">Hide the mouse before snapshot</label>';
