@@ -58,8 +58,17 @@ body {
 }
 .golden-list-section {
   margin-bottom: 8px;
+  cursor: pointer;
+}
+.golden-list-section:hover {
+  opacity: 75%;
+}
+.golden-list-section span:last-child {
+  vertical-align: top;
+  margin-left: 8px;
 }
 .golden-list {
+  display: none;
   background: #222;
   margin: 0 0 24px 0;
   padding: 0;
@@ -67,6 +76,9 @@ body {
   background: #2b2b2b;
   min-height: 24px;
   overflow: auto;
+}
+.golden-list.list-open {
+  display: block;
 }
 .golden-list li {
   padding: 0px;
@@ -81,15 +93,15 @@ body {
 .golden-list li div:first-child {
   flex: 1;
 }
-.golden-list li div:not(:first-child) {
+.golden-list li div:not(:first-child) a {
   color: #70b9e8;
   text-decoration: underline;
 }
-.golden-list li div:not(:first-child):hover {
+.golden-list li div:not(:first-child):hover a {
   cursor: pointer;
   color: #a2c9e2;
 }
-.golden-list li div:not(:first-child):active {
+.golden-list li div:not(:first-child):active a {
   opacity: 0.8;
 }
 

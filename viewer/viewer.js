@@ -4,7 +4,7 @@
   function loadTestResults(goldenPath, maintainIndex) {
     const gPath = goldenPath ? '/' + goldenPath : '';
     return new Promise(resolve => {
-      $.getJSON('test-results' + gPath, async d => {
+      $.getJSON('/test-results' + gPath, async d => {
         if (Testophobia.golden) {
           Testophobia.goldenImages = d.images;
           Testophobia.currentImageIdx = d.images.length > 0 ? 0 : -1;

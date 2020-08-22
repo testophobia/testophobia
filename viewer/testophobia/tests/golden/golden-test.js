@@ -10,7 +10,7 @@ export default {
     {
       description: 'Click on desktop/home directory',
       type: 'click',
-      target: '.golden-list:last-child li div:nth-child(2)'
+      target: '.golden-list:last-child li div:nth-child(2) a'
     },
     {
       description: 'Click on next to see the second image for desktop/home',
@@ -25,7 +25,7 @@ export default {
     {
       description: 'Click on mobile/home directory',
       type: 'click',
-      target: '.golden-list:last-child li div:nth-child(3)'
+      target: '.golden-list:last-child li div:nth-child(3) a'
     }
   ]
 };
