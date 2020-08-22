@@ -74,6 +74,9 @@
     "sharp": "^0.25.1",
     "zurb-twentytwenty": "https://github.com/zurb/twentytwenty"
   },
+  "resolutions": {
+    "minimist": "^1.2.3"
+  },
   "scripts": {
     "pretest": "node tests/unit/common/generate-temp.js",
     "test": "ava -v 2> /dev/null"
