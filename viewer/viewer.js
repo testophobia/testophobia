@@ -106,10 +106,12 @@
       });
   }
 
-  function resetDiffButton() {
-    $('#btn-diff').text('Show Diff');
-    $('#btn-diff').addClass('blue');
-    $('#btn-diff').removeClass('red');
+  function hideDiff(reset) {
+    if (reset) {
+      $('#btn-diff').text('Show Diff');
+      $('#btn-diff').addClass('blue');
+      $('#btn-diff').removeClass('red');
+    }
     $('#diff-overlay').hide();
     $('#sld-diff').hide();
     $('label[for="sld-diff"]').hide();
@@ -117,18 +119,30 @@
     resetDiffOpacity();
   }
 
+  function showDiff() {
+    $('#btn-diff').text('Hide Diff');
+    $('#btn-diff').addClass('red');
+    $('#btn-diff').removeClass('blue');
+    $('#diff-overlay').show();
+    $('#sld-diff').slider('enable');
+    $('#sld-diff').show();
+    $('label[for="sld-diff"]').show();
+    updateDiffOpacity(null, {value: $('#sld-diff').slider('value')});
+  }
+
   function configureViewTypeButton() {
     $('#btn-view-type')
       .button()
       .click(function () {
-        resetDiffButton();
         if ($(this).text() === 'Side By Side') {
           $(this).text('Overlay');
           $('#btn-diff').hide();
+          hideDiff();
           $('#viewer-container').addClass('side-by-side');
         } else {
           $(this).text('Side By Side');
           $('#btn-diff').show();
+          if ($('#btn-diff').text() === 'Hide Diff') showDiff();
           $('#viewer-container').removeClass('side-by-side');
         }
       });
@@ -138,19 +152,8 @@
     $('#btn-diff')
       .button()
       .click(function () {
-        if ($(this).text() === 'Show Diff') {
-          $(this).text('Hide Diff');
-          $(this).addClass('red');
-          $(this).removeClass('blue');
-          $('#diff-overlay').show();
-          $('#sld-diff').slider({value: 50});
-          $('#sld-diff').slider('enable');
-          $('#sld-diff').show();
-          $('label[for="sld-diff"]').show();
-          updateDiffOpacity(null, {value: 50});
-        } else {
-          resetDiffButton();
-        }
+        if ($(this).text() === 'Show Diff') showDiff();
+        else hideDiff(true);
       });
   }
 
