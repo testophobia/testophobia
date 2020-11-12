@@ -75,7 +75,8 @@
     "zurb-twentytwenty": "https://github.com/zurb/twentytwenty"
   },
   "resolutions": {
-    "minimist": "^1.2.3"
+    "minimist": "^1.2.3",
+    "yargs-parser": "^18.1.3"
   },
   "scripts": {
     "pretest": "node tests/unit/common/generate-temp.js",

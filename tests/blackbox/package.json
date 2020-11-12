@@ -31,6 +31,7 @@
     "sinon": "^9.0.1"
   },
   "resolutions": {
-    "minimist": "^1.2.3"
+    "minimist": "^1.2.3",
+    "yargs-parser": "^18.1.3"
   }
 }
