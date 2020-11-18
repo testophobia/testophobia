@@ -635,15 +635,7 @@ test.serial('Gen File - testophobia.config.js', t => {
             chalkColor: undefined
           }
         ]);
-        t.deepEqual(
-          JSON.parse(
-            fs
-              .readFileSync('./sandbox/testophobia.config.js')
-              .toString()
-              .slice(15, -1)
-          ),
-          blackbox.getGenConfigContents()
-        );
+        t.deepEqual(JSON.parse(fs.readFileSync('./sandbox/testophobia.config.js').toString().slice(15, -1)), blackbox.getGenConfigContents());
         resolve();
       }
     );
@@ -699,15 +691,7 @@ test.serial('Gen File - test file', t => {
             chalkColor: undefined
           }
         ]);
-        t.deepEqual(
-          JSON.parse(
-            fs
-              .readFileSync('./sandbox/generated-test.js')
-              .toString()
-              .slice(15, -1)
-          ),
-          blackbox.getGenTestContents()
-        );
+        t.deepEqual(JSON.parse(fs.readFileSync('./sandbox/generated-test.js').toString().slice(15, -1)), blackbox.getGenTestContents());
         resolve();
       }
     );
