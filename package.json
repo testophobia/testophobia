@@ -1,6 +1,6 @@
 {
   "name": "testophobia",
-  "version": "0.9.18",
+  "version": "1.0.0",
   "description": "Web application snapshot tester",
   "license": "MIT",
   "repository": {
@@ -64,11 +64,8 @@
     "opn": "^6.0.0",
     "ora": "^4.0.3",
     "pixelmatch": "^5.1.0",
+    "playwright": "^1.6.0",
     "pngjs": "^3.4.0",
-    "puppeteer": "2.0.0",
-    "puppeteer-extra": "^3.1.4",
-    "puppeteer-extra-plugin-user-data-dir": "^2.2.4",
-    "puppeteer-extra-plugin-user-preferences": "^2.2.4",
     "query-selector-shadow-dom": "^0.4.2",
     "request": "^2.88.2",
     "sharp": "^0.25.1",
