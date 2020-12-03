@@ -39,8 +39,7 @@
   ],
   "bin": {
     "testophobia": "bin/testophobia",
-    "testophobia-viewer": "bin/testophobia-viewer",
-    "testophobia-recorder": "bin/testophobia-recorder"
+    "testophobia-viewer": "bin/testophobia-viewer"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

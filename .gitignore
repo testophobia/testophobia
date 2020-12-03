@@ -62,8 +62,6 @@ typings/
 
 examples/*/testophobia
 
-recorder/extension/testophobia/test-screens
-recorder/extension/testophobia/diffs
 viewer/testophobia/test-screens
 viewer/testophobia/diffs
 
