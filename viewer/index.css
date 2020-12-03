@@ -40,6 +40,10 @@ body {
   box-sizing: border-box;
   flex: 1;
 }
+.jqui-browser {
+  font-size: 12px;
+  margin-left: 46px;
+}
 .jqui-label {
   padding: 0.4em 1vw;
   display: inline-block;

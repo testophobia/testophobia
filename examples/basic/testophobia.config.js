@@ -22,5 +22,6 @@ export default {
   goldenDirectory: "./testophobia/golden-screens",
   diffDirectory: "./testophobia/diffs",
   threshold: 0.2,
-  tests: 'tests/**/*-test.js'
+  tests: 'tests/**/*-test.js',
+  browser: ['chromium','webkit', 'firefox']
 };
