@@ -128,9 +128,9 @@ test.serial('Golden - no actions', t => {
       {spinner: 'message', text: ' Generation Complete [2 done]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), blackbox.getFiles('./files/goldens/test1/desktop/section1'));
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/section1'), blackbox.getFiles('./files/goldens/test1/mobile/section1'));
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/chromium/desktop/section1'), blackbox.getFiles('./files/goldens/test1/desktop/section1'));
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/chromium/mobile/section1'), blackbox.getFiles('./files/goldens/test1/mobile/section1'));
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
     resolve();
   });
 });
@@ -168,9 +168,9 @@ test.serial('Golden - with actions', t => {
       {spinner: 'message', text: ' Generation Complete [20 done]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), blackbox.getFiles('./files/goldens/test2/desktop/section1'));
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/section1'), blackbox.getFiles('./files/goldens/test2/mobile/section1'));
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/chromium/desktop/section1'), blackbox.getFiles('./files/goldens/test2/desktop/section1'));
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/chromium/mobile/section1'), blackbox.getFiles('./files/goldens/test2/mobile/section1'));
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
     resolve();
   });
 });
@@ -187,7 +187,7 @@ test.serial('Bad Test - no goldens directory found', t => {
         {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
         {spinner: 'start'},
         {spinner: 'fail'},
-        {message: '✖  Missing Golden Images: ./sandbox/golden-screens/desktop/section1', consoleLevel: 'error', chalkColor: 'red'}
+        {message: '✖  Missing Golden Images: ./sandbox/golden-screens/chromium/desktop/section1', consoleLevel: 'error', chalkColor: 'red'}
       ]);
       resolve();
     });
@@ -301,7 +301,7 @@ test.serial('Bad Test - duplicate action descriptions', t => {
     await blackbox.applyConfigFile();
     blackbox.writeTestFiles([tests.test6]);
     blackbox.prepareGoldens(null);
-    createDirectory(`./sandbox/golden-screens/tablet/section1`);
+    createDirectory(`./sandbox/golden-screens/chromium/tablet/section1`);
     blackbox.stubFatalExit(() => {
       t.deepEqual(consoleChanges, [
         {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
@@ -334,7 +334,7 @@ test.serial('Test - section 1 - no actions - junit output', t => {
       {spinner: 'message', text: ' Testing Complete [2 passed | 0 failed]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
     resolve();
   });
 });
@@ -344,8 +344,8 @@ test.serial('Test - section 1 - no actions - failure', t => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {writeXml: true}});
     blackbox.writeTestFiles([tests.test1]);
-    copyFileOrDirectory(`./files/goldens/test1/failure/desktop`, `./sandbox/golden-screens/desktop/section1`);
-    copyFileOrDirectory(`./files/goldens/test1/failure/mobile`, `./sandbox/golden-screens/mobile/section1`);
+    copyFileOrDirectory(`./files/goldens/test1/failure/desktop`, `./sandbox/golden-screens/chromium/desktop/section1`);
+    copyFileOrDirectory(`./files/goldens/test1/failure/mobile`, `./sandbox/golden-screens/chromium/mobile/section1`);
     const tp = blackbox.createTestophobia();
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
@@ -358,13 +358,13 @@ test.serial('Test - section 1 - no actions - failure', t => {
       {message: '   Test Failure: section1 (desktop) none', consoleLevel: 'error', chalkColor: undefined},
       {message: '   Test Failure: section1 (mobile) none', consoleLevel: 'error', chalkColor: undefined}
     ]);
-    const files = blackbox.getFiles('./sandbox/diffs');
+    const files = blackbox.getFiles('./sandbox/diffs/chromium');
     t.true(files.includes('results.json'));
     t.true(files.some(f => f.startsWith('section1-desktop--')));
     t.true(files.some(f => f.startsWith('section1-mobile--')));
     t.true(files.includes('junit.xml'));
     t.is(
-      fs.readFileSync('./sandbox/diffs/junit.xml').toString(),
+      fs.readFileSync('./sandbox/diffs/chromium/junit.xml').toString(),
       '<?xml version="1.0" encoding="UTF-8"?><testsuites><testsuite name="section1-desktop" time="0" tests="1" skipped="0" failures="1"><testcase className="section1-desktop-0" name="Initial Snapshot" time="0"><failure message="Not a match!">Screenshot Failure</failure></testcase></testsuite><testsuite name="section1-mobile" time="0" tests="1" skipped="0" failures="1"><testcase className="section1-mobile-0" name="Initial Snapshot" time="0"><failure message="Not a match!">Screenshot Failure</failure></testcase></testsuite></testsuites>'
     );
     resolve();
@@ -404,7 +404,7 @@ test.serial('Test - section 1', t => {
       {spinner: 'message', text: ' Testing Complete [20 passed | 0 failed]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
     resolve();
   });
 });
@@ -427,12 +427,12 @@ test.serial('Test - section 1 - clip regions, scale, exclude, and png', t => {
       {spinner: 'message', text: ' Testing Complete [3 passed | 0 failed]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
     resolve();
   });
 });
 
-test.serial('Test - section 2', t => {
+test.serial.only('Test - section 2', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -452,7 +452,7 @@ test.serial('Test - section 2', t => {
       {spinner: 'message', text: ' Testing Complete [6 passed | 0 failed]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
     resolve();
   });
 });
@@ -474,9 +474,9 @@ test.serial('Test - section 3', t => {
       {spinner: 'message', text: ' Testing Complete [4 passed | 0 failed]'},
       {spinner: 'succeed'}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), ['junit.xml']);
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), ['junit.xml']);
     t.is(
-      fs.readFileSync('./sandbox/diffs/junit.xml').toString(),
+      fs.readFileSync('./sandbox/diffs/chromium/junit.xml').toString(),
       '<?xml version="1.0" encoding="UTF-8"?><testsuites><testsuite name="section3-desktop" time="0" tests="2" skipped="0" failures="0"><testcase className="section3-desktop-0" name="Initial Snapshot" time="0"></testcase><testcase className="section3-desktop-1" name="Scroll the div to 500" time="0"></testcase></testsuite><testsuite name="section3-mobile" time="0" tests="2" skipped="0" failures="0"><testcase className="section3-mobile-0" name="Initial Snapshot" time="0"></testcase><testcase className="section3-mobile-1" name="Scroll the div to 500" time="0"></testcase></testsuite></testsuites>'
     );
     resolve();
@@ -521,7 +521,7 @@ test.serial('Test - parallel section1 and section3', t => {
         {spinner: 'message', text: ' Testing Complete [24 passed | 0 failed]'},
         {spinner: 'succeed'}
       ]);
-      t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+      t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
       resolve();
     });
     await blackbox.runTestophobia(tp);
@@ -535,16 +535,16 @@ test.serial('Test - parallel section1 and section3', t => {
 test.serial('Clear - particular directory', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    await blackbox.applyConfigFile(false, false, {input: ['sandbox/golden-screens/mobile/**/*'], flags: {clear: true}});
+    await blackbox.applyConfigFile(false, false, {input: ['sandbox/golden-screens/chromium/mobile/**/*'], flags: {clear: true}});
     const tp = blackbox.prepareTestRun([tests.test1]);
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
-      {message: '⚠  sandbox/golden-screens/mobile/**/* cleared.', consoleLevel: 'warn', chalkColor: undefined}
+      {message: '⚠  sandbox/golden-screens/chromium/mobile/**/* cleared.', consoleLevel: 'warn', chalkColor: undefined}
     ]);
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), blackbox.getFiles('./files/goldens/test1/desktop/section1'));
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/section1'), []);
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/chromium/desktop/section1'), blackbox.getFiles('./files/goldens/test1/desktop/section1'));
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/chromium/mobile/section1'), []);
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
     resolve();
   });
 });
@@ -561,9 +561,9 @@ test.serial('Clear - all directories', t => {
     ]);
     t.false(fs.existsSync('./sandbox/test-screens'));
     t.false(fs.existsSync('./sandbox/diffs'));
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/desktop/section1'), blackbox.getFiles('./files/goldens/test1/desktop/section1'));
-    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/mobile/section1'), blackbox.getFiles('./files/goldens/test1/mobile/section1'));
-    t.deepEqual(blackbox.getFiles('./sandbox/diffs'), []);
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/chromium/desktop/section1'), blackbox.getFiles('./files/goldens/test1/desktop/section1'));
+    t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/chromium/mobile/section1'), blackbox.getFiles('./files/goldens/test1/mobile/section1'));
+    t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
     resolve();
   });
 });

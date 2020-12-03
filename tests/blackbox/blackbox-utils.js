@@ -130,15 +130,15 @@ blackbox.writeTestFiles = async tests => {
 };
 
 blackbox.prepareGoldens = async tests => {
-  createDirectory(`./sandbox/golden-screens/desktop/section1`);
-  createDirectory(`./sandbox/golden-screens/mobile/section1`);
-  createDirectory(`./sandbox/golden-screens/desktop/section2`);
-  createDirectory(`./sandbox/golden-screens/mobile/section2`);
-  createDirectory(`./sandbox/golden-screens/desktop/section3`);
-  createDirectory(`./sandbox/golden-screens/mobile/section3`);
+  createDirectory(`./sandbox/golden-screens/chromium/desktop/section1`);
+  createDirectory(`./sandbox/golden-screens/chromium/mobile/section1`);
+  createDirectory(`./sandbox/golden-screens/chromium/desktop/section2`);
+  createDirectory(`./sandbox/golden-screens/chromium/mobile/section2`);
+  createDirectory(`./sandbox/golden-screens/chromium/desktop/section3`);
+  createDirectory(`./sandbox/golden-screens/chromium/mobile/section3`);
   if (tests && tests.length) {
     tests.forEach(t => {
-      copyFileOrDirectory(`./files/goldens/${t.testName}`, `./sandbox/golden-screens`);
+      copyFileOrDirectory(`./files/goldens/${t.testName}`, `./sandbox/golden-screens/chromium`);
     });
   }
 };
