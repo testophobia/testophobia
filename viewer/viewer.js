@@ -216,7 +216,7 @@
       $('#single-image').show();
       $('#single-image-lbl').text('No golden image available (new test?)');
       $('#single-image-lbl2').hide();
-      $('#single-image-img').attr('src', `/images/${Testophobia.currentImageIdx}/test`);
+      $('#single-image-img img').attr('src', `/images/${Testophobia.currentImageIdx}/test`);
       $('#viewer-container').hide();
       $('#btn-view-type').button('enable');
       $('#btn-diff').button('disable');
@@ -264,14 +264,8 @@
     $('#btn-prev').show();
     $('#btn-next').show();
     $('#lbl-pager').show();
-    ['chromium', 'firefox', 'webkit'].forEach(b => {
-      $('#btn-' + b).removeClass('blue');
-      $('#btn-' + b).hide();
-    });
-    Testophobia.browsers.forEach(b => {
-      $('#btn-' + b).show();
-      $('#btn-' + b).addClass('blue');
-    });
+    ['chromium', 'firefox', 'webkit'].forEach(b => $('#single-image-desc-' + b).hide());
+    Testophobia.browsers.forEach(b => $('#single-image-desc-' + b).show());
     loadGolden();
   }
 
@@ -283,7 +277,6 @@
     const images = {};
     let noImage = null;
     Testophobia.browsers.forEach(b => {
-      $('#btn-' + b).addClass('blue');
       images[b] = Testophobia.goldenImages[b][Testophobia.currentImageIdx];
       if (!images[b] || images[b].length === 0) noImage = b;
     });
@@ -292,9 +285,9 @@
       return;
     }
     const first = images[Object.keys(images)[0]];
-    if (images['chromium']) $('#single-image-img').attr('src', `/goldens/${images['chromium'].file}`);
-    if (images['firefox']) $('#single-image-img2').attr('src', `/goldens/${images['firefox'].file}`);
-    if (images['webkit']) $('#single-image-img3').attr('src', `/goldens/${images['webkit'].file}`);
+    if (images['chromium']) $('#single-image-img img').attr('src', `/goldens/${images['chromium'].file}`);
+    if (images['firefox']) $('#single-image-img2 img').attr('src', `/goldens/${images['firefox'].file}`);
+    if (images['webkit']) $('#single-image-img3 img').attr('src', `/goldens/${images['webkit'].file}`);
     $('#single-image-lbl2').text(first.name);
     $('#lbl-pager').text(`Image: ${Testophobia.currentImageIdx + 1} of ${Testophobia.goldenImages.length}`);
     $('#lbl-testname').text(`${first.shortFile}`);
