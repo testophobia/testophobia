@@ -14,16 +14,12 @@ body {
   align-items: center;
 }
 #top-control-bar,
-#bottom-control-bar,
-#browser-bar {
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-}
-#top-control-bar,
 #bottom-control-bar {
   height: 8vh;
+  display: flex;
+  align-items: center;
   padding: 1vh 1vw;
+  box-sizing: border-box;
 }
 #lnk-start-over {
   cursor: pointer;
