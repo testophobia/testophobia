@@ -6,7 +6,7 @@
     return new Promise(resolve => {
       $.getJSON('/viewer-config', d => {
         Testophobia.golden = d.golden;
-        $('.jqui-browser').append('(' + d.browser + ')');
+        if (!Testophobia.golden) $('.jqui-browser').append('(' + d.browser + ')');
         resolve();
       });
     });

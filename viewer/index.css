@@ -14,12 +14,22 @@ body {
   align-items: center;
 }
 #top-control-bar,
-#bottom-control-bar {
-  height: 8vh;
+#bottom-control-bar,
+#browser-bar {
   display: flex;
   align-items: center;
-  padding: 1vh 1vw;
   box-sizing: border-box;
+}
+#top-control-bar,
+#bottom-control-bar {
+  height: 8vh;
+  padding: 1vh 1vw;
+}
+#browser-bar {
+  padding: 0 2vw 2vh;
+}
+#browser-bar button {
+  margin-right: 1vw;
 }
 #lnk-start-over {
   cursor: pointer;
@@ -183,6 +193,8 @@ body {
   pointer-events: none;
 }
 #single-image-img,
+#single-image-img2,
+#single-image-img3,
 #viewer-container img,
 #diff-overlay img {
   max-height: 76vh;
