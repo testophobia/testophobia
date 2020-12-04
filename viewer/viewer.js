@@ -7,6 +7,8 @@
       $.getJSON('/test-results' + gPath, async d => {
         if (Testophobia.golden) {
           Testophobia.goldenImages = d.images;
+          Testophobia.goldenImages.length = d.images[Object.keys(d.images)[0]].length;
+          Testophobia.browsers = d.browsers;
           Testophobia.currentImageIdx = d.images.length > 0 ? 0 : -1;
         } else {
           Testophobia.testRunInfo = d;
@@ -194,6 +196,7 @@
 
   function loadTest() {
     $('#single-image').hide();
+    $('#browser-bar').hide();
     $('#viewer-container').show();
     if (Testophobia.testRunInfo.failures.length === 0) {
       $('#btn-info').button('disable');
@@ -213,7 +216,7 @@
       $('#single-image').show();
       $('#single-image-lbl').text('No golden image available (new test?)');
       $('#single-image-lbl2').hide();
-      $('#single-image-img').attr('src', `/images/${Testophobia.currentImageIdx}/test`);
+      $('#single-image-img img').attr('src', `/images/${Testophobia.currentImageIdx}/test`);
       $('#viewer-container').hide();
       $('#btn-view-type').button('enable');
       $('#btn-diff').button('disable');
@@ -257,22 +260,37 @@
 
   function initGoldenView() {
     $('#single-image').show();
+    $('#browser-bar').show();
     $('#btn-prev').show();
     $('#btn-next').show();
     $('#lbl-pager').show();
+    ['chromium', 'firefox', 'webkit'].forEach(b => $('#single-image-desc-' + b).hide());
+    Testophobia.browsers.forEach(b => $('#single-image-desc-' + b).show());
     loadGolden();
   }
 
   function loadGolden() {
-    const img = Testophobia.goldenImages[Testophobia.currentImageIdx];
-    if (!img) {
+    if (!Testophobia.browsers || Testophobia.browsers.length === 0) {
       $('#lbl-testname').text('No images found.');
       return;
     }
-    $('#single-image-img').attr('src', `/goldens/${img.file}`);
-    $('#single-image-lbl2').text(img.name);
+    const images = {};
+    let noImage = null;
+    Testophobia.browsers.forEach(b => {
+      images[b] = Testophobia.goldenImages[b][Testophobia.currentImageIdx];
+      if (!images[b] || images[b].length === 0) noImage = b;
+    });
+    if (!!noImage) {
+      $('#lbl-testname').text('No images found for ' + noImage);
+      return;
+    }
+    const first = images[Object.keys(images)[0]];
+    if (images['chromium']) $('#single-image-img img').attr('src', `/goldens/${images['chromium'].file}`);
+    if (images['firefox']) $('#single-image-img2 img').attr('src', `/goldens/${images['firefox'].file}`);
+    if (images['webkit']) $('#single-image-img3 img').attr('src', `/goldens/${images['webkit'].file}`);
+    $('#single-image-lbl2').text(first.name);
     $('#lbl-pager').text(`Image: ${Testophobia.currentImageIdx + 1} of ${Testophobia.goldenImages.length}`);
-    $('#lbl-testname').text(`${img.file}`);
+    $('#lbl-testname').text(`${first.shortFile}`);
   }
 
   async function init(golden, goldenPath) {

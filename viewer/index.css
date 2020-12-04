@@ -182,10 +182,27 @@ body {
   display: none;
   pointer-events: none;
 }
-#single-image-img,
+#single-image-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#single-image-row > * {
+  margin-right: 1vw;
+}
+#single-image-img img,
+#single-image-img2 img,
+#single-image-img3 img,
 #viewer-container img,
 #diff-overlay img {
   max-height: 76vh;
+}
+#single-image-desc-chromium,
+#single-image-desc-firefox,
+#single-image-desc-webkit {
+  font-size: 10px;
+  margin-bottom: 10px;
 }
 #dlg-info ul {
   list-style-type: none;

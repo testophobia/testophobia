@@ -123,9 +123,9 @@ test.serial('Golden - no actions', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
-      {spinner: 'message', text: ' Generating Goldens [0 done | 2 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [1 done | 1 pending]'},
-      {spinner: 'message', text: ' Generation Complete [2 done]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [0 done | 2 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [1 done | 1 pending]'},
+      {spinner: 'message', text: ' Generation Complete (chromium) [2 done]'},
       {spinner: 'succeed'}
     ]);
     t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/chromium/desktop/section1'), blackbox.getFiles('./files/goldens/test1/desktop/section1'));
@@ -145,27 +145,27 @@ test.serial('Golden - with actions', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
-      {spinner: 'message', text: ' Generating Goldens [0 done | 20 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [1 done | 19 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [2 done | 18 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [3 done | 17 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [4 done | 16 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [5 done | 15 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [6 done | 14 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [7 done | 13 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [8 done | 12 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [9 done | 11 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [10 done | 10 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [11 done | 9 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [12 done | 8 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [13 done | 7 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [14 done | 6 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [15 done | 5 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [16 done | 4 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [17 done | 3 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [18 done | 2 pending]'},
-      {spinner: 'message', text: ' Generating Goldens [19 done | 1 pending]'},
-      {spinner: 'message', text: ' Generation Complete [20 done]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [0 done | 20 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [1 done | 19 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [2 done | 18 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [3 done | 17 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [4 done | 16 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [5 done | 15 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [6 done | 14 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [7 done | 13 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [8 done | 12 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [9 done | 11 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [10 done | 10 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [11 done | 9 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [12 done | 8 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [13 done | 7 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [14 done | 6 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [15 done | 5 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [16 done | 4 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [17 done | 3 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [18 done | 2 pending]'},
+      {spinner: 'message', text: ' Generating Goldens (chromium) [19 done | 1 pending]'},
+      {spinner: 'message', text: ' Generation Complete (chromium) [20 done]'},
       {spinner: 'succeed'}
     ]);
     t.deepEqual(blackbox.getFiles('./sandbox/golden-screens/chromium/desktop/section1'), blackbox.getFiles('./files/goldens/test2/desktop/section1'));
@@ -205,7 +205,7 @@ test.serial('Bad Test - bad baseUrl (slashes)', t => {
       t.deepEqual(consoleChanges, [
         {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
         {spinner: 'start'},
-        {spinner: 'message', text: ' Running Tests [0 passed | 0 failed | 2 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
         {spinner: 'fail'},
         {
           message: '✖  Error: baseUrl should only contain a domain name, but a path was supplied. Handle all pathing in test files.',
@@ -229,7 +229,7 @@ test.serial('Bad Test - bad baseUrl (hash)', t => {
       t.deepEqual(consoleChanges, [
         {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
         {spinner: 'start'},
-        {spinner: 'message', text: ' Running Tests [0 passed | 0 failed | 2 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
         {spinner: 'fail'},
         {
           message: '✖  Error: baseUrl should only contain a domain name, but a path was supplied. Handle all pathing in test files.',
@@ -253,7 +253,7 @@ test.serial('Bad Test - unreachable url', t => {
       t.deepEqual(consoleChanges, [
         {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
         {spinner: 'start'},
-        {spinner: 'message', text: ' Running Tests [0 passed | 0 failed | 2 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
         {spinner: 'fail'},
         {
           message: '✖  baseUrl supplied cannot be reached: test://o.phobia',
@@ -285,9 +285,9 @@ test.serial('Bad Test - golden not available (w/ bail)', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
-      {spinner: 'message', text: ' Running Tests [0 passed | 0 failed | 2 pending]'},
-      {spinner: 'message', text: ' Running Tests [0 passed | 1 failed | 1 pending]'},
-      {spinner: 'message', text: ' Bailed [0 passed | 1 failed | 1 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 1 failed | 1 pending]'},
+      {spinner: 'message', text: ' Bailed (chromium) [0 passed | 1 failed | 1 pending]'},
       {spinner: 'fail'},
       {message: '   Test Failure: section1 (desktop) none', consoleLevel: 'error', chalkColor: undefined}
     ]);
@@ -329,9 +329,9 @@ test.serial('Test - section 1 - no actions - junit output', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
-      {spinner: 'message', text: ' Running Tests [0 passed | 0 failed | 2 pending]'},
-      {spinner: 'message', text: ' Running Tests [1 passed | 0 failed | 1 pending]'},
-      {spinner: 'message', text: ' Testing Complete [2 passed | 0 failed]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [1 passed | 0 failed | 1 pending]'},
+      {spinner: 'message', text: ' Testing Complete (chromium) [2 passed | 0 failed]'},
       {spinner: 'succeed'}
     ]);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
@@ -351,9 +351,9 @@ test.serial('Test - section 1 - no actions - failure', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
-      {spinner: 'message', text: ' Running Tests [0 passed | 0 failed | 2 pending]'},
-      {spinner: 'message', text: ' Running Tests [0 passed | 1 failed | 1 pending]'},
-      {spinner: 'message', text: ' Testing Complete [0 passed | 2 failed]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 1 failed | 1 pending]'},
+      {spinner: 'message', text: ' Testing Complete (chromium) [0 passed | 2 failed]'},
       {spinner: 'succeed'},
       {message: '   Test Failure: section1 (desktop) none', consoleLevel: 'error', chalkColor: undefined},
       {message: '   Test Failure: section1 (mobile) none', consoleLevel: 'error', chalkColor: undefined}
@@ -381,27 +381,27 @@ test.serial('Test - section 1', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
-      {spinner: 'message', text: ' Running Tests [0 passed | 0 failed | 20 pending]'},
-      {spinner: 'message', text: ' Running Tests [1 passed | 0 failed | 19 pending]'},
-      {spinner: 'message', text: ' Running Tests [2 passed | 0 failed | 18 pending]'},
-      {spinner: 'message', text: ' Running Tests [3 passed | 0 failed | 17 pending]'},
-      {spinner: 'message', text: ' Running Tests [4 passed | 0 failed | 16 pending]'},
-      {spinner: 'message', text: ' Running Tests [5 passed | 0 failed | 15 pending]'},
-      {spinner: 'message', text: ' Running Tests [6 passed | 0 failed | 14 pending]'},
-      {spinner: 'message', text: ' Running Tests [7 passed | 0 failed | 13 pending]'},
-      {spinner: 'message', text: ' Running Tests [8 passed | 0 failed | 12 pending]'},
-      {spinner: 'message', text: ' Running Tests [9 passed | 0 failed | 11 pending]'},
-      {spinner: 'message', text: ' Running Tests [10 passed | 0 failed | 10 pending]'},
-      {spinner: 'message', text: ' Running Tests [11 passed | 0 failed | 9 pending]'},
-      {spinner: 'message', text: ' Running Tests [12 passed | 0 failed | 8 pending]'},
-      {spinner: 'message', text: ' Running Tests [13 passed | 0 failed | 7 pending]'},
-      {spinner: 'message', text: ' Running Tests [14 passed | 0 failed | 6 pending]'},
-      {spinner: 'message', text: ' Running Tests [15 passed | 0 failed | 5 pending]'},
-      {spinner: 'message', text: ' Running Tests [16 passed | 0 failed | 4 pending]'},
-      {spinner: 'message', text: ' Running Tests [17 passed | 0 failed | 3 pending]'},
-      {spinner: 'message', text: ' Running Tests [18 passed | 0 failed | 2 pending]'},
-      {spinner: 'message', text: ' Running Tests [19 passed | 0 failed | 1 pending]'},
-      {spinner: 'message', text: ' Testing Complete [20 passed | 0 failed]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 20 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [1 passed | 0 failed | 19 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [2 passed | 0 failed | 18 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [3 passed | 0 failed | 17 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [4 passed | 0 failed | 16 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [5 passed | 0 failed | 15 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [6 passed | 0 failed | 14 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [7 passed | 0 failed | 13 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [8 passed | 0 failed | 12 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [9 passed | 0 failed | 11 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [10 passed | 0 failed | 10 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [11 passed | 0 failed | 9 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [12 passed | 0 failed | 8 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [13 passed | 0 failed | 7 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [14 passed | 0 failed | 6 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [15 passed | 0 failed | 5 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [16 passed | 0 failed | 4 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [17 passed | 0 failed | 3 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [18 passed | 0 failed | 2 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [19 passed | 0 failed | 1 pending]'},
+      {spinner: 'message', text: ' Testing Complete (chromium) [20 passed | 0 failed]'},
       {spinner: 'succeed'}
     ]);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
@@ -421,10 +421,10 @@ test.serial('Test - section 1 - clip regions, scale, exclude, and png', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
-      {spinner: 'message', text: ' Running Tests [0 passed | 0 failed | 3 pending]'},
-      {spinner: 'message', text: ' Running Tests [1 passed | 0 failed | 2 pending]'},
-      {spinner: 'message', text: ' Running Tests [2 passed | 0 failed | 1 pending]'},
-      {spinner: 'message', text: ' Testing Complete [3 passed | 0 failed]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 3 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [1 passed | 0 failed | 2 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [2 passed | 0 failed | 1 pending]'},
+      {spinner: 'message', text: ' Testing Complete (chromium) [3 passed | 0 failed]'},
       {spinner: 'succeed'}
     ]);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
@@ -432,7 +432,7 @@ test.serial('Test - section 1 - clip regions, scale, exclude, and png', t => {
   });
 });
 
-test.serial.only('Test - section 2', t => {
+test.serial('Test - section 2', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -443,13 +443,13 @@ test.serial.only('Test - section 2', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
-      {spinner: 'message', text: ' Running Tests [0 passed | 0 failed | 6 pending]'},
-      {spinner: 'message', text: ' Running Tests [1 passed | 0 failed | 5 pending]'},
-      {spinner: 'message', text: ' Running Tests [2 passed | 0 failed | 4 pending]'},
-      {spinner: 'message', text: ' Running Tests [3 passed | 0 failed | 3 pending]'},
-      {spinner: 'message', text: ' Running Tests [4 passed | 0 failed | 2 pending]'},
-      {spinner: 'message', text: ' Running Tests [5 passed | 0 failed | 1 pending]'},
-      {spinner: 'message', text: ' Testing Complete [6 passed | 0 failed]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 6 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [1 passed | 0 failed | 5 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [2 passed | 0 failed | 4 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [3 passed | 0 failed | 3 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [4 passed | 0 failed | 2 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [5 passed | 0 failed | 1 pending]'},
+      {spinner: 'message', text: ' Testing Complete (chromium) [6 passed | 0 failed]'},
       {spinner: 'succeed'}
     ]);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
@@ -467,11 +467,11 @@ test.serial('Test - section 3', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
-      {spinner: 'message', text: ' Running Tests [0 passed | 0 failed | 4 pending]'},
-      {spinner: 'message', text: ' Running Tests [1 passed | 0 failed | 3 pending]'},
-      {spinner: 'message', text: ' Running Tests [2 passed | 0 failed | 2 pending]'},
-      {spinner: 'message', text: ' Running Tests [3 passed | 0 failed | 1 pending]'},
-      {spinner: 'message', text: ' Testing Complete [4 passed | 0 failed]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 4 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [1 passed | 0 failed | 3 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [2 passed | 0 failed | 2 pending]'},
+      {spinner: 'message', text: ' Running Tests (chromium) [3 passed | 0 failed | 1 pending]'},
+      {spinner: 'message', text: ' Testing Complete (chromium) [4 passed | 0 failed]'},
       {spinner: 'succeed'}
     ]);
     t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), ['junit.xml']);
@@ -494,31 +494,31 @@ test.serial('Test - parallel section1 and section3', t => {
       t.deepEqual(consoleChanges, [
         {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
         {spinner: 'start'},
-        {spinner: 'message', text: ' Running Tests [0 passed | 0 failed | 24 pending]'},
-        {spinner: 'message', text: ' Running Tests [1 passed | 0 failed | 23 pending]'},
-        {spinner: 'message', text: ' Running Tests [2 passed | 0 failed | 22 pending]'},
-        {spinner: 'message', text: ' Running Tests [3 passed | 0 failed | 21 pending]'},
-        {spinner: 'message', text: ' Running Tests [4 passed | 0 failed | 20 pending]'},
-        {spinner: 'message', text: ' Running Tests [5 passed | 0 failed | 19 pending]'},
-        {spinner: 'message', text: ' Running Tests [6 passed | 0 failed | 18 pending]'},
-        {spinner: 'message', text: ' Running Tests [7 passed | 0 failed | 17 pending]'},
-        {spinner: 'message', text: ' Running Tests [8 passed | 0 failed | 16 pending]'},
-        {spinner: 'message', text: ' Running Tests [9 passed | 0 failed | 15 pending]'},
-        {spinner: 'message', text: ' Running Tests [10 passed | 0 failed | 14 pending]'},
-        {spinner: 'message', text: ' Running Tests [11 passed | 0 failed | 13 pending]'},
-        {spinner: 'message', text: ' Running Tests [12 passed | 0 failed | 12 pending]'},
-        {spinner: 'message', text: ' Running Tests [13 passed | 0 failed | 11 pending]'},
-        {spinner: 'message', text: ' Running Tests [14 passed | 0 failed | 10 pending]'},
-        {spinner: 'message', text: ' Running Tests [15 passed | 0 failed | 9 pending]'},
-        {spinner: 'message', text: ' Running Tests [16 passed | 0 failed | 8 pending]'},
-        {spinner: 'message', text: ' Running Tests [17 passed | 0 failed | 7 pending]'},
-        {spinner: 'message', text: ' Running Tests [18 passed | 0 failed | 6 pending]'},
-        {spinner: 'message', text: ' Running Tests [19 passed | 0 failed | 5 pending]'},
-        {spinner: 'message', text: ' Running Tests [20 passed | 0 failed | 4 pending]'},
-        {spinner: 'message', text: ' Running Tests [21 passed | 0 failed | 3 pending]'},
-        {spinner: 'message', text: ' Running Tests [22 passed | 0 failed | 2 pending]'},
-        {spinner: 'message', text: ' Running Tests [23 passed | 0 failed | 1 pending]'},
-        {spinner: 'message', text: ' Testing Complete [24 passed | 0 failed]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 24 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [1 passed | 0 failed | 23 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [2 passed | 0 failed | 22 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [3 passed | 0 failed | 21 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [4 passed | 0 failed | 20 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [5 passed | 0 failed | 19 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [6 passed | 0 failed | 18 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [7 passed | 0 failed | 17 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [8 passed | 0 failed | 16 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [9 passed | 0 failed | 15 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [10 passed | 0 failed | 14 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [11 passed | 0 failed | 13 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [12 passed | 0 failed | 12 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [13 passed | 0 failed | 11 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [14 passed | 0 failed | 10 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [15 passed | 0 failed | 9 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [16 passed | 0 failed | 8 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [17 passed | 0 failed | 7 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [18 passed | 0 failed | 6 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [19 passed | 0 failed | 5 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [20 passed | 0 failed | 4 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [21 passed | 0 failed | 3 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [22 passed | 0 failed | 2 pending]'},
+        {spinner: 'message', text: ' Running Tests (chromium) [23 passed | 0 failed | 1 pending]'},
+        {spinner: 'message', text: ' Testing Complete (chromium) [24 passed | 0 failed]'},
         {spinner: 'succeed'}
       ]);
       t.deepEqual(blackbox.getFiles('./sandbox/diffs/chromium'), []);
