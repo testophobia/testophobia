@@ -21,17 +21,13 @@ body {
   padding: 1vh 1vw;
   box-sizing: border-box;
 }
-#lnk-start-over {
-  cursor: pointer;
-  text-decoration: underline;
-  font-size: smaller;
-  color: #ccc;
-  border: none;
-  background: unset;
-  outline: none;
+#btn-start-over {
+  font-size: 18px;
+  padding: 3px 20px;
+  margin-left: 8px;
 }
-#lnk-start-over:hover {
-  color: #eee;
+.ui-selectmenu-menu ul {
+  background: #222;
 }
 .jqui-title {
   color: white;
@@ -212,8 +208,8 @@ body {
   color: #ddd;
   font-weight: bold;
   margin-right: 12px;
-  max-width: 128px;
-  min-width: 128px;
+  max-width: 130px;
+  min-width: 130px;
   display: inline-block;
 }
 #btn-view-type,

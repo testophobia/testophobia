@@ -9,6 +9,7 @@
           Testophobia.goldenImages = d.images;
           Testophobia.goldenImages.length = d.images[Object.keys(d.images)[0]].length;
           Testophobia.browsers = d.browsers;
+          Testophobia.dimensions = d.dimensions;
           Testophobia.currentImageIdx = d.images.length > 0 ? 0 : -1;
         } else {
           Testophobia.testRunInfo = d;
@@ -266,6 +267,20 @@
     $('#lbl-pager').show();
     ['chromium', 'firefox', 'webkit'].forEach(b => $('#single-image-desc-' + b).hide());
     Testophobia.browsers.forEach(b => $('#single-image-desc-' + b).show());
+    let dimHtml = '<select name="dd-dimension" id="dd-dimension">';
+    Testophobia.dimensions.forEach(d => (dimHtml += `<option${window.location.pathname.includes(`/${d}/`) ? ' selected="selected"' : ''}>${d}</option>`));
+    dimHtml += '</select>';
+    $('#dd-view-dimension').html(dimHtml);
+    $('#dd-dimension').selectmenu({
+      classes: {
+        'ui-selectmenu-button': 'blue button'
+      },
+      width: 140,
+      change: function (e, u) {
+        let url = window.location.pathname.split('/').slice(2).join('/');
+        window.location.href = window.location.protocol + '//' + window.location.host + `/${u.item.value}/` + url;
+      }
+    });
     loadGolden();
   }
 
@@ -296,7 +311,8 @@
   async function init(golden, goldenPath) {
     if (golden) resetGoldenView();
     $('#golden-view').hide();
-    $('#lnk-start-over').hide();
+    $('#btn-start-over').hide();
+    $('#dd-view-dimension').hide();
     $('#viewer-view').show();
     await loadTestResults(goldenPath);
     if (!golden) {
@@ -310,7 +326,8 @@
     }
     configurePrevNextButtons();
     if (golden) {
-      $('#lnk-start-over').show();
+      $('#btn-start-over').show();
+      $('#dd-view-dimension').show();
       initGoldenView();
     } else {
       loadTest();

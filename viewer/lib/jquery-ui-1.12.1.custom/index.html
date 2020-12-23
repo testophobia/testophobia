@@ -60,15 +60,10 @@
 
 
 
-
-
-
 <!-- Button -->
 <h2 class="demoHeaders">Button</h2>
 <button id="button">A button element</button>
 <button id="button-icon">An icon-only button</button>
-
-
 
 <!-- Checkboxradio -->
 <h2 class="demoHeaders">Checkboxradio</h2>
@@ -79,8 +74,6 @@
 		<input type="radio" id="radio3" name="radio"><label for="radio3">Choice 3</label>
 	</div>
 </form>
-
-
 
 <!-- Controlgroup -->
 <h2 class="demoHeaders">Controlgroup</h2>
@@ -109,9 +102,6 @@
 </fieldset>
 
 
-
-
-
 <h2 class="demoHeaders">Dialog</h2>
 <p>
 	<button id="dialog-link" class="ui-button ui-corner-all ui-widget">
@@ -135,7 +125,6 @@
 <div id="dialog" title="Dialog Title">
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 </div>
-
 
 
 <h2 class="demoHeaders">Framework Icons (content color preview)</h2>
@@ -315,22 +304,40 @@
 	<li class="ui-state-default ui-corner-all" title=".ui-icon-grip-diagonal-se"><span class="ui-icon ui-icon-grip-diagonal-se"></span></li>
 </ul>
 
-
 <!-- Slider -->
 <h2 class="demoHeaders">Slider</h2>
 <div id="slider"></div>
 
 
 
+<!-- Progressbar -->
+<h2 class="demoHeaders">Selectmenu</h2>
+<select id="selectmenu">
+	<option>Slower</option>
+	<option>Slow</option>
+	<option selected="selected">Medium</option>
+	<option>Fast</option>
+	<option>Faster</option>
+</select>
 
 
-
-
-
-
-
-
-
+<!-- Menu -->
+<h2 class="demoHeaders">Menu</h2>
+<ul style="width:100px;" id="menu">
+	<li><div>Item 1</div></li>
+	<li><div>Item 2</div></li>
+	<li><div>Item 3</div>
+		<ul>
+			<li><div>Item 3-1</div></li>
+			<li><div>Item 3-2</div></li>
+			<li><div>Item 3-3</div></li>
+			<li><div>Item 3-4</div></li>
+			<li><div>Item 3-5</div></li>
+		</ul>
+	</li>
+	<li><div>Item 4</div></li>
+	<li><div>Item 5</div></li>
+</ul>
 
 
 <!-- Highlight / Error -->
@@ -354,25 +361,15 @@
 <script>
 
 
-
-
-
 $( "#button" ).button();
 $( "#button-icon" ).button({
 	icon: "ui-icon-gear",
 	showLabel: false
 });
 
-
-
 $( "#radioset" ).buttonset();
 
-
-
 $( "#controlgroup" ).controlgroup();
-
-
-
 
 
 $( "#dialog" ).dialog({
@@ -401,9 +398,6 @@ $( "#dialog-link" ).click(function( event ) {
 });
 
 
-
-
-
 $( "#slider" ).slider({
 	range: true,
 	values: [ 17, 67 ]
@@ -411,14 +405,10 @@ $( "#slider" ).slider({
 
 
 
+$( "#menu" ).menu();
 
 
-
-
-
-
-
-
+$( "#selectmenu" ).selectmenu();
 
 // Hover states on the static widgets
 $( "#dialog-link, #icons li" ).hover(

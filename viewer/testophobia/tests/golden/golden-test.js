@@ -20,7 +20,7 @@ export default {
     {
       description: 'Click to start over and choose another directory',
       type: 'click',
-      target: '#lnk-start-over'
+      target: '#btn-start-over'
     },
     {
       description: 'Click on mobile/home directory',

@@ -29,7 +29,8 @@
 
   async function showListView() {
     $('#golden-view').show();
-    $('#lnk-start-over').hide();
+    $('#btn-start-over').hide();
+    $('#dd-view-dimension').hide();
     $('#viewer-view').hide();
     await fetchGoldenDirs();
   }
@@ -73,5 +74,11 @@
   }
 
   Testophobia.goldenlist = {init: init};
-  $('#lnk-start-over').click(showListView);
+  $('#btn-start-over')
+    .button()
+    .click(() => {
+      const url = window.location.protocol + '//' + window.location.host;
+      window.history.pushState({path: url}, '', url);
+      showListView();
+    });
 })();
