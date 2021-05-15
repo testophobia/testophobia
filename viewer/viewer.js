@@ -1,4 +1,3 @@
-/* global $, Testophobia */
 (() => {
   let viewerLoaded = false;
   function loadTestResults(goldenPath, maintainIndex) {

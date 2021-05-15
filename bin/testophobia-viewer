@@ -1,5 +1,0 @@
-#!/usr/bin/env node
-/* global require */
-'use strict';
-const {Viewer} = require('../lib/Viewer');
-new Viewer().launchViewer();

@@ -1,32 +1,38 @@
 /* global require, process */
-const path = require('path');
-const fs = require('fs');
-const sinon = require('sinon');
-const bbconfig = require('./blackbox-config');
+import path from 'path';
+import fs from 'fs';
+import sinon from 'sinon';
+import bbconfig from './blackbox-config.js';
 
-const {createDirectory, copyFileOrDirectory, deleteDirectory} = require('../../lib/utils/file/file');
-const {Testophobia} = require('../../lib/Testophobia');
-const {Logger} = require('../../lib/Logger');
-const {Output} = require('../../lib/Output');
+import {createDirectory, copyFileOrDirectory, deleteDirectory} from '../../lib/utils/file/file.js';
+import {Testophobia} from '../../lib/Testophobia.js';
+import {Logger} from '../../lib/Logger.js';
+import {Output} from '../../lib/Output.js';
+
+const moduleURL = new URL(import.meta.url);
+const __dirname = path.dirname(moduleURL.pathname);
 
 const blackbox = {};
 const sandboxDir = path.join(__dirname, 'sandbox');
 let consoleChanges = [];
 let loggerStub = null;
 let spinnerStubs = [];
-let exitStub = null;
 let parallelStub = null;
 
-stubLogger = (output, verbose) => {
+const stubLogger = (output, verbose) => {
   const logger = output._getLog();
   logger.setLevel(verbose ? Logger.DEBUG_LEVEL : Logger.INFO_LEVEL);
   loggerStub = sinon.stub(logger, '_log').callsFake((message, consoleLevel, chalkColor) => {
     if (verbose || chalkColor !== 'dim') consoleChanges.push({message, consoleLevel, chalkColor});
     if (consoleLevel === 'error') console.error(message);
   });
+  logger.fatal = function(message) {
+    this._log(message, 'error', 'red');
+    throw new Error('Process Exited');
+  };
 };
 
-stubOra = output => {
+const stubOra = output => {
   let isSpinning = false;
   let spinner = new SpinnerMock();
   spinnerStubs = [];
@@ -72,7 +78,6 @@ blackbox.setupTests = test => {
       //await deleteDirectory(sandboxDir);
       loggerStub.restore();
       spinnerStubs.forEach(s => s.restore());
-      if (exitStub) exitStub.restore();
       if (parallelStub) parallelStub.restore();
       resolve();
     });
@@ -83,11 +88,13 @@ blackbox.getConsoleChanges = () => {
   return consoleChanges;
 };
 
-blackbox.createTestophobia = verbose => {
+blackbox.createTestophobia = async verbose => {
   const output = new Output();
   stubLogger(output, verbose);
   stubOra(output);
-  return new Testophobia(sandboxDir, output);
+  const t = new Testophobia();
+  await t.init(sandboxDir, output);
+  return t;
 };
 
 blackbox.runTestophobia = async tp => {
@@ -104,7 +111,8 @@ blackbox.dumpConsole = tp => {
 
 blackbox.applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   createDirectory(sandboxDir);
-  bbconfig.setEsmResult(path.join(__dirname, 'sandbox/testophobia.config.js'), {default: bbconfig.getConfig()});
+  // bbconfig.setEsmResult(path.join(__dirname, 'sandbox/testophobia.config.js'), {default: bbconfig.getConfig()});
+  fs.writeFileSync(path.join(__dirname, 'sandbox/testophobia.config.js'), bbconfig.getConfig());
   bbconfig.setMeowResult(meowResult);
   bbconfig.setUserCfgInUse(Boolean(applyUserCfg));
   if (!skipDirs) {
@@ -114,10 +122,11 @@ blackbox.applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   }
 };
 
-blackbox.prepareTestRun = tests => {
+blackbox.prepareTestRun = async tests => {
   blackbox.writeTestFiles(tests);
   blackbox.prepareGoldens(tests);
-  return blackbox.createTestophobia();
+  const t = await blackbox.createTestophobia();
+  return t;
 };
 
 blackbox.writeTestFiles = async tests => {
@@ -154,14 +163,6 @@ blackbox.useBadConfigFile = async result => {
   bbconfig.setMeowResult({input: ['undefined'], flags: {}});
 };
 
-blackbox.stubFatalExit = cb => {
-  exitStub = sinon.stub(process, 'exit');
-  exitStub.withArgs(1).callsFake(code => {
-    cb();
-    return true;
-  });
-};
-
 blackbox.stubParallel = (tp, cb) => {
   parallelStub = sinon.stub(tp, '_parallelRunComplete');
   parallelStub.callsFake(() => cb());
@@ -188,4 +189,4 @@ class SpinnerMock {
   set text(t) {}
 }
 
-module.exports = blackbox;
+export default blackbox;

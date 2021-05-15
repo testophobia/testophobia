@@ -1,21 +1,13 @@
-const path = require('path');
-const mockRequire = require('mock-require');
-mockRequire('esm', () => getEsmResult);
+import path from 'path';
+import mockRequire from 'mock-require';
 mockRequire('meow', () => getMeowResult());
 mockRequire('inquirer', {prompt: () => getInquirerResult()});
 mockRequire('find-config', {obj: () => getFindConfigResult()});
 
+const bbconfig = {};
 const esmResults = {};
 let meowResult;
 let userCfgInUse = false;
-
-const getEsmResult = esmPath => {
-  const esmResult = esmResults[esmPath];
-  if (esmResult instanceof Error) {
-    throw esmResult;
-  }
-  return esmResult;
-};
 
 const getMeowResult = () => {
   return meowResult;
@@ -37,11 +29,11 @@ const getInquirerResult = () => {
   return inquirerResult;
 };
 
-exports.setUserCfgInUse = inUse => {
+bbconfig.setUserCfgInUse = inUse => {
   userCfgInUse = inUse;
 };
 
-exports.setMeowResult = result => {
+bbconfig.setMeowResult = result => {
   meowResult = {input: ['undefined'], flags: {skipViewer: true}};
   if (result) {
     if (result.input) meowResult.input = result.input;
@@ -49,11 +41,11 @@ exports.setMeowResult = result => {
   }
 };
 
-exports.setEsmResult = (fileName, result) => {
+bbconfig.setEsmResult = (fileName, result) => {
   esmResults[fileName] = result;
 };
 
-exports.setInquirerResult = (result, cb) => {
+bbconfig.setInquirerResult = (result, cb) => {
   inquirerResult = {
     then: async f => {
       await f(result);
@@ -62,7 +54,7 @@ exports.setInquirerResult = (result, cb) => {
   };
 };
 
-exports.getConfig = () => {
+bbconfig.getConfig = () => {
   return {
     bail: false,
     verbose: false,
@@ -90,7 +82,7 @@ exports.getConfig = () => {
   };
 };
 
-exports.getGenConfig = () => {
+bbconfig.getGenConfig = () => {
   return {
     bail: false,
     verbose: false,
@@ -118,7 +110,7 @@ exports.getGenConfig = () => {
   };
 };
 
-exports.getGenTest = () => {
+bbconfig.getGenTest = () => {
   return {
     actions: [],
     name: 'Generated Test',
@@ -126,4 +118,5 @@ exports.getGenTest = () => {
   };
 };
 
+export default bbconfig;
 

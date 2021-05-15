@@ -1,4 +1,3 @@
-/* global $, Testophobia */
 (() => {
   function fetchGoldenDirs() {
     Testophobia.testGoldens = {};

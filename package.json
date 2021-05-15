@@ -1,8 +1,9 @@
 {
   "name": "testophobia",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "description": "Web application snapshot tester",
   "license": "MIT",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/testophobia/testophobia.git"
@@ -44,30 +45,30 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "bs58": "^4.0.1",
-    "chalk": "^3.0.0",
+    "chalk": "^4.1.1",
     "deep-object-diff": "^1.1.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "figures": "^3.2.0",
     "find-config": "^1.0.0",
-    "fs-extra": "^8.1.0",
-    "glob": "^7.1.6",
+    "fs-extra": "^10.0.0",
+    "glob": "^7.1.7",
     "imagesloaded": "^4.1.4",
-    "inquirer": "^7.1.0",
-    "is-plain-object": "^3.0.0",
-    "jpeg-js": "^0.4.0",
-    "jquery": "^3.4.1",
-    "lodash": "^4.17.15",
+    "inquirer": "^8.0.0",
+    "is-plain-object": "^5.0.0",
+    "jpeg-js": "^0.4.3",
+    "jquery": "^3.6.0",
+    "lodash": "^4.17.21",
     "lolex": "^6.0.0",
-    "meow": "^6.0.1",
+    "meow": "^10.0.0",
     "opn": "^6.0.0",
-    "ora": "^4.0.3",
-    "pixelmatch": "^5.1.0",
-    "playwright": "^1.10.0",
-    "pngjs": "^3.4.0",
-    "query-selector-shadow-dom": "^0.4.2",
+    "ora": "^5.4.0",
+    "pixelmatch": "^5.2.1",
+    "playwright": "^1.11.0",
+    "pngjs": "^6.0.0",
+    "query-selector-shadow-dom": "^1.0.0",
     "request": "^2.88.2",
-    "sharp": "^0.25.1",
+    "sharp": "^0.28.2",
     "zurb-twentytwenty": "https://github.com/zurb/twentytwenty"
   },
   "resolutions": {
@@ -79,8 +80,8 @@
     "test": "ava -v 2> /dev/null"
   },
   "devDependencies": {
-    "ava": "^3.5.0",
-    "sinon": "^9.0.1"
+    "ava": "^4.0.0-alpha.2",
+    "sinon": "^10.0.0"
   },
   "ava": {
     "files": [

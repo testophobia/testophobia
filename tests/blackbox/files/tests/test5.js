@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   testName: 'test5',
   dir: './sandbox/tests/site/section2',
   file: 'section2-test.js',
