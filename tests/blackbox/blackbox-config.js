@@ -1,16 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import sinon from 'sinon';
-// import mockRequire from 'mock-require';
-// import {Configuration} from 'meow';
-// mockRequire('meow', () => getMeowResult());
-// mockRequire('inquirer', {prompt: () => getInquirerResult()});
-// mockRequire('find-config', {obj: () => getFindConfigResult()});
-// import proxyquire from 'proxyquire';
-
-// proxyquire('../../node_modules/meow/index.js', {
-//   meow: () => getMeowResult()
-// });
 
 const moduleURL = new URL(import.meta.url);
 const __dirname = path.dirname(moduleURL.pathname);

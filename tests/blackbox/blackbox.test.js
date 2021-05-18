@@ -308,7 +308,7 @@ test.serial('Bad Test - duplicate action descriptions', t => {
  *********************************  T E S T S  *********************************
  *******************************************************************************/
 
-test.serial.skip('Test - section 1 - no actions - junit output', t => {
+test.serial('Test - section 1 - no actions - junit output', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -327,7 +327,7 @@ test.serial.skip('Test - section 1 - no actions - junit output', t => {
   });
 });
 
-test.serial.skip('Test - section 1 - no actions - failure', t => {
+test.serial('Test - section 1 - no actions - failure', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {writeXml: true}});
@@ -359,7 +359,7 @@ test.serial.skip('Test - section 1 - no actions - failure', t => {
   });
 });
 
-test.serial.skip('Test - section 1', t => {
+test.serial('Test - section 1', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -397,7 +397,7 @@ test.serial.skip('Test - section 1', t => {
   });
 });
 
-test.serial.skip('Test - section 1 - clip regions, scale, exclude, and png', t => {
+test.serial('Test - section 1 - clip regions, scale, exclude, and png', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -420,7 +420,7 @@ test.serial.skip('Test - section 1 - clip regions, scale, exclude, and png', t =
   });
 });
 
-test.serial.skip('Test - section 2', t => {
+test.serial('Test - section 2', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -445,7 +445,7 @@ test.serial.skip('Test - section 2', t => {
   });
 });
 
-test.serial.skip('Test - section 3', t => {
+test.serial('Test - section 3', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {writeXml: true}});
@@ -471,7 +471,7 @@ test.serial.skip('Test - section 3', t => {
   });
 });
 
-test.serial.skip('Test - parallel section1 and section3', t => {
+test.serial('Test - parallel section1 and section3', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
