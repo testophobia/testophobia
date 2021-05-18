@@ -1,47 +1,39 @@
-const path = require('path');
-const mockRequire = require('mock-require');
-mockRequire('esm', () => getEsmResult);
-mockRequire('meow', () => getMeowResult());
-mockRequire('inquirer', {prompt: () => getInquirerResult()});
-mockRequire('find-config', {obj: () => getFindConfigResult()});
+import fs from 'fs';
+import path from 'path';
+import sinon from 'sinon';
 
-const esmResults = {};
-let meowResult;
+const moduleURL = new URL(import.meta.url);
+const __dirname = path.dirname(moduleURL.pathname);
+
+const bbconfig = {};
+let meowResult, inquirerResult;
 let userCfgInUse = false;
 
-const getEsmResult = esmPath => {
-  const esmResult = esmResults[esmPath];
-  if (esmResult instanceof Error) {
-    throw esmResult;
-  }
-  return esmResult;
-};
 
-const getMeowResult = () => {
-  return meowResult;
-};
-
-const getFindConfigResult = () => {
-  if (!userCfgInUse) return;
-  const userCfg = './sandbox';
-  esmResults['sandbox/.testophobia.config.js'] = {
-    default: {
-      threshold: 0.5,
-      fileType: 'png'
-    }
-  };
-  return {dir: userCfg};
-};
-
-const getInquirerResult = () => {
-  return inquirerResult;
-};
-
-exports.setUserCfgInUse = inUse => {
+bbconfig.setUserCfgInUse = inUse => {
   userCfgInUse = inUse;
 };
 
-exports.setMeowResult = result => {
+bbconfig.getMeowResult = () => {
+  return meowResult;
+};
+
+bbconfig.getFindConfigResult = () => {
+  if (!userCfgInUse) return;
+  const userCfg = path.join(__dirname, 'sandbox');
+  const contents = {
+    threshold: 0.5,
+    fileType: 'png'
+  };
+  fs.writeFileSync(path.join(__dirname, `sandbox/.testophobia.config${global.mocks.instance}.js`), 'export default ' + JSON.stringify(contents));
+  return {dir: userCfg};
+};
+
+bbconfig.getInquirerResult = () => {
+  return inquirerResult;
+};
+
+bbconfig.setMeowResult = result => {
   meowResult = {input: ['undefined'], flags: {skipViewer: true}};
   if (result) {
     if (result.input) meowResult.input = result.input;
@@ -49,11 +41,7 @@ exports.setMeowResult = result => {
   }
 };
 
-exports.setEsmResult = (fileName, result) => {
-  esmResults[fileName] = result;
-};
-
-exports.setInquirerResult = (result, cb) => {
+bbconfig.setInquirerResult = (result, cb) => {
   inquirerResult = {
     then: async f => {
       await f(result);
@@ -62,7 +50,7 @@ exports.setInquirerResult = (result, cb) => {
   };
 };
 
-exports.getConfig = () => {
+bbconfig.getConfig = () => {
   return {
     bail: false,
     verbose: false,
@@ -90,7 +78,7 @@ exports.getConfig = () => {
   };
 };
 
-exports.getGenConfig = () => {
+bbconfig.getGenConfig = () => {
   return {
     bail: false,
     verbose: false,
@@ -118,7 +106,7 @@ exports.getGenConfig = () => {
   };
 };
 
-exports.getGenTest = () => {
+bbconfig.getGenTest = () => {
   return {
     actions: [],
     name: 'Generated Test',
@@ -126,4 +114,5 @@ exports.getGenTest = () => {
   };
 };
 
+export default bbconfig;
 

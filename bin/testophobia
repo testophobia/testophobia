@@ -1,5 +1,0 @@
-#!/usr/bin/env node
-/* global require */
-'use strict';
-const {Testophobia} = require('../lib/Testophobia');
-new Testophobia().run();

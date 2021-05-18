@@ -1,6 +1,15 @@
-exports.test1 = require('./test1.js');
-exports.test2 = require('./test2.js');
-exports.test3 = require('./test3.js');
-exports.test4 = require('./test4.js');
-exports.test5 = require('./test5.js');
-exports.test6 = require('./test6.js');
+import test1 from './test1.js';
+import test2 from './test2.js';
+import test3 from './test3.js';
+import test4 from './test4.js';
+import test5 from './test5.js';
+import test6 from './test6.js';
+
+export default {
+  test1: test1,
+  test2: test2,
+  test3: test3,
+  test4: test4,
+  test5: test5,
+  test6: test6
+}

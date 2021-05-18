@@ -1,4 +1,3 @@
-/* global $, Testophobia */
 (() => {
   window.Testophobia = {};
 

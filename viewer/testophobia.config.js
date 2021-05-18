@@ -9,6 +9,7 @@ export default {
   "fileType": "jpeg",
   "defaultTime": 2068786800000,
   "quality": 80,
+  "delay": 500,
   "dimensions": [
     {
       "type": "desktop",

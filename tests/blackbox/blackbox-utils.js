@@ -1,32 +1,38 @@
-/* global require, process */
-const path = require('path');
-const fs = require('fs');
-const sinon = require('sinon');
-const bbconfig = require('./blackbox-config');
+import path from 'path';
+import fs from 'fs';
+import sinon from 'sinon';
+import stripAnsi from 'strip-ansi';
+import bbconfig from './blackbox-config.js';
 
-const {createDirectory, copyFileOrDirectory, deleteDirectory} = require('../../lib/utils/file/file');
-const {Testophobia} = require('../../lib/Testophobia');
-const {Logger} = require('../../lib/Logger');
-const {Output} = require('../../lib/Output');
+import {createDirectory, copyFileOrDirectory, deleteDirectory} from '../../lib/utils/file/file.js';
+import {Testophobia} from '../../lib/Testophobia.js';
+import {Logger} from '../../lib/Logger.js';
+import {Output} from '../../lib/Output.js';
+
+const moduleURL = new URL(import.meta.url);
+const __dirname = path.dirname(moduleURL.pathname);
 
 const blackbox = {};
 const sandboxDir = path.join(__dirname, 'sandbox');
 let consoleChanges = [];
 let loggerStub = null;
 let spinnerStubs = [];
-let exitStub = null;
 let parallelStub = null;
 
-stubLogger = (output, verbose) => {
+const stubLogger = (output, verbose) => {
   const logger = output._getLog();
   logger.setLevel(verbose ? Logger.DEBUG_LEVEL : Logger.INFO_LEVEL);
   loggerStub = sinon.stub(logger, '_log').callsFake((message, consoleLevel, chalkColor) => {
-    if (verbose || chalkColor !== 'dim') consoleChanges.push({message, consoleLevel, chalkColor});
+    if (verbose || chalkColor !== 'dim') consoleChanges.push({message: stripAnsi(message), consoleLevel, chalkColor});
     if (consoleLevel === 'error') console.error(message);
   });
+  logger.fatal = function(message) {
+    this._log(message, 'error', 'red');
+    throw new Error('Process Exited');
+  };
 };
 
-stubOra = output => {
+const stubOra = output => {
   let isSpinning = false;
   let spinner = new SpinnerMock();
   spinnerStubs = [];
@@ -52,7 +58,7 @@ stubOra = output => {
   );
   spinnerStubs.push(
     sinon.stub(spinner, 'text').set(val => {
-      consoleChanges.push({spinner: 'message', text: val});
+      consoleChanges.push({spinner: 'message', text: stripAnsi(val)});
     })
   );
   output._setSpinner(spinner);
@@ -62,6 +68,13 @@ blackbox.setupTests = test => {
   test.beforeEach(t => {
     return new Promise(async resolve => {
       await deleteDirectory(sandboxDir);
+      const inst = !!global.mocks ? global.mocks.instance + 1 : 1;
+      global.mocks = {
+        instance: inst,
+        meow: () => bbconfig.getMeowResult(),
+        findConfig: () => bbconfig.getFindConfigResult(),
+        inquirer: () => bbconfig.getInquirerResult(),
+      }
       resolve();
     });
   });
@@ -69,10 +82,8 @@ blackbox.setupTests = test => {
   test.afterEach.always(t => {
     return new Promise(async resolve => {
       consoleChanges = [];
-      //await deleteDirectory(sandboxDir);
       loggerStub.restore();
       spinnerStubs.forEach(s => s.restore());
-      if (exitStub) exitStub.restore();
       if (parallelStub) parallelStub.restore();
       resolve();
     });
@@ -83,11 +94,13 @@ blackbox.getConsoleChanges = () => {
   return consoleChanges;
 };
 
-blackbox.createTestophobia = verbose => {
+blackbox.createTestophobia = async verbose => {
   const output = new Output();
   stubLogger(output, verbose);
   stubOra(output);
-  return new Testophobia(sandboxDir, output);
+  const t = new Testophobia();
+  await t.init(sandboxDir, output);
+  return t;
 };
 
 blackbox.runTestophobia = async tp => {
@@ -102,9 +115,20 @@ blackbox.dumpConsole = tp => {
   console.log(JSON.stringify(consoleChanges, null, 2));
 };
 
+blackbox.createEmptySandbox = (meowResult) => {
+  createDirectory(sandboxDir);
+  bbconfig.setMeowResult(meowResult);
+};
+
+blackbox.useBadConfigFile = async result => {
+  createDirectory(sandboxDir);
+  if (result) fs.writeFileSync(path.join(__dirname, `sandbox/testophobia.config${global.mocks.instance}.js`), result);
+  bbconfig.setMeowResult({input: ['undefined'], flags: {}});
+};
+
 blackbox.applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   createDirectory(sandboxDir);
-  bbconfig.setEsmResult(path.join(__dirname, 'sandbox/testophobia.config.js'), {default: bbconfig.getConfig()});
+  fs.writeFileSync(path.join(__dirname, `sandbox/testophobia.config${global.mocks.instance}.js`), 'export default ' + JSON.stringify(bbconfig.getConfig()));
   bbconfig.setMeowResult(meowResult);
   bbconfig.setUserCfgInUse(Boolean(applyUserCfg));
   if (!skipDirs) {
@@ -114,17 +138,18 @@ blackbox.applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   }
 };
 
-blackbox.prepareTestRun = tests => {
+blackbox.prepareTestRun = async tests => {
   blackbox.writeTestFiles(tests);
   blackbox.prepareGoldens(tests);
-  return blackbox.createTestophobia();
+  const t = await blackbox.createTestophobia();
+  return t;
 };
 
 blackbox.writeTestFiles = async tests => {
   tests.forEach(async t => {
     await createDirectory(t.dir);
-    const filepath = path.join(__dirname, t.dir, t.file);
-    bbconfig.setEsmResult(filepath, {default: t.contents});
+    let tfile = t.file.slice(0, -8) + '-' + global.mocks.instance + '-test.js';
+    const filepath = path.join(__dirname, t.dir, tfile);
     fs.writeFileSync(filepath, 'export default ' + JSON.stringify(t.contents));
   });
 };
@@ -146,20 +171,6 @@ blackbox.prepareGoldens = async tests => {
 blackbox.getFiles = dir => {
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir).filter(p => !p.startsWith('.'));
-};
-
-blackbox.useBadConfigFile = async result => {
-  createDirectory(sandboxDir);
-  bbconfig.setEsmResult('testophobia.config.js', result);
-  bbconfig.setMeowResult({input: ['undefined'], flags: {}});
-};
-
-blackbox.stubFatalExit = cb => {
-  exitStub = sinon.stub(process, 'exit');
-  exitStub.withArgs(1).callsFake(code => {
-    cb();
-    return true;
-  });
 };
 
 blackbox.stubParallel = (tp, cb) => {
@@ -188,4 +199,4 @@ class SpinnerMock {
   set text(t) {}
 }
 
-module.exports = blackbox;
+export default blackbox;
