@@ -68,6 +68,13 @@ blackbox.setupTests = test => {
   test.beforeEach(t => {
     return new Promise(async resolve => {
       await deleteDirectory(sandboxDir);
+      const inst = !!global.mocks ? global.mocks.instance + 1 : 1;
+      global.mocks = {
+        instance: inst,
+        meow: () => bbconfig.getMeowResult(),
+        findConfig: () => bbconfig.getFindConfigResult(),
+        inquirer: () => bbconfig.getInquirerResult(),
+      }
       resolve();
     });
   });
@@ -75,8 +82,6 @@ blackbox.setupTests = test => {
   test.afterEach.always(t => {
     return new Promise(async resolve => {
       consoleChanges = [];
-      //await deleteDirectory(sandboxDir);
-      delete global.mocks;
       loggerStub.restore();
       spinnerStubs.forEach(s => s.restore());
       if (parallelStub) parallelStub.restore();
@@ -91,11 +96,6 @@ blackbox.getConsoleChanges = () => {
 
 blackbox.createTestophobia = async verbose => {
   const output = new Output();
-  global.mocks = {
-    meow: () => bbconfig.getMeowResult(),
-    findConfig: () => bbconfig.getFindConfigResult(),
-    inquirer: () => bbconfig.getInquirerResult(),
-  }
   stubLogger(output, verbose);
   stubOra(output);
   const t = new Testophobia();
@@ -120,9 +120,15 @@ blackbox.createEmptySandbox = (meowResult) => {
   bbconfig.setMeowResult(meowResult);
 };
 
+blackbox.useBadConfigFile = async result => {
+  createDirectory(sandboxDir);
+  if (result) fs.writeFileSync(path.join(__dirname, `sandbox/testophobia.config${global.mocks.instance}.js`), result);
+  bbconfig.setMeowResult({input: ['undefined'], flags: {}});
+};
+
 blackbox.applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   createDirectory(sandboxDir);
-  fs.writeFileSync(path.join(__dirname, 'sandbox/testophobia.config.js'), 'export default ' + JSON.stringify(bbconfig.getConfig()));
+  fs.writeFileSync(path.join(__dirname, `sandbox/testophobia.config${global.mocks.instance}.js`), 'export default ' + JSON.stringify(bbconfig.getConfig()));
   bbconfig.setMeowResult(meowResult);
   bbconfig.setUserCfgInUse(Boolean(applyUserCfg));
   if (!skipDirs) {
@@ -142,8 +148,8 @@ blackbox.prepareTestRun = async tests => {
 blackbox.writeTestFiles = async tests => {
   tests.forEach(async t => {
     await createDirectory(t.dir);
-    const filepath = path.join(__dirname, t.dir, t.file);
-    // bbconfig.setEsmResult(filepath, {default: t.contents});
+    let tfile = t.file.slice(0, -8) + '-' + global.mocks.instance + '-test.js';
+    const filepath = path.join(__dirname, t.dir, tfile);
     fs.writeFileSync(filepath, 'export default ' + JSON.stringify(t.contents));
   });
 };
@@ -165,12 +171,6 @@ blackbox.prepareGoldens = async tests => {
 blackbox.getFiles = dir => {
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir).filter(p => !p.startsWith('.'));
-};
-
-blackbox.useBadConfigFile = async result => {
-  createDirectory(sandboxDir);
-  if (result) fs.writeFileSync(path.join(__dirname, 'sandbox/testophobia.config.js'), result);
-  bbconfig.setMeowResult({input: ['undefined'], flags: {}});
 };
 
 blackbox.stubParallel = (tp, cb) => {

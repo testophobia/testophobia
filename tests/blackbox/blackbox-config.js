@@ -35,7 +35,7 @@ bbconfig.getFindConfigResult = () => {
     threshold: 0.5,
     fileType: 'png'
   };
-  fs.writeFileSync(path.join(__dirname, 'sandbox/.testophobia.config.js'), 'export default ' + JSON.stringify(contents));
+  fs.writeFileSync(path.join(__dirname, `sandbox/.testophobia.config${global.mocks.instance}.js`), 'export default ' + JSON.stringify(contents));
   return {dir: userCfg};
 };
 

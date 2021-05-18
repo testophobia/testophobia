@@ -10,7 +10,7 @@ blackbox.setupTests(test);
  *******************************  C O N F I G S  *******************************
  *******************************************************************************/
 
-test.serial.only('Config - no config file', t => {
+test.serial('Config - no config file', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     blackbox.useBadConfigFile();
@@ -24,7 +24,7 @@ test.serial.only('Config - no config file', t => {
   })
 });
 
-test.serial.only('Config - unparseable config file', t => {
+test.serial('Config - unparseable config file', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     blackbox.useBadConfigFile('bad config file');
@@ -38,7 +38,7 @@ test.serial.only('Config - unparseable config file', t => {
   });
 });
 
-test.serial.only('Config - bad config file (noexport)', t => {
+test.serial('Config - bad config file (noexport)', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     blackbox.useBadConfigFile('{}');
@@ -52,7 +52,7 @@ test.serial.only('Config - bad config file (noexport)', t => {
   });
 });
 
-test.serial.only('Config - user config overrides', t => {
+test.serial('Config - user config overrides', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(true, true);
@@ -246,7 +246,7 @@ test.serial('Bad Test - unreachable url', t => {
     delete testConfig.contents.path;
     const tp = await blackbox.prepareTestRun([testConfig]);
     tp.config.baseUrl = 'test://o.phobia';
-    tp.config.tests = ['sandbox/tests/site/section1/section1-test.js'];
+    tp.config.tests = [`sandbox/tests/site/section1/section1-${global.mocks.instance }-test.js`];
     await blackbox.runTestophobia(tp);
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
