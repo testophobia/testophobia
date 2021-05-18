@@ -10,12 +10,10 @@ blackbox.setupTests(test);
  *******************************  C O N F I G S  *******************************
  *******************************************************************************/
 
-test.serial('Config - no config file', t => {
+test.serial.only('Config - no config file', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    const err = new Error();
-    err.code = 'MODULE_NOT_FOUND';
-    blackbox.useBadConfigFile(err);
+    blackbox.useBadConfigFile();
     try {
       const tp = await blackbox.createTestophobia();
     } catch (e) {
@@ -26,10 +24,10 @@ test.serial('Config - no config file', t => {
   })
 });
 
-test.serial('Config - unparseable config file', t => {
+test.serial.only('Config - unparseable config file', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    blackbox.useBadConfigFile(new Error('Bad config file!'));
+    blackbox.useBadConfigFile('bad config file');
     try {
       const tp = await blackbox.createTestophobia();
     } catch (e) {
@@ -40,10 +38,10 @@ test.serial('Config - unparseable config file', t => {
   });
 });
 
-test.serial('Config - bad config file (noexport)', t => {
+test.serial.only('Config - bad config file (noexport)', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    blackbox.useBadConfigFile({});
+    blackbox.useBadConfigFile('{}');
     try {
       const tp = await blackbox.createTestophobia();
     } catch (e) {
@@ -54,22 +52,21 @@ test.serial('Config - bad config file (noexport)', t => {
   });
 });
 
-test.serial.skip('Config - user config overrides', t => {
+test.serial.only('Config - user config overrides', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(true, true);
     const tp = await blackbox.createTestophobia(true);
-    // t.true(consoleChanges.some(c => c.message === '  threshold: 0.5'));
-    // t.true(consoleChanges.some(c => c.message === '  fileType: "png"'));
-    // t.true(consoleChanges.some(c => c.message === '  defaultTime: 2068786800000'));
-    // t.true(consoleChanges.some(c => c.message === '  quality: 80'));
-    // t.true(consoleChanges.some(c => c.message === '  tests: "sandbox/tests/**/*-test.js"'));
-    t.true(true);
+    t.true(consoleChanges.some(c => c.message === '  threshold: 0.5'));
+    t.true(consoleChanges.some(c => c.message === '  fileType: "png"'));
+    t.true(consoleChanges.some(c => c.message === '  defaultTime: 2068786800000'));
+    t.true(consoleChanges.some(c => c.message === '  quality: 80'));
+    t.true(consoleChanges.some(c => c.message === '  tests: "sandbox/tests/**/*-test.js"'));
     resolve();
   });
 });
 
-test.serial.skip('Config - tests path CLI override', t => {
+test.serial('Config - tests path CLI override', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(true, true, {input: ['cfg/path/to/tests']});
@@ -79,22 +76,18 @@ test.serial.skip('Config - tests path CLI override', t => {
   });
 });
 
-test.serial.only('Config - No golden dir', t => {
+test.serial('Config - No golden dir', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(true);
-    try {
-      const tp = await blackbox.createTestophobia();
-      await blackbox.runTestophobia(tp);
-    } catch (e) {
-      t.true(e.message === 'Process Exited');
-      t.deepEqual(consoleChanges, [
-        {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
-        {spinner: 'fail'},
-        {message: '✖  No Golden Images to Compare.', consoleLevel: 'error', chalkColor: 'red'}
-      ]);
-      resolve();
-    }
+    const tp = await blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {spinner: 'fail'},
+      {message: '✖  No Golden Images to Compare.', consoleLevel: 'error', chalkColor: 'red'}
+    ]);
+    resolve();
   });
 });
 
@@ -102,19 +95,15 @@ test.serial('Config - no test files exist', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
-    try {
-      const tp = await blackbox.createTestophobia();
-      tp.config.tests = undefined;
-      await blackbox.runTestophobia(tp);
-    } catch (e) {
-      t.true(e.message === 'Process Exited');
-      t.deepEqual(consoleChanges, [
-        {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
-        {spinner: 'fail'},
-        {message: '✖  No test files found! Check your config or input path.', consoleLevel: 'error', chalkColor: 'red'}
-      ]);
-      resolve();
-    }
+    const tp = await blackbox.createTestophobia();
+    tp.config.tests = undefined;
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {spinner: 'fail'},
+      {message: '✖  No test files found! Check your config or input path.', consoleLevel: 'error', chalkColor: 'red'}
+    ]);
+    resolve();
   });
 });
 
@@ -129,7 +118,6 @@ test.serial('Golden - no actions', t => {
     blackbox.writeTestFiles([tests.test1]);
     const tp = await blackbox.createTestophobia();
     await blackbox.runTestophobia(tp);
-    console.log(JSON.stringify(consoleChanges[2].text));
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
@@ -194,19 +182,15 @@ test.serial('Bad Test - no goldens directory found', t => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
     blackbox.writeTestFiles([tests.test1]);
-    try {
-      const tp = await blackbox.createTestophobia();
-      await blackbox.runTestophobia(tp);
-    } catch (e) {
-      t.true(e.message === 'Process Exited');
-      t.deepEqual(consoleChanges, [
-        {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
-        {spinner: 'start'},
-        {spinner: 'fail'},
-        {message: '✖  Missing Golden Images: ./sandbox/golden-screens/chromium/desktop/section1', consoleLevel: 'error', chalkColor: 'red'}
-      ]);
-      resolve();
-    }
+    const tp = await blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {spinner: 'start'},
+      {spinner: 'fail'},
+      {message: '✖  Missing Golden Images: ./sandbox/golden-screens/chromium/desktop/section1', consoleLevel: 'error', chalkColor: 'red'}
+    ]);
+    resolve();
   });
 });
 
@@ -214,25 +198,21 @@ test.serial('Bad Test - bad baseUrl (slashes)', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
-    try {
-      const tp = await blackbox.prepareTestRun([tests.test1]);
-      tp.config.baseUrl = 'test://o/phobia';
-      await blackbox.runTestophobia(tp);
-    } catch (e) {
-      t.true(e.message === 'Process Exited');
-      t.deepEqual(consoleChanges, [
-        {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
-        {spinner: 'start'},
-        {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
-        {spinner: 'fail'},
-        {
-          message: '✖  Error: baseUrl should only contain a domain name, but a path was supplied. Handle all pathing in test files.',
-          consoleLevel: 'error',
-          chalkColor: 'red'
-        }
-      ]);
-      resolve();
-    }
+    const tp = await blackbox.prepareTestRun([tests.test1]);
+    tp.config.baseUrl = 'test://o/phobia';
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {spinner: 'start'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
+      {spinner: 'fail'},
+      {
+        message: '✖  Error: baseUrl should only contain a domain name, but a path was supplied. Handle all pathing in test files.',
+        consoleLevel: 'error',
+        chalkColor: 'red'
+      }
+    ]);
+    resolve();
   });
 });
 
@@ -240,25 +220,21 @@ test.serial('Bad Test - bad baseUrl (hash)', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
-    try {
-      const tp = await blackbox.prepareTestRun([tests.test1]);
-      tp.config.baseUrl = 'test://o.phobia#foo';
-      await blackbox.runTestophobia(tp);
-    } catch (e) {
-      t.true(e.message === 'Process Exited');
-      t.deepEqual(consoleChanges, [
-        {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
-        {spinner: 'start'},
-        {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
-        {spinner: 'fail'},
-        {
-          message: '✖  Error: baseUrl should only contain a domain name, but a path was supplied. Handle all pathing in test files.',
-          consoleLevel: 'error',
-          chalkColor: 'red'
-        }
-      ]);
-      resolve();
-    }
+    const tp = await blackbox.prepareTestRun([tests.test1]);
+    tp.config.baseUrl = 'test://o.phobia#foo';
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {spinner: 'start'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
+      {spinner: 'fail'},
+      {
+        message: '✖  Error: baseUrl should only contain a domain name, but a path was supplied. Handle all pathing in test files.',
+        consoleLevel: 'error',
+        chalkColor: 'red'
+      }
+    ]);
+    resolve();
   });
 });
 
@@ -268,26 +244,22 @@ test.serial('Bad Test - unreachable url', t => {
     await blackbox.applyConfigFile();
     const testConfig = [tests.test1][0];
     delete testConfig.contents.path;
-    try {
-      const tp = await blackbox.prepareTestRun([testConfig]);
-      tp.config.baseUrl = 'test://o.phobia';
-      tp.config.tests = ['sandbox/tests/site/section1/section1-test.js'];
-      await blackbox.runTestophobia(tp);
-    } catch (e) {
-      t.true(e.message === 'Process Exited');
-      t.deepEqual(consoleChanges, [
-        {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
-        {spinner: 'start'},
-        {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
-        {spinner: 'fail'},
-        {
-          message: '✖  baseUrl supplied cannot be reached: test://o.phobia',
-          consoleLevel: 'error',
-          chalkColor: 'red'
-        }
-      ]);
-      resolve();
-    }
+    const tp = await blackbox.prepareTestRun([testConfig]);
+    tp.config.baseUrl = 'test://o.phobia';
+    tp.config.tests = ['sandbox/tests/site/section1/section1-test.js'];
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {spinner: 'start'},
+      {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
+      {spinner: 'fail'},
+      {
+        message: '✖  baseUrl supplied cannot be reached: test://o.phobia\npage.goto: net::ERR_ABORTED at test://o.phobia\n=========================== logs ===========================\nnavigating to "test://o.phobia", waiting until "networkidle"\n============================================================\nNote: use DEBUG=pw:api environment variable to capture Playwright logs.',
+        consoleLevel: 'error',
+        chalkColor: 'red'
+      }
+    ]);
+    resolve();
   });
 });
 
@@ -320,19 +292,15 @@ test.serial('Bad Test - duplicate action descriptions', t => {
     blackbox.writeTestFiles([tests.test6]);
     blackbox.prepareGoldens(null);
     createDirectory(`./sandbox/golden-screens/chromium/tablet/section1`);
-    try {
-      const tp = await blackbox.createTestophobia();
-      await blackbox.runTestophobia(tp);
-    } catch (e) {
-      t.true(e.message === 'Process Exited');
-      t.deepEqual(consoleChanges, [
-        {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
-        {spinner: 'start'},
-        {spinner: 'fail'},
-        {message: '✖  Duplicate action description: Click the test button', consoleLevel: 'error', chalkColor: 'red'}
-      ]);
-      resolve();
-    }
+    const tp = await blackbox.createTestophobia();
+    await blackbox.runTestophobia(tp);
+    t.deepEqual(consoleChanges, [
+      {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
+      {spinner: 'start'},
+      {spinner: 'fail'},
+      {message: '✖  Duplicate action description: Click the test button', consoleLevel: 'error', chalkColor: 'red'}
+    ]);
+    resolve();
   });
 });
 
@@ -340,7 +308,7 @@ test.serial('Bad Test - duplicate action descriptions', t => {
  *********************************  T E S T S  *********************************
  *******************************************************************************/
 
-test.serial('Test - section 1 - no actions - junit output', t => {
+test.serial.skip('Test - section 1 - no actions - junit output', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -359,7 +327,7 @@ test.serial('Test - section 1 - no actions - junit output', t => {
   });
 });
 
-test.serial('Test - section 1 - no actions - failure', t => {
+test.serial.skip('Test - section 1 - no actions - failure', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {writeXml: true}});
@@ -391,7 +359,7 @@ test.serial('Test - section 1 - no actions - failure', t => {
   });
 });
 
-test.serial('Test - section 1', t => {
+test.serial.skip('Test - section 1', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -429,7 +397,7 @@ test.serial('Test - section 1', t => {
   });
 });
 
-test.serial('Test - section 1 - clip regions, scale, exclude, and png', t => {
+test.serial.skip('Test - section 1 - clip regions, scale, exclude, and png', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -452,7 +420,7 @@ test.serial('Test - section 1 - clip regions, scale, exclude, and png', t => {
   });
 });
 
-test.serial('Test - section 2', t => {
+test.serial.skip('Test - section 2', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -477,7 +445,7 @@ test.serial('Test - section 2', t => {
   });
 });
 
-test.serial('Test - section 3', t => {
+test.serial.skip('Test - section 3', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile(false, false, {flags: {writeXml: true}});
@@ -503,7 +471,7 @@ test.serial('Test - section 3', t => {
   });
 });
 
-test.serial('Test - parallel section1 and section3', t => {
+test.serial.skip('Test - parallel section1 and section3', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
     await blackbox.applyConfigFile();
@@ -612,7 +580,7 @@ test.serial('Clear - all directories w/ golden', t => {
 test.serial('Gen File - testophobia.config.js - already exists', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    await blackbox.applyConfigFile(false, false, {flags: {init: true}});
+    await blackbox.createEmptySandbox({flags: {init: true}});
     fs.writeFileSync('./sandbox/testophobia.config.js', 'export default {}');
     blackbox.setFileGenResult(
       {
@@ -638,7 +606,7 @@ test.serial('Gen File - testophobia.config.js - already exists', t => {
 test.serial('Gen File - testophobia.config.js', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    await blackbox.applyConfigFile(false, false, {flags: {init: true}});
+    await blackbox.createEmptySandbox({flags: {init: true}});
     blackbox.setFileGenResult(
       {
         genFile: 'config',
@@ -667,7 +635,7 @@ test.serial('Gen File - testophobia.config.js', t => {
 test.serial('Gen File - test file - already exists', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    await blackbox.applyConfigFile(false, false, {flags: {init: true}});
+    await blackbox.createEmptySandbox({flags: {init: true}});
     fs.writeFileSync('./sandbox/generated-test.js', 'export default {}');
     blackbox.setFileGenResult(
       {
@@ -694,7 +662,7 @@ test.serial('Gen File - test file - already exists', t => {
 test.serial('Gen File - test file', t => {
   return new Promise(async resolve => {
     const consoleChanges = blackbox.getConsoleChanges();
-    await blackbox.applyConfigFile(false, false, {flags: {init: true}});
+    await blackbox.createEmptySandbox({flags: {init: true}});
     blackbox.setFileGenResult(
       {
         genFile: 'test',

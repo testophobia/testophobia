@@ -1,36 +1,46 @@
+import fs from 'fs';
 import path from 'path';
-import mockRequire from 'mock-require';
-mockRequire('meow', () => getMeowResult());
-mockRequire('inquirer', {prompt: () => getInquirerResult()});
-mockRequire('find-config', {obj: () => getFindConfigResult()});
+import sinon from 'sinon';
+// import mockRequire from 'mock-require';
+// import {Configuration} from 'meow';
+// mockRequire('meow', () => getMeowResult());
+// mockRequire('inquirer', {prompt: () => getInquirerResult()});
+// mockRequire('find-config', {obj: () => getFindConfigResult()});
+// import proxyquire from 'proxyquire';
+
+// proxyquire('../../node_modules/meow/index.js', {
+//   meow: () => getMeowResult()
+// });
+
+const moduleURL = new URL(import.meta.url);
+const __dirname = path.dirname(moduleURL.pathname);
 
 const bbconfig = {};
-const esmResults = {};
-let meowResult;
+let meowResult, inquirerResult;
 let userCfgInUse = false;
 
-const getMeowResult = () => {
-  return meowResult;
-};
-
-const getFindConfigResult = () => {
-  if (!userCfgInUse) return;
-  const userCfg = './sandbox';
-  esmResults['sandbox/.testophobia.config.js'] = {
-    default: {
-      threshold: 0.5,
-      fileType: 'png'
-    }
-  };
-  return {dir: userCfg};
-};
-
-const getInquirerResult = () => {
-  return inquirerResult;
-};
 
 bbconfig.setUserCfgInUse = inUse => {
   userCfgInUse = inUse;
+};
+
+bbconfig.getMeowResult = () => {
+  return meowResult;
+};
+
+bbconfig.getFindConfigResult = () => {
+  if (!userCfgInUse) return;
+  const userCfg = path.join(__dirname, 'sandbox');
+  const contents = {
+    threshold: 0.5,
+    fileType: 'png'
+  };
+  fs.writeFileSync(path.join(__dirname, 'sandbox/.testophobia.config.js'), 'export default ' + JSON.stringify(contents));
+  return {dir: userCfg};
+};
+
+bbconfig.getInquirerResult = () => {
+  return inquirerResult;
 };
 
 bbconfig.setMeowResult = result => {
@@ -39,10 +49,6 @@ bbconfig.setMeowResult = result => {
     if (result.input) meowResult.input = result.input;
     meowResult.flags = Object.assign(meowResult.flags, result.flags);
   }
-};
-
-bbconfig.setEsmResult = (fileName, result) => {
-  esmResults[fileName] = result;
 };
 
 bbconfig.setInquirerResult = (result, cb) => {

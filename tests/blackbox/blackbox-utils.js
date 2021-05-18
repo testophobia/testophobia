@@ -1,7 +1,7 @@
-/* global require, process */
 import path from 'path';
 import fs from 'fs';
 import sinon from 'sinon';
+import stripAnsi from 'strip-ansi';
 import bbconfig from './blackbox-config.js';
 
 import {createDirectory, copyFileOrDirectory, deleteDirectory} from '../../lib/utils/file/file.js';
@@ -23,7 +23,7 @@ const stubLogger = (output, verbose) => {
   const logger = output._getLog();
   logger.setLevel(verbose ? Logger.DEBUG_LEVEL : Logger.INFO_LEVEL);
   loggerStub = sinon.stub(logger, '_log').callsFake((message, consoleLevel, chalkColor) => {
-    if (verbose || chalkColor !== 'dim') consoleChanges.push({message, consoleLevel, chalkColor});
+    if (verbose || chalkColor !== 'dim') consoleChanges.push({message: stripAnsi(message), consoleLevel, chalkColor});
     if (consoleLevel === 'error') console.error(message);
   });
   logger.fatal = function(message) {
@@ -58,7 +58,7 @@ const stubOra = output => {
   );
   spinnerStubs.push(
     sinon.stub(spinner, 'text').set(val => {
-      consoleChanges.push({spinner: 'message', text: val});
+      consoleChanges.push({spinner: 'message', text: stripAnsi(val)});
     })
   );
   output._setSpinner(spinner);
@@ -76,6 +76,7 @@ blackbox.setupTests = test => {
     return new Promise(async resolve => {
       consoleChanges = [];
       //await deleteDirectory(sandboxDir);
+      delete global.mocks;
       loggerStub.restore();
       spinnerStubs.forEach(s => s.restore());
       if (parallelStub) parallelStub.restore();
@@ -90,6 +91,11 @@ blackbox.getConsoleChanges = () => {
 
 blackbox.createTestophobia = async verbose => {
   const output = new Output();
+  global.mocks = {
+    meow: () => bbconfig.getMeowResult(),
+    findConfig: () => bbconfig.getFindConfigResult(),
+    inquirer: () => bbconfig.getInquirerResult(),
+  }
   stubLogger(output, verbose);
   stubOra(output);
   const t = new Testophobia();
@@ -109,10 +115,14 @@ blackbox.dumpConsole = tp => {
   console.log(JSON.stringify(consoleChanges, null, 2));
 };
 
+blackbox.createEmptySandbox = (meowResult) => {
+  createDirectory(sandboxDir);
+  bbconfig.setMeowResult(meowResult);
+};
+
 blackbox.applyConfigFile = async (skipDirs, applyUserCfg, meowResult) => {
   createDirectory(sandboxDir);
-  // bbconfig.setEsmResult(path.join(__dirname, 'sandbox/testophobia.config.js'), {default: bbconfig.getConfig()});
-  fs.writeFileSync(path.join(__dirname, 'sandbox/testophobia.config.js'), bbconfig.getConfig());
+  fs.writeFileSync(path.join(__dirname, 'sandbox/testophobia.config.js'), 'export default ' + JSON.stringify(bbconfig.getConfig()));
   bbconfig.setMeowResult(meowResult);
   bbconfig.setUserCfgInUse(Boolean(applyUserCfg));
   if (!skipDirs) {
@@ -133,7 +143,7 @@ blackbox.writeTestFiles = async tests => {
   tests.forEach(async t => {
     await createDirectory(t.dir);
     const filepath = path.join(__dirname, t.dir, t.file);
-    bbconfig.setEsmResult(filepath, {default: t.contents});
+    // bbconfig.setEsmResult(filepath, {default: t.contents});
     fs.writeFileSync(filepath, 'export default ' + JSON.stringify(t.contents));
   });
 };
@@ -159,7 +169,7 @@ blackbox.getFiles = dir => {
 
 blackbox.useBadConfigFile = async result => {
   createDirectory(sandboxDir);
-  bbconfig.setEsmResult('testophobia.config.js', result);
+  if (result) fs.writeFileSync(path.join(__dirname, 'sandbox/testophobia.config.js'), result);
   bbconfig.setMeowResult({input: ['undefined'], flags: {}});
 };
 
