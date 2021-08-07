@@ -1,6 +1,6 @@
 {
   "name": "testophobia",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Web application snapshot tester",
   "license": "MIT",
   "type": "module",
@@ -64,7 +64,7 @@
     "opn": "^6.0.0",
     "ora": "^5.4.0",
     "pixelmatch": "^5.2.1",
-    "playwright": "^1.11.0",
+    "playwright": "^1.13.1",
     "pngjs": "^6.0.0",
     "query-selector-shadow-dom": "^1.0.0",
     "request": "^2.88.2",
