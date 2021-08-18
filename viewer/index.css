@@ -18,3 +18,7 @@
   grid-column-start: 1;
   grid-column-end: 3;
 }
+#lbl-new-image {
+  margin-bottom: 8px;
+  color: #f5da4f;
+}

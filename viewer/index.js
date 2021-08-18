@@ -36,11 +36,13 @@
     configurePrevNextButtons();
     configureInfoButton();
     configureApplyButton();
-    configureTwentyTwenty();
+    configureTwentyTwenty(true);
     loadTest();
   }
 
   function loadTest() {
+    $('.viewer-body').show();
+    $('.new-image-body').hide();
     if (Testophobia.testRunInfo.failures.length === 0) {
       $('#btn-info').button('disable');
       $('#btn-prev').button('disable');
@@ -55,6 +57,9 @@
       $('#lbl-pager').text(`Failure: 0 of 0`);
       $('#lbl-testname').text('');
     } else if (!Testophobia.testRunInfo.failures[Testophobia.currentImageIdx].diffFileLocation) {
+      $('.viewer-body').hide();
+      $('.new-image-body').show();
+      $('#img-new-image').attr('src', `/images/${Testophobia.currentImageIdx}/test`);
       $('.viewer-diff #img-diff').attr('src', '');
       $('.viewer-comp #img-comp1').attr('src', '');
       $('.viewer-comp #img-comp2').attr('src', '');
@@ -74,6 +79,7 @@
       $('#lbl-testname').text(
         `${Testophobia.currentTestFailure.test} (${Testophobia.currentTestFailure.screenType}) - ${Testophobia.currentTestFailure.action}`
       );
+      configureTwentyTwenty();
       setTimeout(() => $(window).trigger('resize.twentytwenty'), 100);
     }
   }
@@ -153,13 +159,15 @@
       .click(() => pageImages(true));
   }
 
-  function configureTwentyTwenty() {
-    $('.viewer-comp').imagesLoaded(() => {
+  function configureTwentyTwenty(init2020) {
+    $('.viewer-body').imagesLoaded(() => {
+      if (init2020) {
+        $('.viewer-comp').twentytwenty({
+          before_label: 'Golden',
+          after_label: 'New'
+        });
+      }
       const img = $('.viewer-diff #img-diff');
-      $('.viewer-comp').twentytwenty({
-        before_label: 'Golden',
-        after_label: 'New'
-      });
       $('.twentytwenty-container').width(img.width());
       $('.twentytwenty-container').height(img.height());
       $('.twentytwenty-overlay').width(img.width());

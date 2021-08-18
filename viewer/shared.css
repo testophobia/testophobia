@@ -58,7 +58,8 @@ body {
   text-transform: capitalize;
   color: #90ff83;
 }
-.viewer-body {
+.viewer-body,
+.new-image-body {
   flex: 1;
   margin: 0 8px;
   overflow: auto;

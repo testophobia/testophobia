@@ -1,5 +1,5 @@
 #golden-view {
-  margin: 8px 16px;
+  margin: 16px;
 }
 .golden-list-section {
   margin-bottom: 8px;
@@ -49,6 +49,12 @@
 .golden-list li div:not(:first-child):active a {
   opacity: 0.8;
 }
+#viewer-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 40px);
+}
 .header-left {
   flex: 1;
 }
@@ -81,14 +87,14 @@
   flex-wrap: wrap;
 }
 #single-image-row > * {
-  margin-right: 1vw;
+  margin-right: 8px;
 }
 #single-image-img img,
 #single-image-img2 img,
 #single-image-img3 img,
 #viewer-container img,
 #diff-overlay img {
-  max-height: 76vh;
+  /*max-height: 76vh;*/
 }
 #single-image-desc-chromium,
 #single-image-desc-firefox,
