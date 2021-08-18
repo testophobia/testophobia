@@ -13,8 +13,8 @@ export default {
   "dimensions": [
     {
       "type": "desktop",
-      "width": 1024,
-      "height": 768
+      "width": 1560,
+      "height": 1300
     }
   ],
   "tests": "testophobia/tests/**/*-test.js"

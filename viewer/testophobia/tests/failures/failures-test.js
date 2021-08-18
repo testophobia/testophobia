@@ -15,37 +15,19 @@ export default {
     {
       "description": "Drag the overlay handle to the left",
       "type": "drag",
-      "x": -220,
-      "target": ".twentytwenty-handle"
+      "x": -430,
+      "target": ".twentytwenty-handle",
+      "dragHoverX": 50,
+      "dragHoverY": 50,
+      "dragHoverTarget": ".twentytwenty-overlay",
     },
     {
       "description": "Hover the image overlay to show the golden/new labels",
       "type": "hover",
+      "hoverX": 150,
+      "hoverY": 150,
       "target": ".twentytwenty-overlay",
       "delay": 600
-    },
-    {
-      "description": "De-hover the overlay",
-      "type": "hover",
-      "target": "#btn-diff",
-      "delay": 600
-    },
-    {
-      "description": "Show the diff overlay",
-      "type": "click",
-      "target": "#btn-diff"
-    },
-    {
-      "description": "Drag the diff slider to the right",
-      "type": "drag",
-      "x": 95,
-      "target": "#sld-diff .ui-slider-handle",
-      "delay": 600
-    },
-    {
-      "description": "Hide the diff overlay",
-      "type": "click",
-      "target": "#btn-diff"
     },
     {
       "description": "Go to failure 2",

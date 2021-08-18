@@ -1,6 +1,6 @@
 export default {
   name: 'golden',
-  path: '/index.html',
+  path: '/golden.html',
   actions: [
     {
       description: 'Hover on desktop/home directory',
