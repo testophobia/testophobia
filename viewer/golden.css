@@ -49,3 +49,50 @@
 .golden-list li div:not(:first-child):active a {
   opacity: 0.8;
 }
+.header-left {
+  flex: 1;
+}
+.header-right > div {
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+  justify-content: flex-end;
+}
+.header-right > div:first-child {
+  margin-bottom: 8px;
+}
+#single-image {
+  display: none;
+}
+#single-image > #single-image-lbl,
+#single-image > #single-image-lbl2 {
+  margin-bottom: 8px;
+}
+#single-image > #single-image-lbl {
+  color: #ff9090;
+}
+#single-image > #single-image-lbl2 {
+  color: #f5da4f;
+}
+#single-image-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+}
+#single-image-row > * {
+  margin-right: 1vw;
+}
+#single-image-img img,
+#single-image-img2 img,
+#single-image-img3 img,
+#viewer-container img,
+#diff-overlay img {
+  max-height: 76vh;
+}
+#single-image-desc-chromium,
+#single-image-desc-firefox,
+#single-image-desc-webkit {
+  font-size: 10px;
+  margin-bottom: 10px;
+}

@@ -18,24 +18,34 @@
     <div id="golden-view">Loading...</div>
     <div id="viewer-view">
       <div class="header-ctls">
-        <label id="lbl-testname"></label>
-        <span class="spacer">&nbsp;</span>
-        <div id="dd-view-dimension"></div>
-        <button id="btn-start-over" class="red button" title="Start over">↺</button>
-        <label id="lbl-pager"></label>
-        <button id="btn-prev" class="blue button" title="View previous failure"><</button>
-        <button id="btn-next" class="blue button" title="View next failure">></button>
+        <div class="header-left">
+          <label id="lbl-testname"></label>
+        </div>
+        <div class="header-right">
+          <div>
+            <div id="dd-view-dimension"></div>
+            <button id="btn-start-over" class="red button" title="Start over">↺</button>
+          </div>
+          <div>
+            <label id="lbl-pager"></label>
+            <button id="btn-prev" class="blue button" title="View previous failure"><</button>
+            <button id="btn-next" class="blue button" title="View next failure">></button>
+          </div>
+        </div>
       </div>
       <div class="viewer-body">
         <div id="single-image">
           <div id="single-image-lbl"></div>
           <div id="single-image-lbl2"></div>
           <div id="single-image-row">
-            <div id="single-image-img"><img /><div id="single-image-desc-chromium">Chromium</div></div>
-            <div id="single-image-img2"><img /><div id="single-image-desc-firefox">Firefox</div></div>
-            <div id="single-image-img3"><img /><div id="single-image-desc-webkit">Webkit</div></div>
+            <div id="single-image-img"><img /></div>
+            <div id="single-image-img2"><img /></div>
+            <div id="single-image-img3"><img /></div>
           </div>
         </div>
+      </div>
+      <div class="footer-ctls">
+        <label id="lbl-browser">Browser: <span></span></label>
       </div>
     </div>
   </div>
