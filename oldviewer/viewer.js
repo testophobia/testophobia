@@ -140,12 +140,12 @@
           $(this).text('Overlay');
           $('#btn-diff').hide();
           hideDiff();
-          $('#viewer-container').addClass('side-by-side');
+          $('#viewer-body').addClass('side-by-side');
         } else {
           $(this).text('Side By Side');
           $('#btn-diff').show();
           if ($('#btn-diff').text() === 'Hide Diff') showDiff();
-          $('#viewer-container').removeClass('side-by-side');
+          $('#viewer-body').removeClass('side-by-side');
         }
       });
   }
@@ -163,7 +163,7 @@
     $('#sld-diff').slider({
       min: 0,
       max: 100,
-      value: 50,
+      value: 100,
       disabled: true,
       change: updateDiffOpacity
     });
@@ -211,6 +211,8 @@
       $('#lbl-testname').text('');
       $('#img-before').attr('src', '');
       $('#img-after').attr('src', '');
+      $('#img-before-sbs').attr('src', '');
+      $('#img-after-sbs').attr('src', '');
       $('#img-diff').attr('src', '');
     } else if (!Testophobia.testRunInfo.failures[Testophobia.currentImageIdx].diffFileLocation) {
       $('#single-image').show();
@@ -223,6 +225,8 @@
       $('#sld-diff').slider('disable');
       $('#img-before').attr('src', '');
       $('#img-after').attr('src', '');
+      $('#img-before-sbs').attr('src', '');
+      $('#img-after-sbs').attr('src', '');
       $('#img-diff').attr('src', '');
       $('#lbl-pager').text(`Failure: ${Testophobia.currentImageIdx + 1} of ${Testophobia.testRunInfo.failures.length}`);
       $('#lbl-testname').text(
@@ -234,6 +238,8 @@
       $('#sld-diff').slider('enable');
       $('#img-before').attr('src', `/images/${Testophobia.currentImageIdx}/golden`);
       $('#img-after').attr('src', `/images/${Testophobia.currentImageIdx}/test`);
+      $('#img-before-sbs').attr('src', `/images/${Testophobia.currentImageIdx}/golden`);
+      $('#img-after-sbs').attr('src', `/images/${Testophobia.currentImageIdx}/test`);
       $('#img-diff').attr('src', `/images/${Testophobia.currentImageIdx}/diff`);
       $('#lbl-pager').text(`Failure: ${Testophobia.currentImageIdx + 1} of ${Testophobia.testRunInfo.failures.length}`);
       $('#lbl-testname').text(

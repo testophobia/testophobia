@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Testophobia Viewer</title>
+  <meta name="description" content="HTML Viewer to resolve Testophobia failures">
+  <script src="/node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
+  <script src="/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css" type="text/css"/>
+  <link rel="stylesheet" href="/shared.css" type="text/css"/>
+  <link rel="stylesheet" href="/golden.css" type="text/css"/>
+</head>
+<body>
+  <div class="main">
+    <div class="header">
+      <div class="header-title">😱 Testophobia Viewer</div>
+    </div>
+    <div id="golden-view">Loading...</div>
+    <div id="viewer-view">
+      <div class="header-ctls">
+        <label id="lbl-testname"></label>
+        <span class="spacer">&nbsp;</span>
+        <div id="dd-view-dimension"></div>
+        <button id="btn-start-over" class="red button" title="Start over">↺</button>
+        <label id="lbl-pager"></label>
+        <button id="btn-prev" class="blue button" title="View previous failure"><</button>
+        <button id="btn-next" class="blue button" title="View next failure">></button>
+      </div>
+      <div class="viewer-body">
+        <div id="single-image">
+          <div id="single-image-lbl"></div>
+          <div id="single-image-lbl2"></div>
+          <div id="single-image-row">
+            <div id="single-image-img"><img /><div id="single-image-desc-chromium">Chromium</div></div>
+            <div id="single-image-img2"><img /><div id="single-image-desc-firefox">Firefox</div></div>
+            <div id="single-image-img3"><img /><div id="single-image-desc-webkit">Webkit</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/golden.js"></script>
+</body>
+</html>
