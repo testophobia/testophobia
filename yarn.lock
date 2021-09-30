@@ -2690,11 +2690,6 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-query-selector-shadow-dom@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/query-selector-shadow-dom/-/query-selector-shadow-dom-1.0.0.tgz#8fa7459a4620f094457640e74e953a9dbe61a38e"
-  integrity sha512-bK0/0cCI+R8ZmOF1QjT7HupDUYCxbf/9TJgAmSXQxZpftXmTAeil9DRoCnTDkWbvOyZzhcMBwKpptWcdkGFIMg==
-
 quick-lru@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-4.0.1.tgz#5b8878f113a58217848c6482026c73e1ba57727f"
