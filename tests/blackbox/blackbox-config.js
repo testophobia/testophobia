@@ -62,6 +62,7 @@ bbconfig.getConfig = () => {
     fileType: 'jpeg',
     defaultTime: 2068786800000,
     quality: 80,
+    delay: 300,
     dimensions: [
       {
         type: 'desktop',
