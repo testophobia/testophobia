@@ -18,7 +18,7 @@ test.serial('Config - no config file', t => {
       const tp = await blackbox.createTestophobia();
     } catch (e) {
       t.true(e.message === 'Process Exited');
-      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Error loading testophobia config file', consoleLevel: 'error', chalkColor: 'red'}]);
+      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✘  Error loading testophobia config file', consoleLevel: 'error', chalkColor: 'red'}]);
       resolve();
     }
   })
@@ -32,7 +32,7 @@ test.serial('Config - unparseable config file', t => {
       const tp = await blackbox.createTestophobia();
     } catch (e) {
       t.true(e.message === 'Process Exited');
-      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Error loading testophobia config file', consoleLevel: 'error', chalkColor: 'red'}]);
+      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✘  Error loading testophobia config file', consoleLevel: 'error', chalkColor: 'red'}]);
       resolve();
     }
   });
@@ -46,7 +46,7 @@ test.serial('Config - bad config file (noexport)', t => {
       const tp = await blackbox.createTestophobia();
     } catch (e) {
       t.true(e.message === 'Process Exited');
-      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✖  Error loading testophobia config file', consoleLevel: 'error', chalkColor: 'red'}]);
+      t.deepEqual(consoleChanges, [{spinner: 'fail'}, {message: '✘  Error loading testophobia config file', consoleLevel: 'error', chalkColor: 'red'}]);
       resolve();
     }
   });
@@ -85,7 +85,7 @@ test.serial('Config - No golden dir', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'fail'},
-      {message: '✖  No Golden Images to Compare.', consoleLevel: 'error', chalkColor: 'red'}
+      {message: '✘  No Golden Images to Compare.', consoleLevel: 'error', chalkColor: 'red'}
     ]);
     resolve();
   });
@@ -101,7 +101,7 @@ test.serial('Config - no test files exist', t => {
     t.deepEqual(consoleChanges, [
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'fail'},
-      {message: '✖  No test files found! Check your config or input path.', consoleLevel: 'error', chalkColor: 'red'}
+      {message: '✘  No test files found! Check your config or input path.', consoleLevel: 'error', chalkColor: 'red'}
     ]);
     resolve();
   });
@@ -188,7 +188,7 @@ test.serial('Bad Test - no goldens directory found', t => {
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
       {spinner: 'fail'},
-      {message: '✖  Missing Golden Images: ./sandbox/golden-screens/chromium/desktop/section1', consoleLevel: 'error', chalkColor: 'red'}
+      {message: '✘  Missing Golden Images: ./sandbox/golden-screens/chromium/desktop/section1', consoleLevel: 'error', chalkColor: 'red'}
     ]);
     resolve();
   });
@@ -207,7 +207,7 @@ test.serial('Bad Test - bad baseUrl (slashes)', t => {
       {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
       {spinner: 'fail'},
       {
-        message: '✖  Error: baseUrl should only contain a domain name, but a path was supplied. Handle all pathing in test files.',
+        message: '✘  Error: baseUrl should only contain a domain name, but a path was supplied. Handle all pathing in test files.',
         consoleLevel: 'error',
         chalkColor: 'red'
       }
@@ -229,7 +229,7 @@ test.serial('Bad Test - bad baseUrl (hash)', t => {
       {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
       {spinner: 'fail'},
       {
-        message: '✖  Error: baseUrl should only contain a domain name, but a path was supplied. Handle all pathing in test files.',
+        message: '✘  Error: baseUrl should only contain a domain name, but a path was supplied. Handle all pathing in test files.',
         consoleLevel: 'error',
         chalkColor: 'red'
       }
@@ -254,7 +254,7 @@ test.serial('Bad Test - unreachable url', t => {
       {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
       {spinner: 'fail'},
       {
-        message: '✖  baseUrl supplied cannot be reached: test://o.phobia\npage.goto: net::ERR_ABORTED at test://o.phobia\n=========================== logs ===========================\nnavigating to "test://o.phobia", waiting until "networkidle"\n============================================================',
+        message: '✘  baseUrl supplied cannot be reached: test://o.phobia\npage.goto: net::ERR_ABORTED at test://o.phobia\n=========================== logs ===========================\nnavigating to "test://o.phobia", waiting until "networkidle"\n============================================================',
         consoleLevel: 'error',
         chalkColor: 'red'
       }
@@ -298,7 +298,7 @@ test.serial('Bad Test - duplicate action descriptions', t => {
       {message: '😱 Starting Testophobia...', consoleLevel: 'info', chalkColor: 'cyan'},
       {spinner: 'start'},
       {spinner: 'fail'},
-      {message: '✖  Duplicate action description: Click the test button', consoleLevel: 'error', chalkColor: 'red'}
+      {message: '✘  Duplicate action description: Click the test button', consoleLevel: 'error', chalkColor: 'red'}
     ]);
     resolve();
   });
