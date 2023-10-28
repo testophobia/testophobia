@@ -254,7 +254,7 @@ test.serial('Bad Test - unreachable url', t => {
       {spinner: 'message', text: ' Running Tests (chromium) [0 passed | 0 failed | 2 pending]'},
       {spinner: 'fail'},
       {
-        message: '✘  baseUrl supplied cannot be reached: test://o.phobia\npage.goto: net::ERR_ABORTED at test://o.phobia\n=========================== logs ===========================\nnavigating to "test://o.phobia", waiting until "networkidle"\n============================================================',
+        message: '✘  section1 - url supplied cannot be reached: test://o.phobia\npage.goto: net::ERR_ABORTED at test://o.phobia\n=========================== logs ===========================\nnavigating to "test://o.phobia", waiting until "networkidle"\n============================================================',
         consoleLevel: 'error',
         chalkColor: 'red'
       }
