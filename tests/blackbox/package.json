@@ -24,8 +24,10 @@
     ]
   },
   "dependencies": {
+    "@vercel/nft": "^0.26.2",
     "ava": "^4.0.0-alpha.2",
     "nyc": "^15.1.0",
+    "sharp": "^0.33.2",
     "strip-ansi": "^7.0.0"
   },
   "devDependencies": {
