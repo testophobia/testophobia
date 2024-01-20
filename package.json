@@ -1,6 +1,6 @@
 {
   "name": "testophobia",
-  "version": "2.1.12",
+  "version": "2.1.13",
   "description": "Web application snapshot tester",
   "license": "MIT",
   "type": "module",
