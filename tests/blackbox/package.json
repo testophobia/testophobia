@@ -2,8 +2,8 @@
   "type": "module",
   "scripts": {
     "test": "ava -v 2> /dev/null",
-    "serve:site": "cd ./files/site && http-server -p 8081",
-    "serve:coverage": "cd coverage && http-server -p 8080"
+    "serve:site": "cd ./files/site && ws -p 8081",
+    "serve:coverage": "cd coverage && ws -p 8080"
   },
   "ava": {
     "files": [
