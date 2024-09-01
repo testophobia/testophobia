@@ -35,7 +35,7 @@
     configureTestRunDialog();
     configurePrevNextButtons();
     configureInfoButton();
-    configureApplyButton();
+    configureApplyButtons();
     configureTwentyTwenty(true);
     loadTest();
   }
@@ -47,6 +47,7 @@
       $('#btn-info').button('disable');
       $('#btn-prev').button('disable');
       $('#btn-next').button('disable');
+      $('#btn-skip').button('disable');
       $('#btn-apply').button('disable');
       $('#btn-apply-all').button('disable');
       $('.viewer-diff #img-diff').attr('src', '');
@@ -121,7 +122,20 @@
       });
   }
 
-  function configureApplyButton() {
+  function configureApplyButtons() {
+    $('#btn-skip')
+      .button()
+      .click(async e => {
+        $.post('/skip-failure/' + Testophobia.currentImageIdx, async (data, statusText, xhr) => {
+          if (xhr.status === 200) {
+            if (!e.altKey) alert('Test failure removed, and not applied as the new golden image.');
+            await loadTestResults(true);
+            loadTest();
+          } else {
+            alert('Unable to remove the test failure: ' + statusText);
+          }
+        });
+      });
     $('#btn-apply')
       .button()
       .click(async e => {
