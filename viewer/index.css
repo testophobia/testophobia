@@ -1,6 +1,19 @@
 #btn-info {
   padding: 8px;
 }
+.btn-w-key {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12px;
+  font-style: italic;
+}
+.btn-w-key > button {
+  height: 29px;
+}
+.btn-w-key > span {
+  line-height: 14px;
+}
 .viewer-body-row {
   display: flex;
   flex-direction: row;

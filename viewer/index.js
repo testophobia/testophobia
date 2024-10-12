@@ -36,6 +36,7 @@
     configurePrevNextButtons();
     configureInfoButton();
     configureApplyButtons();
+    handleKeyboardShortcuts();
     configureTwentyTwenty(true);
     loadTest();
   }
@@ -122,46 +123,63 @@
       });
   }
 
+  async function skipFailure(e) {
+    $.post('/skip-failure/' + Testophobia.currentImageIdx, async (data, statusText, xhr) => {
+      if (xhr.status === 200) {
+        if (!e.altKey && !e.ctrlKey) alert('Test failure removed, and not applied as the new golden image.');
+        await loadTestResults(true);
+        loadTest();
+      } else {
+        alert('Unable to remove the test failure: ' + statusText);
+      }
+    });
+  }
+
+  async function applyGolden(e) {
+    $.post('/apply-golden/' + Testophobia.currentImageIdx, async (data, statusText, xhr) => {
+      if (xhr.status === 200) {
+        if (!e.altKey && !e.ctrlKey) alert('Test image applied as the new golden image.');
+        await loadTestResults(true);
+        loadTest();
+      } else {
+        alert('Unable to apply the new golden image: ' + statusText);
+      }
+    });
+  }
+
+  async function applyAllGoldens(e) {
+    $.post('/apply-all-goldens', async (data, statusText, xhr) => {
+      if (xhr.status === 200) {
+        if (!e.altKey && !e.ctrlKey) alert('All test images applied as the new golden images.');
+        await loadTestResults(true);
+        loadTest();
+      } else {
+        alert('Unable to apply the new golden images: ' + statusText);
+      }
+    });
+  }
+
   function configureApplyButtons() {
-    $('#btn-skip')
-      .button()
-      .click(async e => {
-        $.post('/skip-failure/' + Testophobia.currentImageIdx, async (data, statusText, xhr) => {
-          if (xhr.status === 200) {
-            if (!e.altKey) alert('Test failure removed, and not applied as the new golden image.');
-            await loadTestResults(true);
-            loadTest();
-          } else {
-            alert('Unable to remove the test failure: ' + statusText);
-          }
-        });
-      });
-    $('#btn-apply')
-      .button()
-      .click(async e => {
-        $.post('/apply-golden/' + Testophobia.currentImageIdx, async (data, statusText, xhr) => {
-          if (xhr.status === 200) {
-            if (!e.altKey) alert('Test image applied as the new golden image.');
-            await loadTestResults(true);
-            loadTest();
-          } else {
-            alert('Unable to apply the new golden image: ' + statusText);
-          }
-        });
-      });
-    $('#btn-apply-all')
-      .button()
-      .click(async e => {
-        $.post('/apply-all-goldens', async (data, statusText, xhr) => {
-          if (xhr.status === 200) {
-            if (!e.altKey) alert('All test images applied as the new golden images.');
-            await loadTestResults(true);
-            loadTest();
-          } else {
-            alert('Unable to apply the new golden images: ' + statusText);
-          }
-        });
-      });
+    $('#btn-skip').button().click(e => skipFailure(e));
+    $('#btn-apply').button().click(e => applyGolden(e));
+    $('#btn-apply-all').button().click(e => applyAllGoldens(e));
+  }
+
+  function handleKeyboardShortcuts() {
+    if (Testophobia.testRunInfo.failures.length === 0) return;
+    $(document).keydown(e => {
+      if (e.ctrlKey && e.keyCode === 39) {
+        skipFailure(e);
+      } else if (e.altKey && e.keyCode === 39) {
+        applyGolden(e);
+      } else if (e.keyCode === 37) {
+        e.stopPropagation();
+        pageImages(false);
+      } else if (e.keyCode === 39) {
+        e.stopPropagation();
+        pageImages(true);
+      }
+    });
   }
 
   function configurePrevNextButtons() {

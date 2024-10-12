@@ -37,6 +37,7 @@
     $('#viewer-view').show();
     await loadTestResults(goldenPath);
     configurePrevNextButtons();
+    handleKeyboardShortcuts();
     $('#btn-start-over').show();
     $('#dd-view-dimension').show();
     initGoldenView();
@@ -192,6 +193,18 @@
       else Testophobia.currentImageIdx = Testophobia.goldenImages.length - 1;
     }
     loadGolden();
+  }
+
+  function handleKeyboardShortcuts() {
+    $(document).keydown(e => {
+      if (e.keyCode === 37) {
+        e.stopPropagation();
+        pageImages(false);
+      } else if (e.keyCode === 39) {
+        e.stopPropagation();
+        pageImages(true);
+      }
+    });
   }
 
   function configurePrevNextButtons() {
