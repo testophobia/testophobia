@@ -126,7 +126,7 @@
   async function skipFailure(e) {
     $.post('/skip-failure/' + Testophobia.currentImageIdx, async (data, statusText, xhr) => {
       if (xhr.status === 200) {
-        if (!e.altKey && !e.ctrlKey) alert('Test failure removed, and not applied as the new golden image.');
+        if (!e.altKey && !e.metaKey) alert('Test failure removed, and not applied as the new golden image.');
         await loadTestResults(true);
         loadTest();
       } else {
@@ -138,7 +138,7 @@
   async function applyGolden(e) {
     $.post('/apply-golden/' + Testophobia.currentImageIdx, async (data, statusText, xhr) => {
       if (xhr.status === 200) {
-        if (!e.altKey && !e.ctrlKey) alert('Test image applied as the new golden image.');
+        if (!e.altKey && !e.metaKey) alert('Test image applied as the new golden image.');
         await loadTestResults(true);
         loadTest();
       } else {
@@ -150,7 +150,7 @@
   async function applyAllGoldens(e) {
     $.post('/apply-all-goldens', async (data, statusText, xhr) => {
       if (xhr.status === 200) {
-        if (!e.altKey && !e.ctrlKey) alert('All test images applied as the new golden images.');
+        if (!e.altKey && !e.metaKey) alert('All test images applied as the new golden images.');
         await loadTestResults(true);
         loadTest();
       } else {
@@ -168,7 +168,7 @@
   function handleKeyboardShortcuts() {
     if (Testophobia.testRunInfo.failures.length === 0) return;
     $(document).keydown(e => {
-      if (e.ctrlKey && e.keyCode === 39) {
+      if (e.metaKey && e.keyCode === 39) {
         skipFailure(e);
       } else if (e.altKey && e.keyCode === 39) {
         applyGolden(e);
