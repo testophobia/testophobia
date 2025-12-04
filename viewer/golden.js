@@ -19,7 +19,7 @@
     $('#btn-start-over')
       .button()
       .click(() => {
-        const url = window.location.protocol + '//' + window.location.host;
+        const url = window.location.protocol + '//' + window.location.host + '/golden.html';
         window.history.pushState({path: url}, '', url);
         showListView();
       });
