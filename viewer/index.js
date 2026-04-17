@@ -42,6 +42,7 @@
   }
 
   function loadTest() {
+    const timestamp = new Date().getTime();
     $('.viewer-body').show();
     $('.new-image-body').hide();
     if (Testophobia.testRunInfo.failures.length === 0) {
@@ -61,7 +62,7 @@
     } else if (!Testophobia.testRunInfo.failures[Testophobia.currentImageIdx].diffFileLocation) {
       $('.viewer-body').hide();
       $('.new-image-body').show();
-      $('#img-new-image').attr('src', `/images/${Testophobia.currentImageIdx}/test`);
+      $('#img-new-image').attr('src', `/images/${Testophobia.currentImageIdx}/test?t=${timestamp}`);
       $('.viewer-diff #img-diff').attr('src', '');
       $('.viewer-comp #img-comp1').attr('src', '');
       $('.viewer-comp #img-comp2').attr('src', '');
@@ -72,11 +73,11 @@
         `${Testophobia.currentTestFailure.test} (${Testophobia.currentTestFailure.screenType}) - ${Testophobia.currentTestFailure.action}`
       );
     } else {
-      $('.viewer-diff #img-diff').attr('src', `/images/${Testophobia.currentImageIdx}/diff`);
-      $('.viewer-comp #img-comp1').attr('src', `/images/${Testophobia.currentImageIdx}/golden`);
-      $('.viewer-comp #img-comp2').attr('src', `/images/${Testophobia.currentImageIdx}/test`);
-      $('.viewer-sbs #img-sbs1').attr('src', `/images/${Testophobia.currentImageIdx}/golden`);
-      $('.viewer-sbs #img-sbs2').attr('src', `/images/${Testophobia.currentImageIdx}/test`);
+      $('.viewer-diff #img-diff').attr('src', `/images/${Testophobia.currentImageIdx}/diff?t=${timestamp}`);
+      $('.viewer-comp #img-comp1').attr('src', `/images/${Testophobia.currentImageIdx}/golden?t=${timestamp}`);
+      $('.viewer-comp #img-comp2').attr('src', `/images/${Testophobia.currentImageIdx}/test?t=${timestamp}`);
+      $('.viewer-sbs #img-sbs1').attr('src', `/images/${Testophobia.currentImageIdx}/golden?t=${timestamp}`);
+      $('.viewer-sbs #img-sbs2').attr('src', `/images/${Testophobia.currentImageIdx}/test?t=${timestamp}`);
       $('#lbl-pager').text(`Failure: ${Testophobia.currentImageIdx + 1} of ${Testophobia.testRunInfo.failures.length}`);
       $('#lbl-testname').text(
         `${Testophobia.currentTestFailure.test} (${Testophobia.currentTestFailure.screenType}) - ${Testophobia.currentTestFailure.action}`
